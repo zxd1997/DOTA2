@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tiers">
+        <item>@drawable/rank_icon_0</item>
+        <item>@drawable/rank_icon_1</item>
+        <item>@drawable/rank_icon_2</item>
+        <item>@drawable/rank_icon_3</item>
+        <item>@drawable/rank_icon_4</item>
+        <item>@drawable/rank_icon_5</item>
+        <item>@drawable/rank_icon_6</item>
+        <item>@drawable/rank_icon_7</item>
+        <item>@drawable/rank_icon_7a</item>
+        <item>@drawable/rank_icon_7b</item>
+        <item>@drawable/rank_icon_7c</item>`
+    </string-array>
+    <string-array name="stars">
+        <item>@drawable/rank_star_1</item>
+        <item>@drawable/rank_star_2</item>
+        <item>@drawable/rank_star_3</item>
+        <item>@drawable/rank_star_4</item>
+        <item>@drawable/rank_star_5</item>
+    </string-array>
+    <string-array name="skills">
+        <item>Unknown</item>
+        <item>Normal</item>
+        <item>High</item>
+        <item>Very High</item>
+    </string-array>
+    <string-array name="skills_color">
+        <item>@android:color/darker_gray</item>
+        <item>@android:color/darker_gray</item>
+        <item>@color/high</item>
+        <item>@color/very_high</item>
+    </string-array>
+</resources>
