@@ -1,9 +1,11 @@
-package com.example.zxd1997.dota2;
+package com.example.zxd1997.dota2.Fragments;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,6 +13,7 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +27,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.zxd1997.dota2.Adapters.MatchesAdapter;
+import com.example.zxd1997.dota2.Beans.Player;
+import com.example.zxd1997.dota2.Beans.RecentMatch;
+import com.example.zxd1997.dota2.Beans.WL;
+import com.example.zxd1997.dota2.R;
+import com.example.zxd1997.dota2.Utils.Okhttp;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -46,7 +55,7 @@ public class MyFragment extends Fragment {
     static final int WL=2;
     static final int RECENT_MATCHES=3;
     Player player;
-    WL wl;
+    final String DISCONNECT = "disconnect from id";
     SimpleDraweeView header;
     SimpleDraweeView tier;
     SimpleDraweeView stars;
@@ -60,7 +69,9 @@ public class MyFragment extends Fragment {
     RecyclerView recyclerView;
     MatchesAdapter matchesAdapter;
     SwipeRefreshLayout swipeRefreshLayout;
+    com.example.zxd1997.dota2.Beans.WL wl;
     List<RecentMatch> recentMatches=new ArrayList<>();
+    Receiver receiver;
     Handler handler=new Handler(){
         @Override
         public void handleMessage(Message message) {
@@ -68,7 +79,7 @@ public class MyFragment extends Fragment {
             switch (message.what){
                 case VERIFY:{
                     Player t=new Gson().fromJson(message.obj.toString(),Player.class);
-                    if (t.getProfile()==null){
+                    if (t == null) {
                         Toast.makeText(getContext(),"No Such Player",Toast.LENGTH_LONG).show();
                         progressBar.setVisibility(View.GONE);
                         button1.setVisibility(View.VISIBLE);
@@ -84,10 +95,10 @@ public class MyFragment extends Fragment {
                 }
                 case PLAYER_INFO:{
                     player=new Gson().fromJson(message.obj.toString(),Player.class);
-                    personaname.setText(player.getProfile().getPersonaname());
-                    loccountrycode.setText(player.getProfile().getLoccountrycode());
-                    account_id.setText(String.valueOf(player.getProfile().getAccount_id()));
-                    header.setImageURI(player.getProfile().getAvatarfull());
+                    personaname.setText(player.getPersonaname());
+                    loccountrycode.setText(player.getLoccountrycode());
+                    account_id.setText(String.valueOf(player.getAccount_id()));
+                    header.setImageURI(player.getAvatarfull());
                     int t=(int)Math.floor((double)player.getRank_tier()/10);
                     if (player.getRank_tier()!=0){
                         int star=player.getRank_tier()%10;
@@ -125,6 +136,8 @@ public class MyFragment extends Fragment {
                     lose.setText(getString(R.string.lose)+":"+wl.getLose());
                     winrate.setText(getString(R.string.winrate)+":"+t);
                     Okhttp.getFromService(getString(R.string.api)+getString(R.string.players)+id+"/recentMatches",handler,RECENT_MATCHES);
+                    my.setVisibility(View.VISIBLE);
+                    swipeRefreshLayout.setVisibility(View.GONE);
                     break;
                 }
                 case RECENT_MATCHES:{
@@ -138,8 +151,9 @@ public class MyFragment extends Fragment {
                     for (RecentMatch i:recentMatches){
                         Log.d("id", "handleMessage: "+i.getMatch_id());
                     }
-                    my.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
+                    swipeRefreshLayout.setVisibility(View.VISIBLE);
+                    matchesAdapter.notifyDataSetChanged();
                     swipeRefreshLayout.setRefreshing(false);
                     break;
                 }
@@ -227,6 +241,21 @@ public class MyFragment extends Fragment {
             progressBar.setVisibility(View.VISIBLE);
             Okhttp.getFromService(getString(R.string.api)+getString(R.string.players)+id,handler,PLAYER_INFO);
         }
+        IntentFilter intentFilter = new IntentFilter(DISCONNECT);
+        receiver = new Receiver();
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver, intentFilter);
         return view;
+    }
+
+    public class Receiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            my.setVisibility(View.GONE);
+            id = "";
+            linearLayout.setVisibility(View.VISIBLE);
+            button1.setVisibility(View.VISIBLE);
+            recentMatches.clear();
+        }
     }
 }

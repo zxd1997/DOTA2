@@ -1,34 +1,27 @@
-package com.example.zxd1997.dota2;
+package com.example.zxd1997.dota2.Activities;
 
-import android.content.ClipData;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Handler;
-import android.os.Message;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
-import android.widget.ImageButton;
-import android.widget.TextView;
-
+import com.example.zxd1997.dota2.Adapters.TabFragmentAdapter;
+import com.example.zxd1997.dota2.Beans.Hero;
+import com.example.zxd1997.dota2.Fragments.HeroesFragment;
+import com.example.zxd1997.dota2.Fragments.ItemsFragment;
+import com.example.zxd1997.dota2.Fragments.MyFragment;
+import com.example.zxd1997.dota2.Fragments.ProFragment;
+import com.example.zxd1997.dota2.R;
+import com.example.zxd1997.dota2.Utils.Update;
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 
 import org.litepal.crud.DataSupport;
 
@@ -36,37 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    final static int HEROES=0;
     SharedPreferences sharedPreferences;
-    static List<Hero> heroes=new ArrayList<>();
-    Handler handler=new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            Log.d("hhhhhh", "handleMessage: "+msg.obj.toString());
+    public static List<Hero> heroes = new ArrayList<>();
 
-            switch (msg.what){
-                case HEROES:{
-                    JsonParser parser=new JsonParser();
-                    JsonArray jsonArray=parser.parse(msg.obj.toString()).getAsJsonArray();
-                    heroes.clear();
-//                    DataSupport.deleteAll("Heroes");
-                    for (JsonElement e:jsonArray){
-                        Hero hero=new Gson().fromJson(e,Hero.class);
-                        Log.d("id", "handleMessage: "+hero.getHero_id()+hero.getLocalized_name());
-                        heroes.add(hero);
-                        hero.save();
-                    }
-                    for (Hero i:heroes){
-                        Log.d("hero", "handleMessage: "+i.getHero_id()+" "+i.getLocalized_name());
-                    }
-                    SharedPreferences.Editor editor=sharedPreferences.edit();
-                    editor.putBoolean("stored",true);
-                    editor.commit();
-                    break;
-                }
-            }
-        }
-    };
     private ViewPager mViewPager;
     TabFragmentAdapter tabFragmentAdapter;
     List<Fragment> fragments;
@@ -77,7 +42,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
         if (!sharedPreferences.getBoolean("stored",false)){
-            Okhttp.getFromService("https://api.opendota.com/api/heroes",handler,HEROES);
+            Update.update_hero();
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("stored", true);
+            editor.commit();
         }else {
             heroes= DataSupport.findAll(Hero.class);
         }
@@ -94,8 +62,6 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
-
-
     }
 
 
@@ -109,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
+        final String DISCONNECT = "disconnect from id";
         if (id == R.id.action_settings) {
             return true;
         }
@@ -118,9 +84,9 @@ public class MainActivity extends AppCompatActivity {
             SharedPreferences.Editor editor=sharedPreferences.edit();
             editor.putString("id","");
             editor.commit();
-            fragments.remove(0);
-            fragments.add(0,MyFragment.newInstance());
-            tabFragmentAdapter.notifyDataSetChanged();
+            LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
+            Intent intent = new Intent(DISCONNECT);
+            localBroadcastManager.sendBroadcast(intent);
         }
 
         return super.onOptionsItemSelected(item);

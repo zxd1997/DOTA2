@@ -1,4 +1,4 @@
-package com.example.zxd1997.dota2;
+package com.example.zxd1997.dota2.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,14 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class HeroesFragment extends Fragment {
+import com.example.zxd1997.dota2.R;
+
+public class ItemsFragment extends Fragment {
 
 
-    public HeroesFragment() {
+    public ItemsFragment() {
     }
 
-    public static HeroesFragment newInstance() {
-        HeroesFragment fragment = new HeroesFragment();
+    public static ItemsFragment newInstance() {
+        ItemsFragment fragment = new ItemsFragment();
         return fragment;
     }
 
@@ -27,7 +29,7 @@ public class HeroesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view=inflater.inflate(R.layout.fragment_heroes, container, false);
+        View view=inflater.inflate(R.layout.fragment_items, container, false);
         return view;
     }
 

@@ -1,4 +1,4 @@
-package com.example.zxd1997.dota2;
+package com.example.zxd1997.dota2.Beans;
 
 public class Player {
     private int leaderboard_rank;
@@ -29,7 +29,31 @@ public class Player {
         this.profile = profile;
     }
 
-    class Profile{
+    public long getAccount_id() {
+        return profile.account_id;
+    }
+
+    public String getPersonaname() {
+        return profile.personaname;
+    }
+
+    public String getSteamid() {
+        return profile.steamid;
+    }
+
+    public String getAvatarfull() {
+        return profile.avatarfull;
+    }
+
+    public String getProfileurl() {
+        return profile.profileurl;
+    }
+
+    public String getLoccountrycode() {
+        return profile.loccountrycode;
+    }
+
+    public class Profile {
         private long account_id;
         private String personaname;
         private String steamid;

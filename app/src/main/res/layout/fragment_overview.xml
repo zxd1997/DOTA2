@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_margin="3dp"
+        fresco:cardCornerRadius="3dp">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/gamemode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="20dp"
+                fresco:layout_constraintBottom_toTopOf="@+id/duration"
+                fresco:layout_constraintEnd_toEndOf="parent"
+                fresco:layout_constraintStart_toStartOf="parent"
+                fresco:layout_constraintTop_toTopOf="parent"
+                tools:text="All Pick" />
+
+            <TextView
+                android:id="@+id/duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="25dp"
+                fresco:layout_constraintBottom_toBottomOf="parent"
+                fresco:layout_constraintEnd_toEndOf="parent"
+                fresco:layout_constraintStart_toStartOf="parent"
+                fresco:layout_constraintTop_toTopOf="parent"
+                tools:text="00:00" />
+
+            <TextView
+                android:id="@+id/radiant_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="12dp"
+                android:textColor="@color/win"
+                android:textSize="43dp"
+                fresco:layout_constraintBottom_toBottomOf="parent"
+                fresco:layout_constraintEnd_toStartOf="@+id/duration"
+                fresco:layout_constraintTop_toTopOf="parent"
+                tools:text="56" />
+
+            <TextView
+                android:id="@+id/dire_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:textColor="@color/lose"
+                android:textSize="43dp"
+                fresco:layout_constraintBottom_toBottomOf="parent"
+                fresco:layout_constraintStart_toEndOf="@+id/duration"
+                fresco:layout_constraintTop_toTopOf="parent"
+                tools:text="54" />
+
+            <TextView
+                android:id="@+id/radiant_victory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/radiant_victory"
+                android:textColor="@color/win"
+                android:textSize="22dp"
+                android:visibility="gone"
+                fresco:layout_constraintStart_toStartOf="parent"
+                fresco:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/dire_victory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/dire_victory"
+                android:textColor="@color/lose"
+                android:textSize="22dp"
+                android:visibility="gone"
+                fresco:layout_constraintEnd_toEndOf="parent"
+                fresco:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/start_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="19dp"
+                fresco:layout_constraintBottom_toBottomOf="parent"
+                fresco:layout_constraintEnd_toEndOf="parent"
+                fresco:layout_constraintStart_toStartOf="parent"
+                fresco:layout_constraintTop_toBottomOf="@+id/duration"
+                fresco:layout_constraintVertical_bias="0.0"
+                tools:text="2 Days ago" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/match_id"
+                fresco:layout_constraintBottom_toTopOf="@+id/match_id"
+                fresco:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/match_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="8dp"
+                android:textSize="14dp"
+                fresco:layout_constraintBottom_toBottomOf="parent"
+                fresco:layout_constraintStart_toStartOf="parent"
+                tools:text="3896689580" />
+
+            <TextView
+                android:id="@+id/skill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                fresco:layout_constraintBottom_toBottomOf="parent"
+                fresco:layout_constraintEnd_toEndOf="parent"
+                fresco:layout_constraintStart_toStartOf="parent"
+                fresco:layout_constraintTop_toBottomOf="@+id/start_time"
+                tools:text="Very High"
+                tools:textColor="@color/very_high" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="@string/region"
+                fresco:layout_constraintBottom_toTopOf="@+id/region"
+                fresco:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/region"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:textSize="14dp"
+                fresco:layout_constraintBottom_toBottomOf="parent"
+                fresco:layout_constraintEnd_toEndOf="parent"
+                tools:text="China TC Guangdong" />
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+</LinearLayout>

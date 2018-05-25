@@ -1,0 +1,102 @@
+package com.example.zxd1997.dota2.Fragments;
+
+import android.content.res.TypedArray;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.example.zxd1997.dota2.Beans.Match;
+import com.example.zxd1997.dota2.R;
+
+public class OverviewFragment extends Fragment {
+    Match match;
+
+    public OverviewFragment() {
+        // Required empty public constructor
+    }
+
+    public static OverviewFragment newInstance(Match match) {
+        OverviewFragment fragment = new OverviewFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("match", match);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_overview, container, false);
+        match = (Match) getArguments().getSerializable("match");
+        Log.d("fragment", "onCreateView: " + match.getMatch_id());
+        TextView gamemode = view.findViewById(R.id.gamemode);
+        TextView duration = view.findViewById(R.id.duration);
+        TextView radiant_score = view.findViewById(R.id.radiant_score);
+        TextView dire_score = view.findViewById(R.id.dire_score);
+        TextView time = view.findViewById(R.id.start_time);
+        TextView match_id = view.findViewById(R.id.match_id);
+        TextView region = view.findViewById(R.id.region);
+        TextView skill = view.findViewById(R.id.skill);
+        TypedArray typedArray = getContext().getResources().obtainTypedArray(R.array.skills);
+        skill.setText(typedArray.getText(match.getSkill()));
+        typedArray = getContext().getResources().obtainTypedArray(R.array.skills_color);
+        skill.setTextColor(getContext().getResources().getColor(typedArray.getResourceId(match.getSkill(), 0)));
+        if (match.isRadiant_win()) {
+            TextView radiant_victory = view.findViewById(R.id.radiant_victory);
+            radiant_victory.setVisibility(View.VISIBLE);
+        } else {
+            TextView dire_victory = view.findViewById(R.id.dire_victory);
+            dire_victory.setVisibility(View.VISIBLE);
+        }
+        typedArray = getContext().getResources().obtainTypedArray(R.array.game_mode);
+        Log.d("mode", "onCreateView: " + match.getGame_mode() + " " + match.getRegion() + " ");
+        gamemode.setText(typedArray.getText(match.getGame_mode()).toString());
+        typedArray = getContext().getResources().obtainTypedArray(R.array.region);
+        region.setText(typedArray.getText(match.getRegion()).toString());
+        radiant_score.setText(match.getRadiant_score() + "");
+        dire_score.setText(match.getDire_score() + "");
+        match_id.setText(match.getMatch_id() + "");
+        long now = System.currentTimeMillis() / 1000;
+        long year = (now - match.getStart_time()) / (3600 * 24 * 30 * 12);
+        long month = (now - match.getStart_time()) / (3600 * 24 * 30);
+        long day = (now - match.getStart_time()) / (3600 * 24);
+        long hour = (now - match.getStart_time()) / 3600;
+        long minute = (now - match.getStart_time()) / 60;
+        String tmp = "";
+        if (year > 0) {
+            tmp = year + " Years ago";
+        } else if (month > 0) {
+            tmp = month + " Months ago";
+        } else if (day > 0) {
+            tmp = day + " Days ago";
+        } else if (hour > 0) {
+            tmp = hour + " Hours ago";
+        } else if (minute > 3) {
+            tmp = minute + "Minutes ago";
+        } else tmp = "Just Now";
+        time.setText(tmp);
+        int h = match.getDuration() / 3600;
+        int m = match.getDuration() % 3600 / 60;
+        int s = match.getDuration() % 3600 % 60;
+        Log.d("time", "onCreateView: " + h + ":" + m + ":" + s);
+        StringBuilder t = new StringBuilder();
+        if (h > 0) {
+            t.append((h < 10) ? "0" + h + ":" : h + ":");
+        }
+        t.append((m < 10) ? "0" + m + ":" : m + ":");
+        t.append((s < 10) ? "0" + h : s);
+        duration.setText(t);
+        return view;
+    }
+
+}

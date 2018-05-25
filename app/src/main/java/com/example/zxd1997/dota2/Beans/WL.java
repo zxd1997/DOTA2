@@ -1,4 +1,4 @@
-package com.example.zxd1997.dota2;
+package com.example.zxd1997.dota2.Beans;
 
 public class WL {
     private int win;

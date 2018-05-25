@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/hero_header"
-            android:textSize="18sp"
+            android:textSize="20dp"
             tools:text="Phoenix" />
         <TextView
             android:layout_width="wrap_content"
@@ -34,17 +34,18 @@
             android:id="@+id/winornot"
             android:layout_alignLeft="@id/hero_name"
             tools:text="Lose"
-            android:textSize="16sp"
-            android:layout_below="@id/hero_name"/>
+            android:layout_alignBottom="@id/hero_header"
+            android:textSize="17dp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/time"
-            android:layout_below="@id/winornot"
-            android:layout_alignLeft="@id/hero_name"
-            android:layout_alignBottom="@id/gpm"
+            android:layout_alignBottom="@id/winornot"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="10dp"
             tools:text="2Days ago"
-            android:textSize="11sp"/>
+            android:layout_toRightOf="@id/winornot"
+            android:textSize="12dp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,13 +53,16 @@
             android:layout_toRightOf="@id/hero_name"
             android:layout_alignBottom="@id/hero_name"
             android:layout_marginLeft="5dp"
+            android:layout_marginBottom="3dp"
             tools:text="All Pick"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/lobby_type"
-            android:layout_alignLeft="@id/game_mode"
-            android:layout_below="@id/game_mode"
+            android:layout_alignBottom="@id/game_mode"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/game_mode"
             tools:text="Battle Cup"/>
 
         <TextView
@@ -67,15 +71,15 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="5dp"
-            android:textSize="18sp"
+            android:textSize="19dp"
             tools:text="Very High" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/kda"
-            android:layout_toLeftOf="@id/skills"
-            android:layout_marginRight="10dp"
-            android:textSize="17sp"
+            android:layout_alignBottom="@id/hero_header"
+            android:layout_alignRight="@id/skills"
+            android:textSize="17dp"
             tools:text="10/0/10"
             />
         <TextView
@@ -84,6 +88,7 @@
             android:id="@+id/hero_damage"
             android:layout_alignRight="@id/skills"
             android:layout_below="@id/skills"
+            android:visibility="gone"
             tools:text="Damage:10000"/>
         <TextView
             android:layout_width="wrap_content"
@@ -91,8 +96,9 @@
             android:layout_below="@id/hero_damage"
             android:layout_alignRight="@id/hero_damage"
             android:id="@+id/gpm"
-            android:textSize="12sp"
+            android:textSize="12dp"
             android:layout_marginTop="1dp"
+            android:visibility="gone"
             tools:text="GPM:999"/>
         <TextView
             android:layout_width="wrap_content"
@@ -101,9 +107,10 @@
             android:layout_toLeftOf="@id/gpm"
             android:id="@+id/xpm"
             tools:text="XPM:999"
-            android:textSize="12sp"
+            android:layout_marginRight="3dp"
             android:layout_marginTop="1dp"
-            android:layout_marginRight="3dp"/>
+            android:textSize="12dp"
+            android:visibility="gone" />
 
     </RelativeLayout>
 

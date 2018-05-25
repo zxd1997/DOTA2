@@ -6,15 +6,28 @@
     <string name="tab_text_2">Heroes</string>
     <string name="tab_text_3">Items</string>
     <string name="tab_text_4">Pro</string>
+    <string name="tab_text_5">Overview</string>
+    <string name="tab_text_6">Detail</string>
     <string name="no_id">No Binding player id, please bind your 32bit steam id</string>
     <string name="wip">Work in progress</string>
     <string name="api">https://api.opendota.com/api/</string>
     <string name="matches">matches/</string>
     <string name="players">players/</string>
     <string name="heroes">heroes/</string>
+    <string name="request">https://www.opendota.com/request#</string>
     <string name="win">Win</string>
     <string name="lose">Lose</string>
     <string name="winrate">Winrate</string>
     <string name="action_Disconnect">Disconnect</string>
     <string name="recent_matches">Recent Matches</string>
+    <string name="title_activity_match">MatchActivity</string>
+    <string name="no_salt">Replay Not salted, Please request salt replay</string>
+    <string name="parsing">Parsing Replay, Please wait</string>
+    <string name="dire_victory">Dire Victory</string>
+    <string name="radiant_victory">Radiant Victory</string>
+    <string name="match_id">Match ID</string>
+    <string name="region">Region</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

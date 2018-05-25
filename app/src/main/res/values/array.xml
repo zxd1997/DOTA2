@@ -32,4 +32,59 @@
         <item>@color/high</item>
         <item>@color/very_high</item>
     </string-array>
+    <string-array name="game_mode">
+        <item>UnKnown</item>
+        <item>All Pick</item>
+        <item>Captains Mode</item>
+        <item>Random Draft</item>
+        <item>Single Draft</item>
+        <item>All Random</item>
+        <item>Intro</item>
+        <item>Dire Tide</item>
+        <item>Reverse Captains Mode</item>
+        <item>Greeviling</item>
+        <item>Tutorial</item>
+        <item>Mid Only</item>
+        <item>Least Played</item>
+        <item>Limited Heroes</item>
+        <item>Compendium Matchmaking</item>
+        <item>Custom</item>
+        <item>Captains Draft</item>
+        <item>Balanced Draft</item>
+        <item>Ability Draft</item>
+        <item>Event</item>
+        <item>All Random Death Match</item>
+        <item>1v1 Mid</item>
+        <item>All Draft</item>
+        <item>Turbo</item>
+        <item>Mutation</item>
+    </string-array>
+    <string-array name="region">
+        <item>UNKNOWN</item>
+        <item>US WEST</item>
+        <item>US EAST</item>
+        <item>EUROPE</item>
+        <item>UNKNOWN</item>
+        <item>SINGAPORE</item>
+        <item>DUBAI</item>
+        <item>AUSTRALIA</item>
+        <item>STOCKHOLM</item>
+        <item>AUSTRIA</item>
+        <item>BRAZIL</item>
+        <item>SOUTHAFRICA</item>
+        <item>PW TELECOM SHANGHAI</item>
+        <item>PW UNICOM</item>
+        <item>CHILE</item>
+        <item>PERU</item>
+        <item>INDIA</item>
+        <item>PW TELECOM GUANGDONG</item>
+        <item>PW TELECOM ZHEJIANG</item>
+        <item>JAPAN</item>
+        <item>PW TELECOM WUHAN</item>
+        <item>UNKNOWN</item>
+        <item>UNKNOWN</item>
+        <item>UNKNOWN</item>
+        <item>UNKNOWN</item>
+        <item>PW UNICOM TIANJIN</item>
+    </string-array>
 </resources>

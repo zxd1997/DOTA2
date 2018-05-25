@@ -1,4 +1,4 @@
-package com.example.zxd1997.dota2;
+package com.example.zxd1997.dota2.Beans;
 
 import com.google.gson.annotations.SerializedName;
 

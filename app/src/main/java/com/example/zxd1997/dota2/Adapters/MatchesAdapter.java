@@ -1,8 +1,8 @@
-package com.example.zxd1997.dota2;
+package com.example.zxd1997.dota2.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
-import android.preference.TwoStatePreference;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.zxd1997.dota2.Activities.MainActivity;
+import com.example.zxd1997.dota2.Activities.MatchActivity;
+import com.example.zxd1997.dota2.Beans.Hero;
+import com.example.zxd1997.dota2.Beans.RecentMatch;
+import com.example.zxd1997.dota2.R;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -32,7 +37,16 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ViewHolder viewHolder=(ViewHolder)holder;
-        RecentMatch recentMatch=recentMatches.get(position);
+        final RecentMatch recentMatch = recentMatches.get(position);
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, MatchActivity.class);
+                intent.putExtra("id", recentMatch.getMatch_id());
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                context.startActivity(intent);
+            }
+        });
         viewHolder.kda.setText(recentMatch.getKills()+"/"+recentMatch.getDeaths()+"/"+recentMatch.getAssists());
         viewHolder.gpm.setText("GPM:"+recentMatch.getGold_per_min());
         viewHolder.xpm.setText("XPM:"+recentMatch.getXp_per_min());
@@ -55,7 +69,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             viewHolder.winornot.setText("Lose");
         }
         Hero h=null;
-        for (Hero i:MainActivity.heroes){
+        for (Hero i : MainActivity.heroes) {
             if (i.getHero_id()==recentMatch.getHero_id()){
                 h=i;break;
             }
@@ -81,7 +95,10 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }else if (minute>3){
             tmp=minute+"Minutes ago";
         }else tmp="Just Now";
+        typedArray = context.getResources().obtainTypedArray(R.array.game_mode);
+        viewHolder.game_mode.setText(typedArray.getText(recentMatch.getGame_mode()));
         viewHolder.time.setText(tmp);
+
     }
 
     @Override

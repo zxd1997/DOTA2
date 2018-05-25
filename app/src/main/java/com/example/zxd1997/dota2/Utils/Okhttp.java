@@ -1,4 +1,4 @@
-package com.example.zxd1997.dota2;
+package com.example.zxd1997.dota2.Utils;
 
 import android.os.Handler;
 import android.os.Message;
@@ -13,7 +13,23 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class Okhttp {
+    public static void post(String url) {
+        Log.d("post", "post: " + url);
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
 
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+            }
+        });
+    }
     public static void getFromService(String url, final Handler handler, final int what){
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()

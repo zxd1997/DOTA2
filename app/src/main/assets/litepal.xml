@@ -3,6 +3,6 @@
     <dbname value="Heroes"></dbname>
     <version value="1"></version>
     <list>
-        <mapping class="com.example.zxd1997.dota2.Hero"></mapping>
+        <mapping class="com.example.zxd1997.dota2.Beans.Hero"></mapping>
     </list>
 </litepal>
