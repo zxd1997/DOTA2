@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Match implements Serializable {
+public class Match {
     private long replay_salt;
     private long match_id;
     private int barracks_status_dire;
@@ -21,15 +21,20 @@ public class Match implements Serializable {
     private List<Integer> radiant_xp_adv = new ArrayList<>();
     private int skill;
     private long start_time;
-    //    private List<TeamFight> TeamFights=new ArrayList<>();
-//    class TeamFight{
-//
-//    }
+    private List<TeamFight> TeamFights;
     private int tower_status_dire;
     private int tower_status_radiant;
     private int patch;
     private int region;
     private List<PPlayer> players = new ArrayList<>();
+
+    public List<TeamFight> getTeamFights() {
+        return TeamFights;
+    }
+
+    public void setTeamFights(List<TeamFight> teamFights) {
+        TeamFights = teamFights;
+    }
 
     public long getReplay_salt() {
         return replay_salt;
@@ -126,12 +131,12 @@ public class Match implements Serializable {
     public void setRadiant_win(boolean radiant_win) {
         this.radiant_win = radiant_win;
     }
-//    private Chat chat;
-//    class Chat{
 
     public List<Integer> getRadiant_xp_adv() {
         return radiant_xp_adv;
     }
+//    private Chat chat;
+//    class Chat{
 
     public void setRadiant_xp_adv(List<Integer> radiant_xp_adv) {
         this.radiant_xp_adv = radiant_xp_adv;
@@ -193,7 +198,11 @@ public class Match implements Serializable {
         this.players = players;
     }
 
-    public class PPlayer implements Serializable {
+    class TeamFight {
+
+    }
+
+    public class PPlayer {
         private int player_slot;
         private List<Integer> ability_upgrades_arr = new ArrayList<>();
         private long account_id;

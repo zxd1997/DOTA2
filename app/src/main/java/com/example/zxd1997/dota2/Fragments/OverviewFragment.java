@@ -3,12 +3,18 @@ package com.example.zxd1997.dota2.Fragments;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.zxd1997.dota2.Activities.MatchActivity;
+import com.example.zxd1997.dota2.Adapters.AbilityBuildAdapter;
+import com.example.zxd1997.dota2.Adapters.PlayerAdapter;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.R;
 
@@ -19,11 +25,8 @@ public class OverviewFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static OverviewFragment newInstance(Match match) {
+    public static OverviewFragment newInstance() {
         OverviewFragment fragment = new OverviewFragment();
-        Bundle args = new Bundle();
-        args.putSerializable("match", match);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -37,7 +40,8 @@ public class OverviewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_overview, container, false);
-        match = (Match) getArguments().getSerializable("match");
+        MatchActivity activity = (MatchActivity) getActivity();
+        match = activity.getMatch();
         Log.d("fragment", "onCreateView: " + match.getMatch_id());
         TextView gamemode = view.findViewById(R.id.gamemode);
         TextView duration = view.findViewById(R.id.duration);
@@ -94,8 +98,26 @@ public class OverviewFragment extends Fragment {
             t.append((h < 10) ? "0" + h + ":" : h + ":");
         }
         t.append((m < 10) ? "0" + m + ":" : m + ":");
-        t.append((s < 10) ? "0" + h : s);
+        t.append((s < 10) ? "0" + s : s);
         duration.setText(t);
+        RecyclerView recyclerView = view.findViewById(R.id.players);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        PlayerAdapter playerAdapter = new PlayerAdapter(getContext(), match);
+        recyclerView.setAdapter(playerAdapter);
+        recyclerView.setNestedScrollingEnabled(false);
+        RecyclerView recyclerView1 = view.findViewById(R.id.ability_builds);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 24);
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                if (position % 20 == 0) return 5;
+                return 1;
+            }
+        });
+        recyclerView1.setLayoutManager(gridLayoutManager);
+        AbilityBuildAdapter abilityBuildAdapter = new AbilityBuildAdapter(getContext(), match);
+        recyclerView1.setAdapter(abilityBuildAdapter);
+        recyclerView1.setNestedScrollingEnabled(false);
         return view;
     }
 

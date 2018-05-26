@@ -30,26 +30,31 @@ import java.util.List;
 public class MatchActivity extends AppCompatActivity {
     final static int MATCH = 5;
     long id;
-    Match match;
-    TabFragmentAdapter tabFragmentAdapter;
-    List<Fragment> fragments = new ArrayList<>();
-    ProgressBar progressBar;
+
+    private Match match;
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             Log.d("match", "handleMessage: " + msg.obj.toString());
             match = new Gson().fromJson(msg.obj.toString(), Match.class);
             Log.d("info", "handleMessage: " + match.getMatch_id() + " " + match.getRadiant_score() + " " + match.getDire_score() + " " + match.getReplay_salt());
-            fragments.add(OverviewFragment.newInstance(match));
-            if (match.getReplay_salt() == 0) {
-                fragments.add(NoDetailFragment.newInstance(match.getMatch_id()));
+            fragments.add(OverviewFragment.newInstance());
+            if (match.getRadiant_xp_adv() == null) {
+                fragments.add(NoDetailFragment.newInstance());
             } else {
-                fragments.add(DetailFragment.newInstance(match));
+                fragments.add(DetailFragment.newInstance());
             }
             tabFragmentAdapter.notifyDataSetChanged();
             progressBar.setVisibility(View.GONE);
         }
     };
+    TabFragmentAdapter tabFragmentAdapter;
+    List<Fragment> fragments = new ArrayList<>();
+    ProgressBar progressBar;
+
+    public Match getMatch() {
+        return match;
+    }
     private ViewPager mViewPager;
 
     @Override

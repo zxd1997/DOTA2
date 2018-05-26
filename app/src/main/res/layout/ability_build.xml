@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="50dp"
+    android:layout_height="50dp">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/ability"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="1dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginTop="1dp"
+        fresco:cardCornerRadius="2dp"
+        fresco:layout_constraintBottom_toBottomOf="parent"
+        fresco:layout_constraintLeft_toLeftOf="parent"
+        fresco:layout_constraintRight_toRightOf="parent"
+        fresco:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/talent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="0dp"
+        android:lineSpacingMultiplier="0.6"
+        android:textColor="@android:color/white"
+        android:textSize="10dp"
+        fresco:layout_constraintBottom_toBottomOf="parent"
+        fresco:layout_constraintLeft_toLeftOf="parent"
+        fresco:layout_constraintRight_toRightOf="parent"
+        fresco:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

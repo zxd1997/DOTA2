@@ -14,10 +14,11 @@
     <string name="matches">matches/</string>
     <string name="players">players/</string>
     <string name="heroes">heroes/</string>
-    <string name="request">https://www.opendota.com/request#</string>
+    <string name="request">request/</string>
     <string name="win">Win</string>
     <string name="lose">Lose</string>
     <string name="winrate">Winrate</string>
+    <string name="expired">Replay Expired, Cannot parse</string>
     <string name="action_Disconnect">Disconnect</string>
     <string name="recent_matches">Recent Matches</string>
     <string name="title_activity_match">MatchActivity</string>

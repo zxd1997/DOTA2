@@ -18,6 +18,7 @@ import com.example.zxd1997.dota2.R;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
+import java.util.Map;
 
 public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     List<RecentMatch> recentMatches;
@@ -69,14 +70,13 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             viewHolder.winornot.setText("Lose");
         }
         Hero h=null;
-        for (Hero i : MainActivity.heroes) {
-            if (i.getHero_id()==recentMatch.getHero_id()){
-                h=i;break;
+        for (Map.Entry<String, Hero> entry : MainActivity.heroes.entrySet()) {
+            if (entry.getValue().getId() == recentMatch.getHero_id()) {
+                h = entry.getValue();
             }
         }
         viewHolder.hero_name.setText(h.getLocalized_name());
-        int resid=context.getResources().getIdentifier("hero_"+h.getHero_id()+"","drawable" ,context.getPackageName());
-        viewHolder.hero_header.setImageResource(resid);
+        viewHolder.hero_header.setImageResource(context.getResources().getIdentifier("hero_" + h.getId(), "drawable", context.getPackageName()));
         String tmp;
         long now=System.currentTimeMillis()/1000;
         long year=(now-recentMatch.getStart_time())/(3600 * 24 * 30 *12);

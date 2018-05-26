@@ -3,7 +3,8 @@
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -45,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="12dp"
                 android:textColor="@color/win"
-                android:textSize="43dp"
+                android:textSize="50dp"
                 fresco:layout_constraintBottom_toBottomOf="parent"
                 fresco:layout_constraintEnd_toStartOf="@+id/duration"
                 fresco:layout_constraintTop_toTopOf="parent"
@@ -57,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:textColor="@color/lose"
-                android:textSize="43dp"
+                android:textSize="50dp"
                 fresco:layout_constraintBottom_toBottomOf="parent"
                 fresco:layout_constraintStart_toEndOf="@+id/duration"
                 fresco:layout_constraintTop_toTopOf="parent"
@@ -72,7 +73,7 @@
                 android:text="@string/radiant_victory"
                 android:textColor="@color/win"
                 android:textSize="22dp"
-                android:visibility="gone"
+                android:visibility="invisible"
                 fresco:layout_constraintStart_toStartOf="parent"
                 fresco:layout_constraintTop_toTopOf="parent"
                 tools:visibility="visible" />
@@ -86,7 +87,7 @@
                 android:text="@string/dire_victory"
                 android:textColor="@color/lose"
                 android:textSize="22dp"
-                android:visibility="gone"
+                android:visibility="invisible"
                 fresco:layout_constraintEnd_toEndOf="parent"
                 fresco:layout_constraintTop_toTopOf="parent"
                 tools:visibility="visible" />
@@ -104,6 +105,7 @@
                 tools:text="2 Days ago" />
 
             <TextView
+                android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -135,6 +137,7 @@
                 tools:textColor="@color/very_high" />
 
             <TextView
+                android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -153,9 +156,83 @@
                 fresco:layout_constraintBottom_toBottomOf="parent"
                 fresco:layout_constraintEnd_toEndOf="parent"
                 tools:text="China TC Guangdong" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="10dp"
+                fresco:layout_constraintBottom_toTopOf="@+id/textView2"
+                fresco:layout_constraintEnd_toStartOf="@+id/radiant_score"
+                fresco:layout_constraintStart_toStartOf="parent"
+                fresco:layout_constraintTop_toBottomOf="@+id/radiant_victory"
+                fresco:srcCompat="@drawable/radiant_logo" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="10dp"
+                fresco:layout_constraintBottom_toTopOf="@+id/textView3"
+                fresco:layout_constraintEnd_toEndOf="parent"
+                fresco:layout_constraintStart_toEndOf="@+id/dire_score"
+                fresco:layout_constraintTop_toBottomOf="@+id/dire_victory"
+                fresco:srcCompat="@drawable/dire_logo" />
         </android.support.constraint.ConstraintLayout>
 
     </android.support.v7.widget.CardView>
 
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/pl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="Players"
+                android:textSize="15dp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/players"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/pl">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/ab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/players"
+                android:layout_marginLeft="5dp"
+                android:text="Ability Build"
+                android:textSize="15dp" />
+
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ab"
+
+                >
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/ability_builds"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </android.support.v7.widget.RecyclerView>
+            </HorizontalScrollView>
+
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
 
 </LinearLayout>

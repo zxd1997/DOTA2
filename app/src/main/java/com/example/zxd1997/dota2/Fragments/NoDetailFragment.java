@@ -3,12 +3,14 @@ package com.example.zxd1997.dota2.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.zxd1997.dota2.Activities.MatchActivity;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.Okhttp;
 
@@ -19,11 +21,8 @@ public class NoDetailFragment extends Fragment {
     }
 
 
-    public static NoDetailFragment newInstance(long id) {
+    public static NoDetailFragment newInstance() {
         NoDetailFragment fragment = new NoDetailFragment();
-        Bundle args = new Bundle();
-        args.putLong("id", id);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -35,15 +34,21 @@ public class NoDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_nodetail, container, false);
-        final long id = getArguments().getLong("id");
+        MatchActivity activity = (MatchActivity) getActivity();
+        final long id = activity.getMatch().getMatch_id();
+        final long time = activity.getMatch().getStart_time();
         final Button button = view.findViewById(R.id.reuqest_salt);
         final TextView textView = view.findViewById(R.id.no_salt);
+        if (System.currentTimeMillis() / 1000 - time > 30 * 24 * 3600) {
+            button.setVisibility(View.INVISIBLE);
+            textView.setText(getString(R.string.expired));
+        }
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Okhttp.post(getString(R.string.request) + id);
+                Okhttp.post(getString(R.string.api) + getString(R.string.request) + id);
+                Log.d("post", "onClick: " + getString(R.string.api) + getString(R.string.request) + id);
                 button.setVisibility(View.INVISIBLE);
                 textView.setText(getString(R.string.parsing));
             }

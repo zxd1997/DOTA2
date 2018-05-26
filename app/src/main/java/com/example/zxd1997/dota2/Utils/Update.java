@@ -1,47 +1,59 @@
 package com.example.zxd1997.dota2.Utils;
 
 import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 
 import com.example.zxd1997.dota2.Activities.MainActivity;
+import com.example.zxd1997.dota2.Beans.Ability;
 import com.example.zxd1997.dota2.Beans.Hero;
+import com.example.zxd1997.dota2.Beans.Item;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 
-import java.util.List;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Map;
 
 public class Update {
-    final static int HEROES = 0;
-    static List<Hero> heroes = MainActivity.heroes;
-    static Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            Log.d("hhhhhh", "handleMessage: " + msg.obj.toString());
-            switch (msg.what) {
-                case HEROES: {
-                    JsonParser parser = new JsonParser();
-                    JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
-                    heroes.clear();
-//                    DataSupport.deleteAll("Heroes");
-                    for (JsonElement e : jsonArray) {
-                        Hero hero = new Gson().fromJson(e, Hero.class);
-                        Log.d("id", "handleMessage: " + hero.getHero_id() + hero.getLocalized_name());
-                        heroes.add(hero);
-                        hero.save();
-                    }
-                    for (Hero i : heroes) {
-                        Log.d("hero", "handleMessage: " + i.getHero_id() + " " + i.getLocalized_name());
-                    }
-                    break;
-                }
-            }
-        }
-    };
+    public static void updatezip(final Handler handler) {
+        Okhttp.getZip("https://github.com/zxd1997/dotaconstants/archive/master.zip", handler);
+    }
 
-    public static void update_hero() {
-        Okhttp.getFromService("https://api.opendota.com/api/heroes", handler, HEROES);
+    static public StringBuilder readfile(String filename) {
+        StringBuilder s = new StringBuilder();
+        try {
+            FileInputStream fileInputStream = MyApplication.getContext().openFileInput(filename);
+            byte[] bytes = new byte[4096];
+            int len;
+            while ((len = fileInputStream.read(bytes)) != -1) {
+                Log.d("hero", "readfile: " + new String(bytes, 0, len));
+                s.append(new String(bytes, 0, len));
+            }
+            fileInputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return s;
+    }
+
+    public static void readFromJson() {
+        StringBuilder heroes_json = readfile("hero_names.json");
+        MainActivity.heroes = new Gson().fromJson(heroes_json.toString(), new TypeToken<Map<String, Hero>>() {
+        }.getType());
+        StringBuilder ability_id_json = readfile("ability_ids.json");
+        MainActivity.ability_ids = new Gson().fromJson(ability_id_json.toString(), new TypeToken<Map<String, String>>() {
+        }.getType());
+        StringBuilder items_json = readfile("items.json");
+        MainActivity.items = new Gson().fromJson(items_json.toString(), new TypeToken<Map<String, Item>>() {
+        }.getType());
+        StringBuilder ability_json = readfile("abilities.json");
+        MainActivity.abilities = new Gson().fromJson(ability_json.toString(), new TypeToken<Map<String, Ability>>() {
+        }.getType());
+        for (Map.Entry<String, Ability> e : MainActivity.abilities.entrySet()) {
+            Log.d("ability", "readFromJson: " + e.getKey() + " " + e.getValue().getDname());
+        }
     }
 }

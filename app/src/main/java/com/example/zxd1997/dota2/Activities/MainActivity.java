@@ -1,8 +1,11 @@
 package com.example.zxd1997.dota2.Activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -14,7 +17,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.zxd1997.dota2.Adapters.TabFragmentAdapter;
+import com.example.zxd1997.dota2.Beans.Ability;
 import com.example.zxd1997.dota2.Beans.Hero;
+import com.example.zxd1997.dota2.Beans.Item;
 import com.example.zxd1997.dota2.Fragments.HeroesFragment;
 import com.example.zxd1997.dota2.Fragments.ItemsFragment;
 import com.example.zxd1997.dota2.Fragments.MyFragment;
@@ -23,15 +28,30 @@ import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.Update;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
-import org.litepal.crud.DataSupport;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
-    public static List<Hero> heroes = new ArrayList<>();
-
+    final static int FINISHED = 8;
+    public static Map<String, Hero> heroes;
+    public static Map<String, String> ability_ids;
+    public static Map<String, Ability> abilities;
+    public static Map<String, Item> items;
+    ProgressDialog pd;
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case FINISHED: {
+                    Update.readFromJson();
+                    pd.dismiss();
+                    break;
+                }
+            }
+        }
+    };
     private ViewPager mViewPager;
     TabFragmentAdapter tabFragmentAdapter;
     List<Fragment> fragments;
@@ -41,13 +61,14 @@ public class MainActivity extends AppCompatActivity {
         Fresco.initialize(this);
         setContentView(R.layout.activity_main);
         sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
-        if (!sharedPreferences.getBoolean("stored",false)){
-            Update.update_hero();
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("stored", true);
-            editor.commit();
-        }else {
-            heroes= DataSupport.findAll(Hero.class);
+        if (!getFileStreamPath("master.zip").exists()) {
+            Update.updatezip(handler);
+            pd = new ProgressDialog(MainActivity.this);
+            pd.setTitle("Update");
+            pd.setMessage("Updating");
+            pd.show();
+        } else {
+            Update.readFromJson();
         }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -77,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         final String DISCONNECT = "disconnect from id";
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
         if (id==R.id.action_disconnect){
