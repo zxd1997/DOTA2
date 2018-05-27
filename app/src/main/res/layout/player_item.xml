@@ -33,11 +33,9 @@
             tools:text="!@@@@@" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/kk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="K"
-            android:textColor="@color/win"
             android:textSize="14dp"
             fresco:layout_constraintBottom_toTopOf="@id/k"
             fresco:layout_constraintLeft_toLeftOf="@+id/player_name" />
@@ -48,52 +46,9 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="6dp"
             android:layout_marginLeft="8dp"
-            android:textColor="@color/win"
             fresco:layout_constraintBottom_toBottomOf="parent"
-            fresco:layout_constraintStart_toEndOf="@+id/player_hero"
-            tools:text="10" />
+            fresco:layout_constraintStart_toEndOf="@+id/player_hero" />
 
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:text="D"
-            android:textColor="@color/lose"
-            android:textSize="14dp"
-            fresco:layout_constraintStart_toEndOf="@+id/textView4"
-            fresco:layout_constraintTop_toTopOf="@id/textView4" />
-
-        <TextView
-            android:id="@+id/d"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:textColor="@color/lose"
-            fresco:layout_constraintBottom_toBottomOf="parent"
-            fresco:layout_constraintStart_toStartOf="@+id/textView5"
-            tools:text="10" />
-
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:text="A"
-            android:textColor="@android:color/holo_blue_dark"
-            android:textSize="14dp"
-            fresco:layout_constraintStart_toEndOf="@+id/textView5"
-            fresco:layout_constraintTop_toTopOf="@id/textView5" />
-
-        <TextView
-            android:id="@+id/a"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:textColor="@android:color/holo_blue_dark"
-            fresco:layout_constraintBottom_toBottomOf="parent"
-            fresco:layout_constraintStart_toStartOf="@+id/textView6"
-            tools:text="10" />
 
         <TextView
             android:id="@+id/gpm"
@@ -117,7 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
             fresco:layout_constraintRight_toLeftOf="@id/item_0"
-            fresco:layout_constraintTop_toTopOf="@id/textView4" />
+            fresco:layout_constraintTop_toTopOf="@id/kk" />
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/item_0"

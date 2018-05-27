@@ -3,8 +3,13 @@ package com.example.zxd1997.dota2.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +53,17 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 context.startActivity(intent);
             }
         });
-        viewHolder.kda.setText(recentMatch.getKills()+"/"+recentMatch.getDeaths()+"/"+recentMatch.getAssists());
+        SpannableStringBuilder k = new SpannableStringBuilder();
+        SpannableString t1 = new SpannableString(recentMatch.getKills() + "");
+        t1.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.win)), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        k.append(t1).append("/");
+        t1 = new SpannableString(recentMatch.getDeaths() + "");
+        t1.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.lose)), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        k.append(t1).append("/");
+        t1 = new SpannableString(recentMatch.getAssists() + "");
+        t1.setSpan(new ForegroundColorSpan(Color.BLUE), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        k.append(t1);
+        viewHolder.kda.setText(k);
         viewHolder.gpm.setText("GPM:"+recentMatch.getGold_per_min());
         viewHolder.xpm.setText("XPM:"+recentMatch.getXp_per_min());
         viewHolder.hero_damage.setText("Damage:"+recentMatch.getHero_damage());
@@ -98,7 +113,6 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         typedArray = context.getResources().obtainTypedArray(R.array.game_mode);
         viewHolder.game_mode.setText(typedArray.getText(recentMatch.getGame_mode()));
         viewHolder.time.setText(tmp);
-
     }
 
     @Override
