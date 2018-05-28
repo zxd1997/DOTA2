@@ -19,7 +19,9 @@ import java.util.List;
 
 public class AbilityBuildAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     final int ABILITY = 1;
-    final int HEADER = 0;
+    final int HEADER = -1;
+    final int PLAYER = -2;
+    final int LEVEL = -3;
     List<Integer> abilities;
     Match match;
     Context context;
@@ -28,15 +30,49 @@ public class AbilityBuildAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.context = context;
         this.match = match;
         this.abilities = new ArrayList<>();
+        abilities.add(PLAYER);
+        for (int i = 0; i < 25; i++) {
+            abilities.add(LEVEL);
+        }
         for (Match.PPlayer p : match.getPlayers()) {
             abilities.add(-1);
-            for (int i : p.getAbility_upgrades_arr()) {
-                abilities.add(i);
-            }
-            if (p.getAbility_upgrades_arr().size() < 19) {
-                for (int i = 0; i < 19 - p.getAbility_upgrades_arr().size(); i++) {
+            if (p.getAbility_upgrades_arr().size() < 18) {
+                for (int i : p.getAbility_upgrades_arr()) {
+                    abilities.add(i);
+                }
+                for (int i = 0; i < 25 - p.getAbility_upgrades_arr().size(); i++) {
                     abilities.add(0);
                 }
+            } else if (p.getAbility_upgrades_arr().size() < 19) {
+                for (int i = 0; i < p.getAbility_upgrades_arr().size() - 1; i++) {
+                    abilities.add(p.getAbility_upgrades_arr().get(i));
+                }
+                abilities.add(0);
+                abilities.add(0);
+                abilities.add(p.getAbility_upgrades_arr().get(p.getAbility_upgrades_arr().size() - 1));
+                for (int i = 0; i < 25 - 20; i++) {
+                    abilities.add(0);
+                }
+            } else if (p.getAbility_upgrades_arr().size() == 19) {
+                for (int i = 0; i < p.getAbility_upgrades_arr().size() - 2; i++) {
+                    abilities.add(p.getAbility_upgrades_arr().get(i));
+                }
+                abilities.add(0);
+                abilities.add(0);
+                abilities.add(p.getAbility_upgrades_arr().get(p.getAbility_upgrades_arr().size() - 2));
+                for (int i = 0; i < 24 - 20; i++) {
+                    abilities.add(0);
+                }
+                abilities.add(p.getAbility_upgrades_arr().get(p.getAbility_upgrades_arr().size() - 1));
+            } else if (p.getAbility_upgrades_arr().size() < 25) {
+                for (int i : p.getAbility_upgrades_arr()) {
+                    abilities.add(i);
+                }
+                for (int i = 0; i < 25 - p.getAbility_upgrades_arr().size(); i++) {
+                    abilities.add(0);
+                }
+            } else for (int i : p.getAbility_upgrades_arr()) {
+                abilities.add(i);
             }
         }
     }
@@ -44,9 +80,9 @@ public class AbilityBuildAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public int getItemViewType(int position) {
         int type;
-        if (abilities.get(position) != -1) {
+        if (abilities.get(position) >= 0) {
             return ABILITY;
-        } else return HEADER;
+        } else return abilities.get(position);
     }
 
     @NonNull
@@ -56,9 +92,17 @@ public class AbilityBuildAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ability_build, parent, false);
             ViewHolder viewHolder = new ViewHolder(view);
             return viewHolder;
-        } else {
+        } else if (viewType == HEADER) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ability_header, parent, false);
             HeaderHolder viewHolder = new HeaderHolder(view);
+            return viewHolder;
+        } else if (viewType == PLAYER) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ability_player, parent, false);
+            PlayerHolder viewHolder = new PlayerHolder(view);
+            return viewHolder;
+        } else {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ablity_level, parent, false);
+            LevelHolder viewHolder = new LevelHolder(view);
             return viewHolder;
         }
     }
@@ -66,10 +110,14 @@ public class AbilityBuildAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (abilities.get(position) == -1) {
-            Match.PPlayer p = match.getPlayers().get(position / 20);
+            Match.PPlayer p = match.getPlayers().get((position / 26) - 1);
             HeaderHolder viewHolder = (HeaderHolder) holder;
             viewHolder.header.setImageResource(context.getResources().getIdentifier("hero_" + p.getHero_id(), "drawable", context.getPackageName()));
             viewHolder.name.setText(p.getPersonaname() == null ? "Anonymous" : p.getPersonaname());
+        } else if (abilities.get(position) == -2) {
+        } else if ((abilities.get(position) == -3)) {
+            LevelHolder viewHolder = (LevelHolder) holder;
+            viewHolder.level.setText(position + "");
         } else {
             ViewHolder viewHolder = (ViewHolder) holder;
             Log.d("ability", "onBindViewHolder: " + abilities.get(position));
@@ -103,6 +151,20 @@ public class AbilityBuildAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
+    class PlayerHolder extends RecyclerView.ViewHolder {
+        public PlayerHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
+    class LevelHolder extends RecyclerView.ViewHolder {
+        TextView level;
+
+        public LevelHolder(View itemView) {
+            super(itemView);
+            level = itemView.findViewById(R.id.level);
+        }
+    }
     class ViewHolder extends RecyclerView.ViewHolder {
         SimpleDraweeView icon;
         TextView talent;

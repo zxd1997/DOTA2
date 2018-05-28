@@ -60,6 +60,7 @@ public class MyFragment extends Fragment {
     SimpleDraweeView header;
     SimpleDraweeView tier;
     SimpleDraweeView stars;
+    TextView textView;
     TextView personaname;
     TextView loccountrycode;
     TextView account_id;
@@ -202,6 +203,7 @@ public class MyFragment extends Fragment {
         matchesAdapter=new MatchesAdapter(getContext(),recentMatches);
         recyclerView.setAdapter(matchesAdapter);
         swipeRefreshLayout=view.findViewById(R.id.swipe);
+        textView = view.findViewById(R.id.text_notice);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -230,12 +232,10 @@ public class MyFragment extends Fragment {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    TextView textView=view.findViewById(R.id.text_notice);
-                    textView.setVisibility(View.GONE);
+                    textView.setVisibility(View.INVISIBLE);
                     textInputLayout.setVisibility(View.VISIBLE);
                     button.setVisibility(View.GONE);
                     button1.setVisibility(View.VISIBLE);
-
                 }
             });
         }else{
@@ -259,6 +259,7 @@ public class MyFragment extends Fragment {
             id = "";
             linearLayout.setVisibility(View.VISIBLE);
             textInputLayout.setVisibility(View.VISIBLE);
+            textView.setVisibility(View.INVISIBLE);
             button.setVisibility(View.GONE);
             button1.setVisibility(View.VISIBLE);
             recentMatches.clear();

@@ -106,11 +106,11 @@ public class OverviewFragment extends Fragment {
         recyclerView.setAdapter(playerAdapter);
         recyclerView.setNestedScrollingEnabled(false);
         RecyclerView recyclerView1 = view.findViewById(R.id.ability_builds);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 24);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 30);
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                if (position % 20 == 0) return 5;
+                if (position % 26 == 0) return 5;
                 return 1;
             }
         });
