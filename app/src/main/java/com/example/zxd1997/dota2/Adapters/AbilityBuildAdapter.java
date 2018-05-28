@@ -36,28 +36,39 @@ public class AbilityBuildAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
         for (Match.PPlayer p : match.getPlayers()) {
             abilities.add(-1);
-            if (p.getAbility_upgrades_arr().size() < 18) {
+            if (p.getAbility_upgrades_arr().size() < 17) {
                 for (int i : p.getAbility_upgrades_arr()) {
                     abilities.add(i);
                 }
                 for (int i = 0; i < 25 - p.getAbility_upgrades_arr().size(); i++) {
                     abilities.add(0);
                 }
-            } else if (p.getAbility_upgrades_arr().size() < 19) {
+            } else if (p.getAbility_upgrades_arr().size() < 18) {
                 for (int i = 0; i < p.getAbility_upgrades_arr().size() - 1; i++) {
                     abilities.add(p.getAbility_upgrades_arr().get(i));
                 }
                 abilities.add(0);
+                abilities.add(p.getAbility_upgrades_arr().get(p.getAbility_upgrades_arr().size() - 1));
+                for (int i = 0; i < 25 - 18; i++) {
+                    abilities.add(0);
+                }
+            } else if (p.getAbility_upgrades_arr().size() < 19) {
+                for (int i = 0; i < p.getAbility_upgrades_arr().size() - 2; i++) {
+                    abilities.add(p.getAbility_upgrades_arr().get(i));
+                }
+                abilities.add(0);
+                abilities.add(p.getAbility_upgrades_arr().get(p.getAbility_upgrades_arr().size() - 2));
                 abilities.add(0);
                 abilities.add(p.getAbility_upgrades_arr().get(p.getAbility_upgrades_arr().size() - 1));
                 for (int i = 0; i < 25 - 20; i++) {
                     abilities.add(0);
                 }
             } else if (p.getAbility_upgrades_arr().size() == 19) {
-                for (int i = 0; i < p.getAbility_upgrades_arr().size() - 2; i++) {
+                for (int i = 0; i < p.getAbility_upgrades_arr().size() - 3; i++) {
                     abilities.add(p.getAbility_upgrades_arr().get(i));
                 }
                 abilities.add(0);
+                abilities.add(p.getAbility_upgrades_arr().get(p.getAbility_upgrades_arr().size() - 3));
                 abilities.add(0);
                 abilities.add(p.getAbility_upgrades_arr().get(p.getAbility_upgrades_arr().size() - 2));
                 for (int i = 0; i < 24 - 20; i++) {
