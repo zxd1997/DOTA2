@@ -220,24 +220,15 @@
             <HorizontalScrollView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ab"
-                >
+                android:layout_below="@id/ab">
 
-                <LinearLayout
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/ability_builds"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/ability_builds"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="2dp"
-                        android:fadeScrollbars="false"
-                        android:scrollbarSize="2dp">
-
-                    </android.support.v7.widget.RecyclerView>
-                </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:fadeScrollbars="false"
+                    android:scrollbarSize="2dp"></android.support.v7.widget.RecyclerView>
 
             </HorizontalScrollView>
 
