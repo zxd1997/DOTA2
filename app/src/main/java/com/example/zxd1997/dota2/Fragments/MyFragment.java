@@ -50,6 +50,7 @@ public class MyFragment extends Fragment {
     String id="";
     String tmp;
     Button button1;
+    Button button;
     static final int VERIFY=0;
     static final int PLAYER_INFO=1;
     static final int WL=2;
@@ -69,6 +70,7 @@ public class MyFragment extends Fragment {
     RecyclerView recyclerView;
     MatchesAdapter matchesAdapter;
     SwipeRefreshLayout swipeRefreshLayout;
+    TextInputLayout textInputLayout;
     com.example.zxd1997.dota2.Beans.WL wl;
     List<RecentMatch> recentMatches=new ArrayList<>();
     Receiver receiver;
@@ -194,6 +196,8 @@ public class MyFragment extends Fragment {
         ranks=view.findViewById(R.id.rank);
         stars=view.findViewById(R.id.star);
         recyclerView=view.findViewById(R.id.recent_matches);
+        button = view.findViewById(R.id.connect);
+        textInputLayout = view.findViewById(R.id.text_input);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         matchesAdapter=new MatchesAdapter(getContext(),recentMatches);
         recyclerView.setAdapter(matchesAdapter);
@@ -205,33 +209,33 @@ public class MyFragment extends Fragment {
                 Okhttp.getFromService(getString(R.string.api)+getString(R.string.players)+id,handler,PLAYER_INFO);
             }
         });
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextInputEditText textInputEditText = view.findViewById(R.id.steam_id);
+                if (textInputEditText.getText().toString().equals("")) {
+                    Toast.makeText(getContext(), "Please input your Steam 32 ID!", Toast.LENGTH_LONG).show();
+                } else {
+                    tmp = textInputEditText.getText().toString();
+                    Okhttp.getFromService(getString(R.string.api) + getString(R.string.players) + tmp, handler, VERIFY);
+                    button1.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         if (sharedPreferences.getString("id","").equals("")){
             linearLayout.setVisibility(View.VISIBLE);
             my.setVisibility(View.GONE);
-            final Button button=view.findViewById(R.id.connect);
+
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     TextView textView=view.findViewById(R.id.text_notice);
                     textView.setVisibility(View.GONE);
-                    TextInputLayout textInputLayout=view.findViewById(R.id.text_input);
                     textInputLayout.setVisibility(View.VISIBLE);
                     button.setVisibility(View.GONE);
                     button1.setVisibility(View.VISIBLE);
-                    button1.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            TextInputEditText textInputEditText=view.findViewById(R.id.steam_id);
-                            if (textInputEditText.getText().toString().equals("")){
-                                Toast.makeText(getContext(),"Please input your Steam 32 ID!",Toast.LENGTH_LONG).show();
-                            }else{
-                                tmp=textInputEditText.getText().toString();
-                                Okhttp.getFromService(getString(R.string.api)+getString(R.string.players)+tmp,handler,VERIFY);
-                                button1.setVisibility(View.GONE);
-                                progressBar.setVisibility(View.VISIBLE);
-                            }
-                        }
-                    });
+
                 }
             });
         }else{
@@ -254,6 +258,8 @@ public class MyFragment extends Fragment {
             my.setVisibility(View.GONE);
             id = "";
             linearLayout.setVisibility(View.VISIBLE);
+            textInputLayout.setVisibility(View.VISIBLE);
+            button.setVisibility(View.GONE);
             button1.setVisibility(View.VISIBLE);
             recentMatches.clear();
         }
