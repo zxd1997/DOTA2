@@ -7,6 +7,7 @@ import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Beans.Ability;
 import com.example.zxd1997.dota2.Beans.Hero;
 import com.example.zxd1997.dota2.Beans.Item;
+import com.example.zxd1997.dota2.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -17,7 +18,7 @@ import java.util.Map;
 
 public class Update {
     public static void updatezip(final Handler handler) {
-        Okhttp.getZip("https://github.com/zxd1997/dotaconstants/archive/master.zip", handler);
+        Okhttp.getZip(MyApplication.getContext().getString(R.string.zip), handler);
     }
 
     static public StringBuilder readfile(String filename) {
@@ -52,8 +53,5 @@ public class Update {
         StringBuilder ability_json = readfile("abilities.json");
         MainActivity.abilities = new Gson().fromJson(ability_json.toString(), new TypeToken<Map<String, Ability>>() {
         }.getType());
-        for (Map.Entry<String, Ability> e : MainActivity.abilities.entrySet()) {
-            Log.d("ability", "readFromJson: " + e.getKey() + " " + e.getValue().getDname());
-        }
     }
 }

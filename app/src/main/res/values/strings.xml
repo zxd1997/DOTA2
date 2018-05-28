@@ -28,6 +28,7 @@
     <string name="radiant_victory">Radiant Victory</string>
     <string name="match_id">Match ID</string>
     <string name="region">Region</string>
+    <string name="zip">https://github.com/odota/dotaconstants/archive/master.zip</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
