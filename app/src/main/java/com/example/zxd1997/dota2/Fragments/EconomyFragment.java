@@ -8,39 +8,39 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Activities.MatchActivity;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.R;
-import com.example.zxd1997.dota2.Utils.Okhttp;
 
-public class NoDetailFragment extends Fragment {
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link EconomyFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class EconomyFragment extends Fragment {
+    Match match;
 
-    public NoDetailFragment() {
+    public EconomyFragment() {
         // Required empty public constructor
     }
 
-
-    public static NoDetailFragment newInstance() {
-        NoDetailFragment fragment = new NoDetailFragment();
+    public static EconomyFragment newInstance() {
+        EconomyFragment fragment = new EconomyFragment();
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_nodetail, container, false);
         MatchActivity activity = (MatchActivity) getActivity();
-        Match match = activity.getMatch();
+        match = activity.getMatch();
         try {
             long id = match.getMatch_id();
         } catch (NullPointerException e) {
@@ -56,24 +56,7 @@ public class NoDetailFragment extends Fragment {
             getActivity().startActivity(intent);
             getActivity().finish();
         }
-        final long id = activity.getMatch().getMatch_id();
-        final long time = activity.getMatch().getStart_time();
-        final Button button = view.findViewById(R.id.reuqest_salt);
-        final TextView textView = view.findViewById(R.id.no_salt);
-        if (System.currentTimeMillis() / 1000 - time > 30 * 24 * 3600) {
-            button.setVisibility(View.INVISIBLE);
-            textView.setText(getString(R.string.expired));
-        }
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Okhttp.post(getString(R.string.api) + getString(R.string.request) + id);
-                Log.d("post", "onClick: " + getString(R.string.api) + getString(R.string.request) + id);
-                button.setVisibility(View.INVISIBLE);
-                textView.setText(getString(R.string.parsing));
-            }
-        });
-        return view;
+        return inflater.inflate(R.layout.fragment_economy, container, false);
     }
 
 }

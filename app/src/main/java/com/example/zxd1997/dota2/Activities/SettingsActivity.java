@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.zxd1997.dota2.R;
+import com.example.zxd1997.dota2.Utils.MyApplication;
 import com.example.zxd1997.dota2.Utils.Update;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -34,6 +35,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        MyApplication.add(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         String[] data = {"Update"};
@@ -51,6 +53,7 @@ public class SettingsActivity extends AppCompatActivity {
                         pd = new ProgressDialog(SettingsActivity.this);
                         pd.setTitle("Update");
                         pd.setMessage("Updating");
+                        pd.setCanceledOnTouchOutside(false);
                         pd.show();
                         break;
                     }

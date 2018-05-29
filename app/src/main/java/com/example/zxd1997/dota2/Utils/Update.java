@@ -1,7 +1,6 @@
 package com.example.zxd1997.dota2.Utils;
 
 import android.os.Handler;
-import android.util.Log;
 
 import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Beans.Ability;
@@ -28,7 +27,6 @@ public class Update {
             byte[] bytes = new byte[4096];
             int len;
             while ((len = fileInputStream.read(bytes)) != -1) {
-                Log.d("hero", "readfile: " + new String(bytes, 0, len));
                 s.append(new String(bytes, 0, len));
             }
             fileInputStream.close();

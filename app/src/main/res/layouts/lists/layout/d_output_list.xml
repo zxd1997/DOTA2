@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/d_skill_out"
+        android:layout_width="39dp"
+        android:layout_height="39dp"
+        android:layout_margin="1dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/d_damage_out"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-1dp"
+        android:background="@android:color/white"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:textSize="13dp"
+        app:layout_constraintTop_toBottomOf="@id/d_skill_out"
+        tools:text="1.1k" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/d_skill_out"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_arrow_forward_black_24dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/d_out_target"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        app:layout_constraintLeft_toRightOf="@id/imageView3"></android.support.v7.widget.RecyclerView>
+</android.support.constraint.ConstraintLayout>

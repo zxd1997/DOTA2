@@ -25,6 +25,7 @@ import com.example.zxd1997.dota2.Fragments.ItemsFragment;
 import com.example.zxd1997.dota2.Fragments.MyFragment;
 import com.example.zxd1997.dota2.Fragments.ProFragment;
 import com.example.zxd1997.dota2.R;
+import com.example.zxd1997.dota2.Utils.MyApplication;
 import com.example.zxd1997.dota2.Utils.Update;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MyApplication.add(this);
         Fresco.initialize(this);
         setContentView(R.layout.activity_main);
         sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
@@ -66,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
             pd = new ProgressDialog(MainActivity.this);
             pd.setTitle("Update");
             pd.setMessage("Updating");
+            pd.setCanceledOnTouchOutside(false);
             pd.show();
         } else {
             Update.readFromJson();
@@ -115,5 +118,9 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MyApplication.exit();
+    }
 }

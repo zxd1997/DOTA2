@@ -1,8 +1,8 @@
 package com.example.zxd1997.dota2.Beans;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Match {
     private long replay_salt;
@@ -234,6 +234,150 @@ public class Match {
         private int kda;
         private String personaname;
         private Benchmark benchmarks;
+        private Map<String, Integer> damage_inflictor;
+        private Map<String, Map<String, Integer>> damage_targets;
+        private Map<String, Integer> ability_uses;
+        private Map<String, Map<String, Integer>> ability_targets;
+        private Map<String, Integer> damage_inflictor_received;
+        private List<Integer> gold_t = new ArrayList<>();
+        private List<Integer> xp_t = new ArrayList<>();
+        private Map<String, Integer> hero_hits;
+        private Map<String, Integer> item_uses;
+        private Map<String, Integer> killed;
+        private Map<String, Integer> killed_by;
+        private Map<String, Integer> damage;
+        private Map<String, Integer> damage_taken;
+        private Map<String, Integer> purchase_time;
+        private double stuns;
+        private double teamfight_participation;
+
+        public Map<String, Map<String, Integer>> getDamage_targets() {
+            return damage_targets;
+        }
+
+        public void setDamage_targets(Map<String, Map<String, Integer>> damage_targets) {
+            this.damage_targets = damage_targets;
+        }
+
+        public Map<String, Integer> getAbility_uses() {
+            return ability_uses;
+        }
+
+        public void setAbility_uses(Map<String, Integer> ability_uses) {
+            this.ability_uses = ability_uses;
+        }
+
+        public Map<String, Map<String, Integer>> getAbility_targets() {
+            return ability_targets;
+        }
+
+        public void setAbility_targets(Map<String, Map<String, Integer>> ability_targets) {
+            this.ability_targets = ability_targets;
+        }
+
+        public Map<String, Integer> getDamage_inflictor_received() {
+            return damage_inflictor_received;
+        }
+
+        public void setDamage_inflictor_received(Map<String, Integer> damage_inflictor_received) {
+            this.damage_inflictor_received = damage_inflictor_received;
+        }
+
+        public List<Integer> getGold_t() {
+            return gold_t;
+        }
+
+        public void setGold_t(List<Integer> gold_t) {
+            this.gold_t = gold_t;
+        }
+
+        public List<Integer> getXp_t() {
+            return xp_t;
+        }
+
+        public void setXp_t(List<Integer> xp_t) {
+            this.xp_t = xp_t;
+        }
+
+        public Map<String, Integer> getHero_hits() {
+            return hero_hits;
+        }
+
+        public void setHero_hits(Map<String, Integer> hero_hits) {
+            this.hero_hits = hero_hits;
+        }
+
+        public Map<String, Integer> getItem_uses() {
+            return item_uses;
+        }
+
+        public void setItem_uses(Map<String, Integer> item_uses) {
+            this.item_uses = item_uses;
+        }
+
+        public Map<String, Integer> getKilled() {
+            return killed;
+        }
+
+        public void setKilled(Map<String, Integer> killed) {
+            this.killed = killed;
+        }
+
+        public Map<String, Integer> getKilled_by() {
+            return killed_by;
+        }
+
+        public void setKilled_by(Map<String, Integer> killed_by) {
+            this.killed_by = killed_by;
+        }
+
+        public Map<String, Integer> getDamage() {
+            return damage;
+        }
+
+        public void setDamage(Map<String, Integer> damage) {
+            this.damage = damage;
+        }
+
+        public Map<String, Integer> getDamage_taken() {
+            return damage_taken;
+        }
+
+        public void setDamage_taken(Map<String, Integer> damage_taken) {
+            this.damage_taken = damage_taken;
+        }
+
+        public double getStuns() {
+            return stuns;
+        }
+
+        public void setStuns(double stuns) {
+            this.stuns = stuns;
+        }
+
+        public double getTeamfight_participation() {
+            return teamfight_participation;
+        }
+
+        public void setTeamfight_participation(double teamfight_participation) {
+            this.teamfight_participation = teamfight_participation;
+        }
+
+        public Map<String, Integer> getPurchase_time() {
+            return purchase_time;
+        }
+
+        public void setPurchase_time(Map<String, Integer> purchase_time) {
+            this.purchase_time = purchase_time;
+        }
+
+        public Map<String, Integer> getDamage_inflictor() {
+            return damage_inflictor;
+        }
+
+        public void setDamage_inflictor(Map<String, Integer> damage_inflictor) {
+            this.damage_inflictor = damage_inflictor;
+        }
 
         public int getPlayer_slot() {
             return player_slot;
@@ -483,7 +627,7 @@ public class Match {
             this.benchmarks = benchmarks;
         }
 
-        public class Benchmark implements Serializable {
+        public class Benchmark {
             private GPM gold_per_min;
             private XPM xp_per_min;
             private KPM kills_per_min;
@@ -548,7 +692,7 @@ public class Match {
                 this.tower_damage = tower_damage;
             }
 
-            public class GPM implements Serializable {
+            public class GPM {
                 private int raw;
                 private double pct;
 
@@ -569,7 +713,7 @@ public class Match {
                 }
             }
 
-            public class XPM implements Serializable {
+            public class XPM {
                 private int raw;
                 private double pct;
 
@@ -590,7 +734,7 @@ public class Match {
                 }
             }
 
-            public class KPM implements Serializable {
+            public class KPM {
                 private double raw;
                 private double pct;
 
@@ -611,7 +755,7 @@ public class Match {
                 }
             }
 
-            public class LHPM implements Serializable {
+            public class LHPM {
                 private double raw;
                 private double pct;
 
@@ -632,7 +776,7 @@ public class Match {
                 }
             }
 
-            public class HDPM implements Serializable {
+            public class HDPM {
                 private double raw;
                 private double pct;
 
@@ -653,7 +797,7 @@ public class Match {
                 }
             }
 
-            public class HHPM implements Serializable {
+            public class HHPM {
                 private double raw;
                 private double pct;
 
@@ -674,7 +818,7 @@ public class Match {
                 }
             }
 
-            public class TD implements Serializable {
+            public class TD {
                 private int raw;
                 private double pct;
 

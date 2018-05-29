@@ -18,9 +18,11 @@ import android.widget.ProgressBar;
 import com.example.zxd1997.dota2.Adapters.TabFragmentAdapter;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.Fragments.DetailFragment;
+import com.example.zxd1997.dota2.Fragments.EconomyFragment;
 import com.example.zxd1997.dota2.Fragments.NoDetailFragment;
 import com.example.zxd1997.dota2.Fragments.OverviewFragment;
 import com.example.zxd1997.dota2.R;
+import com.example.zxd1997.dota2.Utils.MyApplication;
 import com.example.zxd1997.dota2.Utils.Okhttp;
 import com.google.gson.Gson;
 
@@ -30,8 +32,8 @@ import java.util.List;
 public class MatchActivity extends AppCompatActivity {
     final static int MATCH = 5;
     long id;
-
-    private Match match;
+    TabLayout tabLayout;
+    private Match match = null;
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -40,9 +42,13 @@ public class MatchActivity extends AppCompatActivity {
             Log.d("info", "handleMessage: " + match.getMatch_id() + " " + match.getRadiant_score() + " " + match.getDire_score() + " " + match.getReplay_salt());
             fragments.add(OverviewFragment.newInstance());
             if (match.getRadiant_xp_adv() == null) {
+                tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_6)));
                 fragments.add(NoDetailFragment.newInstance());
             } else {
+                tabLayout.addTab(tabLayout.newTab().setText("Combat"));
                 fragments.add(DetailFragment.newInstance());
+                tabLayout.addTab(tabLayout.newTab().setText("Economy"));
+                fragments.add(EconomyFragment.newInstance());
             }
             tabFragmentAdapter.notifyDataSetChanged();
             progressBar.setVisibility(View.GONE);
@@ -58,11 +64,25 @@ public class MatchActivity extends AppCompatActivity {
     private ViewPager mViewPager;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
+        MyApplication.add(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match);
         Intent intent = getIntent();
-        id = intent.getLongExtra("id", 0);
+        if (intent == null) {
+            startActivity(new Intent(MatchActivity.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            this.finish();
+        }
+        id = intent.getLongExtra("id", -1);
+        if (id == -1) {
+            startActivity(new Intent(MatchActivity.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            this.finish();
+        }
         Log.d("matchid", "onCreate: " + id);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -70,9 +90,8 @@ public class MatchActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar2);
         progressBar.setVisibility(View.VISIBLE);
         Okhttp.getFromService(getString(R.string.api) + getString(R.string.matches) + id, handler, MATCH);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_5)));
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_6)));
         tabFragmentAdapter = new TabFragmentAdapter(getSupportFragmentManager(), fragments);
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);

@@ -1,5 +1,6 @@
 package com.example.zxd1997.dota2.Fragments;
 
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Activities.MatchActivity;
 import com.example.zxd1997.dota2.Adapters.AbilityBuildAdapter;
 import com.example.zxd1997.dota2.Adapters.PlayerAdapter;
@@ -42,6 +44,21 @@ public class OverviewFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_overview, container, false);
         MatchActivity activity = (MatchActivity) getActivity();
         match = activity.getMatch();
+        try {
+            long id = match.getMatch_id();
+        } catch (NullPointerException e) {
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            getActivity().startActivity(intent);
+            getActivity().finish();
+        }
+        if (match == null || match.getPlayers() == null) {
+            Log.d("null", "onCreateView: " + 111111);
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            getActivity().startActivity(intent);
+            getActivity().finish();
+        }
         Log.d("fragment", "onCreateView: " + match.getMatch_id());
         TextView gamemode = view.findViewById(R.id.gamemode);
         TextView duration = view.findViewById(R.id.duration);
