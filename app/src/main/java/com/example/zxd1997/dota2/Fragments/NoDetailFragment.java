@@ -15,6 +15,7 @@ import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Activities.MatchActivity;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.R;
+import com.example.zxd1997.dota2.Utils.MyApplication;
 import com.example.zxd1997.dota2.Utils.Okhttp;
 
 public class NoDetailFragment extends Fragment {
@@ -41,38 +42,31 @@ public class NoDetailFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_nodetail, container, false);
         MatchActivity activity = (MatchActivity) getActivity();
         Match match = activity.getMatch();
-        try {
-            long id = match.getMatch_id();
-        } catch (NullPointerException e) {
-            Intent intent = new Intent(getActivity(), MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            getActivity().startActivity(intent);
-            getActivity().finish();
-        }
         if (match == null || match.getPlayers() == null) {
             Log.d("null", "onCreateView: " + 111111);
-            Intent intent = new Intent(getActivity(), MainActivity.class);
+            Intent intent = new Intent(MyApplication.getContext(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             getActivity().startActivity(intent);
             getActivity().finish();
-        }
-        final long id = activity.getMatch().getMatch_id();
-        final long time = activity.getMatch().getStart_time();
-        final Button button = view.findViewById(R.id.reuqest_salt);
-        final TextView textView = view.findViewById(R.id.no_salt);
-        if (System.currentTimeMillis() / 1000 - time > 30 * 24 * 3600) {
-            button.setVisibility(View.INVISIBLE);
-            textView.setText(getString(R.string.expired));
-        }
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Okhttp.post(getString(R.string.api) + getString(R.string.request) + id);
-                Log.d("post", "onClick: " + getString(R.string.api) + getString(R.string.request) + id);
+        } else {
+            final long id = activity.getMatch().getMatch_id();
+            final long time = activity.getMatch().getStart_time();
+            final Button button = view.findViewById(R.id.reuqest_salt);
+            final TextView textView = view.findViewById(R.id.no_salt);
+            if (System.currentTimeMillis() / 1000 - time > 30 * 24 * 3600) {
                 button.setVisibility(View.INVISIBLE);
-                textView.setText(getString(R.string.parsing));
+                textView.setText(getString(R.string.expired));
             }
-        });
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Okhttp.post(getString(R.string.api) + getString(R.string.request) + id);
+                    Log.d("post", "onClick: " + getString(R.string.api) + getString(R.string.request) + id);
+                    button.setVisibility(View.INVISIBLE);
+                    textView.setText(getString(R.string.parsing));
+                }
+            });
+        }
         return view;
     }
 

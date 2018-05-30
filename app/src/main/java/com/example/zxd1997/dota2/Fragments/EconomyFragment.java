@@ -13,6 +13,7 @@ import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Activities.MatchActivity;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.R;
+import com.example.zxd1997.dota2.Utils.MyApplication;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,20 +42,14 @@ public class EconomyFragment extends Fragment {
                              Bundle savedInstanceState) {
         MatchActivity activity = (MatchActivity) getActivity();
         match = activity.getMatch();
-        try {
-            long id = match.getMatch_id();
-        } catch (NullPointerException e) {
-            Intent intent = new Intent(getActivity(), MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            getActivity().startActivity(intent);
-            getActivity().finish();
-        }
         if (match == null || match.getPlayers() == null) {
             Log.d("null", "onCreateView: " + 111111);
-            Intent intent = new Intent(getActivity(), MainActivity.class);
+            Intent intent = new Intent(MyApplication.getContext(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             getActivity().startActivity(intent);
             getActivity().finish();
+        } else {
+
         }
         return inflater.inflate(R.layout.fragment_economy, container, false);
     }
