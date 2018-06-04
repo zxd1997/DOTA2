@@ -12,7 +12,7 @@
         android:layout_marginBottom="1dp"
         android:layout_marginLeft="3dp"
         android:layout_marginTop="2dp"
-        android:text="Net Worth/Experience"
+        android:text="Team NetWorth/Experience Difference"
         android:textColor="@android:color/black" />
 
     <com.example.zxd1997.dota2.Chart.MyLineChartView
@@ -34,6 +34,7 @@
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_gravity="center_vertical"
+            android:layout_marginRight="2dp"
             android:background="@color/very_high"></View>
 
         <TextView
@@ -45,12 +46,175 @@
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="2dp"
             android:background="@color/win"></View>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Experience" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="2dp"
+        android:text="Net Worth"
+        android:textColor="@android:color/black" />
+
+    <com.example.zxd1997.dota2.Chart.MyLineChartView
+        android:id="@+id/chart1"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="2dp"></com.example.zxd1997.dota2.Chart.MyLineChartView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <View
+            android:id="@+id/color0"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="2dp"></View>
+
+        <TextView
+            android:id="@+id/name0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:id="@+id/color1"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="2dp"></View>
+
+        <TextView
+            android:id="@+id/name1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:id="@+id/color2"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="2dp"></View>
+
+        <TextView
+            android:id="@+id/name2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:id="@+id/color3"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="2dp"></View>
+
+        <TextView
+            android:id="@+id/name3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:id="@+id/color4"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="2dp"></View>
+
+        <TextView
+            android:id="@+id/name4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <View
+            android:id="@+id/color5"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="2dp"></View>
+
+        <TextView
+            android:id="@+id/name5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:id="@+id/color6"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="2dp"></View>
+
+        <TextView
+            android:id="@+id/name6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:id="@+id/color7"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="2dp"></View>
+
+        <TextView
+            android:id="@+id/name7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:id="@+id/color8"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="2dp"></View>
+
+        <TextView
+            android:id="@+id/name8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:id="@+id/color9"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="2dp"></View>
+
+        <TextView
+            android:id="@+id/name9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>

@@ -73,15 +73,18 @@ public class DetailFragment extends Fragment {
             }
             List<Content> contents = new ArrayList<>();
             List<Content> contents1 = new ArrayList<>();
-            contents.add(new Content(true, 0));
-            contents1.add(new Content(true, 0));
+            contents.add(new Content(true, 0, 0));
+            contents1.add(new Content(true, 0, 0));
             for (int i = 5; i < match.getPlayers().size(); i++) {
-                contents.add(new Content(true, match.getPlayers().get(i).getHero_id()));
-                contents1.add(new Content(true, match.getPlayers().get(i).getHero_id()));
+                int color = getContext().getResources().getColor(getContext().getResources().getIdentifier("slot_" + match.getPlayers().get(i).getPlayer_slot(), "color", getContext().getPackageName()));
+                Log.d("color", "onCreateView: " + color);
+                contents.add(new Content(true, match.getPlayers().get(i).getHero_id(), color));
+                contents1.add(new Content(true, match.getPlayers().get(i).getHero_id(), color));
             }
             for (int i = 0; i < 5; i++) {
-                contents.add(new Content(true, match.getPlayers().get(i).getHero_id()));
-                contents1.add(new Content(true, match.getPlayers().get(i).getHero_id()));
+                int color = getContext().getResources().getColor(getContext().getResources().getIdentifier("slot_" + match.getPlayers().get(i).getPlayer_slot(), "color", getContext().getPackageName()));
+                contents.add(new Content(true, match.getPlayers().get(i).getHero_id(), color));
+                contents1.add(new Content(true, match.getPlayers().get(i).getHero_id(), color));
                 Map<String, Integer> killed = match.getPlayers().get(i).getKilled();
                 Map<String, Integer> killed_by = match.getPlayers().get(i).getKilled_by();
                 Map<String, Integer> damage = match.getPlayers().get(i).getDamage();

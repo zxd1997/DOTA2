@@ -43,7 +43,7 @@ public class Okhttp {
         });
     }
 
-    public static void getFromService(String url, final Handler handler, final int what){
+    public static void getFromService(String url, final Handler handler, final int what) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(url)
@@ -57,8 +57,8 @@ public class Okhttp {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 Message message = new Message();
-                message.obj=response.body().string();
-                message.what=what;
+                message.obj = response.body().string();
+                message.what = what;
                 handler.sendMessage(message);
             }
         });

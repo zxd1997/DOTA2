@@ -2,25 +2,29 @@ package com.example.zxd1997.dota2.Fragments;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Activities.MatchActivity;
+import com.example.zxd1997.dota2.Beans.Hero;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.Chart.MyLineChartRenderer;
+import com.example.zxd1997.dota2.Chart.MyLineChartRenderer1;
 import com.example.zxd1997.dota2.Chart.MyLineChartView;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.MyApplication;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import lecho.lib.hellocharts.listener.LineChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
@@ -52,6 +56,7 @@ public class EconomyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         MatchActivity activity = (MatchActivity) getActivity();
+        Color.parseColor("#2E6AE6");
         View view = inflater.inflate(R.layout.fragment_economy, container, false);
         match = activity.getMatch();
         if (match == null || match.getPlayers() == null) {
@@ -59,7 +64,7 @@ public class EconomyFragment extends Fragment {
             Intent intent = new Intent(MyApplication.getContext(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             getActivity().startActivity(intent);
-            getActivity().finish(); 
+            getActivity().finish();
         } else {
             MyLineChartView chart = view.findViewById(R.id.chart);
             chart.setChartRenderer(new MyLineChartRenderer(getContext(), chart, chart));
@@ -100,18 +105,49 @@ public class EconomyFragment extends Fragment {
             data.setAxisXBottom(axisX);
             chart.setZoomEnabled(false);
             chart.setInteractive(true);
-            chart.setOnValueTouchListener(new LineChartOnValueSelectListener() {
-                @Override
-                public void onValueSelected(int lineIndex, int pointIndex, PointValue value) {
-
-                }
-
-                @Override
-                public void onValueDeselected() {
-
-                }
-            });
             chart.setLineChartData(data);
+            MyLineChartView chart1 = view.findViewById(R.id.chart1);
+            chart1.setChartRenderer(new MyLineChartRenderer1(getContext(), chart1, chart1));
+            lines = new ArrayList<>();
+            int l = 0;
+            for (Match.PPlayer p : match.getPlayers()) {
+                int i = 0;
+                String hname = "";
+                TextView textView = view.findViewById(getContext().getResources().getIdentifier("name" + l, "id", getContext().getPackageName()));
+                View view1 = view.findViewById(getContext().getResources().getIdentifier("color" + l, "id", getContext().getPackageName()));
+                l++;
+                for (Map.Entry<String, Hero> entry : MainActivity.heroes.entrySet()) {
+                    if (entry.getValue().getId() == p.getHero_id()) {
+                        hname = entry.getValue().getLocalized_name();
+                        break;
+                    }
+                }
+                pointValues = new ArrayList<>();
+                for (int k : p.getGold_t()) {
+                    pointValues.add(new PointValue(i++, k).setLabel(hname + ":" + k));
+                }
+                int color = getContext().getResources().getColor(getContext().getResources().getIdentifier("slot_" + p.getPlayer_slot(), "color", getContext().getPackageName()));
+                textView.setText(hname);
+                view1.setBackgroundColor(color);
+                Line line1 = new Line(pointValues)
+                        .setColor(color)
+                        .setCubic(true)
+                        .setFilled(false)
+                        .setHasPoints(true)
+                        .setPointRadius(1)
+                        .setHasLabelsOnlyForSelected(true)
+                        .setStrokeWidth(1);
+                lines.add(line1);
+            }
+            data = new LineChartData();
+            data.setLines(lines);
+            axisY = new Axis().setName("Gold").setHasLines(true);
+            data.setAxisYLeft(axisY);
+            axisX = new Axis().setName("Time/min");
+            data.setAxisXBottom(axisX);
+            chart1.setZoomEnabled(false);
+            chart1.setInteractive(true);
+            chart1.setLineChartData(data);
         }
         return view;
     }

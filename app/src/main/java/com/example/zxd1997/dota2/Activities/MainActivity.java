@@ -33,12 +33,12 @@ import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-    SharedPreferences sharedPreferences;
     final static int FINISHED = 8;
     public static Map<String, Hero> heroes;
     public static Map<String, String> ability_ids;
     public static Map<String, Ability> abilities;
     public static Map<String, Item> items;
+    SharedPreferences sharedPreferences;
     ProgressDialog pd;
     Handler handler = new Handler() {
         @Override
@@ -52,15 +52,16 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
-    private ViewPager mViewPager;
     TabFragmentAdapter tabFragmentAdapter;
     List<Fragment> fragments;
+    private ViewPager mViewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         MyApplication.add(this);
         setContentView(R.layout.activity_main);
-        sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         if (!getFileStreamPath("master.zip").exists()) {
             Update.updatezip(handler);
             pd = new ProgressDialog(MainActivity.this);
@@ -73,12 +74,12 @@ public class MainActivity extends AppCompatActivity {
         }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        fragments=new ArrayList<Fragment>();
+        fragments = new ArrayList<Fragment>();
         fragments.add(MyFragment.newInstance());
         fragments.add(HeroesFragment.newInstance());
         fragments.add(ItemsFragment.newInstance());
         fragments.add(ProFragment.newInstance());
-        tabFragmentAdapter=new TabFragmentAdapter(getSupportFragmentManager(),fragments);
+        tabFragmentAdapter = new TabFragmentAdapter(getSupportFragmentManager(), fragments);
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(tabFragmentAdapter);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -103,10 +104,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             return true;
         }
-        if (id==R.id.action_disconnect){
-            sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
-            SharedPreferences.Editor editor=sharedPreferences.edit();
-            editor.putString("id","");
+        if (id == R.id.action_disconnect) {
+            sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("id", "");
             editor.commit();
             LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
             Intent intent = new Intent(DISCONNECT);

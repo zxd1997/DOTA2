@@ -118,6 +118,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             t1 = new SpannableString(p.getAssists() + "");
             t1.setSpan(new ForegroundColorSpan(Color.BLUE), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             k.append(t1);
+            viewHolder.color.setBackgroundColor(context.getResources().getColor(context.getResources().getIdentifier("slot_" + p.getPlayer_slot(), "color", context.getPackageName())));
             viewHolder.k.setText(k);
             viewHolder.gpm.setText("GPM:" + p.getGold_per_min());
             viewHolder.xpm.setText("XPM:" + p.getXp_per_min());
@@ -162,9 +163,11 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         SimpleDraweeView item_3;
         SimpleDraweeView item_4;
         SimpleDraweeView item_5;
+        View color;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            color = itemView.findViewById(R.id.color_hero);
             player_hero = itemView.findViewById(R.id.player_hero);
             player = itemView.findViewById(R.id.player_name);
             k = itemView.findViewById(R.id.k);

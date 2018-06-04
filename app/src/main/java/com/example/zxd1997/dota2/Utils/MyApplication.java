@@ -12,12 +12,12 @@ import java.util.List;
 
 public class MyApplication extends Application {
     private static Context context;
+    private static List<Activity> activities = new LinkedList<Activity>();
 
     public static Context getContext() {
         return context;
     }
 
-    private static List<Activity> activities = new LinkedList<Activity>();
     public static void setContext(Context context) {
         MyApplication.context = context;
     }
@@ -34,6 +34,7 @@ public class MyApplication extends Application {
         }
         System.exit(0);
     }
+
     @Override
     public void onCreate() {
         context = getApplicationContext();

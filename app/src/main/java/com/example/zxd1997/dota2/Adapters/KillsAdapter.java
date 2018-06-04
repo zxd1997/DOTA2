@@ -3,6 +3,7 @@ package com.example.zxd1997.dota2.Adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,8 @@ public class KillsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (position == 0) {
         } else if (getItemViewType(position) == 1) {
             HeaderHolder headerHolder = (HeaderHolder) holder;
+            Log.d("color", "onBindViewHolder: " + contents.get(position).getColor());
+            headerHolder.color.setBackgroundColor(contents.get(position).getColor());
             headerHolder.header.setImageResource(context.getResources().getIdentifier("hero_" + contents.get(position).getHero_id(), "drawable", context.getPackageName()));
         } else {
             kdHolder kdHolder = (kdHolder) holder;
@@ -59,9 +62,11 @@ public class KillsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     class HeaderHolder extends RecyclerView.ViewHolder {
         SimpleDraweeView header;
+        View color;
 
         public HeaderHolder(View itemView) {
             super(itemView);
+            color = itemView.findViewById(R.id.color_kd);
             header = itemView.findViewById(R.id.kd_header);
         }
     }

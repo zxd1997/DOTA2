@@ -35,6 +35,7 @@ public class DDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ViewHolder viewHolder = (ViewHolder) holder;
+        viewHolder.color.setBackgroundColor(context.getResources().getColor(context.getResources().getIdentifier("slot_" + p.get(position).getPlayer_slot(), "color", context.getPackageName())));
         viewHolder.header.setImageResource(context.getResources().getIdentifier("hero_" + p.get(position).getHero_id(), "drawable", context.getPackageName()));
         viewHolder.name.setText(p.get(position).getPersonaname() == null ? "Anonymous" : p.get(position).getPersonaname());
         viewHolder.d_taken.setLayoutManager(new GridLayoutManager(context, 9));
@@ -54,9 +55,11 @@ public class DDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextView name;
         RecyclerView d_output;
         RecyclerView d_taken;
+        View color;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            color = itemView.findViewById(R.id.color_detail);
             header = itemView.findViewById(R.id.hheader);
             name = itemView.findViewById(R.id.hname);
             d_output = itemView.findViewById(R.id.d_output);

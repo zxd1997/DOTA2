@@ -21,11 +21,18 @@
             fresco:layout_constraintStart_toStartOf="parent"
             fresco:roundedCornerRadius="4dp" />
 
+        <View
+            android:id="@+id/color_hero"
+            android:layout_width="4dp"
+            android:layout_height="54dp"
+            fresco:layout_constraintLeft_toRightOf="@id/player_hero"
+            fresco:layout_constraintTop_toTopOf="@id/player_hero"></View>
+
         <TextView
             android:id="@+id/player_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="7dp"
             android:textColor="@android:color/black"
             fresco:layout_constraintStart_toEndOf="@+id/player_hero"
@@ -45,9 +52,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="6dp"
-            android:layout_marginLeft="8dp"
             fresco:layout_constraintBottom_toBottomOf="parent"
-            fresco:layout_constraintStart_toEndOf="@+id/player_hero" />
+            fresco:layout_constraintLeft_toLeftOf="@id/player_name" />
 
 
         <TextView

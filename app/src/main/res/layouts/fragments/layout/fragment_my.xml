@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -29,8 +29,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:visibility="gone"
-        fresco:layout_constraintBottom_toTopOf="@+id/progressBar"
-        >
+        fresco:layout_constraintBottom_toTopOf="@+id/progressBar">
 
         <TextView
             android:id="@+id/text_notice"
@@ -83,33 +82,37 @@
         android:orientation="vertical"
         android:visibility="gone"
         tools:visibility="visible">
+
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             fresco:cardCornerRadius="3dp">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <com.facebook.drawee.view.SimpleDraweeView
-                    android:layout_margin="8dp"
+                    android:id="@+id/header"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:id="@+id/header"
-                    fresco:roundedCornerRadius="5dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_margin="8dp"
                     fresco:placeholderImage="@drawable/logo"
-                    android:layout_alignParentStart="true"/>
+                    fresco:roundedCornerRadius="5dp" />
+
                 <TextView
                     android:id="@+id/personaname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Player name"
-                    android:textSize="18sp"
-                    android:layout_toRightOf="@id/header"
-                    android:layout_marginTop="5dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="8dp"/>
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@id/header"
+                    android:text="Player name"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/loccountrycode"
@@ -117,55 +120,60 @@
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@id/header"
                     android:layout_toRightOf="@id/personaname" />
+
                 <TextView
+                    android:id="@+id/account_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/account_id"
                     android:layout_alignLeft="@id/personaname"
                     android:layout_below="@id/personaname"
                     android:layout_marginTop="5dp"
-                    android:text="id:"/>
+                    android:text="id:" />
+
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:id="@+id/win"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/header"
-                    android:text="wins:0"
                     android:layout_alignLeft="@id/personaname"
-                    android:layout_marginRight="5dp"/>
+                    android:layout_marginRight="5dp"
+                    android:text="wins:0" />
+
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:id="@+id/lose"
-                    android:layout_alignBottom="@id/header"
-                    android:layout_toRightOf="@+id/win"
-                    android:text="loses:0"
-                    android:layout_marginRight="5dp"/>
-                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/header"
+                    android:layout_marginRight="5dp"
+                    android:layout_toRightOf="@+id/win"
+                    android:text="loses:0" />
+
+                <TextView
                     android:id="@+id/win_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/header"
                     android:layout_toRightOf="@id/lose"
-                    android:text="winrate:0%"
-                    />
+                    android:text="winrate:0%" />
+
                 <com.facebook.drawee.view.SimpleDraweeView
-                    android:layout_marginRight="5dp"
+                    android:id="@+id/tier"
                     android:layout_width="90dp"
                     android:layout_height="90dp"
-                    android:layout_marginTop="2dp"
-                    android:id="@+id/tier"
-                    fresco:roundedCornerRadius="5dp"
-                    fresco:placeholderImage="@drawable/rank_icon_0"
-                    android:layout_alignParentEnd="true"/>
-                <com.facebook.drawee.view.SimpleDraweeView
+                    android:layout_alignParentEnd="true"
                     android:layout_marginRight="5dp"
-                    android:layout_marginTop="-12dp"
+                    android:layout_marginTop="2dp"
+                    fresco:placeholderImage="@drawable/rank_icon_0"
+                    fresco:roundedCornerRadius="5dp" />
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/star"
                     android:layout_width="90dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/star"
                     android:layout_alignLeft="@id/tier"
-                    android:layout_alignParentTop="true"/>
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="-12dp" />
 
                 <TextView
                     android:id="@+id/rank"
@@ -177,27 +185,29 @@
                     android:layout_marginRight="5dp"
                     android:gravity="center"
                     android:textColor="@android:color/white"
-                    android:textSize="22sp"
-                    />
+                    android:textSize="22sp" />
             </RelativeLayout>
         </android.support.v7.widget.CardView>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/recent_matches"
-            android:layout_marginTop="2dp"
+            android:layout_marginBottom="3dp"
             android:layout_marginLeft="3dp"
-            android:layout_marginBottom="3dp"/>
+            android:layout_marginTop="2dp"
+            android:text="@string/recent_matches" />
+
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipe"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-           <android.support.v7.widget.RecyclerView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:id="@+id/recent_matches">
 
-           </android.support.v7.widget.RecyclerView>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recent_matches"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.RecyclerView>
         </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 

@@ -26,11 +26,18 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <View
+                android:id="@+id/color_detail"
+                android:layout_width="3dp"
+                android:layout_height="54dp"
+                app:layout_constraintLeft_toRightOf="@id/hheader"
+                app:layout_constraintTop_toTopOf="@id/hheader"></View>
+
             <TextView
                 android:id="@+id/hname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="7dp"
                 android:textColor="@android:color/black"
                 android:textSize="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"

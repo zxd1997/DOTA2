@@ -10,9 +10,10 @@ import java.util.List;
 public class TabFragmentAdapter extends FragmentPagerAdapter {
 
     List<Fragment> fragments;
+
     public TabFragmentAdapter(FragmentManager fm, List<Fragment> fragments) {
         super(fm);
-        this.fragments=fragments;
+        this.fragments = fragments;
     }
 
     @Override

@@ -33,6 +33,9 @@ public class MatchActivity extends AppCompatActivity {
     final static int MATCH = 5;
     long id;
     TabLayout tabLayout;
+    TabFragmentAdapter tabFragmentAdapter;
+    List<Fragment> fragments = new ArrayList<>();
+    ProgressBar progressBar;
     private Match match = null;
     Handler handler = new Handler() {
         @Override
@@ -54,14 +57,11 @@ public class MatchActivity extends AppCompatActivity {
             progressBar.setVisibility(View.GONE);
         }
     };
-    TabFragmentAdapter tabFragmentAdapter;
-    List<Fragment> fragments = new ArrayList<>();
-    ProgressBar progressBar;
+    private ViewPager mViewPager;
 
     public Match getMatch() {
         return match;
     }
-    private ViewPager mViewPager;
 
     @Override
     protected void onResume() {

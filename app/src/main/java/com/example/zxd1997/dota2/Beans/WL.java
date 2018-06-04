@@ -26,6 +26,6 @@ public class WL {
     }
 
     public void setWinrate() {
-        this.winrate = (double)win/(win+lose);
+        this.winrate = (double) win / (win + lose);
     }
 }

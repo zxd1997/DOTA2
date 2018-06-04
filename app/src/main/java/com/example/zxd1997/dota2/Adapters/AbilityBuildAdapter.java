@@ -125,6 +125,7 @@ public class AbilityBuildAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             HeaderHolder viewHolder = (HeaderHolder) holder;
             viewHolder.header.setImageResource(context.getResources().getIdentifier("hero_" + p.getHero_id(), "drawable", context.getPackageName()));
             viewHolder.name.setText(p.getPersonaname() == null ? "Anonymous" : p.getPersonaname());
+            viewHolder.color.setBackgroundColor(context.getResources().getColor(context.getResources().getIdentifier("slot_" + p.getPlayer_slot(), "color", context.getPackageName())));
         } else if (abilities.get(position) == -2) {
         } else if ((abilities.get(position) == -3)) {
             LevelHolder viewHolder = (LevelHolder) holder;
@@ -154,9 +155,11 @@ public class AbilityBuildAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     class HeaderHolder extends RecyclerView.ViewHolder {
         SimpleDraweeView header;
         TextView name;
+        View color;
 
         public HeaderHolder(View itemView) {
             super(itemView);
+            color = itemView.findViewById(R.id.color_skill);
             header = itemView.findViewById(R.id.hheader);
             name = itemView.findViewById(R.id.playername);
         }
@@ -176,6 +179,7 @@ public class AbilityBuildAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             level = itemView.findViewById(R.id.level);
         }
     }
+
     class ViewHolder extends RecyclerView.ViewHolder {
         SimpleDraweeView icon;
         TextView talent;

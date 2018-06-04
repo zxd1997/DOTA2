@@ -44,20 +44,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyFragment extends Fragment {
+    static final int VERIFY = 0;
+    static final int PLAYER_INFO = 1;
+    static final int WL = 2;
+    static final int RECENT_MATCHES = 3;
+    final String DISCONNECT = "disconnect from id";
     LinearLayout linearLayout;
     LinearLayout my;
     ProgressBar progressBar;
     SharedPreferences sharedPreferences;
-    static final int VERIFY = 0;
     String tmp;
     Button button1;
     Button button;
-    static final int PLAYER_INFO = 1;
-    static final int WL = 2;
-    static final int RECENT_MATCHES = 3;
     String id = "";
     Player player;
-    final String DISCONNECT = "disconnect from id";
     SimpleDraweeView header;
     SimpleDraweeView tier;
     SimpleDraweeView stars;

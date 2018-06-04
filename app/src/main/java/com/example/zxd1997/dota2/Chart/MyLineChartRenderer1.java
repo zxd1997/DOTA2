@@ -24,7 +24,7 @@ import lecho.lib.hellocharts.renderer.AbstractChartRenderer;
 import lecho.lib.hellocharts.util.ChartUtils;
 import lecho.lib.hellocharts.view.Chart;
 
-public class MyLineChartRenderer extends AbstractChartRenderer {
+public class MyLineChartRenderer1 extends AbstractChartRenderer {
     private static final float LINE_SMOOTHNESS = 0.16f;
     private static final int DEFAULT_LINE_STROKE_WIDTH_DP = 3;
     private static final int DEFAULT_TOUCH_TOLERANCE_MARGIN_DP = 4;
@@ -53,7 +53,7 @@ public class MyLineChartRenderer extends AbstractChartRenderer {
     private float preTop;
     private int dir;
 
-    public MyLineChartRenderer(Context context, Chart chart, LineChartDataProvider dataProvider) {
+    public MyLineChartRenderer1(Context context, Chart chart, LineChartDataProvider dataProvider) {
         super(context, chart);
         this.dataProvider = dataProvider;
         this.lineCount = this.dataProvider.getLineChartData().getLines().size();
@@ -416,8 +416,6 @@ public class MyLineChartRenderer extends AbstractChartRenderer {
         final int lineIndex = selectedValue.getFirstIndex();
         final int valueIndex = selectedValue.getSecondIndex();
         List<Line> lines = dataProvider.getLineChartData().getLines();
-//        preBot = new ArrayList<>();
-//        preTop = new ArrayList<>();
         preBot = 0;
         preTop = 0;
 
@@ -429,17 +427,7 @@ public class MyLineChartRenderer extends AbstractChartRenderer {
                 return (int) ((o2.getValues().get(valueIndex).getY() - o1.getValues().get(valueIndex).getY()) * 1000);
             }
         });
-        if (lineList.get(0).getValues().get(valueIndex).getY() < chart.getMaximumViewport().centerY()) {
-            dir = 1;
-            lineList.sort(new Comparator<Line>() {
-                @Override
-                public int compare(Line o1, Line o2) {
-                    return (int) ((o1.getValues().get(valueIndex).getY() - o2.getValues().get(valueIndex).getY()) * 1000);
-                }
-            });
-        } else dir = 0;
         for (Line line : lineList) {
-            Log.d("line", "highlightPoints: " + new String(line.getValues().get(valueIndex).getLabelAsChars()) + " " + line.getValues().get(valueIndex));
             drawPoints(canvas, line, lineIndex, MODE_HIGHLIGHT);
         }
     }
@@ -451,7 +439,7 @@ public class MyLineChartRenderer extends AbstractChartRenderer {
             pointPaint.setColor(line.getDarkenColor());
             drawPoint(canvas, line, pointValue, rawX, rawY, pointRadius + touchToleranceMargin);
             if (line.hasLabels() || line.hasLabelsOnlyForSelected()) {
-                drawLabel(canvas, line, pointValue, rawX, rawY, pointRadius + labelOffset);
+                drawLabel(canvas, line, pointValue, rawX, -10, pointRadius + labelOffset);
             }
         }
     }
@@ -466,58 +454,27 @@ public class MyLineChartRenderer extends AbstractChartRenderer {
 
         final float labelWidth = labelPaint.measureText(labelBuffer, labelBuffer.length - numChars, numChars);
         final int labelHeight = Math.abs(fontMetrics.ascent);
-        float left = rawX;
-        float right = rawX + labelWidth + labelMargin * 2;
-
-        float top;
-        float bottom;
-
-        if (pointValue.getY() >= baseValue) {
-            top = rawY - offset - labelHeight - labelMargin * 2;
-            bottom = rawY - offset;
-        } else {
-            top = rawY + offset;
-            bottom = rawY + offset + labelHeight + labelMargin * 2;
-        }
-
-        if (top < contentRect.top) {
-            top = rawY + offset;
-            bottom = rawY + offset + labelHeight + labelMargin * 2;
-        }
-        if (bottom > contentRect.bottom) {
-            top = rawY - offset - labelHeight - labelMargin * 2;
-            bottom = rawY - offset;
-        }
+        float left = rawX + offset;
+        float right = rawX + labelWidth + labelMargin * 2 + offset;
+        float top = rawY + offset;
+        float bottom = rawY + offset + labelHeight + labelMargin * (float) 1.3;
         if (left < contentRect.left) {
-            left = rawX;
-            right = rawX + labelWidth + labelMargin * 2;
+            left = rawX + offset;
+            right = rawX + offset + labelWidth + labelMargin * 2;
         }
         if (right > contentRect.right) {
-            left = rawX - labelWidth - labelMargin * 2;
-            right = rawX;
+            left = rawX - offset - labelWidth - labelMargin * 2;
+            right = rawX - offset;
         }
         if (preTop == 0 && preBot == 0) {
             preTop = top;
             preBot = bottom;
         } else {
-            if (dir == 0) {
-                if (bottom >= preTop && bottom <= preBot || top >= preTop && top <= preBot) {
-                    top = preBot + labelMargin;
-                    bottom = top + labelHeight + labelMargin * 2;
-
-                    preTop = top;
-                    preBot = bottom;
-                }
-            } else {
-                if (bottom >= preTop && bottom <= preBot || top >= preTop && top <= preBot) {
-                    bottom = preTop - labelMargin;
-                    top = bottom - labelHeight - labelMargin * 2;
-
-                    preTop = top;
-                    preBot = bottom;
-                }
-            }
-
+            Log.d("label", "drawLabel: " + dir);
+            top = preBot + labelMargin;
+            bottom = top + labelHeight + labelMargin * (float) 1.3;
+            preTop = top;
+            preBot = bottom;
         }
         labelBackgroundRect.set(left, top, right, bottom);
         drawLabelTextAndBackground(canvas, labelBuffer, labelBuffer.length - numChars, numChars,

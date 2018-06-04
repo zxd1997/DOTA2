@@ -6,15 +6,25 @@ public class Content {
     private boolean isHeader;
     private int hero_id;
     private SpannableStringBuilder kd;
+    private int color;
 
-    public Content(boolean isHeader, int hero_id) {
+    public Content(boolean isHeader, int hero_id, int color) {
         this.isHeader = isHeader;
         this.hero_id = hero_id;
+        this.color = color;
     }
 
     public Content(boolean isHeader, SpannableStringBuilder kd) {
         this.isHeader = isHeader;
         this.kd = kd;
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
     }
 
     public boolean isHeader() {
