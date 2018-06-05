@@ -222,10 +222,18 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="2dp"
+            android:text="Gold Source"
+            android:textColor="@android:color/black" />
         <lecho.lib.hellocharts.view.ColumnChartView
             android:id="@+id/subchart"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="170dp"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
@@ -234,7 +242,7 @@
         <lecho.lib.hellocharts.view.ColumnChartView
             android:id="@+id/mainchart"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="130dp"
             android:layout_marginBottom="2dp"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"

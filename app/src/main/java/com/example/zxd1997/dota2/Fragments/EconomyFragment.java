@@ -15,6 +15,7 @@ import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Activities.MatchActivity;
 import com.example.zxd1997.dota2.Beans.Hero;
 import com.example.zxd1997.dota2.Beans.Match;
+import com.example.zxd1997.dota2.Chart.MyColumnChartRenderer;
 import com.example.zxd1997.dota2.Chart.MyLineChartRenderer;
 import com.example.zxd1997.dota2.Chart.MyLineChartRenderer1;
 import com.example.zxd1997.dota2.Chart.MyLineChartView;
@@ -89,7 +90,7 @@ public class EconomyFragment extends Fragment {
                     .setStrokeWidth(1)
                     .setHasPoints(true)
                     .setHasLabelsOnlyForSelected(true)
-                    .setPointRadius(2);
+                    .setPointRadius(1);
             lines.add(line);
             pointValues = new ArrayList<>();
             j = 0;
@@ -102,7 +103,7 @@ public class EconomyFragment extends Fragment {
                     .setFilled(false)
                     .setHasPoints(true)
                     .setHasLabelsOnlyForSelected(true)
-                    .setPointRadius(2)
+                    .setPointRadius(1)
                     .setStrokeWidth(1);
             lines.add(line);
             LineChartData data = new LineChartData();
@@ -115,9 +116,11 @@ public class EconomyFragment extends Fragment {
             chart.setInteractive(true);
             chart.setLineChartData(data);
             subview = view.findViewById(R.id.subchart);
+            subview.setChartRenderer(new MyColumnChartRenderer(getContext(), subview, subview));
             subview.setZoomEnabled(false);
             subview.setInteractive(false);
             ColumnChartView mianview = view.findViewById(R.id.mainchart);
+            mianview.setChartRenderer(new MyColumnChartRenderer(getContext(), mianview, mianview));
             List<AxisValue> axisValues = new ArrayList<>();
             List<Column> columns = new ArrayList<>();
             final List<List<Column>> tmpColumns = new ArrayList<>();
@@ -153,10 +156,10 @@ public class EconomyFragment extends Fragment {
                         .setHasLabelsOnlyForSelected(true)
                         .setStrokeWidth(1);
                 lines.add(line1);
-                axisValues.add(new AxisValue(l).setLabel(hname));
+                axisValues.add(new AxisValue(l).setLabel(hname.length() > 10 ? hname.substring(0, 8) + ".." : hname));
                 List<SubcolumnValue> subcolumnValues = new ArrayList<>();
-                subcolumnValues.add(new SubcolumnValue(p.getTotal_gold(), color));
-                columns.add(new Column(subcolumnValues));
+                subcolumnValues.add(new SubcolumnValue(p.getTotal_gold(), color).setLabel(hname));
+                columns.add(new Column(subcolumnValues).setHasLabelsOnlyForSelected(true));
                 List<AxisValue> tmpAxis = new ArrayList<>();
                 int o = 0;
                 List<Column> tmpColumn = new ArrayList<>();
@@ -177,10 +180,9 @@ public class EconomyFragment extends Fragment {
                 tmpColumns.add(tmpColumn);
                 tmpAxises.add(tmpAxis);
                 l++;
-
             }
             ColumnChartData columnChartData = new ColumnChartData(columns);
-            columnChartData.setAxisXBottom(new Axis(axisValues).setTextSize(7));
+            columnChartData.setAxisXBottom(new Axis(axisValues).setTextSize(10).setTextColor(Color.BLACK));
             columnChartData.setAxisYLeft(new Axis().setHasLines(true).setName("Total Gold").setTextSize(8));
             mianview.setColumnChartData(columnChartData);
             mianview.setValueSelectionEnabled(true);
@@ -216,7 +218,7 @@ public class EconomyFragment extends Fragment {
         List<Column> columns = new ArrayList<>();
         Log.d("size", "showSub: " + tmp.size() + " " + column.size());
         ColumnChartData columnChartData = new ColumnChartData(column);
-        columnChartData.setAxisXBottom(new Axis(tmp));
+        columnChartData.setAxisXBottom(new Axis(tmp).setTextColor(Color.BLACK));
         columnChartData.setAxisYLeft(new Axis().setHasLines(true).setName("Gold"));
         subview.setColumnChartData(columnChartData);
         subview.startDataAnimation(300);
