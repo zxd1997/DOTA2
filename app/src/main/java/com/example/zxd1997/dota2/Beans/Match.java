@@ -248,8 +248,17 @@ public class Match {
         private Map<String, Integer> damage;
         private Map<String, Integer> damage_taken;
         private Map<String, Integer> purchase_time;
+        private Map<String, Integer> gold_reasons;
         private double stuns;
         private double teamfight_participation;
+
+        public Map<String, Integer> getGold_reasons() {
+            return gold_reasons;
+        }
+
+        public void setGold_reasons(Map<String, Integer> gold_reasons) {
+            this.gold_reasons = gold_reasons;
+        }
 
         public Map<String, Map<String, Integer>> getDamage_targets() {
             return damage_targets;

@@ -25,10 +25,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import lecho.lib.hellocharts.listener.ColumnChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.Axis;
+import lecho.lib.hellocharts.model.AxisValue;
+import lecho.lib.hellocharts.model.Column;
+import lecho.lib.hellocharts.model.ColumnChartData;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
+import lecho.lib.hellocharts.model.SubcolumnValue;
+import lecho.lib.hellocharts.view.ColumnChartView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,6 +43,7 @@ import lecho.lib.hellocharts.model.PointValue;
  */
 public class EconomyFragment extends Fragment {
     Match match;
+    ColumnChartView subview;
 
     public EconomyFragment() {
         // Required empty public constructor
@@ -106,6 +113,14 @@ public class EconomyFragment extends Fragment {
             chart.setZoomEnabled(false);
             chart.setInteractive(true);
             chart.setLineChartData(data);
+            subview = view.findViewById(R.id.subchart);
+            subview.setZoomEnabled(false);
+            subview.setInteractive(false);
+            ColumnChartView mianview = view.findViewById(R.id.mainchart);
+            List<AxisValue> axisValues = new ArrayList<>();
+            List<Column> columns = new ArrayList<>();
+            final List<List<Column>> tmpColumns = new ArrayList<>();
+            final List<List<AxisValue>> tmpAxises = new ArrayList<>();
             MyLineChartView chart1 = view.findViewById(R.id.chart1);
             chart1.setChartRenderer(new MyLineChartRenderer1(getContext(), chart1, chart1));
             lines = new ArrayList<>();
@@ -115,7 +130,6 @@ public class EconomyFragment extends Fragment {
                 String hname = "";
                 TextView textView = view.findViewById(getContext().getResources().getIdentifier("name" + l, "id", getContext().getPackageName()));
                 View view1 = view.findViewById(getContext().getResources().getIdentifier("color" + l, "id", getContext().getPackageName()));
-                l++;
                 for (Map.Entry<String, Hero> entry : MainActivity.heroes.entrySet()) {
                     if (entry.getValue().getId() == p.getHero_id()) {
                         hname = entry.getValue().getLocalized_name();
@@ -138,10 +152,48 @@ public class EconomyFragment extends Fragment {
                         .setHasLabelsOnlyForSelected(true)
                         .setStrokeWidth(1);
                 lines.add(line1);
+                axisValues.add(new AxisValue(l).setLabel(hname));
+                List<SubcolumnValue> subcolumnValues = new ArrayList<>();
+                subcolumnValues.add(new SubcolumnValue(p.getTotal_gold(), color));
+                columns.add(new Column(subcolumnValues));
+                List<AxisValue> tmpAxis = new ArrayList<>();
+                int o = 0;
+                List<Column> tmpColumn = new ArrayList<>();
+                for (Map.Entry<String, Integer> entry : p.getGold_reasons().entrySet()) {
+                    subcolumnValues = new ArrayList<>();
+                    Log.d("key", "onCreateView: " + entry.getKey() + " " + entry.getValue());
+                    tmpAxis.add(new AxisValue(o++).setLabel(entry.getKey()));
+                    subcolumnValues.add(new SubcolumnValue(entry.getValue()));
+                    tmpColumn.add(new Column(subcolumnValues).setHasLabels(true));
+                }
+                tmpColumns.add(tmpColumn);
+                tmpAxises.add(tmpAxis);
+                l++;
+
             }
+            ColumnChartData columnChartData = new ColumnChartData(columns);
+            columnChartData.setAxisXBottom(new Axis(axisValues).setTextSize(10));
+            columnChartData.setAxisYLeft(new Axis().setHasLines(true).setName("Total Gold").setTextSize(8));
+            mianview.setColumnChartData(columnChartData);
+            mianview.setValueSelectionEnabled(true);
+            mianview.setZoomEnabled(false);
+            mianview.setInteractive(true);
+            showSub(tmpAxises.get(0), tmpColumns.get(0));
+            mianview.setOnValueTouchListener(new ColumnChartOnValueSelectListener() {
+                @Override
+                public void onValueSelected(int columnIndex, int subcolumnIndex, SubcolumnValue value) {
+                    Log.d("index", "onValueSelected: " + subcolumnIndex + columnIndex);
+                    showSub(tmpAxises.get(columnIndex), tmpColumns.get(columnIndex));
+                }
+
+                @Override
+                public void onValueDeselected() {
+
+                }
+            });
             data = new LineChartData();
             data.setLines(lines);
-            axisY = new Axis().setName("Gold").setHasLines(true);
+            axisY = new Axis().setName("Gold").setHasLines(true).setTextSize(8);
             data.setAxisYLeft(axisY);
             axisX = new Axis().setName("Time/min");
             data.setAxisXBottom(axisX);
@@ -152,4 +204,13 @@ public class EconomyFragment extends Fragment {
         return view;
     }
 
+    private void showSub(List<AxisValue> tmp, List<Column> column) {
+        List<Column> columns = new ArrayList<>();
+        Log.d("size", "showSub: " + tmp.size() + " " + column.size());
+        ColumnChartData columnChartData = new ColumnChartData(column);
+        columnChartData.setAxisXBottom(new Axis(tmp));
+        columnChartData.setAxisYLeft(new Axis().setHasLines(true).setName("Gold"));
+        subview.setColumnChartData(columnChartData);
+        subview.startDataAnimation(300);
+    }
 }
