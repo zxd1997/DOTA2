@@ -30,6 +30,12 @@
     <string name="region">Region</string>
     <string name="zip">https://github.com/odota/dotaconstants/archive/master.zip</string>
     <string name="section_format">Hello World from section: %1$d</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="reason_0">Other</string>
+    <string name="reason_1">Death</string>
+    <string name="reason_2">Buyback</string>
+    <string name="reason_11">Building</string>
+    <string name="reason_12">Kills</string>
+    <string name="reason_13">Creep</string>
+    <string name="reason_14">Roshan</string>
 </resources>

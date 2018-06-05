@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import lecho.lib.hellocharts.formatter.SimpleAxisValueFormatter;
 import lecho.lib.hellocharts.listener.ColumnChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
@@ -162,9 +163,16 @@ public class EconomyFragment extends Fragment {
                 for (Map.Entry<String, Integer> entry : p.getGold_reasons().entrySet()) {
                     subcolumnValues = new ArrayList<>();
                     Log.d("key", "onCreateView: " + entry.getKey() + " " + entry.getValue());
-                    tmpAxis.add(new AxisValue(o++).setLabel(entry.getKey()));
-                    subcolumnValues.add(new SubcolumnValue(entry.getValue()));
-                    tmpColumn.add(new Column(subcolumnValues).setHasLabels(true));
+                    int id = getContext().getResources()
+                            .getIdentifier("reason_" + entry.getKey(), "string", getContext().getPackageName());
+                    if (id != 0) {
+                        String t = getContext().getString(id);
+                        int c = getContext().getColor(getContext().getResources()
+                                .getIdentifier("reason_" + entry.getKey(), "color", getContext().getPackageName()));
+                        tmpAxis.add(new AxisValue(o++).setLabel(t));
+                        subcolumnValues.add(new SubcolumnValue(entry.getValue()).setColor(c));
+                        tmpColumn.add(new Column(subcolumnValues).setHasLabels(true));
+                    }
                 }
                 tmpColumns.add(tmpColumn);
                 tmpAxises.add(tmpAxis);
@@ -172,7 +180,7 @@ public class EconomyFragment extends Fragment {
 
             }
             ColumnChartData columnChartData = new ColumnChartData(columns);
-            columnChartData.setAxisXBottom(new Axis(axisValues).setTextSize(10));
+            columnChartData.setAxisXBottom(new Axis(axisValues).setTextSize(7));
             columnChartData.setAxisYLeft(new Axis().setHasLines(true).setName("Total Gold").setTextSize(8));
             mianview.setColumnChartData(columnChartData);
             mianview.setValueSelectionEnabled(true);
@@ -193,7 +201,7 @@ public class EconomyFragment extends Fragment {
             });
             data = new LineChartData();
             data.setLines(lines);
-            axisY = new Axis().setName("Gold").setHasLines(true).setTextSize(8);
+            axisY = new Axis().setName("Gold").setHasLines(true).setTextSize(9).setFormatter(new SimpleAxisValueFormatter());
             data.setAxisYLeft(axisY);
             axisX = new Axis().setName("Time/min");
             data.setAxisXBottom(axisX);
