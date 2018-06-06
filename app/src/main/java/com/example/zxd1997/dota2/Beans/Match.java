@@ -248,9 +248,18 @@ public class Match {
         private Map<String, Integer> damage;
         private Map<String, Integer> damage_taken;
         private Map<String, Integer> purchase_time;
+        private List<Purchase> purchase_log = new ArrayList<>();
         private Map<String, Integer> gold_reasons;
         private double stuns;
         private double teamfight_participation;
+
+        public List<Purchase> getPurchase_log() {
+            return purchase_log;
+        }
+
+        public void setPurchase_log(List<Purchase> purchase_log) {
+            this.purchase_log = purchase_log;
+        }
 
         public Map<String, Integer> getGold_reasons() {
             return gold_reasons;
@@ -634,6 +643,27 @@ public class Match {
 
         public void setBenchmarks(Benchmark benchmarks) {
             this.benchmarks = benchmarks;
+        }
+
+        public class Purchase {
+            private String key;
+            private int time;
+
+            public String getKey() {
+                return key;
+            }
+
+            public void setKey(String key) {
+                this.key = key;
+            }
+
+            public int getTime() {
+                return time;
+            }
+
+            public void setTime(int time) {
+                this.time = time;
+            }
         }
 
         public class Benchmark {

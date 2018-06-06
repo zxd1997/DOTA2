@@ -1,6 +1,7 @@
 package com.example.zxd1997.dota2.Adapters;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Beans.Item;
+import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.R;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -24,13 +26,12 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     List<Cast> d_taken = new ArrayList<>();
     Context context;
 
-    public CastAdapter(Context context, Map<String, Integer> map) {
+    public CastAdapter(Context context, List<Match.PPlayer.Purchase> purchases) {
         this.context = context;
-        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+        for (Match.PPlayer.Purchase purchase : purchases) {
             for (Map.Entry<String, Item> entry1 : MainActivity.items.entrySet()) {
-                if ("tpscroll".equals(entry.getKey())) continue;
-                if (entry1.getKey().equals(entry.getKey())) {
-                    d_taken.add(new Cast(entry.getValue(), entry1.getValue().getId() + "", PURCHASE));
+                if (entry1.getKey().equals(purchase.getKey())) {
+                    d_taken.add(new Cast(purchase.getTime(), entry1.getValue().getId() + "", PURCHASE));
                     break;
                 }
             }
@@ -87,9 +88,13 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             viewHolder.damage_taken.setText(t);
         } else {
             if (getItemViewType(position) == ABILITY)
-                viewHolder.icon.setImageResource(context.getResources().getIdentifier("ability_" + d_taken.get(position).id, "drawable", context.getPackageName()));
+                viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
+                        context.getResources().getIdentifier("ability_" + d_taken.get(position).id, "drawable", context.getPackageName())))
+                        .build());
             else if (getItemViewType(position) == ITEM)
-                viewHolder.icon.setImageResource(context.getResources().getIdentifier("item_" + d_taken.get(position).id, "drawable", context.getPackageName()));
+                viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
+                        context.getResources().getIdentifier("item_" + d_taken.get(position).id, "drawable", context.getPackageName())))
+                        .build());
             viewHolder.damage_taken.setText(d_taken.get(position).time + "");
         }
     }

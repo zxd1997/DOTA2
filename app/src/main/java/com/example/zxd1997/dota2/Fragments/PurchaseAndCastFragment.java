@@ -57,6 +57,31 @@ public class PurchaseAndCastFragment extends Fragment {
             RecyclerView recyclerView = view.findViewById(R.id.p_c);
             recyclerView.setNestedScrollingEnabled(false);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//                @Override
+//                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                    switch (newState){
+//                        case RecyclerView.SCROLL_STATE_IDLE:{
+//                            Fresco.getImagePipeline().resume();
+//                            break;
+//                        }
+//                        case RecyclerView.SCROLL_STATE_DRAGGING:{
+//                            Fresco.getImagePipeline().pause();
+//                            break;
+//                        }
+//                        case RecyclerView.SCROLL_STATE_SETTLING:{
+//                            Fresco.getImagePipeline().pause();
+//                            break;
+//                        }
+//                    }
+//                }
+//
+//                @Override
+//                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                    Fresco.getImagePipeline().resume();
+//                    super.onScrolled(recyclerView, dx, dy);
+//                }
+//            });
             recyclerView.setAdapter(new PurchaseAndCastAdapter(getContext(), match.getPlayers()));
         }
         return view;
