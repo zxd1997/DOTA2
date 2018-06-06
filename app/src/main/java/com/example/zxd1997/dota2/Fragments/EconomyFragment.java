@@ -65,7 +65,6 @@ public class EconomyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         MatchActivity activity = (MatchActivity) getActivity();
-        Color.parseColor("#2E6AE6");
         View view = inflater.inflate(R.layout.fragment_economy, container, false);
         match = activity.getMatch();
         if (match == null || match.getPlayers() == null) {

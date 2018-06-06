@@ -21,6 +21,7 @@ import com.example.zxd1997.dota2.Fragments.DetailFragment;
 import com.example.zxd1997.dota2.Fragments.EconomyFragment;
 import com.example.zxd1997.dota2.Fragments.NoDetailFragment;
 import com.example.zxd1997.dota2.Fragments.OverviewFragment;
+import com.example.zxd1997.dota2.Fragments.PurchaseAndCastFragment;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.MyApplication;
 import com.example.zxd1997.dota2.Utils.Okhttp;
@@ -48,10 +49,13 @@ public class MatchActivity extends AppCompatActivity {
                 tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_6)));
                 fragments.add(NoDetailFragment.newInstance());
             } else {
+                tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
                 tabLayout.addTab(tabLayout.newTab().setText("Combat"));
                 fragments.add(DetailFragment.newInstance());
                 tabLayout.addTab(tabLayout.newTab().setText("Economy"));
                 fragments.add(EconomyFragment.newInstance());
+                tabLayout.addTab(tabLayout.newTab().setText("Purchase&Cast"));
+                fragments.add(PurchaseAndCastFragment.newInstance());
             }
             tabFragmentAdapter.notifyDataSetChanged();
             progressBar.setVisibility(View.GONE);
