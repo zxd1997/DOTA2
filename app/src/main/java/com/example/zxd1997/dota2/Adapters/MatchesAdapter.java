@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
@@ -94,7 +95,9 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         }
         viewHolder.hero_name.setText(h.getLocalized_name());
-        viewHolder.hero_header.setImageResource(context.getResources().getIdentifier("hero_" + h.getId(), "drawable", context.getPackageName()));
+        viewHolder.hero_header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
+                context.getResources().getIdentifier("hero_" + h.getId(), "drawable", context.getPackageName())
+        )).build());
         String tmp;
         long now = System.currentTimeMillis() / 1000;
         long year = (now - recentMatch.getStart_time()) / (3600 * 24 * 30 * 12);

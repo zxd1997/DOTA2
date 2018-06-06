@@ -2,6 +2,7 @@ package com.example.zxd1997.dota2.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
@@ -95,7 +96,8 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             else position -= 2;
             final Match.PPlayer p = players.get(position);
             ViewHolder viewHolder = (ViewHolder) holder;
-            viewHolder.player_hero.setImageResource(context.getResources().getIdentifier("hero_" + p.getHero_id(), "drawable", context.getPackageName()));
+            viewHolder.player_hero.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
+                    context.getResources().getIdentifier("hero_" + p.getHero_id(), "drawable", context.getPackageName()))).build());
             viewHolder.player.setText(p.getPersonaname() == null ? "Anonymous" : p.getPersonaname());
             SpannableStringBuilder k = new SpannableStringBuilder();
             SpannableString t1 = new SpannableString("K");
@@ -123,14 +125,19 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             viewHolder.gpm.setText("GPM:" + p.getGold_per_min());
             viewHolder.xpm.setText("XPM:" + p.getXp_per_min());
             viewHolder.damage.setText("Damage:" + p.getHero_damage());
-            viewHolder.item_0.setImageResource(context.getResources().getIdentifier("item_" + p.getItem_0(), "drawable", context.getPackageName()));
-            viewHolder.item_1.setImageResource(context.getResources().getIdentifier("item_" + p.getItem_1(), "drawable", context.getPackageName()));
-            viewHolder.item_2.setImageResource(context.getResources().getIdentifier("item_" + p.getItem_2(), "drawable", context.getPackageName()));
-            viewHolder.item_3.setImageResource(context.getResources().getIdentifier("item_" + p.getItem_3(), "drawable", context.getPackageName()));
-            viewHolder.item_4.setImageResource(context.getResources().getIdentifier("item_" + p.getItem_4(), "drawable", context.getPackageName()));
-            viewHolder.item_5.setImageResource(context.getResources().getIdentifier("item_" + p.getItem_5(), "drawable", context.getPackageName()));
+            viewHolder.item_0.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
+                    context.getResources().getIdentifier("item_" + p.getItem_0(), "drawable", context.getPackageName()))).build());
+            viewHolder.item_1.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
+                    context.getResources().getIdentifier("item_" + p.getItem_1(), "drawable", context.getPackageName()))).build());
+            viewHolder.item_2.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
+                    context.getResources().getIdentifier("item_" + p.getItem_2(), "drawable", context.getPackageName()))).build());
+            viewHolder.item_3.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
+                    context.getResources().getIdentifier("item_" + p.getItem_3(), "drawable", context.getPackageName()))).build());
+            viewHolder.item_4.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
+                    context.getResources().getIdentifier("item_" + p.getItem_4(), "drawable", context.getPackageName()))).build());
+            viewHolder.item_5.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
+                    context.getResources().getIdentifier("item_" + p.getItem_5(), "drawable", context.getPackageName()))).build());
         }
-
     }
 
     @Override

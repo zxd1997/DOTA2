@@ -1,6 +1,7 @@
 package com.example.zxd1997.dota2.Adapters;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -62,7 +63,8 @@ public class DOutputAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ViewHolder viewHolder = (ViewHolder) holder;
-        viewHolder.d_skill_out.setImageResource(context.getResources().getIdentifier(damage.get(position).id, "drawable", context.getPackageName()));
+        viewHolder.d_skill_out.setImageURI(new Uri.Builder().scheme("res").path(
+                String.valueOf(context.getResources().getIdentifier(damage.get(position).id, "drawable", context.getPackageName()))).build());
         DecimalFormat df = new DecimalFormat("0.0");
         viewHolder.d_damage_out.setText(damage.get(position).damage_out < 1000 ? damage.get(position).damage_out + "" : df.format((double) damage.get(position).damage_out / 1000) + "k");
         viewHolder.d_out_target.setLayoutManager(new GridLayoutManager(context, 8));

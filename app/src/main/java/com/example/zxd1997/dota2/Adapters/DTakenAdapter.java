@@ -1,6 +1,7 @@
 package com.example.zxd1997.dota2.Adapters;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -42,7 +43,8 @@ public class DTakenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ViewHolder viewHolder = (ViewHolder) holder;
-        viewHolder.icon.setImageResource(context.getResources().getIdentifier("ability_" + d_taken.get(position).id, "drawable", context.getPackageName()));
+        viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
+                context.getResources().getIdentifier("ability_" + d_taken.get(position).id, "drawable", context.getPackageName()))).build());
         DecimalFormat df = new DecimalFormat("0.0");
         viewHolder.damage_taken.setText((double) d_taken.get(position).damage < 1000 ? d_taken.get(position).damage + "" : df.format((double) d_taken.get(position).damage / 1000) + "k");
     }

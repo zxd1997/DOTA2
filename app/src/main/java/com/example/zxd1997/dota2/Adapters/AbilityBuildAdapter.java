@@ -1,6 +1,7 @@
 package com.example.zxd1997.dota2.Adapters;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -123,7 +124,8 @@ public class AbilityBuildAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (abilities.get(position) == -1) {
             Match.PPlayer p = match.getPlayers().get((position / 26) - 1);
             HeaderHolder viewHolder = (HeaderHolder) holder;
-            viewHolder.header.setImageResource(context.getResources().getIdentifier("hero_" + p.getHero_id(), "drawable", context.getPackageName()));
+            viewHolder.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
+                    context.getResources().getIdentifier("hero_" + p.getHero_id(), "drawable", context.getPackageName()))).build());
             viewHolder.name.setText(p.getPersonaname() == null ? "Anonymous" : p.getPersonaname());
             viewHolder.color.setBackgroundColor(context.getResources().getColor(context.getResources().getIdentifier("slot_" + p.getPlayer_slot(), "color", context.getPackageName())));
         } else if (abilities.get(position) == -2) {
@@ -134,14 +136,15 @@ public class AbilityBuildAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ViewHolder viewHolder = (ViewHolder) holder;
             Log.d("ability", "onBindViewHolder: " + abilities.get(position));
             if (abilities.get(position) == 0) {
-                viewHolder.icon.setImageResource(context.getResources().getIdentifier("ability_0", "drawable", context.getPackageName()));
+                viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
+                        context.getResources().getIdentifier("ability_0", "drawable", context.getPackageName()))).build());
             } else {
                 int resid = context.getResources().getIdentifier("ability_" + abilities.get(position), "drawable", context.getPackageName());
                 if (resid == 0) {
                     resid = context.getResources().getIdentifier("talent_tree", "drawable", context.getPackageName());
                     viewHolder.talent.setText(MainActivity.abilities.get(MainActivity.ability_ids.get(String.valueOf(abilities.get(position)))).getDname());
                 }
-                viewHolder.icon.setImageResource(resid);
+                viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(resid)).build());
             }
         }
     }

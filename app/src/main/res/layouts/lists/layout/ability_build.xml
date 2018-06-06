@@ -16,7 +16,8 @@
         fresco:layout_constraintBottom_toBottomOf="parent"
         fresco:layout_constraintLeft_toLeftOf="parent"
         fresco:layout_constraintRight_toRightOf="parent"
-        fresco:layout_constraintTop_toTopOf="parent" />
+        fresco:layout_constraintTop_toTopOf="parent"
+        fresco:roundedCornerRadius="2dp" />
 
     <TextView
         android:id="@+id/talent"

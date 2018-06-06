@@ -12,7 +12,8 @@
         android:layout_height="39dp"
         android:layout_margin="1dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:roundedCornerRadius="2dp" />
 
     <TextView
         android:id="@+id/d_damage_out"

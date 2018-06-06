@@ -1,6 +1,7 @@
 package com.example.zxd1997.dota2.Adapters;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -48,7 +49,9 @@ public class KillsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             HeaderHolder headerHolder = (HeaderHolder) holder;
             Log.d("color", "onBindViewHolder: " + contents.get(position).getColor());
             headerHolder.color.setBackgroundColor(contents.get(position).getColor());
-            headerHolder.header.setImageResource(context.getResources().getIdentifier("hero_" + contents.get(position).getHero_id(), "drawable", context.getPackageName()));
+            headerHolder.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
+                    context.getResources().getIdentifier("hero_" + contents.get(position).getHero_id(), "drawable", context.getPackageName())
+            )).build());
         } else {
             kdHolder kdHolder = (kdHolder) holder;
             kdHolder.textView.setText(contents.get(position).getKd());

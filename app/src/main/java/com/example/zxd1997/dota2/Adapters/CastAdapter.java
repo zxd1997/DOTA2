@@ -73,7 +73,9 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ViewHolder viewHolder = (ViewHolder) holder;
         if (getItemViewType(position) == PURCHASE) {
-            viewHolder.icon.setImageResource(context.getResources().getIdentifier("item_" + d_taken.get(position).id, "drawable", context.getPackageName()));
+            viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
+                    context.getResources().getIdentifier("item_" + d_taken.get(position).id, "drawable", context.getPackageName())))
+                    .build());
             int time = Math.abs(d_taken.get(position).time);
             int h = time / 3600;
             int m = time % 3600 / 60;

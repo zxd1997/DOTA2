@@ -1,6 +1,7 @@
 package com.example.zxd1997.dota2.Adapters;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
@@ -36,7 +37,8 @@ public class DDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ViewHolder viewHolder = (ViewHolder) holder;
         viewHolder.color.setBackgroundColor(context.getResources().getColor(context.getResources().getIdentifier("slot_" + p.get(position).getPlayer_slot(), "color", context.getPackageName())));
-        viewHolder.header.setImageResource(context.getResources().getIdentifier("hero_" + p.get(position).getHero_id(), "drawable", context.getPackageName()));
+        viewHolder.header.setImageURI(new Uri.Builder().scheme("res").path(
+                String.valueOf(context.getResources().getIdentifier("hero_" + p.get(position).getHero_id(), "drawable", context.getPackageName()))).build());
         viewHolder.name.setText(p.get(position).getPersonaname() == null ? "Anonymous" : p.get(position).getPersonaname());
         viewHolder.d_taken.setLayoutManager(new GridLayoutManager(context, 9));
         viewHolder.d_taken.setAdapter(new DTakenAdapter(context, p.get(position).getDamage_inflictor_received()));

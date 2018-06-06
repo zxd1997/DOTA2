@@ -1,6 +1,7 @@
 package com.example.zxd1997.dota2.Adapters;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -45,7 +46,8 @@ public class DTargetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         ViewHolder viewHolder = (ViewHolder) holder;
         DecimalFormat df = new DecimalFormat("0.0");
         viewHolder.damage.setText(targets.get(position).damage < 1000 ? targets.get(position).damage + "" : df.format((double) targets.get(position).damage / 1000) + "k");
-        viewHolder.icon.setImageResource(context.getResources().getIdentifier("hero_" + targets.get(position).id + "_icon", "drawable", context.getPackageName()));
+        viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
+                context.getResources().getIdentifier("hero_" + targets.get(position).id + "_icon", "drawable", context.getPackageName()))).build());
     }
 
     @Override

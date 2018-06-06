@@ -48,6 +48,8 @@ public class MatchActivity extends AppCompatActivity {
             if (match.getRadiant_xp_adv() == null) {
                 tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_6)));
                 fragments.add(NoDetailFragment.newInstance());
+                tabFragmentAdapter.notifyDataSetChanged();
+                mViewPager.setOffscreenPageLimit(fragments.size());
             } else {
                 tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
                 tabLayout.addTab(tabLayout.newTab().setText("Combat"));
@@ -56,6 +58,8 @@ public class MatchActivity extends AppCompatActivity {
                 fragments.add(EconomyFragment.newInstance());
                 tabLayout.addTab(tabLayout.newTab().setText("Purchase&Cast"));
                 fragments.add(PurchaseAndCastFragment.newInstance());
+                tabFragmentAdapter.notifyDataSetChanged();
+                mViewPager.setOffscreenPageLimit(fragments.size());
             }
             tabFragmentAdapter.notifyDataSetChanged();
             progressBar.setVisibility(View.GONE);
