@@ -14,10 +14,15 @@
             android:id="@+id/hheader"
             android:layout_width="80dp"
             android:layout_height="45dp"
-            android:layout_margin="1dp"
+            android:layout_marginBottom="1dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="1dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:roundBottomRight="false"
+            app:roundTopRight="false"
+            app:roundedCornerRadius="2dp" />
 
         <View
             android:id="@+id/color_skill"
@@ -34,7 +39,7 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:textColor="@android:color/black"
-            android:textSize="20dp"
+            android:textSize="20sp"
             app:layout_constraintLeft_toRightOf="@id/hheader"
             app:layout_constraintStart_toEndOf="@+id/hheader"
             app:layout_constraintTop_toTopOf="@id/hheader"

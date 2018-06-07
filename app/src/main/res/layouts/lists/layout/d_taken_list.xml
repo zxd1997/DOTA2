@@ -26,7 +26,7 @@
         android:background="@android:color/white"
         android:gravity="center"
         android:textColor="@android:color/black"
-        android:textSize="13dp"
+        android:textSize="13sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/d_skill"

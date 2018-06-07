@@ -95,59 +95,64 @@
         <TextView
             android:id="@+id/name0"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            tools:text="zxzxxxxxxxxxxx" />
 
         <View
             android:id="@+id/color1"
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="2dp"></View>
 
         <TextView
             android:id="@+id/name1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            tools:text="zxzxxxxxxxxxxx" />
 
         <View
             android:id="@+id/color2"
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="2dp"></View>
 
         <TextView
             android:id="@+id/name2"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            tools:text="zxzxxxxxxxxxxx" />
 
         <View
             android:id="@+id/color3"
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="2dp"></View>
 
         <TextView
             android:id="@+id/name3"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            tools:text="zxzxxxxxxxxxxx" />
 
         <View
             android:id="@+id/color4"
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="2dp"></View>
 
         <TextView
             android:id="@+id/name4"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            tools:text="zxzxxxxxxxxxxx" />
     </LinearLayout>
 
     <LinearLayout
@@ -174,7 +179,7 @@
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="2dp"></View>
 
         <TextView
@@ -187,7 +192,7 @@
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="2dp"></View>
 
         <TextView
@@ -213,7 +218,7 @@
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="2dp"></View>
 
         <TextView

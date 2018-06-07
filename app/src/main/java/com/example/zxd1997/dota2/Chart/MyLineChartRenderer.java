@@ -10,6 +10,7 @@ import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.util.Log;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -423,21 +424,12 @@ public class MyLineChartRenderer extends AbstractChartRenderer {
 
         Log.d("label", "highlightPoints: " + chart.getMaximumViewport().centerY());
         List<Line> lineList = lines;
-        lineList.sort(new Comparator<Line>() {
+        Collections.sort(lineList, new Comparator<Line>() {
             @Override
             public int compare(Line o1, Line o2) {
                 return (int) ((o2.getValues().get(valueIndex).getY() - o1.getValues().get(valueIndex).getY()) * 1000);
             }
         });
-        if (lineList.get(0).getValues().get(valueIndex).getY() < chart.getMaximumViewport().centerY()) {
-            dir = 1;
-            lineList.sort(new Comparator<Line>() {
-                @Override
-                public int compare(Line o1, Line o2) {
-                    return (int) ((o1.getValues().get(valueIndex).getY() - o2.getValues().get(valueIndex).getY()) * 1000);
-                }
-            });
-        } else dir = 0;
         for (Line line : lineList) {
             Log.d("line", "highlightPoints: " + new String(line.getValues().get(valueIndex).getLabelAsChars()) + " " + line.getValues().get(valueIndex));
             drawPoints(canvas, line, lineIndex, MODE_HIGHLIGHT);

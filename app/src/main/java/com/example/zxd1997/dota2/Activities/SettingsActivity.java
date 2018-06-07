@@ -34,6 +34,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Update.setDensity(this, getApplication());
         MyApplication.add(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);

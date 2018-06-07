@@ -20,7 +20,7 @@
                 android:layout_margin="2dp"
                 android:text="Kills"
                 android:textColor="@android:color/black"
-                android:textSize="20dp" />
+                android:textSize="20sp" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/kills_recycler"
@@ -35,7 +35,7 @@
                 android:layout_margin="2dp"
                 android:text="Damage"
                 android:textColor="@android:color/black"
-                android:textSize="20dp" />
+                android:textSize="20sp" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/damage_recycler"
@@ -50,7 +50,7 @@
                 android:layout_margin="2dp"
                 android:text="Damage Detail"
                 android:textColor="@android:color/black"
-                android:textSize="20dp" />
+                android:textSize="20sp" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/ddetail"

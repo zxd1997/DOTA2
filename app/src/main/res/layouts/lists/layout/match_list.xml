@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/hero_header"
-            android:textSize="20dp"
+            android:textSize="20sp"
             tools:text="Phoenix" />
 
         <TextView
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/hero_header"
             android:layout_alignLeft="@id/hero_name"
-            android:textSize="17dp"
+            android:textSize="17sp"
             tools:text="Lose" />
 
         <TextView
@@ -47,7 +47,7 @@
             android:layout_marginBottom="2dp"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/winornot"
-            android:textSize="12dp"
+            android:textSize="12sp"
             tools:text="2Days ago" />
 
         <TextView
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="5dp"
-            android:textSize="19dp"
+            android:textSize="19sp"
             tools:text="Very High" />
 
         <TextView
@@ -85,7 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/hero_header"
             android:layout_alignRight="@id/skills"
-            android:textSize="17dp"
+            android:textSize="17sp"
             tools:text="10/0/10" />
 
         <TextView
@@ -104,7 +104,7 @@
             android:layout_alignRight="@id/hero_damage"
             android:layout_below="@id/hero_damage"
             android:layout_marginTop="1dp"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:visibility="gone"
             tools:text="GPM:999" />
 
@@ -116,7 +116,7 @@
             android:layout_marginRight="3dp"
             android:layout_marginTop="1dp"
             android:layout_toLeftOf="@id/gpm"
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:visibility="gone"
             tools:text="XPM:999" />
 

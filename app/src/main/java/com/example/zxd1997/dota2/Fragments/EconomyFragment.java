@@ -144,7 +144,7 @@ public class EconomyFragment extends Fragment {
                     pointValues.add(new PointValue(i++, k).setLabel(hname + ":" + k));
                 }
                 int color = getContext().getResources().getColor(getContext().getResources().getIdentifier("slot_" + p.getPlayer_slot(), "color", getContext().getPackageName()));
-                textView.setText(hname);
+                textView.setText(hname.length() > 12 ? hname.substring(0, 10) + ".." : hname);
                 view1.setBackgroundColor(color);
                 Line line1 = new Line(pointValues)
                         .setColor(color)
@@ -155,7 +155,7 @@ public class EconomyFragment extends Fragment {
                         .setHasLabelsOnlyForSelected(true)
                         .setStrokeWidth(1);
                 lines.add(line1);
-                axisValues.add(new AxisValue(l).setLabel(hname.length() > 10 ? hname.substring(0, 8) + ".." : hname));
+                axisValues.add(new AxisValue(l).setLabel(hname.length() > 9 ? hname.substring(0, 7) + ".." : hname));
                 List<SubcolumnValue> subcolumnValues = new ArrayList<>();
                 subcolumnValues.add(new SubcolumnValue(p.getTotal_gold(), color).setLabel(hname));
                 columns.add(new Column(subcolumnValues).setHasLabelsOnlyForSelected(true));
@@ -169,7 +169,7 @@ public class EconomyFragment extends Fragment {
                             .getIdentifier("reason_" + entry.getKey(), "string", getContext().getPackageName());
                     if (id != 0) {
                         String t = getContext().getString(id);
-                        int c = getContext().getColor(getContext().getResources()
+                        int c = getContext().getResources().getColor(getContext().getResources()
                                 .getIdentifier("reason_" + entry.getKey(), "color", getContext().getPackageName()));
                         tmpAxis.add(new AxisValue(o++).setLabel(t));
                         subcolumnValues.add(new SubcolumnValue(entry.getValue()).setColor(c));

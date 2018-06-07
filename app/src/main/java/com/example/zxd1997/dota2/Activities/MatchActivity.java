@@ -25,6 +25,7 @@ import com.example.zxd1997.dota2.Fragments.PurchaseAndCastFragment;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.MyApplication;
 import com.example.zxd1997.dota2.Utils.Okhttp;
+import com.example.zxd1997.dota2.Utils.Update;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -78,6 +79,7 @@ public class MatchActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Update.setDensity(this, getApplication());
         MyApplication.add(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match);
