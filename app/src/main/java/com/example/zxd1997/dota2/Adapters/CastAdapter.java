@@ -30,6 +30,8 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.context = context;
         for (Match.PPlayer.Purchase purchase : purchases) {
             for (Map.Entry<String, Item> entry1 : MainActivity.items.entrySet()) {
+                if (purchase.getKey().equals("tpscroll") || purchase.getKey().equals("ward_observer") || purchase.getKey().equals("ward_sentry"))
+                    continue;
                 if (entry1.getKey().equals(purchase.getKey())) {
                     d_taken.add(new Cast(purchase.getTime(), entry1.getValue().getId() + "", PURCHASE));
                     break;

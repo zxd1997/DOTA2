@@ -66,9 +66,8 @@
             android:id="@+id/in_battle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="3dp"
             android:textSize="14sp"
-            fresco:layout_constraintRight_toLeftOf="@id/item_0"
+            fresco:layout_constraintRight_toRightOf="@id/damage"
             fresco:layout_constraintTop_toBottomOf="@id/damage"
             tools:text="In Battle:100%" />
         <TextView
@@ -76,33 +75,41 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="3dp"
-            fresco:layout_constraintRight_toLeftOf="@id/item_0"
+            fresco:layout_constraintRight_toLeftOf="@id/bear_item_0"
             fresco:layout_constraintTop_toTopOf="@id/kk"
             android:textSize="14sp"
             tools:text="Damage:100000" />
 
+        <TextView
+            android:id="@+id/lane"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            fresco:layout_constraintBottom_toTopOf="@id/damage"
+            fresco:layout_constraintRight_toRightOf="@id/damage"
+            tools:text="Mid lane" />
         <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/item_0"
+            android:id="@+id/bear_item_0"
             android:layout_width="35dp"
             android:layout_height="26dp"
             android:layout_marginRight="2dp"
             android:layout_marginTop="4dp"
-            fresco:layout_constraintEnd_toStartOf="@+id/item_1"
+            fresco:layout_constraintEnd_toStartOf="@+id/bear_item_1"
             fresco:layout_constraintTop_toTopOf="parent"
             fresco:roundedCornerRadius="2dp" />
 
         <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/item_1"
+            android:id="@+id/bear_item_1"
             android:layout_width="35dp"
             android:layout_height="26dp"
             android:layout_marginRight="2dp"
             android:layout_marginTop="4dp"
-            fresco:layout_constraintEnd_toStartOf="@+id/item_2"
+            fresco:layout_constraintEnd_toStartOf="@+id/bear_item_2"
             fresco:layout_constraintTop_toTopOf="parent"
             fresco:roundedCornerRadius="2dp" />
 
         <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/item_2"
+            android:id="@+id/bear_item_2"
             android:layout_width="35dp"
             android:layout_height="26dp"
             android:layout_marginRight="4dp"
@@ -112,27 +119,27 @@
             fresco:roundedCornerRadius="2dp" />
 
         <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/item_3"
+            android:id="@+id/bear_item_3"
             android:layout_width="35dp"
             android:layout_height="26dp"
             android:layout_marginBottom="4dp"
             android:layout_marginRight="2dp"
             fresco:layout_constraintBottom_toBottomOf="parent"
-            fresco:layout_constraintEnd_toStartOf="@+id/item_4"
+            fresco:layout_constraintEnd_toStartOf="@+id/bear_item_4"
             fresco:roundedCornerRadius="2dp" />
 
         <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/item_4"
+            android:id="@+id/bear_item_4"
             android:layout_width="35dp"
             android:layout_height="26dp"
             android:layout_marginBottom="4dp"
             android:layout_marginRight="2dp"
             fresco:layout_constraintBottom_toBottomOf="parent"
-            fresco:layout_constraintEnd_toStartOf="@+id/item_5"
+            fresco:layout_constraintEnd_toStartOf="@+id/bear_item_5"
             fresco:roundedCornerRadius="2dp" />
 
         <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/item_5"
+            android:id="@+id/bear_item_5"
             android:layout_width="35dp"
             android:layout_height="26dp"
             android:layout_marginBottom="4dp"

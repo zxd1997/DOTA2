@@ -2,13 +2,16 @@ package com.example.zxd1997.dota2.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.ImageSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,6 +98,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         return t;
     }
+
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         switch (getItemViewType(position)) {
@@ -183,6 +187,56 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         context.getResources().getIdentifier("item_" + p.getItem_4(), "drawable", context.getPackageName()))).build());
                 viewHolder.item_5.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
                         context.getResources().getIdentifier("item_" + p.getItem_5(), "drawable", context.getPackageName()))).build());
+                if (p.getLane_role() > 0) {
+                    SpannableStringBuilder t = new SpannableStringBuilder();
+                    switch (p.getLane_role()) {
+                        case 1: {
+                            SpannableString tt = new SpannableString(" ");
+                            Drawable drawable = context.getResources().getDrawable(R.drawable.lane_1);
+                            drawable.setBounds(0, 0, 28, 28);
+                            tt.setSpan(new ImageSpan(drawable), 0, tt.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            t.append(tt);
+//                            .append("Safe Lane");
+                            break;
+                        }
+                        case 2: {
+                            SpannableString tt = new SpannableString(" ");
+                            Drawable drawable = context.getResources().getDrawable(R.drawable.lane_2);
+                            drawable.setBounds(0, 0, 28, 28);
+                            tt.setSpan(new ImageSpan(drawable), 0, tt.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            t.append(tt);
+//                            .append("Mid Lane");
+                            break;
+                        }
+                        case 3: {
+                            SpannableString tt = new SpannableString(" ");
+                            Drawable drawable = context.getResources().getDrawable(R.drawable.lane_3);
+                            drawable.setBounds(0, 0, 28, 28);
+                            tt.setSpan(new ImageSpan(drawable), 0, tt.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            t.append(tt);
+//                            .append("Off Lane");
+                            break;
+                        }
+                        case 4: {
+                            SpannableString tt = new SpannableString(" ");
+                            Drawable drawable = context.getResources().getDrawable(R.drawable.lane_4);
+                            drawable.setBounds(0, 0, 28, 28);
+                            tt.setSpan(new ImageSpan(drawable), 0, tt.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            t.append(tt);
+//                            .append("Jungle");
+                            break;
+                        }
+                    }
+                    if (p.isIs_roaming()) {
+                        SpannableString tt = new SpannableString(" ");
+                        Drawable drawable = context.getResources().getDrawable(R.drawable.lane_roam);
+                        drawable.setBounds(0, 0, 28, 28);
+                        tt.setSpan(new ImageSpan(drawable), 0, tt.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        t.append(" ").append(tt);
+//                        .append("Roaming");
+                    }
+                    viewHolder.lane.setText(t);
+                }
                 break;
             }
             case DETAIL: {
@@ -206,6 +260,30 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         context.getResources().getIdentifier("item_" + p.getBackpack_1(), "drawable", context.getPackageName()))).build());
                 viewHolder.backpack_2.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
                         context.getResources().getIdentifier("item_" + p.getBackpack_2(), "drawable", context.getPackageName()))).build());
+                if (p.getAdditional_units() != null) {
+                    Match.PPlayer.Unit unit = p.getAdditional_units().get(0);
+                    if (unit.getUnitname().equals("spirit_bear")) {
+                        viewHolder.bear.setVisibility(View.VISIBLE);
+                        viewHolder.bear_item_0.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
+                                context.getResources().getIdentifier("item_" + unit.getItem_0(), "drawable", context.getPackageName()))).build());
+                        viewHolder.bear_item_1.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
+                                context.getResources().getIdentifier("item_" + unit.getItem_1(), "drawable", context.getPackageName()))).build());
+                        viewHolder.bear_item_2.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
+                                context.getResources().getIdentifier("item_" + unit.getItem_2(), "drawable", context.getPackageName()))).build());
+                        viewHolder.bear_item_3.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
+                                context.getResources().getIdentifier("item_" + unit.getItem_3(), "drawable", context.getPackageName()))).build());
+                        viewHolder.bear_item_4.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
+                                context.getResources().getIdentifier("item_" + unit.getItem_4(), "drawable", context.getPackageName()))).build());
+                        viewHolder.bear_item_5.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
+                                context.getResources().getIdentifier("item_" + unit.getItem_5(), "drawable", context.getPackageName()))).build());
+                        viewHolder.bear_backpack_0.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
+                                context.getResources().getIdentifier("item_" + unit.getBackpack_0(), "drawable", context.getPackageName()))).build());
+                        viewHolder.bear_backpack_1.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
+                                context.getResources().getIdentifier("item_" + unit.getBackpack_1(), "drawable", context.getPackageName()))).build());
+                        viewHolder.bear_backpack_2.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
+                                context.getResources().getIdentifier("item_" + unit.getBackpack_2(), "drawable", context.getPackageName()))).build());
+                    }
+                }
                 break;
             }
         }
@@ -231,6 +309,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     class RadiantHolder extends RecyclerView.ViewHolder {
         TextView total_kill;
         TextView winorlose;
+
         public RadiantHolder(View itemView) {
             super(itemView);
             total_kill = itemView.findViewById(R.id.total_kill);
@@ -254,6 +333,16 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         TextView kdm_ben;
         TextView hdm_ben;
         TextView td_ben;
+        ConstraintLayout bear;
+        SimpleDraweeView bear_item_0;
+        SimpleDraweeView bear_item_1;
+        SimpleDraweeView bear_item_2;
+        SimpleDraweeView bear_item_3;
+        SimpleDraweeView bear_item_4;
+        SimpleDraweeView bear_item_5;
+        SimpleDraweeView bear_backpack_0;
+        SimpleDraweeView bear_backpack_1;
+        SimpleDraweeView bear_backpack_2;
 
         public DetailHolder(View itemView) {
             super(itemView);
@@ -272,6 +361,16 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             kdm_ben = itemView.findViewById(R.id.kpm_ben);
             hdm_ben = itemView.findViewById(R.id.hdm_ben);
             td_ben = itemView.findViewById(R.id.td_ben);
+            bear = itemView.findViewById(R.id.bear);
+            bear_item_0 = itemView.findViewById(R.id.bear_item_0);
+            bear_item_1 = itemView.findViewById(R.id.bear_item_1);
+            bear_item_2 = itemView.findViewById(R.id.bear_item_2);
+            bear_item_3 = itemView.findViewById(R.id.bear_item_3);
+            bear_item_4 = itemView.findViewById(R.id.bear_item_4);
+            bear_item_5 = itemView.findViewById(R.id.bear_item_5);
+            bear_backpack_0 = itemView.findViewById(R.id.bear_backpack_0);
+            bear_backpack_1 = itemView.findViewById(R.id.bear_backpack_1);
+            bear_backpack_2 = itemView.findViewById(R.id.bear_backpack_2);
         }
     }
 
@@ -282,6 +381,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         TextView kk;
         TextView in_battle;
         TextView damage;
+        TextView lane;
         SimpleDraweeView item_0;
         SimpleDraweeView item_1;
         SimpleDraweeView item_2;
@@ -294,6 +394,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         public ViewHolder(View itemView) {
             super(itemView);
             this.itemView = itemView;
+            lane = itemView.findViewById(R.id.lane);
             color = itemView.findViewById(R.id.color_hero);
             player_hero = itemView.findViewById(R.id.player_hero);
             player = itemView.findViewById(R.id.player_name);
@@ -301,12 +402,12 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             kk = itemView.findViewById(R.id.kk);
             in_battle = itemView.findViewById(R.id.in_battle);
             damage = itemView.findViewById(R.id.damage);
-            item_0 = itemView.findViewById(R.id.item_0);
-            item_1 = itemView.findViewById(R.id.item_1);
-            item_2 = itemView.findViewById(R.id.item_2);
-            item_3 = itemView.findViewById(R.id.item_3);
-            item_4 = itemView.findViewById(R.id.item_4);
-            item_5 = itemView.findViewById(R.id.item_5);
+            item_0 = itemView.findViewById(R.id.bear_item_0);
+            item_1 = itemView.findViewById(R.id.bear_item_1);
+            item_2 = itemView.findViewById(R.id.bear_item_2);
+            item_3 = itemView.findViewById(R.id.bear_item_3);
+            item_4 = itemView.findViewById(R.id.bear_item_4);
+            item_5 = itemView.findViewById(R.id.bear_item_5);
         }
     }
 }
