@@ -136,7 +136,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/header"
                     android:layout_alignLeft="@id/personaname"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginRight="10dp"
+                    android:textColor="@color/win"
                     android:text="wins:0" />
 
                 <TextView
@@ -144,9 +145,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/header"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginRight="10dp"
                     android:layout_toRightOf="@+id/win"
-                    android:text="loses:0" />
+                    android:text="loses:0"
+                    android:textColor="@color/lose" />
 
                 <TextView
                     android:id="@+id/win_rate"
@@ -154,7 +156,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/header"
                     android:layout_toRightOf="@id/lose"
-                    android:text="winrate:0%" />
+                    android:text="winrate:0%"
+                    android:textColor="@android:color/black" />
 
                 <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/tier"

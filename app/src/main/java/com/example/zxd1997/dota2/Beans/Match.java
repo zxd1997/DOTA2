@@ -252,6 +252,15 @@ public class Match {
         private Map<String, Integer> gold_reasons;
         private double stuns;
         private double teamfight_participation;
+        private boolean isRadiant;
+
+        public boolean isRadiant() {
+            return isRadiant;
+        }
+
+        public void setRadiant(boolean radiant) {
+            isRadiant = radiant;
+        }
 
         public List<Purchase> getPurchase_log() {
             return purchase_log;

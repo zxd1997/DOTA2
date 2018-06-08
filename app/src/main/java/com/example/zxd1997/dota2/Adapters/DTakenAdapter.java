@@ -25,12 +25,15 @@ public class DTakenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public DTakenAdapter(Context context, Map<String, Integer> map) {
         this.context = context;
         for (Map.Entry<String, Integer> entry : map.entrySet()) {
-            for (Map.Entry<String, String> entry1 : MainActivity.ability_ids.entrySet()) {
-                if (entry1.getValue().equals(entry.getKey())) {
-                    d_taken.add(new Taken(entry.getValue(), entry1.getKey()));
-                    break;
+            if (entry.getKey().equals("null")) {
+                d_taken.add(new Taken(entry.getValue(), "default_attack"));
+            } else
+                for (Map.Entry<String, String> entry1 : MainActivity.ability_ids.entrySet()) {
+                    if (entry1.getValue().equals(entry.getKey())) {
+                        d_taken.add(new Taken(entry.getValue(), entry1.getKey()));
+                        break;
+                    }
                 }
-            }
         }
     }
 
@@ -43,8 +46,13 @@ public class DTakenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ViewHolder viewHolder = (ViewHolder) holder;
-        viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
-                context.getResources().getIdentifier("ability_" + d_taken.get(position).id, "drawable", context.getPackageName()))).build());
+        if (d_taken.get(position).id.equals("default_attack")) {
+            viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(
+                    String.valueOf(context.getResources().getIdentifier(d_taken.get(position).id, "drawable", context.getPackageName()))).build());
+        } else {
+            viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
+                    context.getResources().getIdentifier("ability_" + d_taken.get(position).id, "drawable", context.getPackageName()))).build());
+        }
         DecimalFormat df = new DecimalFormat("0.0");
         viewHolder.damage_taken.setText((double) d_taken.get(position).damage < 1000 ? d_taken.get(position).damage + "" : df.format((double) d_taken.get(position).damage / 1000) + "k");
     }

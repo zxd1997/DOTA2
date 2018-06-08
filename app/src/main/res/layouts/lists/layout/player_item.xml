@@ -5,7 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="62dp"
-    android:layout_margin="3dp"
+    android:layout_marginBottom="2dp"
+    android:layout_marginLeft="3dp"
+    android:layout_marginRight="3dp"
+    android:layout_marginTop="3dp"
     fresco:cardCornerRadius="3dp">
 
     <android.support.constraint.ConstraintLayout
@@ -59,26 +62,15 @@
             fresco:layout_constraintLeft_toLeftOf="@id/player_name"
             tools:text="10/10/10" />
 
-
         <TextView
-            android:id="@+id/gpm"
+            android:id="@+id/in_battle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="3dp"
-            fresco:layout_constraintBottom_toBottomOf="@id/xpm"
-            android:textSize="12sp"
-            fresco:layout_constraintRight_toLeftOf="@id/xpm"
-            tools:text="GPM:1000" />
-
-        <TextView
-            android:id="@+id/xpm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            fresco:layout_constraintBottom_toBottomOf="@id/player_hero"
-            fresco:layout_constraintRight_toRightOf="@id/damage"
-            tools:text="XPM:1000" />
-
+            android:textSize="14sp"
+            fresco:layout_constraintRight_toLeftOf="@id/item_0"
+            fresco:layout_constraintTop_toBottomOf="@id/damage"
+            tools:text="In Battle:100%" />
         <TextView
             android:id="@+id/damage"
             android:layout_width="wrap_content"
