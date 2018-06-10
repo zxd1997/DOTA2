@@ -91,7 +91,6 @@ public class AbilityBuildAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemViewType(int position) {
-        int type;
         if (abilities.get(position) >= 0) {
             return ABILITY;
         } else return abilities.get(position);
@@ -100,51 +99,60 @@ public class AbilityBuildAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == ABILITY) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ability_build, parent, false);
-            ViewHolder viewHolder = new ViewHolder(view);
-            return viewHolder;
-        } else if (viewType == HEADER) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ability_header, parent, false);
-            HeaderHolder viewHolder = new HeaderHolder(view);
-            return viewHolder;
-        } else if (viewType == PLAYER) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ability_player, parent, false);
-            PlayerHolder viewHolder = new PlayerHolder(view);
-            return viewHolder;
-        } else {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ablity_level, parent, false);
-            LevelHolder viewHolder = new LevelHolder(view);
-            return viewHolder;
+        switch (viewType) {
+            case ABILITY: {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ability_build, parent, false);
+                return new ViewHolder(view);
+            }
+            case HEADER: {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ability_header, parent, false);
+                return new HeaderHolder(view);
+            }
+            case PLAYER: {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ability_player, parent, false);
+                return new PlayerHolder(view);
+            }
+            default: {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ablity_level, parent, false);
+                return new LevelHolder(view);
+            }
         }
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (abilities.get(position) == -1) {
-            Match.PPlayer p = match.getPlayers().get((position / 26) - 1);
-            HeaderHolder viewHolder = (HeaderHolder) holder;
-            viewHolder.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
-                    context.getResources().getIdentifier("hero_" + p.getHero_id(), "drawable", context.getPackageName()))).build());
-            viewHolder.name.setText(p.getPersonaname() == null ? "Anonymous" : p.getPersonaname());
-            viewHolder.color.setBackgroundColor(context.getResources().getColor(context.getResources().getIdentifier("slot_" + p.getPlayer_slot(), "color", context.getPackageName())));
-        } else if (abilities.get(position) == -2) {
-        } else if ((abilities.get(position) == -3)) {
-            LevelHolder viewHolder = (LevelHolder) holder;
-            viewHolder.level.setText(position + "");
-        } else {
-            ViewHolder viewHolder = (ViewHolder) holder;
-            Log.d("ability", "onBindViewHolder: " + abilities.get(position));
-            if (abilities.get(position) == 0) {
-                viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
-                        context.getResources().getIdentifier("ability_0", "drawable", context.getPackageName()))).build());
-            } else {
-                int resid = context.getResources().getIdentifier("ability_" + abilities.get(position), "drawable", context.getPackageName());
-                if (resid == 0) {
-                    resid = context.getResources().getIdentifier("talent_tree", "drawable", context.getPackageName());
-                    viewHolder.talent.setText(MainActivity.abilities.get(MainActivity.ability_ids.get(String.valueOf(abilities.get(position)))).getDname());
+        switch (abilities.get(position)) {
+            case HEADER: {
+                Match.PPlayer p = match.getPlayers().get((position / 26) - 1);
+                HeaderHolder viewHolder = (HeaderHolder) holder;
+                viewHolder.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
+                        context.getResources().getIdentifier("hero_" + p.getHero_id(), "drawable", context.getPackageName()))).build());
+                viewHolder.name.setText(p.getPersonaname() == null ? "Anonymous" : p.getPersonaname());
+                viewHolder.color.setBackgroundColor(context.getResources().getColor(context.getResources().getIdentifier("slot_" + p.getPlayer_slot(), "color", context.getPackageName())));
+                break;
+            }
+            case PLAYER:
+                break;
+            case LEVEL: {
+                LevelHolder viewHolder = (LevelHolder) holder;
+                viewHolder.level.setText(position + "");
+                break;
+            }
+            default: {
+                ViewHolder viewHolder = (ViewHolder) holder;
+                Log.d("ability", "onBindViewHolder: " + abilities.get(position));
+                if (abilities.get(position) == 0) {
+                    viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
+                            context.getResources().getIdentifier("ability_0", "drawable", context.getPackageName()))).build());
+                } else {
+                    int resid = context.getResources().getIdentifier("ability_" + abilities.get(position), "drawable", context.getPackageName());
+                    if (resid == 0) {
+                        resid = context.getResources().getIdentifier("talent_tree", "drawable", context.getPackageName());
+                        viewHolder.talent.setText(MainActivity.abilities.get(MainActivity.ability_ids.get(String.valueOf(abilities.get(position)))).getDname());
+                    }
+                    viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(resid)).build());
                 }
-                viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(resid)).build());
+                break;
             }
         }
     }

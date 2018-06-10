@@ -31,7 +31,7 @@
             <View
                 android:id="@+id/color_kd"
                 android:layout_width="2dp"
-                android:layout_height="36dp"></View>
+                android:layout_height="36dp" />
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

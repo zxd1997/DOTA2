@@ -201,13 +201,7 @@ public class ChartComputator {
      * Check if given coordinates lies inside contentRectMinusAllMargins.
      */
     public boolean isWithinContentRect(float x, float y, float precision) {
-        if (x >= contentRectMinusAllMargins.left - precision && x <= contentRectMinusAllMargins.right + precision) {
-            if (y <= contentRectMinusAllMargins.bottom + precision && y >= contentRectMinusAllMargins.top -
-                    precision) {
-                return true;
-            }
-        }
-        return false;
+        return x >= contentRectMinusAllMargins.left - precision && x <= contentRectMinusAllMargins.right + precision && y <= contentRectMinusAllMargins.bottom + precision && y >= contentRectMinusAllMargins.top - precision;
     }
 
     /**

@@ -3,6 +3,7 @@ package com.example.zxd1997.dota2.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,8 @@ import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.MyApplication;
 import com.example.zxd1997.dota2.Utils.Okhttp;
 
+import java.util.Objects;
+
 public class NoDetailFragment extends Fragment {
 
     public NoDetailFragment() {
@@ -26,8 +29,7 @@ public class NoDetailFragment extends Fragment {
 
 
     public static NoDetailFragment newInstance() {
-        NoDetailFragment fragment = new NoDetailFragment();
-        return fragment;
+        return new NoDetailFragment();
     }
 
     @Override
@@ -37,16 +39,16 @@ public class NoDetailFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_nodetail, container, false);
         MatchActivity activity = (MatchActivity) getActivity();
-        Match match = activity.getMatch();
+        Match match = Objects.requireNonNull(activity).getMatch();
         if (match == null || match.getPlayers() == null) {
             Log.d("null", "onCreateView: " + 111111);
             Intent intent = new Intent(MyApplication.getContext(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            getActivity().startActivity(intent);
+            Objects.requireNonNull(getActivity()).startActivity(intent);
             getActivity().finish();
         } else {
             final long id = activity.getMatch().getMatch_id();

@@ -44,17 +44,18 @@ public class KillsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (position == 0) {
-        } else if (getItemViewType(position) == 1) {
-            HeaderHolder headerHolder = (HeaderHolder) holder;
-            Log.d("color", "onBindViewHolder: " + contents.get(position).getColor());
-            headerHolder.color.setBackgroundColor(contents.get(position).getColor());
-            headerHolder.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
-                    context.getResources().getIdentifier("hero_" + contents.get(position).getHero_id(), "drawable", context.getPackageName())
-            )).build());
-        } else {
-            kdHolder kdHolder = (kdHolder) holder;
-            kdHolder.textView.setText(contents.get(position).getKd());
+        if (position != 0) {
+            if (getItemViewType(position) == 1) {
+                HeaderHolder headerHolder = (HeaderHolder) holder;
+                Log.d("color", "onBindViewHolder: " + contents.get(position).getColor());
+                headerHolder.color.setBackgroundColor(contents.get(position).getColor());
+                headerHolder.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
+                        context.getResources().getIdentifier("hero_" + contents.get(position).getHero_id(), "drawable", context.getPackageName())
+                )).build());
+            } else {
+                kdHolder kdHolder = (kdHolder) holder;
+                kdHolder.textView.setText(contents.get(position).getKd());
+            }
         }
     }
 

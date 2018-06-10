@@ -256,6 +256,42 @@ public class Match {
         private List<Unit> additional_units = new ArrayList<>();
         private int lane_role;
         private boolean is_roaming;
+        private List<Ward> obs_left_log = new ArrayList<>();
+        private List<Ward> obs_log = new ArrayList<>();
+        private List<Ward> sen_left_log = new ArrayList<>();
+        private List<Ward> sen_log = new ArrayList<>();
+
+        public List<Ward> getSen_left_log() {
+            return sen_left_log;
+        }
+
+        public void setSen_left_log(List<Ward> sen_left_log) {
+            this.sen_left_log = sen_left_log;
+        }
+
+        public List<Ward> getSen_log() {
+            return sen_log;
+        }
+
+        public void setSen_log(List<Ward> sen_log) {
+            this.sen_log = sen_log;
+        }
+
+        public List<Ward> getObs_left_log() {
+            return obs_left_log;
+        }
+
+        public void setObs_left_log(List<Ward> obs_left_log) {
+            this.obs_left_log = obs_left_log;
+        }
+
+        public List<Ward> getObs_log() {
+            return obs_log;
+        }
+
+        public void setObs_log(List<Ward> obs_log) {
+            this.obs_log = obs_log;
+        }
 
         public int getLane_role() {
             return lane_role;
@@ -679,6 +715,99 @@ public class Match {
 
         public void setBenchmarks(Benchmark benchmarks) {
             this.benchmarks = benchmarks;
+        }
+
+        public class Ward {
+            private int time;
+            private String type;
+            private List<Integer> key = new ArrayList<>();
+            private int slot;
+            private int x;
+            private int y;
+            private int z;
+            private boolean entityleft;
+            private long ehandle;
+            private int player_slot;
+
+            public int getTime() {
+                return time;
+            }
+
+            public void setTime(int time) {
+                this.time = time;
+            }
+
+            public String getType() {
+                return type;
+            }
+
+            public void setType(String type) {
+                this.type = type;
+            }
+
+            public List<Integer> getKey() {
+                return key;
+            }
+
+            public void setKey(List<Integer> key) {
+                this.key = key;
+            }
+
+            public int getSlot() {
+                return slot;
+            }
+
+            public void setSlot(int slot) {
+                this.slot = slot;
+            }
+
+            public int getX() {
+                return x;
+            }
+
+            public void setX(int x) {
+                this.x = x;
+            }
+
+            public int getY() {
+                return y;
+            }
+
+            public void setY(int y) {
+                this.y = y;
+            }
+
+            public int getZ() {
+                return z;
+            }
+
+            public void setZ(int z) {
+                this.z = z;
+            }
+
+            public boolean isEntityleft() {
+                return entityleft;
+            }
+
+            public void setEntityleft(boolean entityleft) {
+                this.entityleft = entityleft;
+            }
+
+            public long getEhandle() {
+                return ehandle;
+            }
+
+            public void setEhandle(long ehandle) {
+                this.ehandle = ehandle;
+            }
+
+            public int getPlayer_slot() {
+                return player_slot;
+            }
+
+            public void setPlayer_slot(int player_slot) {
+                this.player_slot = player_slot;
+            }
         }
 
         public class Unit {

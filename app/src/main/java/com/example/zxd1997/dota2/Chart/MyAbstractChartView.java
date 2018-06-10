@@ -67,11 +67,6 @@ public abstract class MyAbstractChartView extends View implements Chart {
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    }
-
-    @Override
     protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
         super.onSizeChanged(width, height, oldWidth, oldHeight);
         chartComputator.setContentRect(getWidth(), getHeight(), getPaddingLeft(), getPaddingTop(), getPaddingRight(),
@@ -362,14 +357,18 @@ public abstract class MyAbstractChartView extends View implements Chart {
             }
 
             ZoomType zoomType = getZoomType();
-            if (ZoomType.HORIZONTAL_AND_VERTICAL == zoomType) {
-                zoomViewport.set(left, top, right, bottom);
-            } else if (ZoomType.HORIZONTAL == zoomType) {
-                zoomViewport.left = left;
-                zoomViewport.right = right;
-            } else if (ZoomType.VERTICAL == zoomType) {
-                zoomViewport.top = top;
-                zoomViewport.bottom = bottom;
+            switch (zoomType) {
+                case HORIZONTAL_AND_VERTICAL:
+                    zoomViewport.set(left, top, right, bottom);
+                    break;
+                case HORIZONTAL:
+                    zoomViewport.left = left;
+                    zoomViewport.right = right;
+                    break;
+                case VERTICAL:
+                    zoomViewport.top = top;
+                    zoomViewport.bottom = bottom;
+                    break;
             }
 
         }

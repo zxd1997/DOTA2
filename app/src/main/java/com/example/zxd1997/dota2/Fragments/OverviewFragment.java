@@ -1,8 +1,10 @@
 package com.example.zxd1997.dota2.Fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +22,8 @@ import com.example.zxd1997.dota2.Adapters.PlayerAdapter;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.R;
 
+import java.util.Objects;
+
 public class OverviewFragment extends Fragment {
     Match match;
 
@@ -28,8 +32,7 @@ public class OverviewFragment extends Fragment {
     }
 
     public static OverviewFragment newInstance() {
-        OverviewFragment fragment = new OverviewFragment();
-        return fragment;
+        return new OverviewFragment();
     }
 
     @Override
@@ -38,12 +41,13 @@ public class OverviewFragment extends Fragment {
 
     }
 
+    @SuppressLint("Recycle")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_overview, container, false);
         MatchActivity activity = (MatchActivity) getActivity();
-        match = activity.getMatch();
+        match = Objects.requireNonNull(activity).getMatch();
         if (match == null || match.getPlayers() == null) {
             Log.d("null", "onCreateView: " + 111111);
             Intent intent = new Intent(activity.getApplicationContext(), MainActivity.class);
@@ -60,7 +64,7 @@ public class OverviewFragment extends Fragment {
             TextView match_id = view.findViewById(R.id.match_id);
             TextView region = view.findViewById(R.id.region);
             TextView skill = view.findViewById(R.id.skill);
-            TypedArray typedArray = getContext().getResources().obtainTypedArray(R.array.skills);
+            @SuppressLint("Recycle") TypedArray typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.skills);
             skill.setText(typedArray.getText(match.getSkill()));
             typedArray = getContext().getResources().obtainTypedArray(R.array.skills_color);
             skill.setTextColor(getContext().getResources().getColor(typedArray.getResourceId(match.getSkill(), 0)));
@@ -76,9 +80,9 @@ public class OverviewFragment extends Fragment {
             gamemode.setText(typedArray.getText(match.getGame_mode()).toString());
             typedArray = getContext().getResources().obtainTypedArray(R.array.region);
             region.setText(typedArray.getText(match.getRegion()).toString());
-            radiant_score.setText(match.getRadiant_score() + "");
-            dire_score.setText(match.getDire_score() + "");
-            match_id.setText(match.getMatch_id() + "");
+            radiant_score.setText(String.valueOf(match.getRadiant_score()));
+            dire_score.setText(String.valueOf(match.getDire_score()));
+            match_id.setText(String.valueOf(match.getMatch_id()));
             long now = System.currentTimeMillis() / 1000;
             long year = (now - match.getStart_time()) / (3600 * 24 * 30 * 12);
             long month = (now - match.getStart_time()) / (3600 * 24 * 30);

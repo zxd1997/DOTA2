@@ -50,7 +50,7 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:hint="Input your Steam32 ID"
+                android:hint="@string/input_your_steam32_id"
                 android:inputType="number" />
 
 
@@ -62,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Connect" />
+            android:text="@string/connect" />
 
         <Button
             android:id="@+id/verify"
@@ -70,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Verify"
+            android:text="@string/verify"
             android:visibility="gone" />
 
     </LinearLayout>
@@ -111,7 +111,7 @@
                     android:layout_marginRight="8dp"
                     android:layout_marginTop="5dp"
                     android:layout_toRightOf="@id/header"
-                    android:text="Player name"
+                    tools:text="Player name"
                     android:textSize="18sp" />
 
                 <TextView
@@ -128,7 +128,7 @@
                     android:layout_alignLeft="@id/personaname"
                     android:layout_below="@id/personaname"
                     android:layout_marginTop="5dp"
-                    android:text="id:" />
+                    tools:text="id:" />
 
                 <TextView
                     android:id="@+id/win"
@@ -138,7 +138,7 @@
                     android:layout_alignLeft="@id/personaname"
                     android:layout_marginRight="10dp"
                     android:textColor="@color/win"
-                    android:text="wins:0" />
+                    tools:text="wins:0" />
 
                 <TextView
                     android:id="@+id/lose"
@@ -147,7 +147,7 @@
                     android:layout_alignBottom="@id/header"
                     android:layout_marginRight="10dp"
                     android:layout_toRightOf="@+id/win"
-                    android:text="loses:0"
+                    tools:text="loses:0"
                     android:textColor="@color/lose" />
 
                 <TextView
@@ -156,7 +156,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/header"
                     android:layout_toRightOf="@id/lose"
-                    android:text="winrate:0%"
+                    tools:text="winrate:0%"
                     android:textColor="@android:color/black" />
 
                 <com.facebook.drawee.view.SimpleDraweeView

@@ -1,5 +1,6 @@
 package com.example.zxd1997.dota2.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ public class MatchActivity extends AppCompatActivity {
     List<Fragment> fragments = new ArrayList<>();
     ProgressBar progressBar;
     private Match match = null;
+    @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -72,11 +74,6 @@ public class MatchActivity extends AppCompatActivity {
 
     public Match getMatch() {
         return match;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
     @Override

@@ -1,15 +1,18 @@
 package com.example.zxd1997.dota2.Fragments;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -42,6 +45,7 @@ import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MyFragment extends Fragment {
     static final int VERIFY = 0;
@@ -76,6 +80,7 @@ public class MyFragment extends Fragment {
     com.example.zxd1997.dota2.Beans.WL wl;
     List<RecentMatch> recentMatches = new ArrayList<>();
     Receiver receiver;
+    @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message message) {
@@ -92,7 +97,7 @@ public class MyFragment extends Fragment {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         id = tmp;
                         editor.putString("id", id);
-                        editor.commit();
+                        editor.apply();
                         Okhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id, handler, PLAYER_INFO);
                     }
                     break;
@@ -121,16 +126,16 @@ public class MyFragment extends Fragment {
                                 t = 10;
                                 star = 0;
                             }
-                            ranks.setText(rank + "");
+                            ranks.setText(String.valueOf(rank));
                         }
                         if (star > 0) {
-                            TypedArray typedArray = getContext().getResources().obtainTypedArray(R.array.stars);
-                            stars.setImageResource(typedArray.getResourceId(star - 1, 0));
+                            @SuppressLint("Recycle") TypedArray typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.stars);
+                            stars.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(typedArray.getResourceId(star - 1, 0))).build());
                         }
                     }
                     Log.d("rank", "handleMessage: " + t);
-                    TypedArray typedArray = getContext().getResources().obtainTypedArray(R.array.tiers);
-                    tier.setImageResource(typedArray.getResourceId(t, 0));
+                    @SuppressLint("Recycle") TypedArray typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.tiers);
+                    tier.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(typedArray.getResourceId(t, 0))).build());
                     Okhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id + "/wl", handler, WL);
                     break;
                 }
@@ -173,8 +178,7 @@ public class MyFragment extends Fragment {
     }
 
     public static MyFragment newInstance() {
-        MyFragment fragment = new MyFragment();
-        return fragment;
+        return new MyFragment();
     }
 
     @Override
@@ -183,7 +187,7 @@ public class MyFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_my, container, false);
         linearLayout = view.findViewById(R.id.no_binding);
@@ -224,7 +228,7 @@ public class MyFragment extends Fragment {
                     Toast.makeText(getContext(), "Please input your Steam 32 ID!", Toast.LENGTH_LONG).show();
                 } else {
                     InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    if (imm.isActive()) {
+                    if (Objects.requireNonNull(imm).isActive()) {
                         imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
                     }
                     tmp = textInputEditText.getText().toString();
@@ -256,7 +260,7 @@ public class MyFragment extends Fragment {
         }
         IntentFilter intentFilter = new IntentFilter(DISCONNECT);
         receiver = new Receiver();
-        LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver, intentFilter);
+        LocalBroadcastManager.getInstance(Objects.requireNonNull(getContext())).registerReceiver(receiver, intentFilter);
         return view;
     }
 

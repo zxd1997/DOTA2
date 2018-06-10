@@ -34,8 +34,8 @@ public class PurchaseAndCastAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ViewHolder viewHolder = (ViewHolder) holder;
-        viewHolder.t1.setText("Item Purchase");
-        viewHolder.t2.setText("Ability&Item Casts");
+        viewHolder.t1.setText(R.string.item_purchase);
+        viewHolder.t2.setText(R.string.cast);
         viewHolder.color.setBackgroundColor(context.getResources().getColor(context.getResources().getIdentifier("slot_" + p.get(position).getPlayer_slot(), "color", context.getPackageName())));
         viewHolder.header.setImageURI(
                 new Uri.Builder().scheme("res").path(String.valueOf(

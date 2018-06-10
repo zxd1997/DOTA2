@@ -29,7 +29,7 @@
             android:layout_width="2dp"
             android:layout_height="45dp"
             app:layout_constraintLeft_toRightOf="@id/hheader"
-            app:layout_constraintTop_toTopOf="@id/hheader"></View>
+            app:layout_constraintTop_toTopOf="@id/hheader" />
 
         <TextView
             android:id="@+id/playername"

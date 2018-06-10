@@ -18,7 +18,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
-                android:text="Kills"
+                android:text="@string/kills"
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
 
@@ -27,13 +27,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp"></android.support.v7.widget.RecyclerView>
+                android:layout_marginRight="3dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
-                android:text="Damage"
+                android:text="@string/damage"
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
 
@@ -42,13 +42,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp"></android.support.v7.widget.RecyclerView>
+                android:layout_marginRight="3dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
-                android:text="Damage Detail"
+                android:text="@string/damage_detail"
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
 
@@ -57,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp"></android.support.v7.widget.RecyclerView>
+                android:layout_marginRight="3dp" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

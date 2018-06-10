@@ -32,7 +32,7 @@ public class MyLineChartRenderer1 extends AbstractChartRenderer {
 
     private static final int MODE_DRAW = 0;
     private static final int MODE_HIGHLIGHT = 1;
-
+    private int dir;
     private LineChartDataProvider dataProvider;
 
     private int checkPrecision;
@@ -52,7 +52,6 @@ public class MyLineChartRenderer1 extends AbstractChartRenderer {
 //    private List<Float> preBot;
     private float preBot;
     private float preTop;
-    private int dir;
 
     public MyLineChartRenderer1(Context context, Chart chart, LineChartDataProvider dataProvider) {
         super(context, chart);
@@ -380,15 +379,18 @@ public class MyLineChartRenderer1 extends AbstractChartRenderer {
                 // Draw points only if they are within contentRectMinusAllMargins, using contentRectMinusAllMargins
                 // instead of viewport to avoid some
                 // float rounding problems.
-                if (MODE_DRAW == mode) {
-                    drawPoint(canvas, line, pointValue, rawX, rawY, pointRadius);
-                    if (line.hasLabels()) {
-                        drawLabel(canvas, line, pointValue, rawX, rawY, pointRadius + labelOffset);
-                    }
-                } else if (MODE_HIGHLIGHT == mode) {
-                    highlightPoint(canvas, line, pointValue, rawX, rawY, lineIndex, valueIndex);
-                } else {
-                    throw new IllegalStateException("Cannot process points in mode: " + mode);
+                switch (mode) {
+                    case MODE_DRAW:
+                        drawPoint(canvas, line, pointValue, rawX, rawY, pointRadius);
+                        if (line.hasLabels()) {
+                            drawLabel(canvas, line, pointValue, rawX, rawY, pointRadius + labelOffset);
+                        }
+                        break;
+                    case MODE_HIGHLIGHT:
+                        highlightPoint(canvas, line, pointValue, rawX, rawY, lineIndex, valueIndex);
+                        break;
+                    default:
+                        throw new IllegalStateException("Cannot process points in mode: " + mode);
                 }
             }
             ++valueIndex;
@@ -421,14 +423,13 @@ public class MyLineChartRenderer1 extends AbstractChartRenderer {
         preTop = 0;
 
         Log.d("label", "highlightPoints: " + chart.getMaximumViewport().centerY());
-        List<Line> lineList = lines;
-        Collections.sort(lineList, new Comparator<Line>() {
+        Collections.sort(lines, new Comparator<Line>() {
             @Override
             public int compare(Line o1, Line o2) {
                 return (int) ((o2.getValues().get(valueIndex).getY() - o1.getValues().get(valueIndex).getY()) * 1000);
             }
         });
-        for (Line line : lineList) {
+        for (Line line : lines) {
             drawPoints(canvas, line, lineIndex, MODE_HIGHLIGHT);
         }
     }

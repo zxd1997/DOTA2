@@ -3,7 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="win">#00d23f</color>
+    <color name="win">#009933</color>
     <color name="lose">#ff0000</color>
     <color name="very_high">#ff9100</color>
     <color name="high">#ffd500</color>

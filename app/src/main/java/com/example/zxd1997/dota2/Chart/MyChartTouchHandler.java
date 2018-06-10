@@ -224,11 +224,7 @@ public class MyChartTouchHandler extends ChartTouchHandler {
         }
 
         // Check if selection is still on the same value, if not return false.
-        if (oldSelectedValue.isSet() && selectedValue.isSet() && !oldSelectedValue.equals(selectedValue)) {
-            return false;
-        } else {
-            return renderer.isTouched();
-        }
+        return (!oldSelectedValue.isSet() || !selectedValue.isSet() || oldSelectedValue.equals(selectedValue)) && renderer.isTouched();
     }
 
     public boolean isZoomEnabled() {
@@ -307,11 +303,8 @@ public class MyChartTouchHandler extends ChartTouchHandler {
 
         @Override
         public boolean onDoubleTap(MotionEvent e) {
-            if (isZoomEnabled) {
-                return chartZoomer.startZoom(e, computator);
-            }
+            return isZoomEnabled && chartZoomer.startZoom(e, computator);
 
-            return false;
         }
 
         @Override
@@ -331,11 +324,8 @@ public class MyChartTouchHandler extends ChartTouchHandler {
 
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            if (isScrollEnabled) {
-                return chartScroller.fling((int) -velocityX, (int) -velocityY, computator);
-            }
+            return isScrollEnabled && chartScroller.fling((int) -velocityX, (int) -velocityY, computator);
 
-            return false;
         }
     }
 

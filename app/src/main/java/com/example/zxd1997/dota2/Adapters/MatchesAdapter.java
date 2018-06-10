@@ -1,5 +1,6 @@
 package com.example.zxd1997.dota2.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -39,10 +40,10 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.match_list, parent, false);
-        RecyclerView.ViewHolder viewHolder = new ViewHolder(view);
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
+    @SuppressLint("Recycle")
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ViewHolder viewHolder = (ViewHolder) holder;
@@ -67,25 +68,21 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         t1.setSpan(new ForegroundColorSpan(Color.BLUE), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         k.append(t1);
         viewHolder.kda.setText(k);
-        viewHolder.gpm.setText("GPM:" + recentMatch.getGold_per_min());
-        viewHolder.xpm.setText("XPM:" + recentMatch.getXp_per_min());
-        viewHolder.hero_damage.setText("Damage:" + recentMatch.getHero_damage());
-        TypedArray typedArray = context.getResources().obtainTypedArray(R.array.skills);
+        viewHolder.gpm.setText(context.getString(R.string.gpm_) + recentMatch.getGold_per_min());
+        viewHolder.xpm.setText(context.getString(R.string.xpm_) + recentMatch.getXp_per_min());
+        viewHolder.hero_damage.setText(context.getString(R.string.damage_) + recentMatch.getHero_damage());
+        @SuppressLint("Recycle") TypedArray typedArray = context.getResources().obtainTypedArray(R.array.skills);
         viewHolder.skills.setText(typedArray.getText(recentMatch.getSkill()));
         typedArray = context.getResources().obtainTypedArray(R.array.skills_color);
         viewHolder.skills.setTextColor(context.getResources().getColor(typedArray.getResourceId(recentMatch.getSkill(), 0)));
         boolean win;
-        if (recentMatch.getPlayer_slot() < 128 && recentMatch.isRadiant_win()) {
-            win = true;
-        } else if (recentMatch.getPlayer_slot() > 127 && !recentMatch.isRadiant_win()) {
-            win = true;
-        } else win = false;
+        win = recentMatch.getPlayer_slot() < 128 && recentMatch.isRadiant_win() || recentMatch.getPlayer_slot() > 127 && !recentMatch.isRadiant_win();
         if (win) {
             viewHolder.winornot.setTextColor(context.getResources().getColor(R.color.win));
-            viewHolder.winornot.setText("Win");
+            viewHolder.winornot.setText(context.getString(R.string.win));
         } else {
             viewHolder.winornot.setTextColor(context.getResources().getColor(R.color.lose));
-            viewHolder.winornot.setText("Lose");
+            viewHolder.winornot.setText(context.getString(R.string.lose));
         }
         Hero h = null;
         for (Map.Entry<String, Hero> entry : MainActivity.heroes.entrySet()) {
@@ -94,6 +91,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 break;
             }
         }
+        assert h != null;
         viewHolder.hero_name.setText(h.getLocalized_name());
         viewHolder.hero_header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
                 context.getResources().getIdentifier("hero_" + h.getId(), "drawable", context.getPackageName())

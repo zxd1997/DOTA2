@@ -3,12 +3,14 @@ package com.example.zxd1997.dota2.Utils;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
+import java.util.Objects;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -29,13 +31,13 @@ public class Okhttp {
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
 
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Log.d("post", "onResponse: " + response.body().string());
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                Log.d("post", "onResponse: " + Objects.requireNonNull(response.body()).string());
                 class job {
 
                 }
@@ -50,14 +52,14 @@ public class Okhttp {
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
 
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 Message message = new Message();
-                message.obj = response.body().string();
+                message.obj = Objects.requireNonNull(response.body()).string();
                 message.what = what;
                 handler.sendMessage(message);
             }
@@ -71,14 +73,14 @@ public class Okhttp {
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
 
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 FileOutputStream out = MyApplication.getContext().openFileOutput("master.zip", Context.MODE_PRIVATE);
-                out.write(response.body().bytes());
+                out.write(Objects.requireNonNull(response.body()).bytes());
                 out.close();
                 ZipFile zip = new ZipFile(MyApplication.getContext().getFileStreamPath("master.zip"));
                 Enumeration list = zip.entries();

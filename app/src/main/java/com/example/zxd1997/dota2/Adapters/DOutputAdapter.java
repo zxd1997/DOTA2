@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,9 +28,7 @@ public class DOutputAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public DOutputAdapter(Context context, Match.PPlayer p) {
         this.context = context;
         for (Map.Entry<String, Integer> entry : p.getDamage_inflictor().entrySet()) {
-            Log.d("null", "DOutputAdapter: " + entry.getKey() + " " + entry.getValue() + " " + entry.getKey() == null ? "1" : "0");
             if (entry.getKey().equals("null")) {
-                Log.d("null1", "DOutputAdapter: " + entry.getKey() + " " + entry.getValue());
                 damage.add(new Damage("default_attack", entry.getValue(), p.getDamage_targets().get("null")));
             } else {
                 boolean f = false;
