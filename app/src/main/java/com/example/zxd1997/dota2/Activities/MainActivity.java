@@ -1,8 +1,10 @@
 package com.example.zxd1997.dota2.Activities;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     public static Map<String, Item> items;
     SharedPreferences sharedPreferences;
     ProgressDialog pd;
+    @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -54,11 +57,12 @@ public class MainActivity extends AppCompatActivity {
     };
     TabFragmentAdapter tabFragmentAdapter;
     List<Fragment> fragments;
-    private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setStatusBarColor(Color.parseColor("#FFCC0000"));
+        getWindow().setNavigationBarColor(Color.parseColor("#FFCC0000"));
         Update.setDensity(this, getApplication());
         MyApplication.add(this);
         setContentView(R.layout.activity_main);
@@ -73,18 +77,18 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Update.readFromJson();
         }
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        fragments = new ArrayList<Fragment>();
+        fragments = new ArrayList<>();
         fragments.add(MyFragment.newInstance());
         fragments.add(HeroesFragment.newInstance());
         fragments.add(ItemsFragment.newInstance());
         fragments.add(ProFragment.newInstance());
         tabFragmentAdapter = new TabFragmentAdapter(getSupportFragmentManager(), fragments);
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        ViewPager mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(tabFragmentAdapter);
         mViewPager.setOffscreenPageLimit(fragments.size());
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.tabs);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
     }
@@ -110,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
             sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("id", "");
-            editor.commit();
+            editor.apply();
             LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
             Intent intent = new Intent(DISCONNECT);
             localBroadcastManager.sendBroadcast(intent);

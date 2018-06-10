@@ -38,4 +38,14 @@
     <string name="reason_12">Kills</string>
     <string name="reason_13">Creep</string>
     <string name="reason_14">Roshan</string>
+    <string name="benckmark">Benchmark</string>
+    <string name="backpack">Backpack</string>
+    <string name="detail">Detail</string>
+    <string name="tip">Performance Equal/Higher than Recent Matches on this Hero</string>
+    <string name="spirit_bear">Spirit Bear</string>
+    <string name="bear_backpack">Bear Backpack</string>
+    <string name="settings">Settings</string>
+    <string name="kills">Kills:</string>
+    <string name="radiant">Radiant</string>
+    <string name="dire">Dire</string>
 </resources>

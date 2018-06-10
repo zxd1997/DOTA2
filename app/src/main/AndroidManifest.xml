@@ -27,7 +27,10 @@
             android:name=".Activities.MatchActivity"
             android:label="@string/title_activity_match"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activities.SettingsActivity"></activity>
+        <activity
+            android:name=".Activities.SettingsActivity"
+            android:label="Settings"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    app:statusBarBackground="@android:color/holo_red_dark"
     tools:context=".Activities.MatchActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -13,14 +14,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/appbar_padding_top"
+        android:background="@android:color/holo_red_dark"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="?android:attr/actionBarSize"
             android:layout_weight="1"
-            android:background="?attr/colorPrimary"
+            android:background="@android:color/holo_red_dark"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:title="@string/app_name">

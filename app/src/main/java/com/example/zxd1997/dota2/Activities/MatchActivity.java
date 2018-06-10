@@ -1,6 +1,7 @@
 package com.example.zxd1997.dota2.Activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -30,6 +31,7 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MatchActivity extends AppCompatActivity {
     final static int MATCH = 5;
@@ -82,29 +84,32 @@ public class MatchActivity extends AppCompatActivity {
         Update.setDensity(this, getApplication());
         MyApplication.add(this);
         super.onCreate(savedInstanceState);
+        getWindow().setStatusBarColor(Color.parseColor("#FFCC0000"));
+        getWindow().setNavigationBarColor(Color.parseColor("#FFCC0000"));
         setContentView(R.layout.activity_match);
         Intent intent = getIntent();
         if (intent == null) {
             startActivity(new Intent(MatchActivity.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
             this.finish();
         }
+        assert intent != null;
         id = intent.getLongExtra("id", -1);
         if (id == -1) {
             startActivity(new Intent(MatchActivity.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
             this.finish();
         }
         Log.d("matchid", "onCreate: " + id);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         progressBar = findViewById(R.id.progressBar2);
         progressBar.setVisibility(View.VISIBLE);
         Okhttp.getFromService(getString(R.string.api) + getString(R.string.matches) + id, handler, MATCH);
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout = findViewById(R.id.tabs);
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_5)));
         tabFragmentAdapter = new TabFragmentAdapter(getSupportFragmentManager(), fragments);
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(tabFragmentAdapter);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
