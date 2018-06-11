@@ -33,13 +33,13 @@
 
         <TextView
             android:id="@+id/playername"
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_width="165dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:gravity="center_vertical"
             android:ellipsize="end"
-            android:singleLine="true"
             android:textColor="@android:color/black"
-            android:textSize="20sp"
+            android:textSize="18sp"
             app:layout_constraintLeft_toRightOf="@id/hheader"
             app:layout_constraintStart_toEndOf="@+id/hheader"
             app:layout_constraintTop_toTopOf="@id/hheader"

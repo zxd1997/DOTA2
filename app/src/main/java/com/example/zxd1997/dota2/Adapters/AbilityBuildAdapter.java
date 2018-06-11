@@ -38,9 +38,7 @@ public class AbilityBuildAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         for (Match.PPlayer p : match.getPlayers()) {
             abilities.add(-1);
             if (p.getAbility_upgrades_arr().size() < 17) {
-                for (int i : p.getAbility_upgrades_arr()) {
-                    abilities.add(i);
-                }
+                abilities.addAll(p.getAbility_upgrades_arr());
                 for (int i = 0; i < 25 - p.getAbility_upgrades_arr().size(); i++) {
                     abilities.add(0);
                 }
@@ -77,15 +75,11 @@ public class AbilityBuildAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
                 abilities.add(p.getAbility_upgrades_arr().get(p.getAbility_upgrades_arr().size() - 1));
             } else if (p.getAbility_upgrades_arr().size() < 25) {
-                for (int i : p.getAbility_upgrades_arr()) {
-                    abilities.add(i);
-                }
+                abilities.addAll(p.getAbility_upgrades_arr());
                 for (int i = 0; i < 25 - p.getAbility_upgrades_arr().size(); i++) {
                     abilities.add(0);
                 }
-            } else for (int i : p.getAbility_upgrades_arr()) {
-                abilities.add(i);
-            }
+            } else abilities.addAll(p.getAbility_upgrades_arr());
         }
     }
 
@@ -135,7 +129,7 @@ public class AbilityBuildAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 break;
             case LEVEL: {
                 LevelHolder viewHolder = (LevelHolder) holder;
-                viewHolder.level.setText(position + "");
+                viewHolder.level.setText(String.valueOf(position));
                 break;
             }
             default: {

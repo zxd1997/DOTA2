@@ -79,4 +79,10 @@
     <string name="damage_dealt">Damage Dealt</string>
     <string name="damage_taken">Damage Taken</string>
     <string name="item_cast">Item/Cast</string>
+    <string name="wards_placement">Wards Placement</string>
+    <string name="wards_log">Wards Log</string>
+    <string name="zero">00:00</string>
+    <string name="placed">Placed</string>
+    <string name="destroyed">Destroy</string>
+    <string name="left">Left</string>
 </resources>

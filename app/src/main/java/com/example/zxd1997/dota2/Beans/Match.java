@@ -720,7 +720,7 @@ public class Match {
         public class Ward {
             private int time;
             private String type;
-            private List<Integer> key = new ArrayList<>();
+            private String key;
             private int slot;
             private int x;
             private int y;
@@ -745,11 +745,11 @@ public class Match {
                 this.type = type;
             }
 
-            public List<Integer> getKey() {
+            public String getKey() {
                 return key;
             }
 
-            public void setKey(List<Integer> key) {
+            public void setKey(String key) {
                 this.key = key;
             }
 

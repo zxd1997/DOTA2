@@ -24,6 +24,7 @@ import com.example.zxd1997.dota2.Fragments.EconomyFragment;
 import com.example.zxd1997.dota2.Fragments.NoDetailFragment;
 import com.example.zxd1997.dota2.Fragments.OverviewFragment;
 import com.example.zxd1997.dota2.Fragments.PurchaseAndCastFragment;
+import com.example.zxd1997.dota2.Fragments.VisionFragment;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.MyApplication;
 import com.example.zxd1997.dota2.Utils.Okhttp;
@@ -63,6 +64,8 @@ public class MatchActivity extends AppCompatActivity {
                 fragments.add(EconomyFragment.newInstance());
                 tabLayout.addTab(tabLayout.newTab().setText("Purchase&Cast"));
                 fragments.add(PurchaseAndCastFragment.newInstance());
+                tabLayout.addTab(tabLayout.newTab().setText("Vision"));
+                fragments.add(VisionFragment.newInstance());
                 tabFragmentAdapter.notifyDataSetChanged();
                 mViewPager.setOffscreenPageLimit(fragments.size());
             }

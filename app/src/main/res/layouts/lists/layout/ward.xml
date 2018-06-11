@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="51dp"
+    android:layout_margin="2dp"
+    app:cardCornerRadius="2dp">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/wheader"
+            android:layout_width="80dp"
+            android:layout_height="45dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="3dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:roundBottomRight="false"
+            app:roundTopRight="false"
+            app:roundedCornerRadius="2dp" />
+
+        <View
+            android:id="@+id/color_ward"
+            android:layout_width="3dp"
+            android:layout_height="45dp"
+            app:layout_constraintLeft_toRightOf="@id/wheader"
+            app:layout_constraintTop_toTopOf="@id/wheader" />
+
+        <TextView
+            android:id="@+id/ward_name"
+            android:layout_width="145dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="6dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/wheader"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1231231" />
+
+        <TextView
+            android:id="@+id/left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="@string/destroyed"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@id/ward_left"
+            app:layout_constraintRight_toLeftOf="@id/ward" />
+
+        <TextView
+            android:id="@+id/ward_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="15dp"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/left"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1:00:00" />
+
+        <TextView
+            android:id="@+id/placed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:text="@string/placed"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@id/ward_place"
+            app:layout_constraintRight_toLeftOf="@id/left" />
+
+        <TextView
+            android:id="@+id/ward_place"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="15dp"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/placed"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1:00:00" />
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/ward"
+            android:layout_width="42dp"
+            android:layout_height="32dp"
+            android:layout_marginRight="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.CardView>
