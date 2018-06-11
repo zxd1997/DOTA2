@@ -18,9 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class DTakenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    List<Taken> d_taken = new ArrayList<>();
-    Context context;
+class DTakenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private final List<Taken> d_taken = new ArrayList<>();
+    private final Context context;
 
     public DTakenAdapter(Context context, Map<String, Integer> map) {
         this.context = context;
@@ -63,20 +63,20 @@ public class DTakenAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     class Taken {
-        int damage;
-        String id;
+        final int damage;
+        final String id;
 
-        public Taken(int damage, String id) {
+        Taken(int damage, String id) {
             this.id = id;
             this.damage = damage;
         }
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        SimpleDraweeView icon;
-        TextView damage_taken;
+        final SimpleDraweeView icon;
+        final TextView damage_taken;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             icon = itemView.findViewById(R.id.d_skill);
             damage_taken = itemView.findViewById(R.id.d_damage_taken);

@@ -19,13 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AbilityBuildAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    final int ABILITY = 1;
-    final int HEADER = -1;
-    final int PLAYER = -2;
-    final int LEVEL = -3;
-    List<Integer> abilities;
-    Match match;
-    Context context;
+    private final int ABILITY = 1;
+    private final int HEADER = -1;
+    private final int PLAYER = -2;
+    private final int LEVEL = -3;
+    private final List<Integer> abilities;
+    private final Match match;
+    private final Context context;
 
     public AbilityBuildAdapter(Context context, Match match) {
         this.context = context;
@@ -158,11 +158,11 @@ public class AbilityBuildAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     class HeaderHolder extends RecyclerView.ViewHolder {
-        SimpleDraweeView header;
-        TextView name;
-        View color;
+        final SimpleDraweeView header;
+        final TextView name;
+        final View color;
 
-        public HeaderHolder(View itemView) {
+        HeaderHolder(View itemView) {
             super(itemView);
             color = itemView.findViewById(R.id.color_skill);
             header = itemView.findViewById(R.id.hheader);
@@ -171,25 +171,25 @@ public class AbilityBuildAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     class PlayerHolder extends RecyclerView.ViewHolder {
-        public PlayerHolder(View itemView) {
+        PlayerHolder(View itemView) {
             super(itemView);
         }
     }
 
     class LevelHolder extends RecyclerView.ViewHolder {
-        TextView level;
+        final TextView level;
 
-        public LevelHolder(View itemView) {
+        LevelHolder(View itemView) {
             super(itemView);
             level = itemView.findViewById(R.id.level);
         }
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        SimpleDraweeView icon;
-        TextView talent;
+        final SimpleDraweeView icon;
+        final TextView talent;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             icon = itemView.findViewById(R.id.ability);
             talent = itemView.findViewById(R.id.talent);

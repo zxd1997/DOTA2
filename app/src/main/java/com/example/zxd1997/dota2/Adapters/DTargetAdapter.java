@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class DTargetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    List<Target> targets = new ArrayList<>();
-    Context context;
+class DTargetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private final List<Target> targets = new ArrayList<>();
+    private final Context context;
 
     public DTargetAdapter(Context context, Map<String, Integer> map) {
         this.context = context;
@@ -56,20 +56,20 @@ public class DTargetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     class Target {
-        int id;
-        int damage;
+        final int id;
+        final int damage;
 
-        public Target(int id, int damage) {
+        Target(int id, int damage) {
             this.id = id;
             this.damage = damage;
         }
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        SimpleDraweeView icon;
-        TextView damage;
+        final SimpleDraweeView icon;
+        final TextView damage;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             icon = itemView.findViewById(R.id.d_skill);
             damage = itemView.findViewById(R.id.d_damage_taken);

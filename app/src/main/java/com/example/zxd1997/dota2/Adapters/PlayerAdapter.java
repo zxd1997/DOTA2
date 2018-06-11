@@ -1,5 +1,6 @@
 package com.example.zxd1997.dota2.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -26,13 +27,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    final int PLAYER = 1;
-    final int RADIANT_HEADER = 2;
-    final int DIRE_HEADER = 3;
-    final int DETAIL = 4;
-    Match match;
-    List<Content> contents = new LinkedList<>();
-    Context context;
+    private final int PLAYER = 1;
+    private final int RADIANT_HEADER = 2;
+    private final int DIRE_HEADER = 3;
+    private final int DETAIL = 4;
+    private final Match match;
+    private final List<Content> contents = new LinkedList<>();
+    private final Context context;
 
     public PlayerAdapter(Context context, Match match) {
         this.context = context;
@@ -50,30 +51,20 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        RecyclerView.ViewHolder viewHolder = null;
         switch (viewType) {
             case RADIANT_HEADER: {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.radiant_header, parent, false);
-                viewHolder = new RadiantHolder(view);
-                break;
+                return new RadiantHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.radiant_header, parent, false));
             }
             case DIRE_HEADER: {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dire_header, parent, false);
-                viewHolder = new RadiantHolder(view);
-                break;
+                return new RadiantHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.dire_header, parent, false));
             }
             case PLAYER: {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.player_item, parent, false);
-                viewHolder = new ViewHolder(view);
-                break;
+                return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.player_item, parent, false));
             }
-            case DETAIL: {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.player_detail, parent, false);
-                viewHolder = new DetailHolder(view);
-                break;
+            default: {
+                return new DetailHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.player_detail, parent, false));
             }
         }
-        return viewHolder;
     }
 
     @Override
@@ -81,7 +72,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return contents.get(position).type;
     }
 
-    public SpannableString getS(double pct) {
+    private SpannableString getS(double pct) {
         pct *= 100;
         DecimalFormat df = new DecimalFormat("0.0");
         SpannableString t = new SpannableString(df.format(pct) + "%");
@@ -100,7 +91,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         switch (getItemViewType(position)) {
             case RADIANT_HEADER: {
                 RadiantHolder viewHolder = (RadiantHolder) holder;
@@ -295,11 +286,11 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     class Content {
-        int type;
-        Object object;
+        final int type;
+        final Object object;
         boolean extended;
 
-        public Content(int type, Object object) {
+        Content(int type, Object object) {
             this.extended = false;
             this.type = type;
             this.object = object;
@@ -307,10 +298,10 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     class RadiantHolder extends RecyclerView.ViewHolder {
-        TextView total_kill;
-        TextView winorlose;
+        final TextView total_kill;
+        final TextView winorlose;
 
-        public RadiantHolder(View itemView) {
+        RadiantHolder(View itemView) {
             super(itemView);
             total_kill = itemView.findViewById(R.id.total_kill);
             winorlose = itemView.findViewById(R.id.winorlose);
@@ -318,33 +309,33 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     class DetailHolder extends RecyclerView.ViewHolder {
-        SimpleDraweeView backpack_0;
-        SimpleDraweeView backpack_1;
-        SimpleDraweeView backpack_2;
-        TextView xpm;
-        TextView gpm;
-        TextView level;
-        TextView towerDamage;
-        TextView heroHealing;
-        TextView lastHits;
-        TextView denies;
-        TextView gpm_ben;
-        TextView xpm_ben;
-        TextView kdm_ben;
-        TextView hdm_ben;
-        TextView td_ben;
-        ConstraintLayout bear;
-        SimpleDraweeView bear_item_0;
-        SimpleDraweeView bear_item_1;
-        SimpleDraweeView bear_item_2;
-        SimpleDraweeView bear_item_3;
-        SimpleDraweeView bear_item_4;
-        SimpleDraweeView bear_item_5;
-        SimpleDraweeView bear_backpack_0;
-        SimpleDraweeView bear_backpack_1;
-        SimpleDraweeView bear_backpack_2;
+        final SimpleDraweeView backpack_0;
+        final SimpleDraweeView backpack_1;
+        final SimpleDraweeView backpack_2;
+        final TextView xpm;
+        final TextView gpm;
+        final TextView level;
+        final TextView towerDamage;
+        final TextView heroHealing;
+        final TextView lastHits;
+        final TextView denies;
+        final TextView gpm_ben;
+        final TextView xpm_ben;
+        final TextView kdm_ben;
+        final TextView hdm_ben;
+        final TextView td_ben;
+        final ConstraintLayout bear;
+        final SimpleDraweeView bear_item_0;
+        final SimpleDraweeView bear_item_1;
+        final SimpleDraweeView bear_item_2;
+        final SimpleDraweeView bear_item_3;
+        final SimpleDraweeView bear_item_4;
+        final SimpleDraweeView bear_item_5;
+        final SimpleDraweeView bear_backpack_0;
+        final SimpleDraweeView bear_backpack_1;
+        final SimpleDraweeView bear_backpack_2;
 
-        public DetailHolder(View itemView) {
+        DetailHolder(View itemView) {
             super(itemView);
             backpack_0 = itemView.findViewById(R.id.backpack_0);
             backpack_1 = itemView.findViewById(R.id.backpack_1);
@@ -375,23 +366,23 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        SimpleDraweeView player_hero;
-        TextView player;
-        TextView k;
-        TextView kk;
-        TextView in_battle;
-        TextView damage;
-        TextView lane;
-        SimpleDraweeView item_0;
-        SimpleDraweeView item_1;
-        SimpleDraweeView item_2;
-        SimpleDraweeView item_3;
-        SimpleDraweeView item_4;
-        SimpleDraweeView item_5;
-        View color;
-        View itemView;
+        final SimpleDraweeView player_hero;
+        final TextView player;
+        final TextView k;
+        final TextView kk;
+        final TextView in_battle;
+        final TextView damage;
+        final TextView lane;
+        final SimpleDraweeView item_0;
+        final SimpleDraweeView item_1;
+        final SimpleDraweeView item_2;
+        final SimpleDraweeView item_3;
+        final SimpleDraweeView item_4;
+        final SimpleDraweeView item_5;
+        final View color;
+        final View itemView;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             this.itemView = itemView;
             lane = itemView.findViewById(R.id.lane);

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class TabFragmentAdapter extends FragmentPagerAdapter {
 
-    List<Fragment> fragments;
+    private final List<Fragment> fragments;
 
     public TabFragmentAdapter(FragmentManager fm, List<Fragment> fragments) {
         super(fm);

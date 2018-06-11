@@ -19,12 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    final int ABILITY = 0;
-    final int ITEM = 1;
-    final int PURCHASE = 2;
-    List<Cast> d_taken = new ArrayList<>();
-    Context context;
+class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private final int ABILITY = 0;
+    private final int ITEM = 1;
+    private final int PURCHASE = 2;
+    private final List<Cast> d_taken = new ArrayList<>();
+    private final Context context;
 
     public CastAdapter(Context context, List<Match.PPlayer.Purchase> purchases) {
         this.context = context;
@@ -109,11 +109,11 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     class Cast {
-        int time;
-        String id;
-        int type;
+        final int time;
+        final String id;
+        final int type;
 
-        public Cast(int time, String id, int type) {
+        Cast(int time, String id, int type) {
             this.type = type;
             this.id = id;
             this.time = time;
@@ -121,10 +121,10 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        SimpleDraweeView icon;
-        TextView damage_taken;
+        final SimpleDraweeView icon;
+        final TextView damage_taken;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             icon = itemView.findViewById(R.id.d_skill);
             damage_taken = itemView.findViewById(R.id.d_damage_taken);

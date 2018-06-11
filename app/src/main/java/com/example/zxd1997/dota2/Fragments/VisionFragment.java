@@ -2,6 +2,11 @@ package com.example.zxd1997.dota2.Fragments;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -39,14 +44,64 @@ import static android.support.constraint.Constraints.TAG;
  */
 public class VisionFragment extends Fragment {
 
-    final int OBSERVER = 0;
-    final int SENTRY = 1;
-    Match match;
+    private final int OBSERVER = 0;
 
     public VisionFragment() {
         // Required empty public constructor
     }
 
+    private Bitmap getBitmap(Bitmap map, List<Wards> wards){
+        Canvas canvas=new Canvas(map);
+        float h=map.getHeight();
+        float w=map.getWidth();
+        float ww;
+        float hh;
+        Bitmap tmp;
+        Paint paint=new Paint();
+        paint.setAntiAlias(true);
+        float radius;
+        for (Wards ward:wards){
+            if (ward.getType()==OBSERVER){
+                if (ward.getWard().getPlayer_slot()<5){
+                    tmp=BitmapFactory.decodeResource(Objects.requireNonNull(getContext()).getResources(),R.drawable.goodguys_observer);
+                    hh=tmp.getHeight();
+                    ww=tmp.getWidth();
+                    paint.setColor(Color.parseColor("#00ff00"));
+                    radius=(float) 1600/19000*w;
+                }else {
+                    tmp=BitmapFactory.decodeResource(Objects.requireNonNull(getContext()).getResources(),R.drawable.badguys_observer);
+                    hh=tmp.getHeight();
+                    ww=tmp.getWidth();
+                    paint.setColor(Color.parseColor("#ff0000"));
+                    radius=(float) 1600/19000*w;
+                }
+            }else {
+                if (ward.getWard().getPlayer_slot()<5){
+                    tmp=BitmapFactory.decodeResource(Objects.requireNonNull(getContext()).getResources(),R.drawable.goodguys_sentry);
+                    hh=tmp.getHeight();
+                    ww=tmp.getWidth();
+                    paint.setColor(Color.parseColor("#00ff00"));
+                    radius=(float) 850/19000*w;
+                }else {
+                    tmp=BitmapFactory.decodeResource(Objects.requireNonNull(getContext()).getResources(),R.drawable.badguys_sentry);
+                    hh=tmp.getHeight();
+                    ww=tmp.getWidth();
+                    paint.setColor(Color.parseColor("#ff0000"));
+                    radius=(float) 850/19000*w;
+                }
+            }
+            paint.setAlpha(60);
+            paint.setStyle(Paint.Style.FILL);
+            canvas.drawCircle((float)(ward.getWard().getX()*2-128)/2*(float) 4/502*w, h-(float) (ward.getWard().getY()*2-130)/2*(float) 4/503*h,radius,paint);
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setStrokeWidth(4);
+            paint.setAlpha(150);
+            canvas.drawCircle((float)(ward.getWard().getX()*2-128)/2*(float) 4/502*w, h-(float) (ward.getWard().getY()*2-130)/2*(float) 4/503*h,radius,paint);
+            canvas.drawBitmap(tmp,(float)(ward.getWard().getX()*2-128)/2*(float)4/502*w-ww/2, h-(float) (ward.getWard().getY()*2-130)/2*(float) 4/503*h-hh/2,new Paint());
+            tmp.recycle();
+        }
+        return map;
+    }
 
     public static VisionFragment newInstance() {
         return new VisionFragment();
@@ -59,7 +114,7 @@ public class VisionFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_vision, container, false);
         MatchActivity activity = (MatchActivity) getActivity();
-        match = Objects.requireNonNull(activity).getMatch();
+        Match match = Objects.requireNonNull(activity).getMatch();
         if (match == null || match.getPlayers() == null) {
             Log.d("null", "onCreateView: " + 111111);
             Intent intent = new Intent(MyApplication.getContext(), MainActivity.class);
@@ -88,6 +143,7 @@ public class VisionFragment extends Fragment {
             for (Match.PPlayer p : match.getPlayers()) {
                 for (Match.PPlayer.Ward ward : p.getSen_log()) {
                     boolean f = false;
+                    int SENTRY = 1;
                     for (Match.PPlayer.Ward ward_left : p.getSen_left_log()) {
                         if (ward.getKey().equals(ward_left.getKey()) && ward.getEhandle() == ward_left.getEhandle()) {
                             wards.add(new Wards(SENTRY, ward, ward_left, p.getPersonaname(), p.getHero_id()));
@@ -110,11 +166,12 @@ public class VisionFragment extends Fragment {
             Log.d(TAG, "onCreateView: " + tot + " " + current_wards.size());
             final WardsAdapter wardsAdapter = new WardsAdapter(getContext(), current_wards);
             SeekBar seekBar = view.findViewById(R.id.seekBar);
-            ImageView map = view.findViewById(R.id.map);
+            final ImageView map = view.findViewById(R.id.map);
             final TextView time = view.findViewById(R.id.wards_time);
             final RecyclerView recyclerView = view.findViewById(R.id.wards);
             seekBar.setMax(match.getDuration());
             time.setText(R.string.zero);
+            map.setImageBitmap(getBitmap(BitmapFactory.decodeResource(Objects.requireNonNull(getContext()).getResources(),R.drawable.map).copy(Bitmap.Config.ARGB_8888, true),current_wards));
             seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -146,6 +203,7 @@ public class VisionFragment extends Fragment {
                     }
                     recyclerView.smoothScrollToPosition(0);
                     wardsAdapter.notifyDataSetChanged();
+                    map.setImageBitmap(getBitmap(BitmapFactory.decodeResource(getContext().getResources(),R.drawable.map).copy(Bitmap.Config.ARGB_8888, true),current_wards));
                 }
 
                 @Override

@@ -112,7 +112,7 @@ public class Okhttp {
                         FileOutputStream fileOutputStream = MyApplication.getContext().openFileOutput(filename, Context.MODE_PRIVATE);
                         InputStream inputStream = zip.getInputStream(entry);
                         byte[] buf = new byte[16384];
-                        int len = 0;
+                        int len;
                         while ((len = inputStream.read(buf)) != -1) {
                             fileOutputStream.write(buf, 0, len);
                         }

@@ -24,9 +24,10 @@ import com.example.zxd1997.dota2.Utils.Update;
 import java.util.Objects;
 
 public class SettingsActivity extends AppCompatActivity {
-    final static int FINISHED = 8;
-    ProgressDialog pd;
+    private final static int FINISHED = 8;
+    private ProgressDialog pd;
     @SuppressLint("HandlerLeak")
+    private final
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {

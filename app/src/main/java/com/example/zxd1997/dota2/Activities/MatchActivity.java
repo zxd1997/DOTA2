@@ -24,6 +24,7 @@ import com.example.zxd1997.dota2.Fragments.EconomyFragment;
 import com.example.zxd1997.dota2.Fragments.NoDetailFragment;
 import com.example.zxd1997.dota2.Fragments.OverviewFragment;
 import com.example.zxd1997.dota2.Fragments.PurchaseAndCastFragment;
+import com.example.zxd1997.dota2.Fragments.TeamFightFragment;
 import com.example.zxd1997.dota2.Fragments.VisionFragment;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.MyApplication;
@@ -36,14 +37,14 @@ import java.util.List;
 import java.util.Objects;
 
 public class MatchActivity extends AppCompatActivity {
-    final static int MATCH = 5;
-    long id;
-    TabLayout tabLayout;
-    TabFragmentAdapter tabFragmentAdapter;
-    List<Fragment> fragments = new ArrayList<>();
-    ProgressBar progressBar;
+    private final static int MATCH = 5;
+    private TabLayout tabLayout;
+    private TabFragmentAdapter tabFragmentAdapter;
+    private final List<Fragment> fragments = new ArrayList<>();
+    private ProgressBar progressBar;
     private Match match = null;
     @SuppressLint("HandlerLeak")
+    private final
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -58,14 +59,16 @@ public class MatchActivity extends AppCompatActivity {
                 mViewPager.setOffscreenPageLimit(fragments.size());
             } else {
                 tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-                tabLayout.addTab(tabLayout.newTab().setText("Combat"));
+                tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_7)));
                 fragments.add(DetailFragment.newInstance());
-                tabLayout.addTab(tabLayout.newTab().setText("Economy"));
+                tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_8)));
                 fragments.add(EconomyFragment.newInstance());
-                tabLayout.addTab(tabLayout.newTab().setText("Purchase&Cast"));
+                tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_9)));
                 fragments.add(PurchaseAndCastFragment.newInstance());
-                tabLayout.addTab(tabLayout.newTab().setText("Vision"));
+                tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_10)));
                 fragments.add(VisionFragment.newInstance());
+                tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_11)));
+                fragments.add(TeamFightFragment.newInstance());
                 tabFragmentAdapter.notifyDataSetChanged();
                 mViewPager.setOffscreenPageLimit(fragments.size());
             }
@@ -93,12 +96,11 @@ public class MatchActivity extends AppCompatActivity {
             this.finish();
         }
         assert intent != null;
-        id = intent.getLongExtra("id", -1);
+        long id = intent.getLongExtra("id", -1);
         if (id == -1) {
             startActivity(new Intent(MatchActivity.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
             this.finish();
         }
-        Log.d("matchid", "onCreate: " + id);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);

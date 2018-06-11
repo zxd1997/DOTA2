@@ -35,14 +35,15 @@ import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-    final static int FINISHED = 8;
+    private final static int FINISHED = 8;
     public static Map<String, Hero> heroes;
     public static Map<String, String> ability_ids;
     public static Map<String, Ability> abilities;
     public static Map<String, Item> items;
-    SharedPreferences sharedPreferences;
-    ProgressDialog pd;
+    private SharedPreferences sharedPreferences;
+    private ProgressDialog pd;
     @SuppressLint("HandlerLeak")
+    private final
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -55,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
-    TabFragmentAdapter tabFragmentAdapter;
-    List<Fragment> fragments;
+    private TabFragmentAdapter tabFragmentAdapter;
+    private List<Fragment> fragments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

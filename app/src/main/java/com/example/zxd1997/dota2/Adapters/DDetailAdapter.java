@@ -19,8 +19,8 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.List;
 
 public class DDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    List<Match.PPlayer> p;
-    Context context;
+    private final List<Match.PPlayer> p;
+    private final Context context;
 
     public DDetailAdapter(Context context, List<Match.PPlayer> p) {
         this.p = p;
@@ -53,13 +53,13 @@ public class DDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        SimpleDraweeView header;
-        TextView name;
-        RecyclerView d_output;
-        RecyclerView d_taken;
-        View color;
+        final SimpleDraweeView header;
+        final TextView name;
+        final RecyclerView d_output;
+        final RecyclerView d_taken;
+        final View color;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             color = itemView.findViewById(R.id.color_detail);
             header = itemView.findViewById(R.id.hheader);

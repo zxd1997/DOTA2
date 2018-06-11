@@ -16,10 +16,9 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.List;
 
 public class WardsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    final int OBSERVER = 0;
-    final int SENTRY = 1;
-    Context context;
-    List<Wards> wards;
+    private final int OBSERVER = 0;
+    private final Context context;
+    private final List<Wards> wards;
 
     public WardsAdapter(Context context, List<Wards> wards) {
         this.context = context;
@@ -84,14 +83,14 @@ public class WardsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        SimpleDraweeView header;
-        View color;
-        TextView name;
-        TextView place;
-        TextView left;
-        SimpleDraweeView type;
+        final SimpleDraweeView header;
+        final View color;
+        final TextView name;
+        final TextView place;
+        final TextView left;
+        final SimpleDraweeView type;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             header = itemView.findViewById(R.id.wheader);
             color = itemView.findViewById(R.id.color_ward);

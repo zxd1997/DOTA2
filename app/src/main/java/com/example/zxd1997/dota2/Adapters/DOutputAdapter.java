@@ -21,9 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class DOutputAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    Context context;
-    List<Damage> damage = new ArrayList<>();
+class DOutputAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private final Context context;
+    private final List<Damage> damage = new ArrayList<>();
 
     public DOutputAdapter(Context context, Match.PPlayer p) {
         this.context = context;
@@ -74,11 +74,11 @@ public class DOutputAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     class Damage {
-        String id;
-        int damage_out;
-        Map<String, Integer> target;
+        final String id;
+        final int damage_out;
+        final Map<String, Integer> target;
 
-        public Damage(String id, int damage_out, Map<String, Integer> target) {
+        Damage(String id, int damage_out, Map<String, Integer> target) {
             this.id = id;
             this.damage_out = damage_out;
             this.target = target;
@@ -86,11 +86,11 @@ public class DOutputAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        SimpleDraweeView d_skill_out;
-        TextView d_damage_out;
-        RecyclerView d_out_target;
+        final SimpleDraweeView d_skill_out;
+        final TextView d_damage_out;
+        final RecyclerView d_out_target;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             d_skill_out = itemView.findViewById(R.id.d_skill_out);
             d_damage_out = itemView.findViewById(R.id.d_damage_out);

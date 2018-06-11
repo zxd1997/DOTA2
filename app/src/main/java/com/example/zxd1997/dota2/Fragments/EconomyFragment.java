@@ -46,8 +46,8 @@ import lecho.lib.hellocharts.view.ColumnChartView;
  * create an instance of this fragment.
  */
 public class EconomyFragment extends Fragment {
-    Match match;
-    ColumnChartView subview;
+    private Match match;
+    private ColumnChartView subview;
 
     public EconomyFragment() {
         // Required empty public constructor
@@ -55,11 +55,6 @@ public class EconomyFragment extends Fragment {
 
     public static EconomyFragment newInstance() {
         return new EconomyFragment();
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override

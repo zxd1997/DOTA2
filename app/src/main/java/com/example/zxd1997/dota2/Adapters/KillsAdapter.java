@@ -17,8 +17,8 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.List;
 
 public class KillsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    Context context;
-    List<Content> contents;
+    private final Context context;
+    private final List<Content> contents;
 
     public KillsAdapter(Context context, List<Content> contents) {
         this.context = context;
@@ -65,10 +65,10 @@ public class KillsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     class HeaderHolder extends RecyclerView.ViewHolder {
-        SimpleDraweeView header;
-        View color;
+        final SimpleDraweeView header;
+        final View color;
 
-        public HeaderHolder(View itemView) {
+        HeaderHolder(View itemView) {
             super(itemView);
             color = itemView.findViewById(R.id.color_kd);
             header = itemView.findViewById(R.id.kd_header);
@@ -76,9 +76,9 @@ public class KillsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     class kdHolder extends RecyclerView.ViewHolder {
-        TextView textView;
+        final TextView textView;
 
-        public kdHolder(View itemView) {
+        kdHolder(View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.kd_text);
         }

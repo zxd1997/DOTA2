@@ -5,9 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +12,6 @@ import android.view.ViewGroup;
 
 import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Activities.MatchActivity;
-import com.example.zxd1997.dota2.Adapters.PurchaseAndCastAdapter;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.MyApplication;
@@ -24,27 +20,27 @@ import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link PurchaseAndCastFragment#newInstance} factory method to
+ * Use the {@link TeamFightFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PurchaseAndCastFragment extends Fragment {
-    private Match match;
+public class TeamFightFragment extends Fragment {
 
-    public PurchaseAndCastFragment() {
+
+    public TeamFightFragment() {
         // Required empty public constructor
     }
 
-    public static PurchaseAndCastFragment newInstance() {
-        return new PurchaseAndCastFragment();
+    public static TeamFightFragment newInstance() {
+        return new TeamFightFragment();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_purchase_and_cast, container, false);
+        View view = inflater.inflate(R.layout.fragment_team_fight, container, false);
         MatchActivity activity = (MatchActivity) getActivity();
-        match = Objects.requireNonNull(activity).getMatch();
+        Match match = Objects.requireNonNull(activity).getMatch();
         if (match == null || match.getPlayers() == null) {
             Log.d("null", "onCreateView: " + 111111);
             Intent intent = new Intent(MyApplication.getContext(), MainActivity.class);
@@ -52,11 +48,7 @@ public class PurchaseAndCastFragment extends Fragment {
             Objects.requireNonNull(getActivity()).startActivity(intent);
             getActivity().finish();
         } else {
-            RecyclerView recyclerView = view.findViewById(R.id.p_c);
-            recyclerView.setNestedScrollingEnabled(false);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            recyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
-            recyclerView.setAdapter(new PurchaseAndCastAdapter(getContext(), match.getPlayers()));
+
         }
         return view;
     }

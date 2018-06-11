@@ -8,6 +8,11 @@
     <string name="tab_text_4">Pro</string>
     <string name="tab_text_5">Overview</string>
     <string name="tab_text_6">Detail</string>
+    <string name="tab_text_7">Combat</string>
+    <string name="tab_text_8">Economy</string>
+    <string name="tab_text_9">Purchase&amp;Cast</string>
+    <string name="tab_text_10">Vision</string>
+    <string name="tab_text_11">TeamFight</string>
     <string name="no_id">No Binding player id, please bind your 32bit steam id</string>
     <string name="wip">Work in progress</string>
     <string name="api">https://api.opendota.com/api/</string>

@@ -28,8 +28,8 @@ import java.util.List;
 import java.util.Map;
 
 public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    List<RecentMatch> recentMatches;
-    Context context;
+    private final List<RecentMatch> recentMatches;
+    private final Context context;
 
     public MatchesAdapter(Context context, List<RecentMatch> recentMatches) {
         this.recentMatches = recentMatches;
@@ -125,19 +125,19 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        SimpleDraweeView hero_header;
-        TextView hero_name;
-        TextView winornot;
-        TextView time;
-        TextView game_mode;
-        TextView lobby_type;
-        TextView skills;
-        TextView kda;
-        TextView hero_damage;
-        TextView gpm;
-        TextView xpm;
+        final SimpleDraweeView hero_header;
+        final TextView hero_name;
+        final TextView winornot;
+        final TextView time;
+        final TextView game_mode;
+        final TextView lobby_type;
+        final TextView skills;
+        final TextView kda;
+        final TextView hero_damage;
+        final TextView gpm;
+        final TextView xpm;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             hero_header = itemView.findViewById(R.id.hero_header);
             hero_name = itemView.findViewById(R.id.hero_name);

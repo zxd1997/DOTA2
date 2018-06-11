@@ -25,7 +25,7 @@ import com.example.zxd1997.dota2.R;
 import java.util.Objects;
 
 public class OverviewFragment extends Fragment {
-    Match match;
+    private Match match;
 
     public OverviewFragment() {
         // Required empty public constructor
@@ -33,12 +33,6 @@ public class OverviewFragment extends Fragment {
 
     public static OverviewFragment newInstance() {
         return new OverviewFragment();
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
     }
 
     @SuppressLint("Recycle")
@@ -89,7 +83,7 @@ public class OverviewFragment extends Fragment {
             long day = (now - match.getStart_time()) / (3600 * 24);
             long hour = (now - match.getStart_time()) / 3600;
             long minute = (now - match.getStart_time()) / 60;
-            String tmp = "";
+            String tmp;
             if (year > 0) {
                 tmp = year + " Years ago";
             } else if (month > 0) {

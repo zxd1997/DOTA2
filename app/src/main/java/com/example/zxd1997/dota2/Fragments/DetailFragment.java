@@ -36,7 +36,7 @@ import java.util.Objects;
 
 public class DetailFragment extends Fragment {
 
-    Match match;
+    private Match match;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -45,11 +45,6 @@ public class DetailFragment extends Fragment {
 
     public static DetailFragment newInstance() {
         return new DetailFragment();
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override

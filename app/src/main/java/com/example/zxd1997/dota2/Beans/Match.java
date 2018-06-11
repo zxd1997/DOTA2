@@ -198,7 +198,7 @@ public class Match {
         this.players = players;
     }
 
-    class TeamFight {
+    private class TeamFight {
 
     }
 

@@ -48,39 +48,40 @@ import java.util.List;
 import java.util.Objects;
 
 public class MyFragment extends Fragment {
-    static final int VERIFY = 0;
-    static final int PLAYER_INFO = 1;
-    static final int WL = 2;
-    static final int RECENT_MATCHES = 3;
-    final String DISCONNECT = "disconnect from id";
-    LinearLayout linearLayout;
-    LinearLayout my;
-    ProgressBar progressBar;
-    SharedPreferences sharedPreferences;
-    String tmp;
-    Button button1;
-    Button button;
-    String id = "";
-    Player player;
-    SimpleDraweeView header;
-    SimpleDraweeView tier;
-    SimpleDraweeView stars;
-    TextView textView;
-    TextView personaname;
-    TextView loccountrycode;
-    TextView account_id;
-    TextView win;
-    TextView lose;
-    TextView winrate;
-    TextView ranks;
-    RecyclerView recyclerView;
-    MatchesAdapter matchesAdapter;
-    SwipeRefreshLayout swipeRefreshLayout;
-    TextInputLayout textInputLayout;
-    com.example.zxd1997.dota2.Beans.WL wl;
-    List<RecentMatch> recentMatches = new ArrayList<>();
-    Receiver receiver;
+    private static final int VERIFY = 0;
+    private static final int PLAYER_INFO = 1;
+    private static final int WL = 2;
+    private static final int RECENT_MATCHES = 3;
+    private final String DISCONNECT = "disconnect from id";
+    private LinearLayout linearLayout;
+    private LinearLayout my;
+    private ProgressBar progressBar;
+    private SharedPreferences sharedPreferences;
+    private String tmp;
+    private Button button1;
+    private Button button;
+    private String id = "";
+    private Player player;
+    private SimpleDraweeView header;
+    private SimpleDraweeView tier;
+    private SimpleDraweeView stars;
+    private TextView textView;
+    private TextView personaname;
+    private TextView loccountrycode;
+    private TextView account_id;
+    private TextView win;
+    private TextView lose;
+    private TextView winrate;
+    private TextView ranks;
+    private RecyclerView recyclerView;
+    private MatchesAdapter matchesAdapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private TextInputLayout textInputLayout;
+    private com.example.zxd1997.dota2.Beans.WL wl;
+    private final List<RecentMatch> recentMatches = new ArrayList<>();
+    private Receiver receiver;
     @SuppressLint("HandlerLeak")
+    private final
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message message) {
@@ -179,11 +180,6 @@ public class MyFragment extends Fragment {
 
     public static MyFragment newInstance() {
         return new MyFragment();
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override

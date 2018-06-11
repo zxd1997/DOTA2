@@ -41,7 +41,7 @@ public class Update {
         Okhttp.getZip(MyApplication.getContext().getString(R.string.zip), handler);
     }
 
-    static public StringBuilder readfile(String filename) {
+    private static StringBuilder readfile(String filename) {
         StringBuilder s = new StringBuilder();
         try {
             FileInputStream fileInputStream = MyApplication.getContext().openFileInput(filename);

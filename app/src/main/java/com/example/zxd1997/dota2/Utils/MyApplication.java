@@ -12,7 +12,7 @@ import java.util.List;
 
 public class MyApplication extends Application {
     private static Context context;
-    private static List<Activity> activities = new LinkedList<>();
+    private static final List<Activity> activities = new LinkedList<>();
 
     public static Context getContext() {
         return context;
