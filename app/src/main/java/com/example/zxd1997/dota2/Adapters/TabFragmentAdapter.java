@@ -2,7 +2,7 @@ package com.example.zxd1997.dota2.Adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.view.ViewGroup;
 
 import java.util.List;
@@ -29,5 +29,11 @@ public class TabFragmentAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return fragments.size();
+    }
+
+    public void myDestroyItem(ViewGroup container, int position, Object object) {
+        super.destroyItem(container, position, object);
+        FragmentTransaction transaction;
+
     }
 }

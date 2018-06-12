@@ -46,6 +46,12 @@ public class VisionFragment extends Fragment {
 
     private final int OBSERVER = 0;
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy: ");
+        System.gc();
+    }
     public VisionFragment() {
         // Required empty public constructor
     }

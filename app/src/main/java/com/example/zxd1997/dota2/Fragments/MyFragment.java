@@ -80,6 +80,12 @@ public class MyFragment extends Fragment {
     private com.example.zxd1997.dota2.Beans.WL wl;
     private final List<RecentMatch> recentMatches = new ArrayList<>();
     private Receiver receiver;
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        System.gc();
+    }
     @SuppressLint("HandlerLeak")
     private final
     Handler handler = new Handler() {

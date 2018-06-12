@@ -11,7 +11,11 @@ import com.example.zxd1997.dota2.R;
 
 public class ItemsFragment extends Fragment {
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        System.gc();
+    }
     public ItemsFragment() {
     }
 

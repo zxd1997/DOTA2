@@ -30,6 +30,11 @@ import java.util.Objects;
 public class PurchaseAndCastFragment extends Fragment {
     private Match match;
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        System.gc();
+    }
     public PurchaseAndCastFragment() {
         // Required empty public constructor
     }

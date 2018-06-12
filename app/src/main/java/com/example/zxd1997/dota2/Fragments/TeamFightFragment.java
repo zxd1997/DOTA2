@@ -25,7 +25,11 @@ import java.util.Objects;
  */
 public class TeamFightFragment extends Fragment {
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        System.gc();
+    }
     public TeamFightFragment() {
         // Required empty public constructor
     }

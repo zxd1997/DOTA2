@@ -27,7 +27,11 @@ public class NoDetailFragment extends Fragment {
         // Required empty public constructor
     }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        System.gc();
+    }
     public static NoDetailFragment newInstance() {
         return new NoDetailFragment();
     }

@@ -49,6 +49,11 @@ public class EconomyFragment extends Fragment {
     private Match match;
     private ColumnChartView subview;
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        System.gc();
+    }
     public EconomyFragment() {
         // Required empty public constructor
     }

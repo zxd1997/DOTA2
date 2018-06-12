@@ -17,6 +17,7 @@
             android:layout_marginLeft="2dp"
             android:text="@string/wards_placement"
             android:textColor="@android:color/black"
+            android:focusableInTouchMode="true"
             android:textSize="15sp" />
 
         <ImageView

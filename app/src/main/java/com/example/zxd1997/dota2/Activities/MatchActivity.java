@@ -30,6 +30,7 @@ import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.MyApplication;
 import com.example.zxd1997.dota2.Utils.Okhttp;
 import com.example.zxd1997.dota2.Utils.Update;
+import com.facebook.imagepipeline.core.ImagePipelineFactory;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -146,5 +147,15 @@ public class MatchActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        int i = 0;
+        for (Fragment fragment : fragments) {
+            tabFragmentAdapter.myDestroyItem(mViewPager, i++, fragment);
+        }
+        fragments.clear();
+        ImagePipelineFactory.getInstance().getImagePipeline().clearMemoryCaches();
+        System.gc();
+    }
 }

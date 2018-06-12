@@ -10,7 +10,11 @@ import android.view.ViewGroup;
 import com.example.zxd1997.dota2.R;
 
 public class ProFragment extends Fragment {
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        System.gc();
+    }
 
     public ProFragment() {
     }

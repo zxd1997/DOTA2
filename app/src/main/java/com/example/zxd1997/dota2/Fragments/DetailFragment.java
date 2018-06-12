@@ -38,6 +38,12 @@ public class DetailFragment extends Fragment {
 
     private Match match;
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        System.gc();
+    }
+
     public DetailFragment() {
         // Required empty public constructor
     }

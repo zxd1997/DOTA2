@@ -27,6 +27,11 @@ import java.util.Objects;
 public class OverviewFragment extends Fragment {
     private Match match;
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        System.gc();
+    }
     public OverviewFragment() {
         // Required empty public constructor
     }
