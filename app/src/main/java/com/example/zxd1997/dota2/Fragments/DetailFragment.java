@@ -36,8 +36,6 @@ import java.util.Objects;
 
 public class DetailFragment extends Fragment {
 
-    private Match match;
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -60,7 +58,7 @@ public class DetailFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
         MatchActivity activity = (MatchActivity) getActivity();
-        match = Objects.requireNonNull(activity).getMatch();
+        Match match = Objects.requireNonNull(activity).getMatch();
         if (match == null) {
             Log.d("null", "onCreateView: " + 111111);
             Intent intent = new Intent(MyApplication.getContext(), MainActivity.class);
@@ -133,11 +131,11 @@ public class DetailFragment extends Fragment {
             damage.setAdapter(new KillsAdapter(getContext(), contents1));
             kill.setNestedScrollingEnabled(false);
             damage.setNestedScrollingEnabled(false);
-            RecyclerView ddtail = view.findViewById(R.id.ddetail);
-            ddtail.setLayoutManager(new LinearLayoutManager(getContext()));
-            ddtail.setNestedScrollingEnabled(false);
-            ddtail.setAdapter(new DDetailAdapter(getContext(), match.getPlayers()));
-            ddtail.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+            RecyclerView d_detail = view.findViewById(R.id.ddetail);
+            d_detail.setLayoutManager(new LinearLayoutManager(getContext()));
+            d_detail.setNestedScrollingEnabled(false);
+            d_detail.setAdapter(new DDetailAdapter(getContext(), match.getPlayers()));
+            d_detail.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         }
         return view;
     }

@@ -139,12 +139,12 @@ public class AbilityBuildAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
                             context.getResources().getIdentifier("ability_0", "drawable", context.getPackageName()))).build());
                 } else {
-                    int resid = context.getResources().getIdentifier("ability_" + abilities.get(position), "drawable", context.getPackageName());
-                    if (resid == 0) {
-                        resid = context.getResources().getIdentifier("talent_tree", "drawable", context.getPackageName());
+                    int res_id = context.getResources().getIdentifier("ability_" + abilities.get(position), "drawable", context.getPackageName());
+                    if (res_id == 0) {
+                        res_id = context.getResources().getIdentifier("talent_tree", "drawable", context.getPackageName());
                         viewHolder.talent.setText(MainActivity.abilities.get(MainActivity.ability_ids.get(String.valueOf(abilities.get(position)))).getDname());
                     }
-                    viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(resid)).build());
+                    viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(res_id)).build());
                 }
                 break;
             }

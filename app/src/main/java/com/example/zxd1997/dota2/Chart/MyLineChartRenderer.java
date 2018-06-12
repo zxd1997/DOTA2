@@ -47,7 +47,6 @@ public class MyLineChartRenderer extends AbstractChartRenderer {
     private Bitmap softwareBitmap;
     private Canvas softwareCanvas = new Canvas();
     private Viewport tempMaximumViewport = new Viewport();
-    private int lineCount;
     //    private List<Float> preTop;
 //    private List<Float> preBot;
     private float preBot;
@@ -57,7 +56,7 @@ public class MyLineChartRenderer extends AbstractChartRenderer {
     public MyLineChartRenderer(Context context, Chart chart, LineChartDataProvider dataProvider) {
         super(context, chart);
         this.dataProvider = dataProvider;
-        this.lineCount = this.dataProvider.getLineChartData().getLines().size();
+        int lineCount = this.dataProvider.getLineChartData().getLines().size();
         touchToleranceMargin = ChartUtils.dp2px(density, DEFAULT_TOUCH_TOLERANCE_MARGIN_DP);
 
         linePaint.setAntiAlias(true);
@@ -288,8 +287,8 @@ public class MyLineChartRenderer extends AbstractChartRenderer {
         float previousPointY = Float.NaN;
         float currentPointX = Float.NaN;
         float currentPointY = Float.NaN;
-        float nextPointX = Float.NaN;
-        float nextPointY = Float.NaN;
+        float nextPointX;
+        float nextPointY;
 
         for (int valueIndex = 0; valueIndex < lineSize; ++valueIndex) {
             if (Float.isNaN(currentPointX)) {

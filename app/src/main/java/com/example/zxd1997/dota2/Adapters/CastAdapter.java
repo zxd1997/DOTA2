@@ -26,9 +26,9 @@ class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final List<Cast> d_taken = new ArrayList<>();
     private final Context context;
 
-    public CastAdapter(Context context, List<Match.PPlayer.Purchase> purchases) {
+    public CastAdapter(Context context, List<Match.Objective> purchases) {
         this.context = context;
-        for (Match.PPlayer.Purchase purchase : purchases) {
+        for (Match.Objective purchase : purchases) {
             for (Map.Entry<String, Item> entry1 : MainActivity.items.entrySet()) {
                 if (purchase.getKey().equals("tpscroll") || purchase.getKey().equals("ward_observer") || purchase.getKey().equals("ward_sentry"))
                     continue;
@@ -99,7 +99,7 @@ class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
                         context.getResources().getIdentifier("item_" + d_taken.get(position).id, "drawable", context.getPackageName())))
                         .build());
-            viewHolder.damage_taken.setText(d_taken.get(position).time + "");
+            viewHolder.damage_taken.setText(String.valueOf(d_taken.get(position).time));
         }
     }
 

@@ -28,7 +28,7 @@ import com.example.zxd1997.dota2.Fragments.TeamFightFragment;
 import com.example.zxd1997.dota2.Fragments.VisionFragment;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.MyApplication;
-import com.example.zxd1997.dota2.Utils.Okhttp;
+import com.example.zxd1997.dota2.Utils.OKhttp;
 import com.example.zxd1997.dota2.Utils.Update;
 import com.facebook.imagepipeline.core.ImagePipelineFactory;
 import com.google.gson.Gson;
@@ -107,7 +107,7 @@ public class MatchActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         progressBar = findViewById(R.id.progressBar2);
         progressBar.setVisibility(View.VISIBLE);
-        Okhttp.getFromService(getString(R.string.api) + getString(R.string.matches) + id, handler, MATCH);
+        OKhttp.getFromService(getString(R.string.api) + getString(R.string.matches) + id, handler, MATCH);
         tabLayout = findViewById(R.id.tabs);
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_5)));
         tabFragmentAdapter = new TabFragmentAdapter(getSupportFragmentManager(), fragments);

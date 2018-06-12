@@ -37,11 +37,12 @@ public class Update {
         activityDisplayMetrics.scaledDensity = targetScaledDensity;
         activityDisplayMetrics.densityDpi = targetDensityDpi;
     }
-    public static void updatezip(final Handler handler) {
-        Okhttp.getZip(MyApplication.getContext().getString(R.string.zip), handler);
+
+    public static void update_zip(final Handler handler) {
+        OKhttp.getZip(MyApplication.getContext().getString(R.string.zip), handler);
     }
 
-    private static StringBuilder readfile(String filename) {
+    private static StringBuilder read_file(String filename) {
         StringBuilder s = new StringBuilder();
         try {
             FileInputStream fileInputStream = MyApplication.getContext().openFileInput(filename);
@@ -58,16 +59,16 @@ public class Update {
     }
 
     public static void readFromJson() {
-        StringBuilder heroes_json = readfile("hero_names.json");
+        StringBuilder heroes_json = read_file("hero_names.json");
         MainActivity.heroes = new Gson().fromJson(heroes_json.toString(), new TypeToken<Map<String, Hero>>() {
         }.getType());
-        StringBuilder ability_id_json = readfile("ability_ids.json");
+        StringBuilder ability_id_json = read_file("ability_ids.json");
         MainActivity.ability_ids = new Gson().fromJson(ability_id_json.toString(), new TypeToken<Map<String, String>>() {
         }.getType());
-        StringBuilder items_json = readfile("items.json");
+        StringBuilder items_json = read_file("items.json");
         MainActivity.items = new Gson().fromJson(items_json.toString(), new TypeToken<Map<String, Item>>() {
         }.getType());
-        StringBuilder ability_json = readfile("abilities.json");
+        StringBuilder ability_json = read_file("abilities.json");
         MainActivity.abilities = new Gson().fromJson(ability_json.toString(), new TypeToken<Map<String, Ability>>() {
         }.getType());
     }

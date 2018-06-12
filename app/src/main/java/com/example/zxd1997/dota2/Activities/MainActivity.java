@@ -56,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
-    private TabFragmentAdapter tabFragmentAdapter;
-    private List<Fragment> fragments;
 
     @Override
     protected void onResume() {
@@ -76,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         if (!getFileStreamPath("master.zip").exists()) {
-            Update.updatezip(handler);
+            Update.update_zip(handler);
             pd = new ProgressDialog(MainActivity.this);
             pd.setTitle("Update");
             pd.setMessage("Updating");
@@ -87,12 +85,12 @@ public class MainActivity extends AppCompatActivity {
         }
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        fragments = new ArrayList<>();
+        List<Fragment> fragments = new ArrayList<>();
         fragments.add(MyFragment.newInstance());
         fragments.add(HeroesFragment.newInstance());
         fragments.add(ItemsFragment.newInstance());
         fragments.add(ProFragment.newInstance());
-        tabFragmentAdapter = new TabFragmentAdapter(getSupportFragmentManager(), fragments);
+        TabFragmentAdapter tabFragmentAdapter = new TabFragmentAdapter(getSupportFragmentManager(), fragments);
         ViewPager mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(tabFragmentAdapter);
         mViewPager.setOffscreenPageLimit(fragments.size());

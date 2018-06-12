@@ -9,7 +9,6 @@ public class Match {
     private long match_id;
     private int barracks_status_dire;
     private int barracks_status_radiant;
-    //    }
     private int dire_score;
     private int duration;
     private int first_blood_time;
@@ -27,6 +26,16 @@ public class Match {
     private int patch;
     private int region;
     private List<PPlayer> players = new ArrayList<>();
+    private Objective chat;
+    private List<Objective> objectives = new ArrayList<>();
+
+    public List<Objective> getObjectives() {
+        return objectives;
+    }
+
+    public void setObjectives(List<Objective> objectives) {
+        this.objectives = objectives;
+    }
 
     public List<TeamFight> getTeamFights() {
         return TeamFights;
@@ -135,11 +144,17 @@ public class Match {
     public List<Integer> getRadiant_xp_adv() {
         return radiant_xp_adv;
     }
-//    private Chat chat;
-//    class Chat{
 
     public void setRadiant_xp_adv(List<Integer> radiant_xp_adv) {
         this.radiant_xp_adv = radiant_xp_adv;
+    }
+
+    public Objective getChat() {
+        return chat;
+    }
+
+    public void setChat(Objective chat) {
+        this.chat = chat;
     }
 
     public int getSkill() {
@@ -198,8 +213,213 @@ public class Match {
         this.players = players;
     }
 
-    private class TeamFight {
+    public class Objective {
+        private int time;
+        private String type;
+        private int slot;
+        private String unit;
+        private String key;
+        private int player_slot;
+        private int team;
 
+        public int getTime() {
+            return time;
+        }
+
+        public void setTime(int time) {
+            this.time = time;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public int getSlot() {
+            return slot;
+        }
+
+        public void setSlot(int slot) {
+            this.slot = slot;
+        }
+
+        public String getUnit() {
+            return unit;
+        }
+
+        public void setUnit(String unit) {
+            this.unit = unit;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public void setKey(String key) {
+            this.key = key;
+        }
+
+        public int getPlayer_slot() {
+            return player_slot;
+        }
+
+        public void setPlayer_slot(int player_slot) {
+            this.player_slot = player_slot;
+        }
+
+        public int getTeam() {
+            return team;
+        }
+
+        public void setTeam(int team) {
+            this.team = team;
+        }
+    }
+
+
+    public class TeamFight {
+        private int start;
+        private int end;
+        private int last_death;
+        private int deaths;
+        private List<TeamFightPlayer> players = new ArrayList<>();
+
+        public int getStart() {
+            return start;
+        }
+
+        public void setStart(int start) {
+            this.start = start;
+        }
+
+        public int getEnd() {
+            return end;
+        }
+
+        public void setEnd(int end) {
+            this.end = end;
+        }
+
+        public int getLast_death() {
+            return last_death;
+        }
+
+        public void setLast_death(int last_death) {
+            this.last_death = last_death;
+        }
+
+        public int getDeaths() {
+            return deaths;
+        }
+
+        public void setDeaths(int deaths) {
+            this.deaths = deaths;
+        }
+
+        public List<TeamFightPlayer> getPlayers() {
+            return players;
+        }
+
+        public void setPlayers(List<TeamFightPlayer> players) {
+            this.players = players;
+        }
+
+        public class TeamFightPlayer {
+            Map<Integer, Map<Integer, Integer>> deaths_pos;
+            Map<String, Integer> ability_uses;
+            Map<String, Integer> item_uses;
+            Map<String, Integer> killed;
+            private int deaths;
+            private int buybacks;
+            private int damage;
+            private int healing;
+            private int gold_delta;
+            private int xp_delta;
+
+            public int getDeaths() {
+                return deaths;
+            }
+
+            public void setDeaths(int deaths) {
+                this.deaths = deaths;
+            }
+
+            public int getBuybacks() {
+                return buybacks;
+            }
+
+            public void setBuybacks(int buybacks) {
+                this.buybacks = buybacks;
+            }
+
+            public int getDamage() {
+                return damage;
+            }
+
+            public void setDamage(int damage) {
+                this.damage = damage;
+            }
+
+            public int getHealing() {
+                return healing;
+            }
+
+            public void setHealing(int healing) {
+                this.healing = healing;
+            }
+
+            public int getGold_delta() {
+                return gold_delta;
+            }
+
+            public void setGold_delta(int gold_delta) {
+                this.gold_delta = gold_delta;
+            }
+
+            public int getXp_delta() {
+                return xp_delta;
+            }
+
+            public void setXp_delta(int xp_delta) {
+                this.xp_delta = xp_delta;
+            }
+
+
+            public Map<String, Integer> getAbility_uses() {
+                return ability_uses;
+            }
+
+            public void setAbility_uses(Map<String, Integer> ability_uses) {
+                this.ability_uses = ability_uses;
+            }
+
+            public Map<String, Integer> getItem_uses() {
+                return item_uses;
+            }
+
+            public void setItem_uses(Map<String, Integer> item_uses) {
+                this.item_uses = item_uses;
+            }
+
+            public Map<String, Integer> getKilled() {
+                return killed;
+            }
+
+            public void setKilled(Map<String, Integer> killed) {
+                this.killed = killed;
+            }
+
+            public Map<Integer, Map<Integer, Integer>> getDeaths_pos() {
+                return deaths_pos;
+            }
+
+            public void setDeaths_pos(Map<Integer, Map<Integer, Integer>> deaths_pos) {
+                this.deaths_pos = deaths_pos;
+            }
+        }
     }
 
     public class PPlayer {
@@ -247,8 +467,7 @@ public class Match {
         private Map<String, Integer> killed_by;
         private Map<String, Integer> damage;
         private Map<String, Integer> damage_taken;
-        private Map<String, Integer> purchase_time;
-        private List<Purchase> purchase_log = new ArrayList<>();
+        private List<Objective> purchase_log = new ArrayList<Objective>();
         private Map<String, Integer> gold_reasons;
         private double stuns;
         private double teamfight_participation;
@@ -260,6 +479,33 @@ public class Match {
         private List<Ward> obs_log = new ArrayList<>();
         private List<Ward> sen_left_log = new ArrayList<>();
         private List<Ward> sen_log = new ArrayList<>();
+        private List<Objective> buyback_log;
+        private List<Objective> kills_log;
+        private List<Objective> runes_log;
+
+        public List<Objective> getBuyback_log() {
+            return buyback_log;
+        }
+
+        public void setBuyback_log(List<Objective> buyback_log) {
+            this.buyback_log = buyback_log;
+        }
+
+        public List<Objective> getKills_log() {
+            return kills_log;
+        }
+
+        public void setKills_log(List<Objective> kills_log) {
+            this.kills_log = kills_log;
+        }
+
+        public List<Objective> getRunes_log() {
+            return runes_log;
+        }
+
+        public void setRunes_log(List<Objective> runes_log) {
+            this.runes_log = runes_log;
+        }
 
         public List<Ward> getSen_left_log() {
             return sen_left_log;
@@ -325,11 +571,11 @@ public class Match {
             isRadiant = radiant;
         }
 
-        public List<Purchase> getPurchase_log() {
+        public List<Objective> getPurchase_log() {
             return purchase_log;
         }
 
-        public void setPurchase_log(List<Purchase> purchase_log) {
+        public void setPurchase_log(List<Objective> purchase_log) {
             this.purchase_log = purchase_log;
         }
 
@@ -451,14 +697,6 @@ public class Match {
 
         public void setTeamfight_participation(double teamfight_participation) {
             this.teamfight_participation = teamfight_participation;
-        }
-
-        public Map<String, Integer> getPurchase_time() {
-            return purchase_time;
-        }
-
-        public void setPurchase_time(Map<String, Integer> purchase_time) {
-            this.purchase_time = purchase_time;
         }
 
         public Map<String, Integer> getDamage_inflictor() {
@@ -900,27 +1138,6 @@ public class Match {
 
             public void setBackpack_2(int backpack_2) {
                 this.backpack_2 = backpack_2;
-            }
-        }
-
-        public class Purchase {
-            private String key;
-            private int time;
-
-            public String getKey() {
-                return key;
-            }
-
-            public void setKey(String key) {
-                this.key = key;
-            }
-
-            public int getTime() {
-                return time;
-            }
-
-            public void setTime(int time) {
-                this.time = time;
             }
         }
 

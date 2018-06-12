@@ -63,7 +63,7 @@ public class SettingsActivity extends AppCompatActivity {
                 switch (position) {
                     case 1: {
                         Toast.makeText(SettingsActivity.this, "Update", Toast.LENGTH_LONG).show();
-                        Update.updatezip(handler);
+                        Update.update_zip(handler);
                         pd = new ProgressDialog(SettingsActivity.this);
                         pd.setTitle("Update");
                         pd.setMessage("Updating");

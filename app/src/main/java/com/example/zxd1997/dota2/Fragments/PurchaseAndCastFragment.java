@@ -28,7 +28,6 @@ import java.util.Objects;
  * create an instance of this fragment.
  */
 public class PurchaseAndCastFragment extends Fragment {
-    private Match match;
 
     @Override
     public void onDestroy() {
@@ -50,7 +49,7 @@ public class PurchaseAndCastFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_purchase_and_cast, container, false);
         MatchActivity activity = (MatchActivity) getActivity();
-        match = Objects.requireNonNull(activity).getMatch();
+        Match match = Objects.requireNonNull(activity).getMatch();
         if (match == null || match.getPlayers() == null) {
             Log.d("null", "onCreateView: " + 111111);
             Intent intent = new Intent(MyApplication.getContext(), MainActivity.class);

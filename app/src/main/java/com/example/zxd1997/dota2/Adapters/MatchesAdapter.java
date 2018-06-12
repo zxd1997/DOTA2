@@ -68,9 +68,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         t1.setSpan(new ForegroundColorSpan(Color.BLUE), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         k.append(t1);
         viewHolder.kda.setText(k);
-        viewHolder.gpm.setText(context.getString(R.string.gpm_) + recentMatch.getGold_per_min());
-        viewHolder.xpm.setText(context.getString(R.string.xpm_) + recentMatch.getXp_per_min());
-        viewHolder.hero_damage.setText(context.getString(R.string.damage_) + recentMatch.getHero_damage());
+        viewHolder.lobby_type.setText("");
         @SuppressLint("Recycle") TypedArray typedArray = context.getResources().obtainTypedArray(R.array.skills);
         viewHolder.skills.setText(typedArray.getText(recentMatch.getSkill()));
         typedArray = context.getResources().obtainTypedArray(R.array.skills_color);
@@ -78,11 +76,11 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         boolean win;
         win = recentMatch.getPlayer_slot() < 128 && recentMatch.isRadiant_win() || recentMatch.getPlayer_slot() > 127 && !recentMatch.isRadiant_win();
         if (win) {
-            viewHolder.winornot.setTextColor(context.getResources().getColor(R.color.win));
-            viewHolder.winornot.setText(context.getString(R.string.win));
+            viewHolder.win_or_not.setTextColor(context.getResources().getColor(R.color.win));
+            viewHolder.win_or_not.setText(context.getString(R.string.win));
         } else {
-            viewHolder.winornot.setTextColor(context.getResources().getColor(R.color.lose));
-            viewHolder.winornot.setText(context.getString(R.string.lose));
+            viewHolder.win_or_not.setTextColor(context.getResources().getColor(R.color.lose));
+            viewHolder.win_or_not.setText(context.getString(R.string.lose));
         }
         Hero h = null;
         for (Map.Entry<String, Hero> entry : MainActivity.heroes.entrySet()) {
@@ -127,29 +125,23 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     class ViewHolder extends RecyclerView.ViewHolder {
         final SimpleDraweeView hero_header;
         final TextView hero_name;
-        final TextView winornot;
+        final TextView win_or_not;
         final TextView time;
         final TextView game_mode;
         final TextView lobby_type;
         final TextView skills;
         final TextView kda;
-        final TextView hero_damage;
-        final TextView gpm;
-        final TextView xpm;
 
         ViewHolder(View itemView) {
             super(itemView);
             hero_header = itemView.findViewById(R.id.hero_header);
             hero_name = itemView.findViewById(R.id.hero_name);
-            winornot = itemView.findViewById(R.id.winornot);
+            win_or_not = itemView.findViewById(R.id.winornot);
             time = itemView.findViewById(R.id.time);
             game_mode = itemView.findViewById(R.id.game_mode);
             lobby_type = itemView.findViewById(R.id.lobby_type);
             skills = itemView.findViewById(R.id.skills);
             kda = itemView.findViewById(R.id.kda);
-            hero_damage = itemView.findViewById(R.id.hero_damage);
-            gpm = itemView.findViewById(R.id.gpm);
-            xpm = itemView.findViewById(R.id.xpm);
         }
     }
 }

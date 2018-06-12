@@ -96,11 +96,11 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             case RADIANT_HEADER: {
                 RadiantHolder viewHolder = (RadiantHolder) holder;
                 if (match.isRadiant_win()) {
-                    viewHolder.winorlose.setText(context.getString(R.string.win));
-                    viewHolder.winorlose.setTextColor(Color.WHITE);
+                    viewHolder.win_or_lose.setText(context.getString(R.string.win));
+                    viewHolder.win_or_lose.setTextColor(Color.WHITE);
                 } else {
-                    viewHolder.winorlose.setText(context.getString(R.string.lose));
-                    viewHolder.winorlose.setTextColor(Color.WHITE);
+                    viewHolder.win_or_lose.setText(context.getString(R.string.lose));
+                    viewHolder.win_or_lose.setTextColor(Color.WHITE);
                 }
                 viewHolder.total_kill.setText(String.valueOf(match.getRadiant_score()));
                 break;
@@ -108,11 +108,11 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             case DIRE_HEADER: {
                 RadiantHolder viewHolder = (RadiantHolder) holder;
                 if (!match.isRadiant_win()) {
-                    viewHolder.winorlose.setText(context.getString(R.string.win));
-                    viewHolder.winorlose.setTextColor(Color.WHITE);
+                    viewHolder.win_or_lose.setText(context.getString(R.string.win));
+                    viewHolder.win_or_lose.setTextColor(Color.WHITE);
                 } else {
-                    viewHolder.winorlose.setText(context.getString(R.string.lose));
-                    viewHolder.winorlose.setTextColor(Color.WHITE);
+                    viewHolder.win_or_lose.setText(context.getString(R.string.lose));
+                    viewHolder.win_or_lose.setTextColor(Color.WHITE);
                 }
                 viewHolder.total_kill.setText(String.valueOf(match.getDire_score()));
                 break;
@@ -162,10 +162,8 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 });
                 viewHolder.color.setBackgroundColor(context.getResources().getColor(context.getResources().getIdentifier("slot_" + p.getPlayer_slot(), "color", context.getPackageName())));
                 viewHolder.k.setText(k);
-                double in_battle = p.isRadiant() ? ((double) (p.getKills() + p.getAssists()) / (double) match.getRadiant_score()) * 100 : ((double) (p.getKills() + p.getAssists()) / (double) match.getDire_score()) * 100;
-                DecimalFormat df = new DecimalFormat("0.0");
-                viewHolder.in_battle.setText(context.getString(R.string.in_battle) + df.format(in_battle) + "%");
-                viewHolder.damage.setText(context.getString(R.string.damage_) + p.getHero_damage());
+                viewHolder.in_battle.setText(context.getString(R.string.in_battle, p.getTeamfight_participation()));
+                viewHolder.damage.setText(context.getString(R.string.damage_, p.getHero_damage()));
                 viewHolder.item_0.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
                         context.getResources().getIdentifier("item_" + p.getItem_0(), "drawable", context.getPackageName()))).build());
                 viewHolder.item_1.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
@@ -233,18 +231,18 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             case DETAIL: {
                 final Match.PPlayer p = (Match.PPlayer) contents.get(position).object;
                 final DetailHolder viewHolder = (DetailHolder) holder;
-                viewHolder.gpm.setText(context.getString(R.string.gpm_) + p.getGold_per_min());
-                viewHolder.xpm.setText(context.getString(R.string.xpm_) + p.getXp_per_min());
-                viewHolder.level.setText(context.getString(R.string.lvl) + p.getLevel());
-                viewHolder.towerDamage.setText(context.getString(R.string.td) + p.getTower_damage());
-                viewHolder.heroHealing.setText(context.getString(R.string.hh) + p.getHero_healing());
-                viewHolder.lastHits.setText(context.getString(R.string.lh) + p.getLast_hits());
-                viewHolder.denies.setText(context.getString(R.string.dn) + p.getDenies());
-                viewHolder.gpm_ben.setText(new SpannableStringBuilder(context.getString(R.string.gpm_)).append(getS(p.getBenchmarks().getGold_per_min().getPct())));
-                viewHolder.xpm_ben.setText(new SpannableStringBuilder(context.getString(R.string.xpm_)).append(getS(p.getBenchmarks().getXp_per_min().getPct())));
+                viewHolder.gpm.setText(context.getString(R.string.gpm, p.getGold_per_min()));
+                viewHolder.xpm.setText(context.getString(R.string.xpm, p.getXp_per_min()));
+                viewHolder.level.setText(context.getString(R.string.lvl, p.getLevel()));
+                viewHolder.towerDamage.setText(context.getString(R.string.td, p.getTower_damage()));
+                viewHolder.heroHealing.setText(context.getString(R.string.hh, p.getHero_healing()));
+                viewHolder.lastHits.setText(context.getString(R.string.lh, p.getLast_hits()));
+                viewHolder.denies.setText(context.getString(R.string.dn, p.getDenies()));
+                viewHolder.gpm_ben.setText(new SpannableStringBuilder("GPM:").append(getS(p.getBenchmarks().getGold_per_min().getPct())));
+                viewHolder.xpm_ben.setText(new SpannableStringBuilder("XPM:").append(getS(p.getBenchmarks().getXp_per_min().getPct())));
                 viewHolder.hdm_ben.setText(new SpannableStringBuilder(context.getString(R.string.dpm)).append(getS(p.getBenchmarks().getHero_damage_per_min().getPct())));
                 viewHolder.kdm_ben.setText(new SpannableStringBuilder(context.getString(R.string.kpm)).append(getS(p.getBenchmarks().getKills_per_min().getPct())));
-                viewHolder.td_ben.setText(new SpannableStringBuilder(context.getString(R.string.td)).append(getS(p.getBenchmarks().getTower_damage().getPct())));
+                viewHolder.td_ben.setText(new SpannableStringBuilder("Tower Damage:").append(getS(p.getBenchmarks().getTower_damage().getPct())));
                 viewHolder.backpack_0.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
                         context.getResources().getIdentifier("item_" + p.getBackpack_0(), "drawable", context.getPackageName()))).build());
                 viewHolder.backpack_1.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
@@ -299,12 +297,12 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     class RadiantHolder extends RecyclerView.ViewHolder {
         final TextView total_kill;
-        final TextView winorlose;
+        final TextView win_or_lose;
 
         RadiantHolder(View itemView) {
             super(itemView);
             total_kill = itemView.findViewById(R.id.total_kill);
-            winorlose = itemView.findViewById(R.id.winorlose);
+            win_or_lose = itemView.findViewById(R.id.winorlose);
         }
     }
 

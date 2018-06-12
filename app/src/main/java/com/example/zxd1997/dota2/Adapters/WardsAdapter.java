@@ -16,7 +16,6 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.List;
 
 public class WardsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private final int OBSERVER = 0;
     private final Context context;
     private final List<Wards> wards;
 
@@ -64,6 +63,7 @@ public class WardsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             viewHolder.left.setText(t);
         }
         viewHolder.color.setBackgroundColor(context.getResources().getColor(context.getResources().getIdentifier("slot_" + ward.getWard().getPlayer_slot(), "color", context.getPackageName())));
+        int OBSERVER = 0;
         if (ward.getType() == OBSERVER)
             viewHolder.type.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
                     context.getResources().getIdentifier("item_42", "drawable", context.getPackageName())))

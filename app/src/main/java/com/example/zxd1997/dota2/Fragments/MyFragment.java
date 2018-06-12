@@ -36,7 +36,7 @@ import com.example.zxd1997.dota2.Beans.Player;
 import com.example.zxd1997.dota2.Beans.RecentMatch;
 import com.example.zxd1997.dota2.Beans.WL;
 import com.example.zxd1997.dota2.R;
-import com.example.zxd1997.dota2.Utils.Okhttp;
+import com.example.zxd1997.dota2.Utils.OKhttp;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -52,7 +52,6 @@ public class MyFragment extends Fragment {
     private static final int PLAYER_INFO = 1;
     private static final int WL = 2;
     private static final int RECENT_MATCHES = 3;
-    private final String DISCONNECT = "disconnect from id";
     private LinearLayout linearLayout;
     private LinearLayout my;
     private ProgressBar progressBar;
@@ -61,25 +60,21 @@ public class MyFragment extends Fragment {
     private Button button1;
     private Button button;
     private String id = "";
-    private Player player;
     private SimpleDraweeView header;
     private SimpleDraweeView tier;
     private SimpleDraweeView stars;
     private TextView textView;
-    private TextView personaname;
-    private TextView loccountrycode;
+    private TextView persona_name;
+    private TextView loc_country_code;
     private TextView account_id;
     private TextView win;
     private TextView lose;
-    private TextView winrate;
+    private TextView win_rate;
     private TextView ranks;
-    private RecyclerView recyclerView;
     private MatchesAdapter matchesAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private TextInputLayout textInputLayout;
-    private com.example.zxd1997.dota2.Beans.WL wl;
     private final List<RecentMatch> recentMatches = new ArrayList<>();
-    private Receiver receiver;
 
     @Override
     public void onDestroy() {
@@ -106,14 +101,14 @@ public class MyFragment extends Fragment {
                         id = tmp;
                         editor.putString("id", id);
                         editor.apply();
-                        Okhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id, handler, PLAYER_INFO);
+                        OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id, handler, PLAYER_INFO);
                     }
                     break;
                 }
                 case PLAYER_INFO: {
-                    player = new Gson().fromJson(message.obj.toString(), Player.class);
-                    personaname.setText(player.getPersonaname());
-                    loccountrycode.setText(player.getLoccountrycode());
+                    Player player = new Gson().fromJson(message.obj.toString(), Player.class);
+                    persona_name.setText(player.getPersonaname());
+                    loc_country_code.setText(player.getLoccountrycode());
                     account_id.setText(String.valueOf(player.getAccount_id()));
                     header.setImageURI(player.getAvatarfull());
                     int t = (int) Math.floor((double) player.getRank_tier() / 10);
@@ -144,18 +139,16 @@ public class MyFragment extends Fragment {
                     Log.d("rank", "handleMessage: " + t);
                     @SuppressLint("Recycle") TypedArray typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.tiers);
                     tier.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(typedArray.getResourceId(t, 0))).build());
-                    Okhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id + "/wl", handler, WL);
+                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id + "/wl", handler, WL);
                     break;
                 }
                 case WL: {
-                    wl = new Gson().fromJson(message.obj.toString(), WL.class);
+                    com.example.zxd1997.dota2.Beans.WL wl = new Gson().fromJson(message.obj.toString(), WL.class);
                     wl.setWinrate();
-                    java.text.DecimalFormat df = new java.text.DecimalFormat("#.00%");
-                    String t = df.format(wl.getWinrate());
-                    win.setText(getString(R.string.win) + ":" + wl.getWin());
-                    lose.setText(getString(R.string.lose) + ":" + wl.getLose());
-                    winrate.setText(getString(R.string.winrate) + ":" + t);
-                    Okhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id + "/recentMatches", handler, RECENT_MATCHES);
+                    win.setText(getString(R.string.win1, wl.getWin()));
+                    lose.setText(getString(R.string.lose1, wl.getLose()));
+                    win_rate.setText(String.format("%s%%", getString(R.string.rate, wl.getWinrate() * 100)));
+                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id + "/recentMatches", handler, RECENT_MATCHES);
                     my.setVisibility(View.VISIBLE);
                     swipeRefreshLayout.setVisibility(View.GONE);
                     break;
@@ -199,16 +192,16 @@ public class MyFragment extends Fragment {
         button1 = view.findViewById(R.id.verify);
         progressBar = view.findViewById(R.id.progressBar);
         header = view.findViewById(R.id.header);
-        personaname = view.findViewById(R.id.personaname);
-        loccountrycode = view.findViewById(R.id.loccountrycode);
+        persona_name = view.findViewById(R.id.personaname);
+        loc_country_code = view.findViewById(R.id.loccountrycode);
         account_id = view.findViewById(R.id.account_id);
         win = view.findViewById(R.id.win);
         lose = view.findViewById(R.id.lose);
-        winrate = view.findViewById(R.id.win_rate);
+        win_rate = view.findViewById(R.id.win_rate);
         tier = view.findViewById(R.id.tier);
         ranks = view.findViewById(R.id.rank);
         stars = view.findViewById(R.id.star);
-        recyclerView = view.findViewById(R.id.recent_matches);
+        RecyclerView recyclerView = view.findViewById(R.id.recent_matches);
         button = view.findViewById(R.id.connect);
         textInputLayout = view.findViewById(R.id.text_input);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -220,7 +213,7 @@ public class MyFragment extends Fragment {
             @Override
             public void onRefresh() {
                 swipeRefreshLayout.setRefreshing(true);
-                Okhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id, handler, PLAYER_INFO);
+                OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id, handler, PLAYER_INFO);
             }
         });
         button1.setOnClickListener(new View.OnClickListener() {
@@ -235,7 +228,7 @@ public class MyFragment extends Fragment {
                         imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
                     }
                     tmp = textInputEditText.getText().toString();
-                    Okhttp.getFromService(getString(R.string.api) + getString(R.string.players) + tmp, handler, VERIFY);
+                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + tmp, handler, VERIFY);
                     button1.setVisibility(View.GONE);
                     progressBar.setVisibility(View.VISIBLE);
                 }
@@ -259,10 +252,11 @@ public class MyFragment extends Fragment {
         }
         if (!id.equals("")) {
             progressBar.setVisibility(View.VISIBLE);
-            Okhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id, handler, PLAYER_INFO);
+            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id, handler, PLAYER_INFO);
         }
+        String DISCONNECT = "disconnect from id";
         IntentFilter intentFilter = new IntentFilter(DISCONNECT);
-        receiver = new Receiver();
+        Receiver receiver = new Receiver();
         LocalBroadcastManager.getInstance(Objects.requireNonNull(getContext())).registerReceiver(receiver, intentFilter);
         return view;
     }

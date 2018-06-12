@@ -17,7 +17,7 @@ import com.example.zxd1997.dota2.Activities.MatchActivity;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.MyApplication;
-import com.example.zxd1997.dota2.Utils.Okhttp;
+import com.example.zxd1997.dota2.Utils.OKhttp;
 
 import java.util.Objects;
 
@@ -61,7 +61,7 @@ public class NoDetailFragment extends Fragment {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Okhttp.post(getString(R.string.api) + getString(R.string.request) + id);
+                    OKhttp.post(getString(R.string.api) + getString(R.string.request) + id);
                     Log.d("post", "onClick: " + getString(R.string.api) + getString(R.string.request) + id);
                     button.setVisibility(View.INVISIBLE);
                     textView.setText(getString(R.string.parsing));

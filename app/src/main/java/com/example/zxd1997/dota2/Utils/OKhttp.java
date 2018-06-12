@@ -21,7 +21,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.internal.Util;
 
-public class Okhttp {
+public class OKhttp {
     public static void post(String url) {
         Log.d("post", "post: " + url);
         OkHttpClient client = new OkHttpClient();

@@ -2,7 +2,6 @@ package com.example.zxd1997.dota2.Chart;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.os.Build;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -11,10 +10,8 @@ import android.view.View;
 import lecho.lib.hellocharts.animation.ChartAnimationListener;
 import lecho.lib.hellocharts.animation.ChartDataAnimator;
 import lecho.lib.hellocharts.animation.ChartDataAnimatorV14;
-import lecho.lib.hellocharts.animation.ChartDataAnimatorV8;
 import lecho.lib.hellocharts.animation.ChartViewportAnimator;
 import lecho.lib.hellocharts.animation.ChartViewportAnimatorV14;
-import lecho.lib.hellocharts.animation.ChartViewportAnimatorV8;
 import lecho.lib.hellocharts.computator.ChartComputator;
 import lecho.lib.hellocharts.gesture.ChartTouchHandler;
 import lecho.lib.hellocharts.gesture.ContainerScrollType;
@@ -57,13 +54,8 @@ public abstract class MyAbstractChartView extends View implements Chart {
         touchHandler = new MyChartTouchHandler(context, this);
         axesRenderer = new AxesRenderer(context, this);
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            this.dataAnimator = new ChartDataAnimatorV8(this);
-            this.viewportAnimator = new ChartViewportAnimatorV8(this);
-        } else {
-            this.viewportAnimator = new ChartViewportAnimatorV14(this);
-            this.dataAnimator = new ChartDataAnimatorV14(this);
-        }
+        this.viewportAnimator = new ChartViewportAnimatorV14(this);
+        this.dataAnimator = new ChartDataAnimatorV14(this);
     }
 
     @Override

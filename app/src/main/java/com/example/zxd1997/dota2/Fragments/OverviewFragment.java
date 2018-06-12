@@ -25,7 +25,6 @@ import com.example.zxd1997.dota2.R;
 import java.util.Objects;
 
 public class OverviewFragment extends Fragment {
-    private Match match;
 
     @Override
     public void onDestroy() {
@@ -47,7 +46,7 @@ public class OverviewFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_overview, container, false);
         MatchActivity activity = (MatchActivity) getActivity();
-        match = Objects.requireNonNull(activity).getMatch();
+        Match match = Objects.requireNonNull(activity).getMatch();
         if (match == null || match.getPlayers() == null) {
             Log.d("null", "onCreateView: " + 111111);
             Intent intent = new Intent(activity.getApplicationContext(), MainActivity.class);
@@ -56,7 +55,7 @@ public class OverviewFragment extends Fragment {
             activity.finish();
         } else {
             Log.d("fragment", "onCreateView: " + match.getMatch_id());
-            TextView gamemode = view.findViewById(R.id.gamemode);
+            TextView game_mode = view.findViewById(R.id.gamemode);
             TextView duration = view.findViewById(R.id.duration);
             TextView radiant_score = view.findViewById(R.id.radiant_score);
             TextView dire_score = view.findViewById(R.id.dire_score);
@@ -77,7 +76,7 @@ public class OverviewFragment extends Fragment {
             }
             typedArray = getContext().getResources().obtainTypedArray(R.array.game_mode);
             Log.d("mode", "onCreateView: " + match.getGame_mode() + " " + match.getRegion() + " ");
-            gamemode.setText(typedArray.getText(match.getGame_mode()).toString());
+            game_mode.setText(typedArray.getText(match.getGame_mode()).toString());
             typedArray = getContext().getResources().obtainTypedArray(R.array.region);
             region.setText(typedArray.getText(match.getRegion()).toString());
             radiant_score.setText(String.valueOf(match.getRadiant_score()));
