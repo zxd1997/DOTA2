@@ -149,7 +149,6 @@ public class MatchActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         int i = 0;
         for (Fragment fragment : fragments) {
             tabFragmentAdapter.myDestroyItem(mViewPager, i++, fragment);
@@ -157,5 +156,7 @@ public class MatchActivity extends AppCompatActivity {
         fragments.clear();
         ImagePipelineFactory.getInstance().getImagePipeline().clearMemoryCaches();
         System.gc();
+        System.runFinalization();
+        super.onDestroy();
     }
 }

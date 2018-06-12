@@ -42,6 +42,7 @@ public class DetailFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         System.gc();
+        System.runFinalization();
     }
 
     public DetailFragment() {

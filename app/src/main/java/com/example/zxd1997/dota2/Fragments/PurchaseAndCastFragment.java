@@ -34,6 +34,7 @@ public class PurchaseAndCastFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         System.gc();
+        System.runFinalization();
     }
     public PurchaseAndCastFragment() {
         // Required empty public constructor

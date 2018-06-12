@@ -85,6 +85,7 @@ public class MyFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         System.gc();
+        System.runFinalization();
     }
     @SuppressLint("HandlerLeak")
     private final

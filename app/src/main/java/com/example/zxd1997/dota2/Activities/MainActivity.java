@@ -60,6 +60,13 @@ public class MainActivity extends AppCompatActivity {
     private List<Fragment> fragments;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        System.gc();
+        System.runFinalization();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setStatusBarColor(Color.parseColor("#FFCC0000"));

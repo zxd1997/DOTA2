@@ -15,6 +15,7 @@ public class ItemsFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         System.gc();
+        System.runFinalization();
     }
     public ItemsFragment() {
     }

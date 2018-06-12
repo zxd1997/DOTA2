@@ -31,6 +31,7 @@ public class OverviewFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         System.gc();
+        System.runFinalization();
     }
     public OverviewFragment() {
         // Required empty public constructor

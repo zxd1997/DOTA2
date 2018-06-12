@@ -53,6 +53,7 @@ public class EconomyFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         System.gc();
+        System.runFinalization();
     }
     public EconomyFragment() {
         // Required empty public constructor

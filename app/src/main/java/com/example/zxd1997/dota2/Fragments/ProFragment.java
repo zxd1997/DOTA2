@@ -14,6 +14,7 @@ public class ProFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         System.gc();
+        System.runFinalization();
     }
 
     public ProFragment() {

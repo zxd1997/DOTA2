@@ -31,6 +31,7 @@ public class NoDetailFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         System.gc();
+        System.runFinalization();
     }
     public static NoDetailFragment newInstance() {
         return new NoDetailFragment();

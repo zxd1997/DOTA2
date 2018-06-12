@@ -29,6 +29,7 @@ public class TeamFightFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         System.gc();
+        System.runFinalization();
     }
     public TeamFightFragment() {
         // Required empty public constructor

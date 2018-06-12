@@ -51,6 +51,7 @@ public class VisionFragment extends Fragment {
         super.onDestroy();
         Log.d(TAG, "onDestroy: ");
         System.gc();
+        System.runFinalization();
     }
     public VisionFragment() {
         // Required empty public constructor
