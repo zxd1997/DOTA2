@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="51dp"
+    android:layout_height="40dp"
     android:layout_margin="2dp"
     app:cardCornerRadius="2dp">
 
@@ -15,8 +15,8 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/wheader"
-            android:layout_width="80dp"
-            android:layout_height="45dp"
+            android:layout_width="64dp"
+            android:layout_height="36dp"
             android:layout_marginBottom="3dp"
             android:layout_marginLeft="3dp"
             android:layout_marginTop="3dp"
@@ -29,20 +29,21 @@
 
         <View
             android:id="@+id/color_ward"
-            android:layout_width="3dp"
-            android:layout_height="45dp"
+            android:layout_width="2dp"
+            android:layout_height="36dp"
             app:layout_constraintLeft_toRightOf="@id/wheader"
             app:layout_constraintTop_toTopOf="@id/wheader" />
 
         <TextView
             android:id="@+id/ward_name"
-            android:layout_width="145dp"
-            android:layout_height="match_parent"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
+            android:singleLine="true"
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:textColor="@android:color/black"
-            android:textSize="18sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/wheader"
             app:layout_constraintTop_toTopOf="parent"
@@ -64,19 +65,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
-            android:layout_marginTop="15dp"
             android:textColor="@android:color/black"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="@id/left"
-            app:layout_constraintTop_toTopOf="parent"
             tools:text="1:00:00" />
 
         <TextView
             android:id="@+id/placed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="16dp"
             android:text="@string/placed"
             android:textColor="@android:color/black"
             android:textSize="14sp"
@@ -88,12 +87,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="15dp"
             android:textColor="@android:color/black"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="@id/placed"
-            app:layout_constraintTop_toTopOf="parent"
             tools:text="1:00:00" />
 
         <com.facebook.drawee.view.SimpleDraweeView

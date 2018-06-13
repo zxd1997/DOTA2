@@ -122,7 +122,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 final ViewHolder viewHolder = (ViewHolder) holder;
                 viewHolder.player_hero.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(
                         context.getResources().getIdentifier("hero_" + p.getHero_id(), "drawable", context.getPackageName()))).build());
-                viewHolder.player.setText(p.getPersonaname() == null ? "Anonymous" : p.getPersonaname());
+                viewHolder.player.setText(p.getPersonaname() == null ? context.getString(R.string.anonymous) : p.getPersonaname());
                 SpannableStringBuilder k = new SpannableStringBuilder();
                 SpannableString t1 = new SpannableString("K");
                 t1.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.win)), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -162,7 +162,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 });
                 viewHolder.color.setBackgroundColor(context.getResources().getColor(context.getResources().getIdentifier("slot_" + p.getPlayer_slot(), "color", context.getPackageName())));
                 viewHolder.k.setText(k);
-                viewHolder.in_battle.setText(context.getString(R.string.in_battle, p.getTeamfight_participation()));
+                viewHolder.in_battle.setText(String.format("%s%%", context.getString(R.string.in_battle, p.getTeamfight_participation())));
                 viewHolder.damage.setText(context.getString(R.string.damage_, p.getHero_damage()));
                 viewHolder.item_0.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
                         context.getResources().getIdentifier("item_" + p.getItem_0(), "drawable", context.getPackageName()))).build());

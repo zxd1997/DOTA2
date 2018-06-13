@@ -26,7 +26,7 @@ public class Match {
     private int patch;
     private int region;
     private List<PPlayer> players = new ArrayList<>();
-    private Objective chat;
+    private List<Objective> chat;
     private List<Objective> objectives = new ArrayList<>();
 
     public List<Objective> getObjectives() {
@@ -149,11 +149,11 @@ public class Match {
         this.radiant_xp_adv = radiant_xp_adv;
     }
 
-    public Objective getChat() {
+    public List<Objective> getChat() {
         return chat;
     }
 
-    public void setChat(Objective chat) {
+    public void setChat(List<Objective> chat) {
         this.chat = chat;
     }
 
@@ -279,8 +279,7 @@ public class Match {
         }
     }
 
-
-    public class TeamFight {
+    public class TeamFight extends Objective {
         private int start;
         private int end;
         private int last_death;
@@ -293,6 +292,7 @@ public class Match {
 
         public void setStart(int start) {
             this.start = start;
+            super.setTime(start);
         }
 
         public int getEnd() {
@@ -479,32 +479,53 @@ public class Match {
         private List<Ward> obs_log = new ArrayList<>();
         private List<Ward> sen_left_log = new ArrayList<>();
         private List<Ward> sen_log = new ArrayList<>();
-        private List<Objective> buyback_log;
-        private List<Objective> kills_log;
-        private List<Objective> runes_log;
+        private List<PObjective> buyback_log;
+        private List<PObjective> kills_log;
+        private List<PObjective> runes_log;
 
-        public List<Objective> getBuyback_log() {
+        public List<PObjective> getBuyback_log() {
             return buyback_log;
         }
 
-        public void setBuyback_log(List<Objective> buyback_log) {
+        public void setBuyback_log(List<PObjective> buyback_log) {
             this.buyback_log = buyback_log;
         }
 
-        public List<Objective> getKills_log() {
+        public List<PObjective> getKills_log() {
             return kills_log;
         }
 
-        public void setKills_log(List<Objective> kills_log) {
+        public void setKills_log(List<PObjective> kills_log) {
             this.kills_log = kills_log;
         }
 
-        public List<Objective> getRunes_log() {
+        public List<PObjective> getRunes_log() {
             return runes_log;
         }
 
-        public void setRunes_log(List<Objective> runes_log) {
+        public void setRunes_log(List<PObjective> runes_log) {
             this.runes_log = runes_log;
+        }
+
+        public class PObjective extends Objective {
+            private int hero_id;
+            private String name;
+
+            public int getHero_id() {
+                return hero_id;
+            }
+
+            public void setHero_id(int hero_id) {
+                this.hero_id = hero_id;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
         }
 
         public List<Ward> getSen_left_log() {

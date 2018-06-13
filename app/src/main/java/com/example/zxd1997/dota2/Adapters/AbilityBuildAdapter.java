@@ -121,7 +121,7 @@ public class AbilityBuildAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 HeaderHolder viewHolder = (HeaderHolder) holder;
                 viewHolder.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
                         context.getResources().getIdentifier("hero_" + p.getHero_id(), "drawable", context.getPackageName()))).build());
-                viewHolder.name.setText(p.getPersonaname() == null ? "Anonymous" : p.getPersonaname());
+                viewHolder.name.setText(p.getPersonaname() == null ? context.getString(R.string.anonymous) : p.getPersonaname());
                 viewHolder.color.setBackgroundColor(context.getResources().getColor(context.getResources().getIdentifier("slot_" + p.getPlayer_slot(), "color", context.getPackageName())));
                 break;
             }

@@ -71,7 +71,7 @@ public class WardsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         else viewHolder.type.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
                 context.getResources().getIdentifier("item_43", "drawable", context.getPackageName())))
                 .build());
-        viewHolder.name.setText(ward.getPlayerName() == null ? "Anonymous" : ward.getPlayerName());
+        viewHolder.name.setText(ward.getPlayerName() == null ? context.getString(R.string.anonymous) : ward.getPlayerName());
         viewHolder.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
                 context.getResources().getIdentifier("hero_" + ward.getPlayerHero(), "drawable", context.getPackageName())))
                 .build());

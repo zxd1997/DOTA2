@@ -41,7 +41,7 @@ public class PurchaseAndCastAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 new Uri.Builder().scheme("res").path(String.valueOf(
                         context.getResources().getIdentifier("hero_" + p.get(position).getHero_id(), "drawable", context.getPackageName())))
                         .build());
-        viewHolder.name.setText(p.get(position).getPersonaname() == null ? "Anonymous" : p.get(position).getPersonaname());
+        viewHolder.name.setText(p.get(position).getPersonaname() == null ? context.getString(R.string.anonymous) : p.get(position).getPersonaname());
         viewHolder.d_taken.setLayoutManager(new GridLayoutManager(context, 9));
         viewHolder.d_taken.setAdapter(new CastAdapter(context, p.get(position).getAbility_uses(), p.get(position).getItem_uses()));
         viewHolder.d_output.setLayoutManager(new GridLayoutManager(context, 9));

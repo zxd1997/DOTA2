@@ -12,7 +12,7 @@
     <string name="tab_text_8">Economy</string>
     <string name="tab_text_9">Purchase&amp;Cast</string>
     <string name="tab_text_10">Vision</string>
-    <string name="tab_text_11">TeamFight</string>
+    <string name="tab_text_11">Logs</string>
     <string name="no_id">No Binding player id, please bind your 32bit steam id</string>
     <string name="wip">Work in progress</string>
     <string name="api">https://api.opendota.com/api/</string>
@@ -56,7 +56,7 @@
     <string name="radiant">Radiant</string>
     <string name="dire">Dire</string>
     <string name="res">res</string>
-    <string name="in_battle">In Battle:%1$.2f&#037;</string>
+    <string name="in_battle">In Battle:%1$.2f</string>
     <string name="damage_">Damage:%1$d</string>
     <string name="gpm">GPM:%1$d</string>
     <string name="xpm">XPM:%1$d</string>
@@ -92,4 +92,13 @@
     <string name="placed">Placed</string>
     <string name="destroyed">Destroy</string>
     <string name="left">Left</string>
+    <string name="rune_0">Double Damage</string>
+    <string name="rune_1">Haste</string>
+    <string name="rune_2">Illusion</string>
+    <string name="rune_3">Invisibility</string>
+    <string name="rune_5">Bounty</string>
+    <string name="rune_6">Arcane</string>
+    <string name="rune_4">Regeneration</string>
+    <string name="buyback">Just Brought Back to Game</string>
+    <string name="anonymous">Anonymous</string>
 </resources>
