@@ -19,6 +19,7 @@ import com.example.zxd1997.dota2.R;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
+import java.util.Objects;
 
 public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int KILL = 0;
@@ -26,12 +27,10 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int BUYBACK = 2;
     private final int ROSHAN = 3;
     private final int COURIER = 4;
-    private final int TEAM_FIGHT = 5;
     private final int TOWER = 6;
-    private final int FIRST_BLOOD = 7;
     private final int AEGIS = 8;
-    Context context;
-    List<Match.Objective> logs;
+    private final Context context;
+    private final List<Match.Objective> logs;
 
     public LogAdapter(Context context, List<Match.Objective> logs) {
         this.context = context;
@@ -60,12 +59,14 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 return ROSHAN;
             }
             case "CHAT_MESSAGE_FIRSTBLOOD": {
+                int FIRST_BLOOD = 7;
                 return FIRST_BLOOD;
             }
             case "CHAT_MESSAGE_AEGIS": {
                 return AEGIS;
             }
             default: {
+                int TEAM_FIGHT = 5;
                 return TEAM_FIGHT;
             }
         }
@@ -138,9 +139,9 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 SpannableStringBuilder t = new SpannableStringBuilder();
                 SpannableString r = new SpannableString(" ");
                 Drawable drawable = context.getDrawable(context.getResources().getIdentifier("rune_" + rune.getKey(), "drawable", context.getPackageName()));
-                drawable.setBounds(0, 0, 40, 40);
+                Objects.requireNonNull(drawable).setBounds(0, 0, 40, 40);
                 r.setSpan(new ImageSpan(drawable), 0, r.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                t.append("Activated").append(r).append(context.getString(context.getResources().getIdentifier("rune_" + rune.getKey(), "string", context.getPackageName())) + " rune");
+                t.append("Activated").append(r).append(context.getString(context.getResources().getIdentifier("rune_" + rune.getKey(), "string", context.getPackageName()))).append(" rune");
                 viewHolder.log.setText(t);
                 viewHolder.time.setText(tt);
                 break;
@@ -165,15 +166,15 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        SimpleDraweeView killer;
-        SimpleDraweeView killed;
-        SimpleDraweeView kill_sign;
-        View color;
-        TextView name;
-        TextView log;
-        TextView time;
+        final SimpleDraweeView killer;
+        final SimpleDraweeView killed;
+        final SimpleDraweeView kill_sign;
+        final View color;
+        final TextView name;
+        final TextView log;
+        final TextView time;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             killer = itemView.findViewById(R.id.log_killer);
             killed = itemView.findViewById(R.id.log_killed);
@@ -186,13 +187,13 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     class ViewHolderNotKill extends RecyclerView.ViewHolder {
-        SimpleDraweeView who;
-        View color;
-        TextView name;
-        TextView log;
-        TextView time;
+        final SimpleDraweeView who;
+        final View color;
+        final TextView name;
+        final TextView log;
+        final TextView time;
 
-        public ViewHolderNotKill(View itemView) {
+        ViewHolderNotKill(View itemView) {
             super(itemView);
             who = itemView.findViewById(R.id.log_picker);
             color = itemView.findViewById(R.id.log_color);
