@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp">
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/radiant_logo" />
+
+        <TextView
+            android:id="@+id/radiant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="3dp"
+            android:text="@string/radiant"
+            android:textColor="@color/win"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toRightOf="@id/imageView4"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/radiant_gold_delta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="@id/radiant"
+            app:layout_constraintTop_toBottomOf="@id/radiant"
+            tools:text="10000" />
+
+        <TextView
+            android:id="@+id/radiant_death"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="@id/radiant"
+            app:layout_constraintTop_toBottomOf="@id/radiant_gold_delta"
+            tools:text="5" />
+
+        <TextView
+            android:id="@+id/teamfight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/teamfight"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/start_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/teamfight"
+            tools:text="1:00:00 - 1:20:20" />
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/dire_logo" />
+
+        <TextView
+            android:id="@+id/dire_gold_delta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="2dp"
+            app:layout_constraintRight_toLeftOf="@id/imageView5"
+            app:layout_constraintTop_toBottomOf="@id/dire"
+            tools:text="10000" />
+
+        <TextView
+            android:id="@+id/dire_death"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="2dp"
+            app:layout_constraintRight_toLeftOf="@id/imageView5"
+            app:layout_constraintTop_toBottomOf="@id/dire_gold_delta"
+            tools:text="5" />
+
+        <TextView
+            android:id="@+id/dire"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="3dp"
+            android:text="@string/dire"
+            android:textColor="@color/lose"
+            android:textSize="16sp"
+            app:layout_constraintRight_toLeftOf="@id/imageView5"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/team_fight_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+    </android.support.constraint.ConstraintLayout>
+</LinearLayout>

@@ -29,8 +29,6 @@
         fresco:roundBottomRight="false"
         fresco:roundTopRight="false"
         fresco:roundedCornerRadius="2dp" />
-    <!--android:layout_marginTop="1.5dp"-->
-    <!--android:layout_marginBottom="1.5dp"-->
     <View
         android:id="@+id/log_color"
         android:layout_width="2dp"
@@ -50,14 +48,13 @@
         android:textSize="13sp"
         fresco:layout_constraintBottom_toBottomOf="parent"
         fresco:layout_constraintLeft_toRightOf="@id/log_color"
-        fresco:layout_constraintTop_toTopOf="parent"
-        tools:text="xxxxxxxxxxxxxxxxxx" />
+        fresco:layout_constraintTop_toTopOf="parent" />
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/kill"
         android:layout_width="24dp"
         android:layout_height="17dp"
-        android:layout_marginRight="155dp"
+        android:layout_marginRight="160dp"
         fresco:layout_constraintBottom_toBottomOf="parent"
         fresco:layout_constraintRight_toRightOf="parent"
         fresco:layout_constraintTop_toTopOf="parent" />
@@ -67,6 +64,7 @@
         android:layout_width="48dp"
         android:layout_height="27dp"
         android:visibility="gone"
+        android:layout_marginLeft="4dp"
         fresco:layout_constraintBottom_toBottomOf="parent"
         fresco:layout_constraintLeft_toRightOf="@+id/kill"
         fresco:layout_constraintTop_toTopOf="parent"

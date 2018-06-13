@@ -1,8 +1,11 @@
 package com.example.zxd1997.dota2.Fragments;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -12,11 +15,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.ProgressBar;
 
 import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Activities.MatchActivity;
 import com.example.zxd1997.dota2.Adapters.LogAdapter;
-import com.example.zxd1997.dota2.Beans.Hero;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.MyApplication;
@@ -25,7 +30,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import static android.support.constraint.Constraints.TAG;
@@ -36,13 +40,28 @@ import static android.support.constraint.Constraints.TAG;
  * create an instance of this fragment.
  */
 public class LogsFragment extends Fragment {
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        System.gc();
-        System.runFinalization();
-    }
+    private final List<Match.Objective> logs = new ArrayList<>();
+    private final List<Match.Objective> current_logs = new ArrayList<>();
+    private Match match;
+    private CheckBox rune;
+    private CheckBox building;
+    private CheckBox combats;
+    private CheckBox other;
+    private LogAdapter logAdapter;
+    private ProgressBar progressBar;
+    private RecyclerView recyclerView;
+    @SuppressLint("HandlerLeak")
+    private final
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 1) {
+                logAdapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+            }
+        }
+    };
 
     public LogsFragment() {
         // Required empty public constructor
@@ -53,12 +72,19 @@ public class LogsFragment extends Fragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        System.gc();
+        System.runFinalization();
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_log, container, false);
         MatchActivity activity = (MatchActivity) getActivity();
-        Match match = Objects.requireNonNull(activity).getMatch();
+        match = Objects.requireNonNull(activity).getMatch();
         if (match == null || match.getPlayers() == null) {
             Log.d("null", "onCreateView: " + 111111);
             Intent intent = new Intent(MyApplication.getContext(), MainActivity.class);
@@ -66,32 +92,61 @@ public class LogsFragment extends Fragment {
             Objects.requireNonNull(getActivity()).startActivity(intent);
             getActivity().finish();
         } else {
-            List<Match.TeamFight> teamFights = match.getTeamFights();
-            List<Match.Objective> logs = new ArrayList<>();
-//            logs.addAll(match.getObjectives());
+            for (Match.Objective o : match.getObjectives()) {
+                if (o.getTeam() == 2) {
+                    o.setName(Objects.requireNonNull(getContext()).getString(R.string.radiant));
+                    o.setHero_id("radiant_logo");
+                    o.setPlayer_slot(5);
+                    logs.add(o);
+                    continue;
+                } else if (o.getTeam() == 3) {
+                    o.setName(Objects.requireNonNull(getContext()).getString(R.string.dire));
+                    o.setHero_id("dire_logo");
+                    o.setPlayer_slot(6);
+                    logs.add(o);
+                    continue;
+                }
+                if (o.getUnit() != null) {
+                    if (o.getUnit().contains("goodguys")) {
+                        o.setName(Objects.requireNonNull(getContext()).getString(R.string.radiant));
+                        o.setHero_id("radiant_logo");
+                        o.setPlayer_slot(5);
+                        logs.add(o);
+                        continue;
+                    } else if (o.getUnit().contains("badguys")) {
+                        o.setName(Objects.requireNonNull(getContext()).getString(R.string.dire));
+                        o.setHero_id("dire_logo");
+                        o.setPlayer_slot(6);
+                        logs.add(o);
+                        continue;
+                    }
+                }
+                for (Match.PPlayer p : match.getPlayers()) {
+                    if (o.getPlayer_slot() == p.getPlayer_slot()) {
+                        o.setName(p.getPersonaname());
+                        o.setHero_id("hero_" + p.getHero_id());
+                        break;
+                    }
+                }
+                logs.add(o);
+            }
             for (Match.PPlayer p : match.getPlayers()) {
-                for (Match.PPlayer.PObjective rune : p.getRunes_log()) {
+                for (Match.Objective rune : p.getRunes_log()) {
                     rune.setType("rune_pickup");
-                    rune.setHero_id(p.getHero_id());
+                    rune.setHero_id("hero_" + p.getHero_id());
                     rune.setName(p.getPersonaname());
                     logs.add(rune);
                 }
-                for (Match.PPlayer.PObjective kill : p.getKills_log()) {
+                for (Match.Objective kill : p.getKills_log()) {
                     kill.setType("kill");
                     kill.setName(p.getPersonaname());
-                    kill.setHero_id(p.getHero_id());
+                    kill.setHero_id("hero_" + p.getHero_id());
                     kill.setPlayer_slot(p.getPlayer_slot());
-                    for (Map.Entry<String, Hero> entry : MainActivity.heroes.entrySet()) {
-                        if (entry.getKey().equals(kill.getKey())) {
-                            kill.setKey(String.valueOf(entry.getValue().getId()));
-                            break;
-                        }
-                    }
                     logs.add(kill);
                 }
-                for (Match.PPlayer.PObjective buyback : p.getBuyback_log()) {
+                for (Match.Objective buyback : p.getBuyback_log()) {
                     buyback.setName(p.getPersonaname());
-                    buyback.setHero_id(p.getHero_id());
+                    buyback.setHero_id("hero_" + p.getHero_id());
                     logs.add(buyback);
                 }
             }
@@ -101,16 +156,63 @@ public class LogsFragment extends Fragment {
                     return o1.getTime() - o2.getTime();
                 }
             });
+            progressBar = view.findViewById(R.id.progressBar4);
+            current_logs.addAll(logs);
             for (Match.Objective objective : logs) {
                 Log.d(TAG, "onCreateView: Logs:" + objective.getType() + " " + objective.getKey());
             }
-            RecyclerView recyclerView = view.findViewById(R.id.logs);
+            rune = view.findViewById(R.id.chk_rune);
+            rune.setOnCheckedChangeListener(new CheckedListener());
+            building = view.findViewById(R.id.chk_buildings);
+            building.setOnCheckedChangeListener(new CheckedListener());
+            combats = view.findViewById(R.id.chk_kill);
+            combats.setOnCheckedChangeListener(new CheckedListener());
+            other = view.findViewById(R.id.chk_other);
+            other.setOnCheckedChangeListener(new CheckedListener());
+            recyclerView = view.findViewById(R.id.logs);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            recyclerView.setAdapter(new LogAdapter(getContext(), logs));
+            logAdapter = new LogAdapter(getContext(), current_logs);
+            recyclerView.setAdapter(logAdapter);
             recyclerView.setNestedScrollingEnabled(false);
-            recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+            recyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
         }
         return view;
     }
 
+    class CheckedListener implements CheckBox.OnCheckedChangeListener {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            recyclerView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.d(TAG, "onCheckedChanged: " + logs.size());
+                    current_logs.clear();
+                    for (Match.Objective o : logs) {
+                        if (o.getType().equals("team_fight")) {
+                            current_logs.add(o);
+                        } else if (o.getType().equals("kill")) {
+                            if (combats.isChecked())
+                                current_logs.add(o);
+                        } else if (o.getType().equals("rune_pickup")) {
+                            if (rune.isChecked())
+                                current_logs.add(o);
+                        } else if (o.getType().equals("buyback_log")) {
+                            if (combats.isChecked())
+                                current_logs.add(o);
+                        } else if (o.getType().equals("building_kill")) {
+                            if (building.isChecked())
+                                current_logs.add(o);
+                        } else if (other.isChecked()) {
+                            current_logs.add(o);
+                        }
+                    }
+                    Message message = new Message();
+                    message.what = 1;
+                    handler.sendMessage(message);
+                }
+            }).start();
+        }
+    }
 }

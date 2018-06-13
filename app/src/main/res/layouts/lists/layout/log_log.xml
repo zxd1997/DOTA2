@@ -48,8 +48,7 @@
         android:textSize="13sp"
         fresco:layout_constraintBottom_toBottomOf="parent"
         fresco:layout_constraintLeft_toRightOf="@id/log_color"
-        fresco:layout_constraintTop_toTopOf="parent"
-        tools:text="xxxxxxxxxxxxxxxxxx" />
+        fresco:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/do_what"
