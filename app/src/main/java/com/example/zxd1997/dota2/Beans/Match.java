@@ -357,6 +357,33 @@ public class Match {
             private int healing;
             private int gold_delta;
             private int xp_delta;
+            private int player_slot;
+            private String personaname;
+            private String hero_id;
+
+            public int getPlayer_slot() {
+                return player_slot;
+            }
+
+            public void setPlayer_slot(int player_slot) {
+                this.player_slot = player_slot;
+            }
+
+            public String getPersonaname() {
+                return personaname;
+            }
+
+            public void setPersonaname(String personaname) {
+                this.personaname = personaname;
+            }
+
+            public String getHero_id() {
+                return hero_id;
+            }
+
+            public void setHero_id(String hero_id) {
+                this.hero_id = hero_id;
+            }
 
             public int getDeaths() {
                 return deaths;
@@ -406,7 +433,6 @@ public class Match {
                 this.xp_delta = xp_delta;
             }
 
-
             public Map<String, Integer> getAbility_uses() {
                 return ability_uses;
             }
@@ -438,6 +464,7 @@ public class Match {
             public void setDeaths_pos(Map<Integer, Map<Integer, Integer>> deaths_pos) {
                 this.deaths_pos = deaths_pos;
             }
+
         }
     }
 

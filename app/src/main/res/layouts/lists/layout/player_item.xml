@@ -1,155 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="62dp"
-    android:layout_marginBottom="2dp"
-    android:layout_marginLeft="3dp"
-    android:layout_marginRight="3dp"
-    android:layout_marginTop="3dp"
-    fresco:cardCornerRadius="3dp">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <android.support.constraint.ConstraintLayout
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/touch_bg">
+        android:layout_height="62dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="3dp"
+        fresco:cardCornerRadius="3dp">
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/player_hero"
-            android:layout_width="96dp"
-            android:layout_height="54dp"
-            android:layout_margin="4dp"
-            fresco:layout_constraintBottom_toBottomOf="parent"
-            fresco:layout_constraintStart_toStartOf="parent"
-            fresco:roundBottomRight="false"
-            fresco:roundTopRight="false"
-            fresco:roundedCornerRadius="2dp" />
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/touch_bg">
 
-        <View
-            android:id="@+id/color_hero"
-            android:layout_width="4dp"
-            android:layout_height="54dp"
-            fresco:layout_constraintLeft_toRightOf="@id/player_hero"
-            fresco:layout_constraintTop_toTopOf="@id/player_hero" />
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/player_hero"
+                android:layout_width="96dp"
+                android:layout_height="54dp"
+                android:layout_margin="4dp"
+                fresco:layout_constraintBottom_toBottomOf="parent"
+                fresco:layout_constraintStart_toStartOf="parent"
+                fresco:roundBottomRight="false"
+                fresco:roundTopRight="false"
+                fresco:roundedCornerRadius="2dp" />
 
-        <TextView
-            android:id="@+id/player_name"
-            android:layout_width="180dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="3dp"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textColor="@android:color/black"
-            fresco:layout_constraintStart_toEndOf="@+id/player_hero"
-            fresco:layout_constraintTop_toTopOf="parent"
-            tools:text="!@@@@@" />
+            <View
+                android:id="@+id/color_hero"
+                android:layout_width="4dp"
+                android:layout_height="54dp"
+                fresco:layout_constraintLeft_toRightOf="@id/player_hero"
+                fresco:layout_constraintTop_toTopOf="@id/player_hero" />
 
-        <TextView
-            android:id="@+id/kk"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="13sp"
-            fresco:layout_constraintBottom_toTopOf="@id/k"
-            fresco:layout_constraintLeft_toLeftOf="@+id/player_name"
-            tools:text="K/D/A" />
+            <TextView
+                android:id="@+id/player_name"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="3dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@android:color/black"
+                fresco:layout_constraintStart_toEndOf="@+id/player_hero"
+                fresco:layout_constraintTop_toTopOf="parent"
+                tools:text="!@@@@@" />
 
-        <TextView
-            android:id="@+id/k"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            fresco:layout_constraintBottom_toBottomOf="@id/player_hero"
-            fresco:layout_constraintLeft_toLeftOf="@id/player_name"
-            tools:text="10/10/10" />
+            <TextView
+                android:id="@+id/kk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                fresco:layout_constraintBottom_toTopOf="@id/k"
+                fresco:layout_constraintLeft_toLeftOf="@+id/player_name"
+                tools:text="K/D/A" />
 
-        <TextView
-            android:id="@+id/in_battle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            fresco:layout_constraintRight_toRightOf="@id/damage"
-            fresco:layout_constraintTop_toBottomOf="@id/damage"
-            tools:text="In Battle:100%" />
-        <TextView
-            android:id="@+id/damage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="3dp"
-            fresco:layout_constraintRight_toLeftOf="@id/bear_item_0"
-            fresco:layout_constraintTop_toTopOf="@id/kk"
-            android:textSize="14sp"
-            tools:text="Damage:100000" />
+            <TextView
+                android:id="@+id/k"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                fresco:layout_constraintBottom_toBottomOf="@id/player_hero"
+                fresco:layout_constraintLeft_toLeftOf="@id/player_name"
+                tools:text="10/10/10" />
 
-        <TextView
-            android:id="@+id/lane"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            fresco:layout_constraintBottom_toTopOf="@id/damage"
-            fresco:layout_constraintRight_toRightOf="@id/damage"
-            tools:text="Mid lane" />
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/bear_item_0"
-            android:layout_width="35dp"
-            android:layout_height="26dp"
-            android:layout_marginRight="2dp"
-            android:layout_marginTop="4dp"
-            fresco:layout_constraintEnd_toStartOf="@+id/bear_item_1"
-            fresco:layout_constraintTop_toTopOf="parent"
-            fresco:roundedCornerRadius="2dp" />
+            <TextView
+                android:id="@+id/in_battle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                fresco:layout_constraintRight_toRightOf="@id/damage"
+                fresco:layout_constraintTop_toBottomOf="@id/damage"
+                tools:text="In Battle:100%" />
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/bear_item_1"
-            android:layout_width="35dp"
-            android:layout_height="26dp"
-            android:layout_marginRight="2dp"
-            android:layout_marginTop="4dp"
-            fresco:layout_constraintEnd_toStartOf="@+id/bear_item_2"
-            fresco:layout_constraintTop_toTopOf="parent"
-            fresco:roundedCornerRadius="2dp" />
+            <TextView
+                android:id="@+id/damage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
+                fresco:layout_constraintRight_toLeftOf="@id/item_0"
+                fresco:layout_constraintTop_toTopOf="@id/kk"
+                android:textSize="14sp"
+                tools:text="Damage:100000" />
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/bear_item_2"
-            android:layout_width="35dp"
-            android:layout_height="26dp"
-            android:layout_marginRight="4dp"
-            android:layout_marginTop="4dp"
-            fresco:layout_constraintEnd_toEndOf="parent"
-            fresco:layout_constraintTop_toTopOf="parent"
-            fresco:roundedCornerRadius="2dp" />
+            <TextView
+                android:id="@+id/lane"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                fresco:layout_constraintBottom_toTopOf="@id/damage"
+                fresco:layout_constraintRight_toRightOf="@id/damage"
+                tools:text="Mid lane" />
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/bear_item_3"
-            android:layout_width="35dp"
-            android:layout_height="26dp"
-            android:layout_marginBottom="4dp"
-            android:layout_marginRight="2dp"
-            fresco:layout_constraintBottom_toBottomOf="parent"
-            fresco:layout_constraintEnd_toStartOf="@+id/bear_item_4"
-            fresco:roundedCornerRadius="2dp" />
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/item_0"
+                android:layout_width="35dp"
+                android:layout_height="26dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="4dp"
+                fresco:layout_constraintEnd_toStartOf="@+id/item_1"
+                fresco:layout_constraintTop_toTopOf="parent"
+                fresco:roundedCornerRadius="2dp" />
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/bear_item_4"
-            android:layout_width="35dp"
-            android:layout_height="26dp"
-            android:layout_marginBottom="4dp"
-            android:layout_marginRight="2dp"
-            fresco:layout_constraintBottom_toBottomOf="parent"
-            fresco:layout_constraintEnd_toStartOf="@+id/bear_item_5"
-            fresco:roundedCornerRadius="2dp" />
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/item_1"
+                android:layout_width="35dp"
+                android:layout_height="26dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="4dp"
+                fresco:layout_constraintEnd_toStartOf="@+id/item_2"
+                fresco:layout_constraintTop_toTopOf="parent"
+                fresco:roundedCornerRadius="2dp" />
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/bear_item_5"
-            android:layout_width="35dp"
-            android:layout_height="26dp"
-            android:layout_marginBottom="4dp"
-            android:layout_marginRight="4dp"
-            android:layout_marginTop="2dp"
-            fresco:layout_constraintEnd_toEndOf="parent"
-            fresco:layout_constraintBottom_toBottomOf="parent"
-            fresco:roundedCornerRadius="2dp" />
-    </android.support.constraint.ConstraintLayout>
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/item_2"
+                android:layout_width="35dp"
+                android:layout_height="26dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="4dp"
+                fresco:layout_constraintEnd_toEndOf="parent"
+                fresco:layout_constraintTop_toTopOf="parent"
+                fresco:roundedCornerRadius="2dp" />
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/item_3"
+                android:layout_width="35dp"
+                android:layout_height="26dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginRight="2dp"
+                fresco:layout_constraintBottom_toBottomOf="parent"
+                fresco:layout_constraintEnd_toStartOf="@+id/item_4"
+                fresco:roundedCornerRadius="2dp" />
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/item_4"
+                android:layout_width="35dp"
+                android:layout_height="26dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginRight="2dp"
+                fresco:layout_constraintBottom_toBottomOf="parent"
+                fresco:layout_constraintEnd_toStartOf="@+id/item_5"
+                fresco:roundedCornerRadius="2dp" />
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/item_5"
+                android:layout_width="35dp"
+                android:layout_height="26dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="2dp"
+                fresco:layout_constraintEnd_toEndOf="parent"
+                fresco:layout_constraintBottom_toBottomOf="parent"
+                fresco:roundedCornerRadius="2dp" />
+        </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>
+
+    <include layout="@layout/player_detail" />
+</LinearLayout>

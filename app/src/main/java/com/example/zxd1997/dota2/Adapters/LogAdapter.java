@@ -1,9 +1,15 @@
 package com.example.zxd1997.dota2.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -14,6 +20,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.zxd1997.dota2.Activities.MainActivity;
@@ -21,7 +28,9 @@ import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.R;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -36,10 +45,13 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int FIRST_BLOOD = 7;
     private final Context context;
     private final List<Match.Objective> logs;
+    private final RecyclerView recyclerView;
+    private int expended = -1;
 
-    public LogAdapter(Context context, List<Match.Objective> logs) {
+    public LogAdapter(Context context, List<Match.Objective> logs, RecyclerView recyclerView) {
         this.context = context;
         this.logs = logs;
+        this.recyclerView = recyclerView;
     }
 
     @Override
@@ -98,11 +110,12 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
+    @SuppressLint("RecyclerView")
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         int time = Math.abs(logs.get(position).getTime());
         int h = time / 3600;
-        int m = time % 3600 / 60;
+        final int m = time % 3600 / 60;
         int s = time % 3600 % 60;
         StringBuilder tt = new StringBuilder();
         if (logs.get(position).getTime() < 0) tt.append("-");
@@ -271,8 +284,8 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 break;
             }
             default: {
-                TeamFight teamFight = (TeamFight) holder;
-                Match.TeamFight teamfight = (Match.TeamFight) logs.get(position);
+                final TeamFight teamFight = (TeamFight) holder;
+                final Match.TeamFight teamfight = (Match.TeamFight) logs.get(position);
                 int time1 = Math.abs(teamfight.getEnd());
                 int h1 = time1 / 3600;
                 int m1 = time1 % 3600 / 60;
@@ -337,8 +350,122 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     dire_gold.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.lose)), 0, dire_gold.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     teamFight.dire_gold_delta.setText(new SpannableStringBuilder().append(gold).append(" ").append(dire_gold).append(down));
                 }
+                if (radiant_gold_delta - dire_gold_delta > 0) {
+                    teamFight.teamfight_win.setText(String.format("%s %ss", context.getString(R.string.radiant), context.getString(R.string.win)));
+                    teamFight.teamfight_win.setTextColor(context.getResources().getColor(R.color.win));
+                } else {
+                    teamFight.teamfight_win.setText(String.format("%s %ss", context.getString(R.string.dire), context.getString(R.string.win)));
+                    teamFight.teamfight_win.setTextColor(context.getResources().getColor(R.color.lose));
+                }
+                if (Math.abs(Math.abs(radiant_gold_delta) - Math.abs(dire_gold_delta)) < 250) {
+                    teamFight.teamfight_win.setText(context.getString(R.string.drew));
+                    teamFight.teamfight_win.setTextColor(context.getResources().getColor(R.color.high));
+                }
                 teamFight.radiant_death.setText(new SpannableStringBuilder().append(death).append(" Death:").append(radiant_death));
                 teamFight.dire_death.setText(new SpannableStringBuilder().append("Death:").append(dire_death).append(" ").append(death));
+                teamFight.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!teamFight.f) {
+                            if (expended != -1) {
+                                TeamFight viewHolder = (TeamFight) recyclerView.getChildViewHolder(recyclerView.getChildAt(expended));
+                                viewHolder.team_fight_detail.setVisibility(View.GONE);
+                                viewHolder.bitmap.recycle();
+                            }
+                            teamFight.team_fight_detail.setVisibility(View.VISIBLE);
+                            teamFight.team_fight_detail = teamFight.itemView.findViewById(R.id.team_fight_detail);
+                            teamFight.f = true;
+                            teamFight.map = teamFight.itemView.findViewById(R.id.imageView6);
+                            teamFight.teamfight_list = teamFight.itemView.findViewById(R.id.team_fight_list);
+                            teamFight.teamfight_list.setLayoutManager(new LinearLayoutManager(context));
+                            teamFight.bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.map).copy(Bitmap.Config.ARGB_8888, true);
+                            Canvas canvas = new Canvas(teamFight.bitmap);
+                            float h = teamFight.bitmap.getHeight();
+                            float w = teamFight.bitmap.getWidth();
+                            Paint paint = new Paint();
+                            paint.setAntiAlias(true);
+                            paint.setStrokeWidth(10);
+                            float x;
+                            float y;
+                            int i = 0;
+                            List<Match.TeamFight.TeamFightPlayer> attend = new ArrayList<>();
+                            for (Match.TeamFight.TeamFightPlayer p : teamfight.getPlayers()) {
+                                if (p.getDeaths() > 0 || p.getBuybacks() > 0 || p.getDamage() > 0 || p.getHealing() > 0) {
+                                    attend.add(p);
+                                }
+                                if (p.getDeaths() > 0) {
+                                    if (i <= 4)
+                                        paint.setColor(context.getResources().getColor(R.color.win));
+                                    else
+                                        paint.setColor(context.getResources().getColor(R.color.lose));
+                                    for (Map.Entry<Integer, Map<Integer, Integer>> entry : p.getDeaths_pos().entrySet()) {
+                                        x = entry.getKey();
+                                        for (Map.Entry<Integer, Integer> entry1 : entry.getValue().entrySet()) {
+                                            y = entry1.getKey();
+                                            canvas.drawCircle((x * 2 - 135) / 2 * (float) 4 / 508 * w, h - (y * 2 - 124) / 2 * (float) 4 / 505 * h, 40, paint);
+                                        }
+                                    }
+                                }
+                                i++;
+                            }
+                            teamFight.teamfight_list.setLayoutManager(new LinearLayoutManager(context));
+                            teamFight.teamfight_list.setAdapter(new TeamFightPlayerAdapter(context, attend));
+                            teamFight.map.setImageBitmap(teamFight.bitmap);
+                            expended = position;
+                            notifyItemChanged(position, "");
+                        } else {
+                            if (teamFight.team_fight_detail.getVisibility() == View.GONE) {
+                                if (expended != -1) {
+                                    TeamFight viewHolder = (TeamFight) recyclerView.getChildViewHolder(recyclerView.getChildAt(expended));
+                                    viewHolder.team_fight_detail.setVisibility(View.GONE);
+                                    viewHolder.bitmap.recycle();
+                                }
+                                teamFight.bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.map).copy(Bitmap.Config.ARGB_8888, true);
+                                Canvas canvas = new Canvas(teamFight.bitmap);
+                                float h = teamFight.bitmap.getHeight();
+                                float w = teamFight.bitmap.getWidth();
+                                Paint paint = new Paint();
+                                paint.setAntiAlias(true);
+                                paint.setStrokeWidth(10);
+                                float x;
+                                float y;
+                                int i = 0;
+                                List<Match.TeamFight.TeamFightPlayer> attend = new ArrayList<>();
+                                for (Match.TeamFight.TeamFightPlayer p : teamfight.getPlayers()) {
+                                    if (p.getDeaths() > 0 || p.getBuybacks() > 0 || p.getDamage() > 0 || p.getHealing() > 0) {
+                                        attend.add(p);
+                                    }
+                                    if (p.getDeaths() > 0) {
+                                        if (i <= 4)
+                                            paint.setColor(context.getResources().getColor(R.color.win));
+                                        else
+                                            paint.setColor(context.getResources().getColor(R.color.lose));
+                                        for (Map.Entry<Integer, Map<Integer, Integer>> entry : p.getDeaths_pos().entrySet()) {
+                                            x = entry.getKey();
+                                            for (Map.Entry<Integer, Integer> entry1 : entry.getValue().entrySet()) {
+                                                y = entry1.getKey();
+                                                canvas.drawCircle((x * 2 - 135) / 2 * (float) 4 / 508 * w, h - (y * 2 - 124) / 2 * (float) 4 / 505 * h, 40, paint);
+                                            }
+                                        }
+                                    }
+                                    i++;
+                                }
+                                teamFight.teamfight_list.setLayoutManager(new LinearLayoutManager(context));
+                                teamFight.teamfight_list.setAdapter(new TeamFightPlayerAdapter(context, attend));
+                                teamFight.map.setImageBitmap(teamFight.bitmap);
+                                expended = position;
+                                teamFight.team_fight_detail.setVisibility(View.VISIBLE);
+                            } else {
+                                teamFight.team_fight_detail.setVisibility(View.GONE);
+                                teamFight.bitmap.recycle();
+                                expended = -1;
+                                System.gc();
+                                System.runFinalization();
+                            }
+                            notifyItemChanged(position, "");
+                        }
+                    }
+                });
             }
         }
     }
@@ -387,38 +514,30 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     class TeamFight extends RecyclerView.ViewHolder {
+        final TextView radiant_gold_delta;
+        final TextView radiant_death;
+        final TextView start_end;
+        final TextView dire_death;
+        final TextView dire_gold_delta;
+        final View itemView;
+        final TextView teamfight_win;
         View team_fight_detail;
-        TextView radiant_gold_delta;
-        TextView radiant_death;
-        TextView start_end;
-        TextView dire_death;
-        TextView dire_gold_delta;
-        View itemView;
         boolean f = false;
+        ImageView map;
+        RecyclerView teamfight_list;
+        Bitmap bitmap;
 
         TeamFight(final View itemView) {
             super(itemView);
             this.itemView = itemView;
+            teamfight_win = itemView.findViewById(R.id.teamfight_win);
             team_fight_detail = itemView.findViewById(R.id.team_fight_stub);
             radiant_gold_delta = itemView.findViewById(R.id.radiant_gold_delta);
             radiant_death = itemView.findViewById(R.id.radiant_death);
             start_end = itemView.findViewById(R.id.start_end);
             dire_death = itemView.findViewById(R.id.dire_death);
             dire_gold_delta = itemView.findViewById(R.id.dire_gold_delta);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!f) {
-                        team_fight_detail.setVisibility(View.VISIBLE);
-                        team_fight_detail = itemView.findViewById(R.id.team_fight_detail);
-                        f = true;
-                    } else {
-                        if (team_fight_detail.getVisibility() == View.GONE) {
-                            team_fight_detail.setVisibility(View.VISIBLE);
-                        } else team_fight_detail.setVisibility(View.GONE);
-                    }
-                }
-            });
+
         }
     }
 }

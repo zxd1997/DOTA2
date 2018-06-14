@@ -91,7 +91,7 @@ public class MyFragment extends Fragment {
             switch (message.what) {
                 case VERIFY: {
                     Player t = new Gson().fromJson(message.obj.toString(), Player.class);
-                    if (t == null) {
+                    if (t == null || t.getProfile() == null) {
                         Toast.makeText(getContext(), "No Such Player", Toast.LENGTH_LONG).show();
                         progressBar.setVisibility(View.GONE);
                         button1.setVisibility(View.VISIBLE);

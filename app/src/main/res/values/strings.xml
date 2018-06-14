@@ -107,7 +107,7 @@
     <string name="buildings">Buildings</string>
     <string name="others">Others</string>
     <string name="aegis">Picked up Aegis of Immortal</string>
-    <string name="first_blood">Draw First Blood</string>
+    <string name="first_blood">Drew First Blood</string>
     <string name="killed">Killed</string>
     <string name="dire_courier">Dire\'s Courier</string>
     <string name="radiant_courier">Radiant\'s Courier</string>
@@ -149,4 +149,8 @@
     <string name="npc_dota_goodguys_melee_rax_bot">Radiant\'s Bottom Melee Rax</string>
     <string name="npc_dota_goodguys_fort">Radiant\'s Ancient</string>
     <string name="teamfight">TeamFight</string>
+    <string name="stuns">Stuns:%1$.2fs</string>
+    <string name="drew">Drew</string>
+    <string name="healing">Healing:%1$d</string>
+    <string name="xp_earn">XP Gain:%1$d</string>
 </resources>

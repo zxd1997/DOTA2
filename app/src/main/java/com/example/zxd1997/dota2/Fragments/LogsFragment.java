@@ -50,34 +50,6 @@ public class LogsFragment extends Fragment {
     private LogAdapter logAdapter;
     private ProgressBar progressBar;
     private RecyclerView recyclerView;
-    @SuppressLint("HandlerLeak")
-    private final
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == 1) {
-                logAdapter.notifyDataSetChanged();
-                progressBar.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
-            }
-        }
-    };
-
-    public LogsFragment() {
-        // Required empty public constructor
-    }
-
-    public static LogsFragment newInstance() {
-        return new LogsFragment();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        System.gc();
-        System.runFinalization();
-    }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -95,7 +67,14 @@ public class LogsFragment extends Fragment {
             for (Match.TeamFight teamFight : match.getTeamfights()) {
                 teamFight.setTime(teamFight.getStart());
                 teamFight.setType("team_fight");
-                Log.d(TAG, "onCreateView: " + teamFight.getTime() + " " + teamFight.getStart() + " " + teamFight.getDeaths());
+                int i = 0;
+                for (Match.TeamFight.TeamFightPlayer p : teamFight.getPlayers()) {
+                    Match.PPlayer pPlayer = match.getPlayers().get(i);
+                    i++;
+                    p.setPlayer_slot(pPlayer.getPlayer_slot());
+                    p.setHero_id("hero_" + pPlayer.getHero_id());
+                    p.setPersonaname(pPlayer.getPersonaname());
+                }
                 logs.add(teamFight);
             }
             for (Match.Objective o : match.getObjectives()) {
@@ -178,12 +157,76 @@ public class LogsFragment extends Fragment {
             other.setOnCheckedChangeListener(new CheckedListener());
             recyclerView = view.findViewById(R.id.logs);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            logAdapter = new LogAdapter(getContext(), current_logs);
+            logAdapter = new LogAdapter(getContext(), current_logs, recyclerView);
             recyclerView.setAdapter(logAdapter);
             recyclerView.setNestedScrollingEnabled(false);
             recyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
         }
         return view;
+    }
+
+    @SuppressLint("HandlerLeak")
+    private final
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 1) {
+                logAdapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+            }
+        }
+    };
+
+    public LogsFragment() {
+        // Required empty public constructor
+    }
+
+    public static LogsFragment newInstance() {
+        return new LogsFragment();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        System.gc();
+        System.runFinalization();
+    }
+
+    class TeamfightPlayer {
+        private int player_slot;
+        private String personaname;
+        private String hero_id;
+
+        public TeamfightPlayer(int player_slot, String personaname, String hero_id) {
+            this.player_slot = player_slot;
+            this.personaname = personaname;
+            this.hero_id = hero_id;
+        }
+
+        public int getPlayer_slot() {
+            return player_slot;
+        }
+
+        public void setPlayer_slot(int player_slot) {
+            this.player_slot = player_slot;
+        }
+
+        public String getPersonaname() {
+            return personaname;
+        }
+
+        public void setPersonaname(String personaname) {
+            this.personaname = personaname;
+        }
+
+        public String getHero_id() {
+            return hero_id;
+        }
+
+        public void setHero_id(String hero_id) {
+            this.hero_id = hero_id;
+        }
     }
 
     class CheckedListener implements CheckBox.OnCheckedChangeListener {

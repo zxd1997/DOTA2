@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -58,11 +59,12 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             case DIRE_HEADER: {
                 return new RadiantHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.dire_header, parent, false));
             }
-            case PLAYER: {
-                return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.player_item, parent, false));
-            }
+//            case PLAYER: {
+//                return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.player_item, parent, false));
+//            }
             default: {
-                return new DetailHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.player_detail, parent, false));
+//                return new DetailHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.player_detail, parent, false));
+                return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.player_item, parent, false));
             }
         }
     }
@@ -148,15 +150,19 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     @Override
                     public void onClick(View v) {
                         if (!contents.get(position).extended) {
-                            contents.add(position + 1, new Content(DETAIL, contents.get(position).object));
-                            notifyItemInserted(position + 1);
-                            notifyItemRangeChanged(position, contents.size());
+//                            contents.add(position + 1, new Content(DETAIL, contents.get(position).object));
+//                            notifyItemInserted(position + 1);
+//                            notifyItemRangeChanged(position, contents.size());
                             contents.get(position).extended = true;
+                            viewHolder.cardView.setVisibility(View.VISIBLE);
+                            notifyItemChanged(position, "");
                         } else {
-                            notifyItemRemoved(position + 1);
-                            contents.remove(position + 1);
-                            notifyItemRangeChanged(position, contents.size());
+//                            notifyItemRemoved(position + 1);
+//                            contents.remove(position + 1);
+//                            notifyItemRangeChanged(position, contents.size());
                             contents.get(position).extended = false;
+                            viewHolder.cardView.setVisibility(View.GONE);
+                            notifyItemChanged(position, "");
                         }
                     }
                 });
@@ -177,6 +183,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 viewHolder.item_5.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
                         context.getResources().getIdentifier("item_" + p.getItem_5(), "drawable", context.getPackageName()))).build());
                 if (p.getLane_role() > 0) {
+                    viewHolder.stuns.setText(context.getString(R.string.stuns, p.getStuns()));
                     SpannableStringBuilder t = new SpannableStringBuilder();
                     switch (p.getLane_role()) {
                         case 1: {
@@ -185,7 +192,6 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             drawable.setBounds(0, 0, 28, 28);
                             tt.setSpan(new ImageSpan(drawable), 0, tt.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                             t.append(tt);
-//                            .append("Safe Lane");
                             break;
                         }
                         case 2: {
@@ -194,7 +200,6 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             drawable.setBounds(0, 0, 28, 28);
                             tt.setSpan(new ImageSpan(drawable), 0, tt.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                             t.append(tt);
-//                            .append("Mid Lane");
                             break;
                         }
                         case 3: {
@@ -203,7 +208,6 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             drawable.setBounds(0, 0, 28, 28);
                             tt.setSpan(new ImageSpan(drawable), 0, tt.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                             t.append(tt);
-//                            .append("Off Lane");
                             break;
                         }
                         case 4: {
@@ -212,7 +216,6 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             drawable.setBounds(0, 0, 28, 28);
                             tt.setSpan(new ImageSpan(drawable), 0, tt.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                             t.append(tt);
-//                            .append("Jungle");
                             break;
                         }
                     }
@@ -222,15 +225,9 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         drawable.setBounds(0, 0, 28, 28);
                         tt.setSpan(new ImageSpan(drawable), 0, tt.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                         t.append(" ").append(tt);
-//                        .append("Roaming");
                     }
                     viewHolder.lane.setText(t);
                 }
-                break;
-            }
-            case DETAIL: {
-                final Match.PPlayer p = (Match.PPlayer) contents.get(position).object;
-                final DetailHolder viewHolder = (DetailHolder) holder;
                 viewHolder.gpm.setText(context.getString(R.string.gpm, p.getGold_per_min()));
                 viewHolder.xpm.setText(context.getString(R.string.xpm, p.getXp_per_min()));
                 viewHolder.level.setText(context.getString(R.string.lvl, p.getLevel()));
@@ -306,7 +303,25 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    class DetailHolder extends RecyclerView.ViewHolder {
+
+    class ViewHolder extends RecyclerView.ViewHolder {
+        final SimpleDraweeView player_hero;
+        final TextView player;
+        final TextView k;
+        final TextView kk;
+        final TextView in_battle;
+        final TextView damage;
+        final TextView lane;
+        final SimpleDraweeView item_0;
+        final SimpleDraweeView item_1;
+        final SimpleDraweeView item_2;
+        final SimpleDraweeView item_3;
+        final SimpleDraweeView item_4;
+        final SimpleDraweeView item_5;
+        final TextView stuns;
+        final View color;
+        final View itemView;
+        final CardView cardView;
         final SimpleDraweeView backpack_0;
         final SimpleDraweeView backpack_1;
         final SimpleDraweeView backpack_2;
@@ -333,12 +348,29 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         final SimpleDraweeView bear_backpack_1;
         final SimpleDraweeView bear_backpack_2;
 
-        DetailHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
+            this.itemView = itemView;
+            lane = itemView.findViewById(R.id.lane);
+            color = itemView.findViewById(R.id.color_hero);
+            player_hero = itemView.findViewById(R.id.player_hero);
+            player = itemView.findViewById(R.id.player_name);
+            k = itemView.findViewById(R.id.k);
+            kk = itemView.findViewById(R.id.kk);
+            in_battle = itemView.findViewById(R.id.in_battle);
+            damage = itemView.findViewById(R.id.damage);
+            item_0 = itemView.findViewById(R.id.item_0);
+            item_1 = itemView.findViewById(R.id.item_1);
+            item_2 = itemView.findViewById(R.id.item_2);
+            item_3 = itemView.findViewById(R.id.item_3);
+            item_4 = itemView.findViewById(R.id.item_4);
+            item_5 = itemView.findViewById(R.id.item_5);
+            cardView = itemView.findViewById(R.id.player_detail);
             backpack_0 = itemView.findViewById(R.id.backpack_0);
             backpack_1 = itemView.findViewById(R.id.backpack_1);
             backpack_2 = itemView.findViewById(R.id.backpack_2);
             level = itemView.findViewById(R.id.lvl);
+            stuns = itemView.findViewById(R.id.stuns);
             towerDamage = itemView.findViewById(R.id.td);
             heroHealing = itemView.findViewById(R.id.hh);
             lastHits = itemView.findViewById(R.id.lh);
@@ -360,43 +392,6 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             bear_backpack_0 = itemView.findViewById(R.id.bear_backpack_0);
             bear_backpack_1 = itemView.findViewById(R.id.bear_backpack_1);
             bear_backpack_2 = itemView.findViewById(R.id.bear_backpack_2);
-        }
-    }
-
-    class ViewHolder extends RecyclerView.ViewHolder {
-        final SimpleDraweeView player_hero;
-        final TextView player;
-        final TextView k;
-        final TextView kk;
-        final TextView in_battle;
-        final TextView damage;
-        final TextView lane;
-        final SimpleDraweeView item_0;
-        final SimpleDraweeView item_1;
-        final SimpleDraweeView item_2;
-        final SimpleDraweeView item_3;
-        final SimpleDraweeView item_4;
-        final SimpleDraweeView item_5;
-        final View color;
-        final View itemView;
-
-        ViewHolder(View itemView) {
-            super(itemView);
-            this.itemView = itemView;
-            lane = itemView.findViewById(R.id.lane);
-            color = itemView.findViewById(R.id.color_hero);
-            player_hero = itemView.findViewById(R.id.player_hero);
-            player = itemView.findViewById(R.id.player_name);
-            k = itemView.findViewById(R.id.k);
-            kk = itemView.findViewById(R.id.kk);
-            in_battle = itemView.findViewById(R.id.in_battle);
-            damage = itemView.findViewById(R.id.damage);
-            item_0 = itemView.findViewById(R.id.bear_item_0);
-            item_1 = itemView.findViewById(R.id.bear_item_1);
-            item_2 = itemView.findViewById(R.id.bear_item_2);
-            item_3 = itemView.findViewById(R.id.bear_item_3);
-            item_4 = itemView.findViewById(R.id.bear_item_4);
-            item_5 = itemView.findViewById(R.id.bear_item_5);
         }
     }
 }

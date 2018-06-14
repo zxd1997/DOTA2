@@ -9,7 +9,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="66dp">
+        android:layout_height="67dp">
 
         <ImageView
             android:id="@+id/imageView4"
@@ -57,7 +57,7 @@
             android:id="@+id/teamfight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="3dp"
             android:text="@string/teamfight"
             android:textColor="@android:color/black"
             android:textSize="16sp"
@@ -69,8 +69,8 @@
             android:id="@+id/start_end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:textSize="16sp"
+            android:layout_marginTop="2dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/teamfight"
@@ -119,6 +119,16 @@
             android:textSize="16sp"
             app:layout_constraintRight_toLeftOf="@id/imageView5"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/teamfight_win"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/start_end"
+            tools:text="Radiant Wins" />
     </android.support.constraint.ConstraintLayout>
 
     <ViewStub
