@@ -27,7 +27,7 @@
         fresco:layout_constraintTop_toTopOf="parent"
         fresco:roundBottomRight="false"
         fresco:roundTopRight="false"
-        fresco:roundedCornerRadius="2dp" />
+        fresco:roundedCornerRadius="1dp" />
 
     <View
         android:id="@+id/log_color"

@@ -111,8 +111,8 @@ public class MyFragment extends Fragment {
                     loc_country_code.setText(player.getLoccountrycode());
                     account_id.setText(String.valueOf(player.getAccount_id()));
                     header.setImageURI(player.getAvatarfull());
-                    int t = (int) Math.floor((double) player.getRank_tier() / 10);
                     if (player.getRank_tier() != 0) {
+                        int t = player.getRank_tier() / 10;
                         int star = player.getRank_tier() % 10;
                         int rank = player.getLeaderboard_rank();
                         Log.d("rank", "handleMessage: " + rank);
@@ -135,10 +135,10 @@ public class MyFragment extends Fragment {
                             @SuppressLint("Recycle") TypedArray typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.stars);
                             stars.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(typedArray.getResourceId(star - 1, 0))).build());
                         }
+                        Log.d("rank", "handleMessage: " + t + " " + star);
+                        @SuppressLint("Recycle") TypedArray typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.tiers);
+                        tier.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(typedArray.getResourceId(t, 0))).build());
                     }
-                    Log.d("rank", "handleMessage: " + t);
-                    @SuppressLint("Recycle") TypedArray typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.tiers);
-                    tier.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(typedArray.getResourceId(t, 0))).build());
                     OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id + "/wl", handler, WL);
                     break;
                 }

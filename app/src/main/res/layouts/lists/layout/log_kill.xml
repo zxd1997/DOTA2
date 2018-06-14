@@ -25,10 +25,9 @@
         fresco:layout_constraintBottom_toBottomOf="parent"
         fresco:layout_constraintLeft_toRightOf="@id/log_time"
         fresco:layout_constraintTop_toTopOf="parent"
-
         fresco:roundBottomRight="false"
         fresco:roundTopRight="false"
-        fresco:roundedCornerRadius="2dp" />
+        fresco:roundedCornerRadius="1dp" />
     <View
         android:id="@+id/log_color"
         android:layout_width="2dp"
@@ -68,7 +67,7 @@
         fresco:layout_constraintBottom_toBottomOf="parent"
         fresco:layout_constraintLeft_toRightOf="@+id/kill"
         fresco:layout_constraintTop_toTopOf="parent"
-        fresco:roundedCornerRadius="2dp"
+        fresco:roundedCornerRadius="1dp"
         tools:visibility="visible" />
 
     <TextView
