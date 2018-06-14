@@ -20,7 +20,7 @@ public class Match {
     private List<Integer> radiant_xp_adv = new ArrayList<>();
     private int skill;
     private long start_time;
-    private List<TeamFight> TeamFights;
+    private List<TeamFight> teamfights = new ArrayList<>();
     private int tower_status_dire;
     private int tower_status_radiant;
     private int patch;
@@ -37,12 +37,12 @@ public class Match {
         this.objectives = objectives;
     }
 
-    public List<TeamFight> getTeamFights() {
-        return TeamFights;
+    public List<TeamFight> getTeamfights() {
+        return teamfights;
     }
 
-    public void setTeamFights(List<TeamFight> teamFights) {
-        TeamFights = teamFights;
+    public void setTeamfights(List<TeamFight> teamfights) {
+        this.teamfights = teamfights;
     }
 
     public long getReplay_salt() {
@@ -312,8 +312,6 @@ public class Match {
 
         public void setStart(int start) {
             this.start = start;
-            super.setTime(start);
-            super.setType("team_fight");
         }
 
         public int getEnd() {
@@ -488,7 +486,7 @@ public class Match {
         private Map<String, Integer> killed_by;
         private Map<String, Integer> damage;
         private Map<String, Integer> damage_taken;
-        private List<Objective> purchase_log = new ArrayList<Objective>();
+        private List<Objective> purchase_log = new ArrayList<>();
         private Map<String, Integer> gold_reasons;
         private double stuns;
         private double teamfight_participation;

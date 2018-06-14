@@ -92,6 +92,12 @@ public class LogsFragment extends Fragment {
             Objects.requireNonNull(getActivity()).startActivity(intent);
             getActivity().finish();
         } else {
+            for (Match.TeamFight teamFight : match.getTeamfights()) {
+                teamFight.setTime(teamFight.getStart());
+                teamFight.setType("team_fight");
+                Log.d(TAG, "onCreateView: " + teamFight.getTime() + " " + teamFight.getStart() + " " + teamFight.getDeaths());
+                logs.add(teamFight);
+            }
             for (Match.Objective o : match.getObjectives()) {
                 if (o.getTeam() == 2) {
                     o.setName(Objects.requireNonNull(getContext()).getString(R.string.radiant));

@@ -4,11 +4,11 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -70,8 +70,7 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 return AEGIS;
             }
             default: {
-                int TEAM_FIGHT = 5;
-                return TEAM_FIGHT;
+                return 5;
             }
         }
     }
@@ -120,11 +119,9 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 viewHolder.killer.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(
                         context.getResources().getIdentifier(kill.getHero_id(), "drawable", context.getPackageName()))).build());
                 if (kill.getPlayer_slot() < 100) {
-                    viewHolder.kill_sign.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(
-                            context.getResources().getIdentifier("radiant_kill", "drawable", context.getPackageName()))).build());
+                    viewHolder.kill_sign.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.radiant_kill)).build());
                 } else {
-                    viewHolder.kill_sign.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(
-                            context.getResources().getIdentifier("dire_kill", "drawable", context.getPackageName()))).build());
+                    viewHolder.kill_sign.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.dire_kill)).build());
                 }
                 viewHolder.killed.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(
                         context.getResources().getIdentifier("hero_" + MainActivity.heroes.get(kill.getKey()).getId(), "drawable", context.getPackageName()))).build());
@@ -146,11 +143,9 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         context.getResources().getIdentifier(o.getHero_id(), "drawable", context.getPackageName()))).build());
                 viewHolder.color.setBackgroundColor(context.getResources().getColor(context.getResources().getIdentifier("slot_" + o.getPlayer_slot(), "color", context.getPackageName())));
                 if (o.getPlayer_slot() < 100) {
-                    viewHolder.kill_sign.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(
-                            context.getResources().getIdentifier("radiant_kill", "drawable", context.getPackageName()))).build());
+                    viewHolder.kill_sign.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.radiant_kill)).build());
                 } else {
-                    viewHolder.kill_sign.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(
-                            context.getResources().getIdentifier("dire_kill", "drawable", context.getPackageName()))).build());
+                    viewHolder.kill_sign.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.dire_kill)).build());
                 }
                 viewHolder.name.setText(o.getName().equals("") ? context.getString(R.string.anonymous) : o.getName());
                 break;
@@ -192,7 +187,7 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 viewHolder.name.setText(fb.getName().equals("") ? context.getString(R.string.anonymous) : fb.getName());
                 SpannableStringBuilder t = new SpannableStringBuilder();
                 SpannableString r = new SpannableString(" ");
-                Drawable drawable = context.getDrawable(context.getResources().getIdentifier("bloodsplattersmall2", "drawable", context.getPackageName()));
+                Drawable drawable = context.getDrawable(R.drawable.bloodsplattersmall2);
                 Objects.requireNonNull(drawable).setBounds(0, 0, 40, 40);
                 r.setSpan(new ImageSpan(drawable), 0, r.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 t.append(r).append(context.getString(R.string.first_blood));
@@ -209,7 +204,7 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 viewHolder.name.setText(aegis.getName().equals("") ? context.getString(R.string.anonymous) : aegis.getName());
                 SpannableStringBuilder t = new SpannableStringBuilder();
                 SpannableString r = new SpannableString(" ");
-                Drawable drawable = context.getDrawable(context.getResources().getIdentifier("aegis_icon", "drawable", context.getPackageName()));
+                Drawable drawable = context.getDrawable(R.drawable.aegis_icon);
                 Objects.requireNonNull(drawable).setBounds(0, 0, 45, 45);
                 r.setSpan(new ImageSpan(drawable), 0, r.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 t.append(r).append(context.getString(R.string.aegis));
@@ -225,15 +220,13 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         context.getResources().getIdentifier(roshan.getHero_id(), "drawable", context.getPackageName()))).build());
                 viewHolder.name.setText(roshan.getName().equals("") ? context.getString(R.string.anonymous) : roshan.getName());
                 if (roshan.getTeam() == 2) {
-                    viewHolder.kill_sign.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(
-                            context.getResources().getIdentifier("radiant_kill", "drawable", context.getPackageName()))).build());
+                    viewHolder.kill_sign.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.radiant_kill)).build());
                 } else {
-                    viewHolder.kill_sign.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(
-                            context.getResources().getIdentifier("dire_kill", "drawable", context.getPackageName()))).build());
+                    viewHolder.kill_sign.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.dire_kill)).build());
                 }
                 SpannableStringBuilder t = new SpannableStringBuilder();
                 SpannableString r = new SpannableString(" ");
-                Drawable drawable = context.getDrawable(context.getResources().getIdentifier("roshan", "drawable", context.getPackageName()));
+                Drawable drawable = context.getDrawable(R.drawable.roshan);
                 Objects.requireNonNull(drawable).setBounds(0, 0, 45, 45);
                 r.setSpan(new ImageSpan(drawable), 0, r.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 t.append(context.getString(R.string.killed)).append(r).append(context.getString(R.string.roshan));
@@ -246,36 +239,30 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case COURIER: {
                 Match.Objective courier = logs.get(position);
                 ViewHolder viewHolder = (ViewHolder) holder;
-                if (courier.getPlayer_slot() == 5) {
-                    courier.setPlayer_slot(6);
-                    courier.setName(context.getString(R.string.dire));
-                    courier.setHero_id("dire_logo");
-                } else {
-                    courier.setPlayer_slot(5);
-                    courier.setName(context.getString(R.string.radiant));
-                    courier.setHero_id("radiant_logo");
-                }
-                viewHolder.color.setBackgroundColor(context.getResources().getColor(context.getResources().getIdentifier("slot_" + courier.getPlayer_slot(), "color", context.getPackageName())));
-                viewHolder.killer.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(
-                        context.getResources().getIdentifier(courier.getHero_id(), "drawable", context.getPackageName()))).build());
-                viewHolder.name.setText(courier.getName().equals("") ? context.getString(R.string.anonymous) : courier.getName());
                 SpannableStringBuilder t = new SpannableStringBuilder();
                 SpannableString r = new SpannableString(" ");
                 if (courier.getTeam() == 3) {
-                    viewHolder.kill_sign.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(
-                            context.getResources().getIdentifier("radiant_kill", "drawable", context.getPackageName()))).build());
-                    Drawable drawable = context.getDrawable(context.getResources().getIdentifier("direcourier", "drawable", context.getPackageName()));
+                    viewHolder.killer.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.radiant_logo)).build());
+                    viewHolder.color.setBackgroundColor(context.getResources().getColor(R.color.win));
+                    courier.setName(context.getString(R.string.radiant));
+                    courier.setHero_id("radiant_logo");
+                    viewHolder.kill_sign.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.radiant_kill)).build());
+                    Drawable drawable = context.getDrawable(R.drawable.direcourier);
                     Objects.requireNonNull(drawable).setBounds(0, 0, 45, 45);
                     r.setSpan(new ImageSpan(drawable), 0, r.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     t.append(context.getString(R.string.killed)).append(r).append(context.getString(R.string.dire_courier));
                 } else {
-                    viewHolder.kill_sign.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(
-                            context.getResources().getIdentifier("dire_kill", "drawable", context.getPackageName()))).build());
-                    Drawable drawable = context.getDrawable(context.getResources().getIdentifier("radiantcourier", "drawable", context.getPackageName()));
+                    viewHolder.killer.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.dire_logo)).build());
+                    viewHolder.color.setBackgroundColor(context.getResources().getColor(R.color.lose));
+                    courier.setName(context.getString(R.string.dire));
+                    courier.setHero_id("dire_logo");
+                    viewHolder.kill_sign.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.dire_kill)).build());
+                    Drawable drawable = context.getDrawable(R.drawable.radiantcourier);
                     Objects.requireNonNull(drawable).setBounds(0, 0, 45, 45);
                     r.setSpan(new ImageSpan(drawable), 0, r.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     t.append(context.getString(R.string.killed)).append(r).append(context.getString(R.string.radiant_courier));
                 }
+                viewHolder.name.setText(courier.getName().equals("") ? context.getString(R.string.anonymous) : courier.getName());
                 viewHolder.log.setText(t);
                 viewHolder.time.setText(tt);
                 viewHolder.log.setVisibility(View.VISIBLE);
@@ -284,6 +271,73 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
             default: {
                 TeamFight teamFight = (TeamFight) holder;
+                Match.TeamFight teamfight = (Match.TeamFight) logs.get(position);
+                int time1 = Math.abs(teamfight.getEnd());
+                int h1 = time1 / 3600;
+                int m1 = time1 % 3600 / 60;
+                int s1 = time1 % 3600 % 60;
+                StringBuilder tt1 = new StringBuilder();
+                if (logs.get(position).getTime() < 0) tt1.append("-");
+                if (h1 > 0) {
+                    tt1.append((h1 < 10) ? "0" + h1 + ":" : h1 + ":");
+                }
+                tt1.append((m1 < 10) ? "0" + m1 + ":" : m1 + ":");
+                tt1.append((s1 < 10) ? "0" + s1 : s1);
+                tt.append(" - ").append(tt1);
+                teamFight.start_end.setText(tt);
+                int radiant_deaths = 0;
+                int dire_deaths = 0;
+                int radiant_gold_delta = 0;
+                int dire_gold_delta = 0;
+                int i = 0;
+                for (Match.TeamFight.TeamFightPlayer player : teamfight.getPlayers()) {
+                    if (i < 5) {
+                        radiant_deaths += player.getDeaths();
+                        radiant_gold_delta += player.getGold_delta();
+                    } else {
+                        dire_deaths += player.getDeaths();
+                        dire_gold_delta += player.getGold_delta();
+                    }
+                    i++;
+                }
+                SpannableString death = new SpannableString(" ");
+                Drawable drawable = context.getDrawable(R.drawable.player_death);
+                Objects.requireNonNull(drawable).setBounds(0, 0, 40, 42);
+                death.setSpan(new ImageSpan(drawable), 0, death.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                SpannableString gold = new SpannableString(" ");
+                drawable = context.getDrawable(R.drawable.gold);
+                Objects.requireNonNull(drawable).setBounds(0, 0, 50, 34);
+                gold.setSpan(new ImageSpan(drawable), 0, gold.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                SpannableString radiant_death = new SpannableString(radiant_deaths + "");
+                SpannableString dire_death = new SpannableString(dire_deaths + "");
+                SpannableString radiant_gold = new SpannableString(radiant_gold_delta + "");
+                SpannableString dire_gold = new SpannableString(dire_gold_delta + "");
+                SpannableString up = new SpannableString(" ");
+                drawable = context.getDrawable(R.drawable.ic_arrow_drop_up_black_24dp);
+                Objects.requireNonNull(drawable).setBounds(0, 0, 48, 48);
+                up.setSpan(new ImageSpan(drawable), 0, up.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                SpannableString down = new SpannableString(" ");
+                drawable = context.getDrawable(R.drawable.ic_arrow_drop_down_black_24dp);
+                Objects.requireNonNull(drawable).setBounds(0, 0, 48, 48);
+                down.setSpan(new ImageSpan(drawable), 0, down.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                dire_death.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.lose)), 0, dire_death.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                radiant_death.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.lose)), 0, radiant_death.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                if (radiant_gold_delta > 0) {
+                    radiant_gold.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.win)), 0, radiant_gold.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    teamFight.radiant_gold_delta.setText(new SpannableStringBuilder().append(up).append(radiant_gold).append(" ").append(gold));
+                } else {
+                    radiant_gold.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.lose)), 0, radiant_gold.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    teamFight.radiant_gold_delta.setText(new SpannableStringBuilder().append(down).append(radiant_gold).append(" ").append(gold));
+                }
+                if (dire_gold_delta > 0) {
+                    dire_gold.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.win)), 0, dire_gold.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    teamFight.dire_gold_delta.setText(new SpannableStringBuilder().append(gold).append(" ").append(dire_gold).append(up));
+                } else {
+                    dire_gold.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.lose)), 0, dire_gold.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    teamFight.dire_gold_delta.setText(new SpannableStringBuilder().append(gold).append(" ").append(dire_gold).append(down));
+                }
+                teamFight.radiant_death.setText(new SpannableStringBuilder().append(death).append(" Death:").append(radiant_death));
+                teamFight.dire_death.setText(new SpannableStringBuilder().append("Death:").append(dire_death).append(" ").append(death));
             }
         }
     }
@@ -332,18 +386,19 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     class TeamFight extends RecyclerView.ViewHolder {
-        ConstraintLayout team_fight_detail;
+        View team_fight_detail;
         TextView radiant_gold_delta;
         TextView radiant_death;
         TextView start_end;
         TextView dire_death;
         TextView dire_gold_delta;
         View itemView;
+        boolean f = false;
 
-        TeamFight(View itemView) {
+        TeamFight(final View itemView) {
             super(itemView);
             this.itemView = itemView;
-            team_fight_detail = itemView.findViewById(R.id.team_fight_detail);
+            team_fight_detail = itemView.findViewById(R.id.team_fight_stub);
             radiant_gold_delta = itemView.findViewById(R.id.radiant_gold_delta);
             radiant_death = itemView.findViewById(R.id.radiant_death);
             start_end = itemView.findViewById(R.id.start_end);
@@ -352,10 +407,14 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (team_fight_detail.getVisibility() == View.GONE) {
+                    if (!f) {
                         team_fight_detail.setVisibility(View.VISIBLE);
+                        team_fight_detail = itemView.findViewById(R.id.team_fight_detail);
+                        f = true;
                     } else {
-                        team_fight_detail.setVisibility(View.GONE);
+                        if (team_fight_detail.getVisibility() == View.GONE) {
+                            team_fight_detail.setVisibility(View.VISIBLE);
+                        } else team_fight_detail.setVisibility(View.GONE);
                     }
                 }
             });

@@ -36,6 +36,8 @@
             android:id="@+id/radiant_gold_delta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textSize="15sp"
             app:layout_constraintLeft_toLeftOf="@id/radiant"
             app:layout_constraintTop_toBottomOf="@id/radiant"
             tools:text="10000" />
@@ -44,6 +46,8 @@
             android:id="@+id/radiant_death"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textSize="15sp"
             app:layout_constraintLeft_toLeftOf="@id/radiant"
             app:layout_constraintTop_toBottomOf="@id/radiant_gold_delta"
             tools:text="5" />
@@ -86,6 +90,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="2dp"
+            android:gravity="center_vertical"
+            android:textSize="15sp"
             app:layout_constraintRight_toLeftOf="@id/imageView5"
             app:layout_constraintTop_toBottomOf="@id/dire"
             tools:text="10000" />
@@ -95,6 +101,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="2dp"
+            android:gravity="center_vertical"
+            android:textSize="15sp"
             app:layout_constraintRight_toLeftOf="@id/imageView5"
             app:layout_constraintTop_toBottomOf="@id/dire_gold_delta"
             tools:text="5" />
@@ -112,12 +120,12 @@
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/team_fight_detail"
+    <ViewStub
+        android:id="@+id/team_fight_stub"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        tools:visibility="visible">
-
-    </android.support.constraint.ConstraintLayout>
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="2dp"
+        android:inflatedId="@+id/team_fight_detail"
+        android:layout="@layout/view_stub" />
 </LinearLayout>
