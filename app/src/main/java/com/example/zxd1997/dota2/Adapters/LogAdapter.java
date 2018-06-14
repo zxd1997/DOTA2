@@ -127,7 +127,7 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 viewHolder.killed.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(
                         context.getResources().getIdentifier("hero_" + MainActivity.heroes.get(kill.getKey()).getId(), "drawable", context.getPackageName()))).build());
                 viewHolder.killed.setVisibility(View.VISIBLE);
-                viewHolder.name.setText(kill.getName() == null || kill.getName().equals("") ? context.getString(R.string.anonymous) : kill.getName());
+                viewHolder.name.setText(kill.getName() == null ? context.getString(R.string.anonymous) : kill.getName());
                 viewHolder.time.setText(tt);
                 break;
             }
@@ -139,7 +139,6 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 viewHolder.log.setVisibility(View.VISIBLE);
                 viewHolder.time.setText(tt);
                 viewHolder.killed.setVisibility(View.GONE);
-                Log.d("type", "onBindViewHolder: " + o.getName() + " " + o.getHero_id() + " " + o.getUnit());
                 viewHolder.killer.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(
                         context.getResources().getIdentifier(o.getHero_id(), "drawable", context.getPackageName()))).build());
                 viewHolder.color.setBackgroundColor(context.getResources().getColor(context.getResources().getIdentifier("slot_" + o.getPlayer_slot(), "color", context.getPackageName())));
@@ -148,7 +147,7 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 } else {
                     viewHolder.kill_sign.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.dire_kill)).build());
                 }
-                viewHolder.name.setText(o.getName() == null || o.getName().equals("") ? context.getString(R.string.anonymous) : o.getName());
+                viewHolder.name.setText(o.getName() == null ? context.getString(R.string.anonymous) : o.getName());
                 break;
             }
             case RUNE: {
@@ -158,7 +157,7 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 viewHolder.who.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(
                         context.getResources().getIdentifier(rune.getHero_id(), "drawable", context.getPackageName()))).build());
                 Log.d(TAG, "onBindViewHolder: " + rune.getTime() + " " + rune.getType() + " " + rune.getKey());
-                viewHolder.name.setText(rune.getName() == null || rune.getName().equals("") ? context.getString(R.string.anonymous) : rune.getName());
+                viewHolder.name.setText(rune.getName() == null ? context.getString(R.string.anonymous) : rune.getName());
                 SpannableStringBuilder t = new SpannableStringBuilder();
                 SpannableString r = new SpannableString(" ");
                 Drawable drawable = context.getDrawable(context.getResources().getIdentifier("rune_" + rune.getKey(), "drawable", context.getPackageName()));
@@ -175,7 +174,7 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 viewHolder.color.setBackgroundColor(context.getResources().getColor(context.getResources().getIdentifier("slot_" + buyback.getPlayer_slot(), "color", context.getPackageName())));
                 viewHolder.who.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(
                         context.getResources().getIdentifier(buyback.getHero_id(), "drawable", context.getPackageName()))).build());
-                viewHolder.name.setText(buyback.getName() == null || buyback.getName().equals("") ? context.getString(R.string.anonymous) : buyback.getName());
+                viewHolder.name.setText(buyback.getName() == null ? context.getString(R.string.anonymous) : buyback.getName());
                 viewHolder.log.setText(R.string.buyback);
                 viewHolder.time.setText(tt);
                 break;
@@ -186,7 +185,7 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 viewHolder.color.setBackgroundColor(context.getResources().getColor(context.getResources().getIdentifier("slot_" + fb.getPlayer_slot(), "color", context.getPackageName())));
                 viewHolder.who.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(
                         context.getResources().getIdentifier(fb.getHero_id(), "drawable", context.getPackageName()))).build());
-                viewHolder.name.setText(fb.getName() == null || fb.getName().equals("") ? context.getString(R.string.anonymous) : fb.getName());
+                viewHolder.name.setText(fb.getName() == null ? context.getString(R.string.anonymous) : fb.getName());
                 SpannableStringBuilder t = new SpannableStringBuilder();
                 SpannableString r = new SpannableString(" ");
                 Drawable drawable = context.getDrawable(R.drawable.bloodsplattersmall2);
@@ -203,7 +202,7 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 viewHolder.color.setBackgroundColor(context.getResources().getColor(context.getResources().getIdentifier("slot_" + aegis.getPlayer_slot(), "color", context.getPackageName())));
                 viewHolder.who.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(
                         context.getResources().getIdentifier(aegis.getHero_id(), "drawable", context.getPackageName()))).build());
-                viewHolder.name.setText(aegis.getName() == null || aegis.getName().equals("") ? context.getString(R.string.anonymous) : aegis.getName());
+                viewHolder.name.setText(aegis.getName() == null ? context.getString(R.string.anonymous) : aegis.getName());
                 SpannableStringBuilder t = new SpannableStringBuilder();
                 SpannableString r = new SpannableString(" ");
                 Drawable drawable = context.getDrawable(R.drawable.aegis_icon);
@@ -220,7 +219,7 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 viewHolder.color.setBackgroundColor(context.getResources().getColor(context.getResources().getIdentifier("slot_" + roshan.getPlayer_slot(), "color", context.getPackageName())));
                 viewHolder.killer.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(
                         context.getResources().getIdentifier(roshan.getHero_id(), "drawable", context.getPackageName()))).build());
-                viewHolder.name.setText(roshan.getName() == null || roshan.getName().equals("") ? context.getString(R.string.anonymous) : roshan.getName());
+                viewHolder.name.setText(roshan.getName() == null ? context.getString(R.string.anonymous) : roshan.getName());
                 if (roshan.getTeam() == 2) {
                     viewHolder.kill_sign.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.radiant_kill)).build());
                 } else {
@@ -264,7 +263,7 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     r.setSpan(new ImageSpan(drawable), 0, r.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     t.append(context.getString(R.string.killed)).append(r).append(context.getString(R.string.radiant_courier));
                 }
-                viewHolder.name.setText(courier.getName().equals("") ? context.getString(R.string.anonymous) : courier.getName());
+                viewHolder.name.setText(courier.getName() == null ? context.getString(R.string.anonymous) : courier.getName());
                 viewHolder.log.setText(t);
                 viewHolder.time.setText(tt);
                 viewHolder.log.setVisibility(View.VISIBLE);

@@ -141,6 +141,7 @@ public class LogsFragment extends Fragment {
                     rune.setType("rune_pickup");
                     rune.setHero_id("hero_" + p.getHero_id());
                     rune.setName(p.getPersonaname());
+                    rune.setPlayer_slot(p.getPlayer_slot());
                     logs.add(rune);
                 }
                 for (Match.Objective kill : p.getKills_log()) {

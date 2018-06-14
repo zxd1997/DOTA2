@@ -107,7 +107,7 @@ public class MyFragment extends Fragment {
                 }
                 case PLAYER_INFO: {
                     Player player = new Gson().fromJson(message.obj.toString(), Player.class);
-                    persona_name.setText(player.getPersonaname());
+                    persona_name.setText(player.getPersonaname() == null || player.getPersonaname().equals("") ? getString(R.string.anonymous) : player.getPersonaname());
                     loc_country_code.setText(player.getLoccountrycode());
                     account_id.setText(String.valueOf(player.getAccount_id()));
                     header.setImageURI(player.getAvatarfull());
