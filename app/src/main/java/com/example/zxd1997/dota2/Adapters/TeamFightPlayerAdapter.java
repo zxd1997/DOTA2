@@ -114,11 +114,11 @@ public class TeamFightPlayerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
                 if (p.getAbility_uses().size() + p.getItem_uses().size() > 0) {
                     final CastAdapter castAdapter = new CastAdapter(context, p.getKilled(), p.getAbility_uses(), p.getItem_uses());
-                    GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 9);
+                    GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 10);
                     gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                         @Override
                         public int getSpanSize(int position) {
-                            return castAdapter.getItemViewType(position) == -1 ? 9 : 1;
+                            return castAdapter.getItemViewType(position) == -1 ? 10 : 1;
                         }
                     });
                     viewHolder.team_fight_cast.setLayoutManager(gridLayoutManager);

@@ -34,8 +34,6 @@ public class PurchaseAndCastAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ViewHolder viewHolder = (ViewHolder) holder;
-//        viewHolder.t1.setText(R.string.item_purchase);
-//        viewHolder.t2.setText(R.string.cast);
         viewHolder.color.setBackgroundColor(context.getResources().getColor(context.getResources().getIdentifier("slot_" + p.get(position).getPlayer_slot(), "color", context.getPackageName())));
         viewHolder.header.setImageURI(
                 new Uri.Builder().scheme("res").path(String.valueOf(
@@ -43,14 +41,11 @@ public class PurchaseAndCastAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         .build());
         viewHolder.name.setText(p.get(position).getPersonaname() == null ? context.getString(R.string.anonymous) : p.get(position).getPersonaname());
         final CastAdapter castAdapter = new CastAdapter(context, p.get(position).getPurchase_log(), p.get(position).getAbility_uses(), p.get(position).getItem_uses());
-//
-//        viewHolder.d_taken.setLayoutManager(new GridLayoutManager(context,9));
-//        viewHolder.d_taken.setAdapter(new CastAdapter(context, p.get(position).getAbility_uses(), p.get(position).getItem_uses()));
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 9);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 10);
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                return castAdapter.getItemViewType(position) == -1 ? 9 : 1;
+                return castAdapter.getItemViewType(position) == -1 ? 10 : 1;
             }
         });
         viewHolder.d_output.setLayoutManager(gridLayoutManager);
@@ -67,10 +62,7 @@ public class PurchaseAndCastAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         final SimpleDraweeView header;
         final TextView name;
         final RecyclerView d_output;
-        //        final RecyclerView d_taken;
         final View color;
-//        final TextView t1;
-//        final TextView t2;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -79,10 +71,6 @@ public class PurchaseAndCastAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             name = itemView.findViewById(R.id.hname);
             d_output = itemView.findViewById(R.id.d_output);
             d_output.setNestedScrollingEnabled(false);
-//            d_taken = itemView.findViewById(R.id.d_taken);
-//            d_taken.setNestedScrollingEnabled(false);
-//            t1 = itemView.findViewById(R.id.t1);
-//            t2 = itemView.findViewById(R.id.t2);
         }
     }
 }

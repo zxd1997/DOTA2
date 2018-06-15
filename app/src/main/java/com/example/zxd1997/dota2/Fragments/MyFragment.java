@@ -117,18 +117,8 @@ public class MyFragment extends Fragment {
                         int rank = player.getLeaderboard_rank();
                         Log.d("rank", "handleMessage: " + rank);
                         if (rank > 0) {
-                            if (rank <= 1000) {
-                                t = 8;
-                                star = 0;
-                            }
-                            if (rank <= 100) {
-                                t = 9;
-                                star = 0;
-                            }
-                            if (rank <= 10) {
-                                t = 10;
-                                star = 0;
-                            }
+                            star = 0;
+                            t = 8;
                             ranks.setText(String.valueOf(rank));
                         }
                         if (star > 0) {

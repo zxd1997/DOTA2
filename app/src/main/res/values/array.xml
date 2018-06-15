@@ -9,9 +9,7 @@
         <item>@drawable/rank_icon_5</item>
         <item>@drawable/rank_icon_6</item>
         <item>@drawable/rank_icon_7</item>
-        <item>@drawable/rank_icon_7a</item>
-        <item>@drawable/rank_icon_7b</item>
-        <item>@drawable/rank_icon_7c</item>`
+        <item>@drawable/rank_icon_8</item>
     </string-array>
     <string-array name="stars">
         <item>@drawable/rank_star_1</item>

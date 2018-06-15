@@ -3,9 +3,7 @@ package com.example.zxd1997.dota2.Adapters;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,11 +38,27 @@ public class DDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         viewHolder.header.setImageURI(new Uri.Builder().scheme("res").path(
                 String.valueOf(context.getResources().getIdentifier("hero_" + p.get(position).getHero_id(), "drawable", context.getPackageName()))).build());
         viewHolder.name.setText(p.get(position).getPersonaname() == null ? context.getString(R.string.anonymous) : p.get(position).getPersonaname());
-        viewHolder.d_taken.setLayoutManager(new GridLayoutManager(context, 9));
-        viewHolder.d_taken.setAdapter(new DTakenAdapter(context, p.get(position).getDamage_inflictor_received()));
-        viewHolder.d_output.setLayoutManager(new LinearLayoutManager(context));
-        viewHolder.d_output.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
-        viewHolder.d_output.setAdapter(new DOutputAdapter(context, p.get(position)));
+        final CastAdapter castAdapter = new CastAdapter(context, p.get(position));
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 20);
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                switch (castAdapter.getItemViewType(position)) {
+                    case -1:
+                        return 20;
+                    case 4:
+                        return 1;
+                    case 5:
+                        return 3;
+                    case 6:
+                        return 20;
+                    default:
+                        return 2;
+                }
+            }
+        });
+        viewHolder.d_output.setLayoutManager(gridLayoutManager);
+        viewHolder.d_output.setAdapter(castAdapter);
     }
 
     @Override
@@ -56,7 +70,6 @@ public class DDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final SimpleDraweeView header;
         final TextView name;
         final RecyclerView d_output;
-        final RecyclerView d_taken;
         final View color;
 
         ViewHolder(View itemView) {
@@ -66,8 +79,6 @@ public class DDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             name = itemView.findViewById(R.id.hname);
             d_output = itemView.findViewById(R.id.d_output);
             d_output.setNestedScrollingEnabled(false);
-            d_taken = itemView.findViewById(R.id.d_taken);
-            d_taken.setNestedScrollingEnabled(false);
         }
     }
 }

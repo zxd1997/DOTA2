@@ -75,8 +75,6 @@
                 android:id="@+id/d_output"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp"
                 android:background="@android:color/white" />
 
             <!--<TextView-->
@@ -89,13 +87,13 @@
             <!--android:textColor="@color/lose"-->
             <!--android:textSize="15sp" />-->
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/d_taken"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp"
-                android:background="@android:color/white" />
+            <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:id="@+id/d_taken"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="3dp"-->
+            <!--android:layout_marginRight="3dp"-->
+            <!--android:background="@android:color/white" />-->
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

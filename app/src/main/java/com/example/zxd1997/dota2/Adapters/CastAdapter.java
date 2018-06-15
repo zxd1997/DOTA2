@@ -26,6 +26,9 @@ class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int PURCHASE = 2;
     private final int HEADER = -1;
     private final int HERO = 3;
+    private final int HERO1 = 7;
+    private final int ARROW = 4;
+    private final int ENTER = 6;
     private final List<Cast> d_taken = new ArrayList<>();
     private final Context context;
 
@@ -33,14 +36,10 @@ class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.context = context;
         d_taken.add(new Cast(context.getResources().getColor(R.color.win), context.getResources().getString(R.string.item_purchase), HEADER));
         for (Match.Objective purchase : purchases) {
-            for (Map.Entry<String, Item> entry1 : MainActivity.items.entrySet()) {
-                if (purchase.getKey().equals("tpscroll") || purchase.getKey().equals("ward_observer") || purchase.getKey().equals("ward_sentry"))
-                    continue;
-                if (entry1.getKey().equals(purchase.getKey())) {
-                    d_taken.add(new Cast(purchase.getTime(), entry1.getValue().getId() + "", PURCHASE));
-                    break;
-                }
-            }
+            if (purchase.getKey().equals("tpscroll") || purchase.getKey().equals("ward_observer") || purchase.getKey().equals("ward_sentry"))
+                continue;
+            Item item = MainActivity.items.get(purchase.getKey());
+            d_taken.add(new Cast(purchase.getTime(), item.getId() + "", PURCHASE));
         }
         d_taken.add(new Cast(context.getResources().getColor(R.color.lose), context.getResources().getString(R.string.cast), HEADER));
         for (Map.Entry<String, Integer> entry : map.entrySet()) {
@@ -52,13 +51,10 @@ class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
         }
         for (Map.Entry<String, Integer> entry : map1.entrySet()) {
-            for (Map.Entry<String, Item> entry1 : MainActivity.items.entrySet()) {
-                if (entry1.getKey().equals(entry.getKey())) {
-                    d_taken.add(new Cast(entry.getValue(), entry1.getValue().getId() + "", ITEM));
-                    break;
-                }
-            }
+            Item item = MainActivity.items.get(entry.getKey());
+            d_taken.add(new Cast(entry.getValue(), item.getId() + "", ITEM));
         }
+
     }
 
     public CastAdapter(Context context, Map<String, Integer> kills, Map<String, Integer> map, Map<String, Integer> map1) {
@@ -66,13 +62,9 @@ class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (kills.size() > 0) {
             d_taken.add(new Cast(context.getResources().getColor(R.color.win), context.getResources().getString(R.string.kills), HEADER));
             for (Map.Entry<String, Integer> entry : kills.entrySet()) {
-                for (Map.Entry<String, Hero> entry1 : MainActivity.heroes.entrySet()) {
-                    if (entry.getKey().equals(entry1.getKey())) {
-                        for (int i = 0; i < entry.getValue(); i++)
-                            d_taken.add(new Cast(entry.getValue(), "hero_" + entry1.getValue().getId() + "_icon", HERO));
-                        break;
-                    }
-                }
+                Hero hero = MainActivity.heroes.get(entry.getKey());
+                for (int i = 0; i < entry.getValue(); i++)
+                    d_taken.add(new Cast(entry.getValue(), "hero_" + hero.getId() + "_icon", HERO));
             }
         }
         if (map.size() + map1.size() > 0) {
@@ -86,32 +78,73 @@ class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
             }
             for (Map.Entry<String, Integer> entry : map1.entrySet()) {
-                for (Map.Entry<String, Item> entry1 : MainActivity.items.entrySet()) {
-                    if (entry1.getKey().equals(entry.getKey())) {
-                        d_taken.add(new Cast(entry.getValue(), entry1.getValue().getId() + "", ITEM));
-                        break;
-                    }
-                }
+                Item item = MainActivity.items.get(entry.getKey());
+                d_taken.add(new Cast(entry.getValue(), item.getId() + "", ITEM));
             }
         }
     }
 
-    public CastAdapter(Context context, Map<String, Integer> map, Map<String, Integer> map1) {
+    public CastAdapter(Context context, Match.PPlayer p) {
         this.context = context;
-        d_taken.add(new Cast(context.getResources().getColor(R.color.lose), context.getResources().getString(R.string.cast), HEADER));
-        for (Map.Entry<String, Integer> entry : map.entrySet()) {
-            for (Map.Entry<String, String> entry1 : MainActivity.ability_ids.entrySet()) {
-                if (entry1.getValue().equals(entry.getKey())) {
-                    d_taken.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY));
-                    break;
+        d_taken.add(new Cast(context.getResources().getColor(R.color.win), context.getResources().getString(R.string.damage_dealt), HEADER));
+        for (Map.Entry<String, Integer> entry : p.getDamage_inflictor().entrySet()) {
+            if (entry.getKey().equals("null")) {
+                d_taken.add(new Cast(entry.getValue(), "default_attack", ABILITY));
+                d_taken.add(new Cast(0, "", ARROW));
+                int i = 0;
+                for (Map.Entry<String, Integer> entry1 : p.getDamage_targets().get(entry.getKey()).entrySet()) {
+                    if (i == 8) d_taken.add(new Cast(0, "", ENTER));
+                    d_taken.add(new Cast(entry1.getValue(), "hero_" + MainActivity.heroes.get(entry1.getKey()).getId() + "_icon", HERO1));
+                    i++;
+                }
+                d_taken.add(new Cast(0, "", ENTER));
+            } else {
+                boolean f = false;
+                for (Map.Entry<String, String> entry1 : MainActivity.ability_ids.entrySet()) {
+                    if (entry1.getValue().equals(entry.getKey())) {
+                        d_taken.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY));
+                        d_taken.add(new Cast(0, "", ARROW));
+                        int i = 0;
+                        for (Map.Entry<String, Integer> entry2 : p.getDamage_targets().get(entry.getKey()).entrySet()) {
+                            if (i == 8) d_taken.add(new Cast(0, "", ENTER));
+                            d_taken.add(new Cast(entry2.getValue(), "hero_" + MainActivity.heroes.get(entry2.getKey()).getId() + "_icon", HERO1));
+                            i++;
+                        }
+                        d_taken.add(new Cast(0, "", ENTER));
+                        f = true;
+                        break;
+                    }
+                }
+                if (!f) {
+                    Item item = MainActivity.items.get(entry.getKey());
+                    d_taken.add(new Cast(entry.getValue(), item.getId() + "", ITEM));
+                    d_taken.add(new Cast(0, "", ARROW));
+                    int i = 0;
+                    for (Map.Entry<String, Integer> entry1 : p.getDamage_targets().get(entry.getKey()).entrySet()) {
+                        if (i == 8) d_taken.add(new Cast(0, "", ENTER));
+                        d_taken.add(new Cast(entry1.getValue(), "hero_" + MainActivity.heroes.get(entry1.getKey()).getId() + "_icon", HERO1));
+                        i++;
+                    }
+                    d_taken.add(new Cast(0, "", ENTER));
                 }
             }
         }
-        for (Map.Entry<String, Integer> entry : map1.entrySet()) {
-            for (Map.Entry<String, Item> entry1 : MainActivity.items.entrySet()) {
-                if (entry1.getKey().equals(entry.getKey())) {
-                    d_taken.add(new Cast(entry.getValue(), entry1.getValue().getId() + "", ITEM));
-                    break;
+        d_taken.add(new Cast(context.getResources().getColor(R.color.lose), context.getResources().getString(R.string.damage_taken), HEADER));
+        for (Map.Entry<String, Integer> entry : p.getDamage_inflictor_received().entrySet()) {
+            if (entry.getKey().equals("null")) {
+                d_taken.add(new Cast(entry.getValue(), "default_attack", ABILITY));
+            } else {
+                boolean f = false;
+                for (Map.Entry<String, String> entry1 : MainActivity.ability_ids.entrySet()) {
+                    if (entry1.getValue().equals(entry.getKey())) {
+                        d_taken.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY));
+                        f = true;
+                        break;
+                    }
+                }
+                if (!f) {
+                    Item item = MainActivity.items.get(entry.getKey());
+                    d_taken.add(new Cast(entry.getValue(), item.getId() + "", ITEM));
                 }
             }
         }
@@ -122,6 +155,10 @@ class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == HEADER)
             return new Header(LayoutInflater.from(parent.getContext()).inflate(R.layout.header, parent, false));
+        if (viewType == ARROW)
+            return new Holder(LayoutInflater.from(parent.getContext()).inflate(R.layout.arrow, parent, false));
+        if (viewType == ENTER)
+            return new Holder(LayoutInflater.from(parent.getContext()).inflate(R.layout.space, parent, false));
         return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.d_taken_list, parent, false));
     }
 
@@ -136,6 +173,7 @@ class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             Header header = (Header) holder;
             header.header_text.setTextColor(d_taken.get(position).time);
             header.header_text.setText(d_taken.get(position).id);
+        } else if (getItemViewType(position) == ARROW || getItemViewType(position) == ENTER) {
         } else {
             ViewHolder viewHolder = (ViewHolder) holder;
             if (getItemViewType(position) == PURCHASE) {
@@ -168,6 +206,10 @@ class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             context.getResources().getIdentifier(d_taken.get(position).id, "drawable", context.getPackageName())))
                             .build());
                     viewHolder.damage_taken.setVisibility(View.GONE);
+                } else if (getItemViewType(position) == HERO1) {
+                    viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
+                            context.getResources().getIdentifier(d_taken.get(position).id, "drawable", context.getPackageName())))
+                            .build());
                 }
                 viewHolder.damage_taken.setText(String.valueOf(d_taken.get(position).time));
             }
@@ -188,6 +230,12 @@ class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             this.type = type;
             this.id = id;
             this.time = time;
+        }
+    }
+
+    class Holder extends RecyclerView.ViewHolder {
+        public Holder(View itemView) {
+            super(itemView);
         }
     }
 
