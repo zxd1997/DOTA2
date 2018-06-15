@@ -74,8 +74,10 @@ public class DetailFragment extends Fragment {
             }
             List<Content> contents = new ArrayList<>();
             List<Content> contents1 = new ArrayList<>();
-            contents.add(new Content(true, 0, 0));
-            contents1.add(new Content(true, 0, 0));
+            contents.add(new Content(true, -1, R.string.kills));
+            contents.add(new Content(true, -2, 0));
+            contents1.add(new Content(true, -1, R.string.damage));
+            contents1.add(new Content(true, -2, 0));
             for (int i = 5; i < match.getPlayers().size(); i++) {
                 int color = Objects.requireNonNull(getContext()).getResources().getColor(getContext().getResources().getIdentifier("slot_" + match.getPlayers().get(i).getPlayer_slot(), "color", getContext().getPackageName()));
                 Log.d("color", "onCreateView: " + color);
@@ -124,13 +126,18 @@ public class DetailFragment extends Fragment {
                 }
             }
             RecyclerView kill = view.findViewById(R.id.kills_recycler);
-            kill.setLayoutManager(new GridLayoutManager(getContext(), 6));
-            kill.setAdapter(new KillsAdapter(getContext(), contents));
-            RecyclerView damage = view.findViewById(R.id.damage_recycler);
-            damage.setLayoutManager(new GridLayoutManager(getContext(), 6));
-            damage.setAdapter(new KillsAdapter(getContext(), contents1));
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 6);
+            contents.addAll(contents1);
+            final KillsAdapter killsAdapter = new KillsAdapter(getContext(), contents);
+            gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    return killsAdapter.getItemViewType(position) == 2 ? 6 : 1;
+                }
+            });
+            kill.setLayoutManager(gridLayoutManager);
+            kill.setAdapter(killsAdapter);
             kill.setNestedScrollingEnabled(false);
-            damage.setNestedScrollingEnabled(false);
             RecyclerView d_detail = view.findViewById(R.id.ddetail);
             d_detail.setLayoutManager(new LinearLayoutManager(getContext()));
             d_detail.setNestedScrollingEnabled(false);

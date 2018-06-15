@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="2dp"
     android:id="@+id/player_detail"
-    android:background="@android:color/white"
     android:layout_marginLeft="3dp"
     android:layout_marginRight="3dp"
     fresco:cardCornerRadius="0dp"
@@ -236,6 +235,12 @@
             fresco:layout_constraintTop_toBottomOf="@id/backpack"
             fresco:roundedCornerRadius="2dp" />
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/buffs"
+            android:layout_width="111dp"
+            android:layout_height="wrap_content"
+            fresco:layout_constraintLeft_toLeftOf="@id/backpack_0"
+            fresco:layout_constraintTop_toBottomOf="@id/backpack_2" />
         <android.support.constraint.ConstraintLayout
             android:id="@+id/bear"
             android:layout_width="wrap_content"

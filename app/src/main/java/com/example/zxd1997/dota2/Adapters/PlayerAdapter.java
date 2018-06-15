@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -31,7 +32,6 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private final int PLAYER = 1;
     private final int RADIANT_HEADER = 2;
     private final int DIRE_HEADER = 3;
-    private final int DETAIL = 4;
     private final Match match;
     private final List<Content> contents = new LinkedList<>();
     private final Context context;
@@ -57,13 +57,9 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 return new RadiantHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.radiant_header, parent, false));
             }
             case DIRE_HEADER: {
-                return new RadiantHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.dire_header, parent, false));
+                return new RadiantHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.radiant_header, parent, false));
             }
-//            case PLAYER: {
-//                return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.player_item, parent, false));
-//            }
             default: {
-//                return new DetailHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.player_detail, parent, false));
                 return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.player_item, parent, false));
             }
         }
@@ -97,6 +93,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         switch (getItemViewType(position)) {
             case RADIANT_HEADER: {
                 RadiantHolder viewHolder = (RadiantHolder) holder;
+                viewHolder.name.setText(R.string.radiant);
                 if (match.isRadiant_win()) {
                     viewHolder.win_or_lose.setText(context.getString(R.string.win));
                     viewHolder.win_or_lose.setTextColor(Color.WHITE);
@@ -104,11 +101,13 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     viewHolder.win_or_lose.setText(context.getString(R.string.lose));
                     viewHolder.win_or_lose.setTextColor(Color.WHITE);
                 }
+                viewHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.radiant_header));
                 viewHolder.total_kill.setText(String.valueOf(match.getRadiant_score()));
                 break;
             }
             case DIRE_HEADER: {
                 RadiantHolder viewHolder = (RadiantHolder) holder;
+                viewHolder.name.setText(R.string.dire);
                 if (!match.isRadiant_win()) {
                     viewHolder.win_or_lose.setText(context.getString(R.string.win));
                     viewHolder.win_or_lose.setTextColor(Color.WHITE);
@@ -116,6 +115,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     viewHolder.win_or_lose.setText(context.getString(R.string.lose));
                     viewHolder.win_or_lose.setTextColor(Color.WHITE);
                 }
+                viewHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.dire_header));
                 viewHolder.total_kill.setText(String.valueOf(match.getDire_score()));
                 break;
             }
@@ -150,16 +150,10 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     @Override
                     public void onClick(View v) {
                         if (!contents.get(position).extended) {
-//                            contents.add(position + 1, new Content(DETAIL, contents.get(position).object));
-//                            notifyItemInserted(position + 1);
-//                            notifyItemRangeChanged(position, contents.size());
                             contents.get(position).extended = true;
                             viewHolder.cardView.setVisibility(View.VISIBLE);
                             notifyItemChanged(position, "");
                         } else {
-//                            notifyItemRemoved(position + 1);
-//                            contents.remove(position + 1);
-//                            notifyItemRangeChanged(position, contents.size());
                             contents.get(position).extended = false;
                             viewHolder.cardView.setVisibility(View.GONE);
                             notifyItemChanged(position, "");
@@ -270,6 +264,19 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 context.getResources().getIdentifier("item_" + unit.getBackpack_2(), "drawable", context.getPackageName()))).build());
                     }
                 }
+                if (p.getPermanent_buffs() != null && p.getPermanent_buffs().size() > 0) {
+                    final CastAdapter castAdapter = new CastAdapter(context, p.getPermanent_buffs());
+                    GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
+                    gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                        @Override
+                        public int getSpanSize(int position) {
+                            return castAdapter.getItemViewType(position) == -1 ? 3 : 1;
+                        }
+                    });
+                    viewHolder.recyclerView.setLayoutManager(gridLayoutManager);
+                    viewHolder.recyclerView.setAdapter(castAdapter);
+                    viewHolder.recyclerView.setNestedScrollingEnabled(false);
+                }
                 break;
             }
         }
@@ -295,9 +302,10 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     class RadiantHolder extends RecyclerView.ViewHolder {
         final TextView total_kill;
         final TextView win_or_lose;
-
+        final TextView name;
         RadiantHolder(View itemView) {
             super(itemView);
+            name = itemView.findViewById(R.id.textView8);
             total_kill = itemView.findViewById(R.id.total_kill);
             win_or_lose = itemView.findViewById(R.id.winorlose);
         }
@@ -347,7 +355,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         final SimpleDraweeView bear_backpack_0;
         final SimpleDraweeView bear_backpack_1;
         final SimpleDraweeView bear_backpack_2;
-
+        final RecyclerView recyclerView;
         ViewHolder(View itemView) {
             super(itemView);
             this.itemView = itemView;
@@ -392,6 +400,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             bear_backpack_0 = itemView.findViewById(R.id.bear_backpack_0);
             bear_backpack_1 = itemView.findViewById(R.id.bear_backpack_1);
             bear_backpack_2 = itemView.findViewById(R.id.bear_backpack_2);
+            recyclerView = itemView.findViewById(R.id.buffs);
         }
     }
 }

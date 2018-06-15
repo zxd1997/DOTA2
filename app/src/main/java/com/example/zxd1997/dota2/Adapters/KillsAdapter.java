@@ -28,40 +28,61 @@ public class KillsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == 1) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dk_header, parent, false);
-            return new HeaderHolder(view);
-        } else {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dk_number, parent, false);
-            return new kdHolder(view);
+        switch (viewType) {
+            case 1:
+                return new HeaderHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.dk_header, parent, false));
+            case 0:
+                return new kdHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.dk_number, parent, false));
+            default:
+                return new Empty(LayoutInflater.from(parent.getContext()).inflate(R.layout.header, parent, false));
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        return contents.get(position).isHeader() ? 1 : 0;
+        int t = contents.get(position).isHeader() ? 1 : 0;
+        if (contents.get(position).getHero_id() == -1)
+            t = 2;
+        return t;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (position != 0) {
-            if (getItemViewType(position) == 1) {
-                HeaderHolder headerHolder = (HeaderHolder) holder;
-                Log.d("color", "onBindViewHolder: " + contents.get(position).getColor());
-                headerHolder.color.setBackgroundColor(contents.get(position).getColor());
-                headerHolder.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
-                        context.getResources().getIdentifier("hero_" + contents.get(position).getHero_id(), "drawable", context.getPackageName())
-                )).build());
-            } else {
+        switch (getItemViewType(position)) {
+            case 1:
+                if (contents.get(position).getHero_id() != -2) {
+                    HeaderHolder headerHolder = (HeaderHolder) holder;
+                    Log.d("color", "onBindViewHolder: " + contents.get(position).getColor());
+                    headerHolder.color.setBackgroundColor(contents.get(position).getColor());
+                    headerHolder.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
+                            context.getResources().getIdentifier("hero_" + contents.get(position).getHero_id(), "drawable", context.getPackageName())
+                    )).build());
+                }
+                break;
+            case 2:
+                Empty empty = (Empty) holder;
+                empty.textView.setText(context.getResources().getString(contents.get(position).getColor()));
+                empty.textView.setTextSize(8 * context.getResources().getDisplayMetrics().scaledDensity + 0.5f);
+                break;
+            default:
                 kdHolder kdHolder = (kdHolder) holder;
                 kdHolder.textView.setText(contents.get(position).getKd());
-            }
+                break;
         }
     }
 
     @Override
     public int getItemCount() {
-        return 36;
+        return contents.size();
+    }
+
+    class Empty extends RecyclerView.ViewHolder {
+        final TextView textView;
+
+        Empty(View itemView) {
+            super(itemView);
+            textView = itemView.findViewById(R.id.header_text);
+        }
     }
 
     class HeaderHolder extends RecyclerView.ViewHolder {

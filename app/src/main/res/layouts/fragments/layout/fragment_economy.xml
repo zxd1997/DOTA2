@@ -13,10 +13,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        android:layout_marginLeft="3dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginLeft="1dp"
         android:text="@string/team_networth_experience_difference"
+        android:textSize="18sp"
         android:textColor="@android:color/black" />
 
         <com.example.zxd1997.dota2.Chart.MyLineChartView
@@ -63,10 +62,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        android:layout_marginLeft="3dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginLeft="1dp"
         android:text="@string/net_worth"
+        android:textSize="18sp"
         android:textColor="@android:color/black" />
 
         <com.example.zxd1997.dota2.Chart.MyLineChartView
@@ -230,11 +228,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:layout_marginLeft="3dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginLeft="1dp"
             android:text="@string/gold_source"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
         <lecho.lib.hellocharts.view.ColumnChartView
             android:id="@+id/subchart"
             android:layout_width="match_parent"

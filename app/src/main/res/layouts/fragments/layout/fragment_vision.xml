@@ -14,12 +14,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="2dp"
+            android:layout_marginLeft="1dp"
             android:text="@string/wards_placement"
-            android:textColor="@android:color/black"
             android:focusableInTouchMode="true"
             android:focusable="true"
-            android:textSize="15sp" />
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
 
         <ImageView
             android:id="@+id/map"

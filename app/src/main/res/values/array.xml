@@ -93,6 +93,14 @@
         <item>Pudge Flesh Heap</item>
         <item>Legion Commander Duel</item>
     </string-array>
+    <string-array name="buff">
+        <item>null</item>
+        <item>@drawable/item_247</item>
+        <item>@drawable/item_108</item>
+        <item>@drawable/ability_5378</item>
+        <item>@drawable/ability_5074</item>
+        <item>@drawable/ability_5598</item>
+    </string-array>
     <string-array name="runes">
         <item>@drawable/rune_0</item>
         <item>@drawable/rune_1</item>

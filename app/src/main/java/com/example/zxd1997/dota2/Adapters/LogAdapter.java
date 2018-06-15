@@ -43,6 +43,7 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int COURIER = 4;
     private final int TOWER = 6;
     private final int AEGIS = 8;
+    private final int CHAT = 9;
     private final int FIRST_BLOOD = 7;
     private final Context context;
     private final List<Match.Objective> logs;
@@ -53,6 +54,14 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.context = context;
         this.logs = logs;
         this.recyclerView = recyclerView;
+    }
+
+    public int getExpended() {
+        return expended;
+    }
+
+    public void setExpended(int expended) {
+        this.expended = expended;
     }
 
     @Override
@@ -83,6 +92,9 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case "CHAT_MESSAGE_AEGIS": {
                 return AEGIS;
             }
+            case "chat": {
+                return CHAT;
+            }
             default: {
                 return 5;
             }
@@ -103,6 +115,7 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case RUNE:
             case BUYBACK:
             case FIRST_BLOOD:
+            case CHAT:
             case AEGIS: {
                 return new ViewHolderNotKill(LayoutInflater.from(parent.getContext()).inflate(R.layout.log_log, parent, false));
             }
@@ -285,6 +298,17 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 viewHolder.killed.setVisibility(View.GONE);
                 break;
             }
+            case CHAT: {
+                Match.Objective chat = logs.get(position);
+                ViewHolderNotKill viewHolder = (ViewHolderNotKill) holder;
+                viewHolder.color.setBackgroundColor(context.getResources().getColor(context.getResources().getIdentifier("slot_" + chat.getPlayer_slot(), "color", context.getPackageName())));
+                viewHolder.who.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(
+                        context.getResources().getIdentifier(chat.getHero_id(), "drawable", context.getPackageName()))).build());
+                viewHolder.name.setText(chat.getName() == null ? context.getString(R.string.anonymous) : chat.getName());
+                viewHolder.log.setText(":" + chat.getKey());
+                viewHolder.time.setText(tt);
+                break;
+            }
             default: {
                 class Point {
                     private float x;
@@ -430,7 +454,7 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             paint.setStrokeWidth(10);
                             for (Point point : points) {
                                 paint.setColor(point.color);
-                                canvas.drawCircle((point.x * 2 - 134) / 2 * (float) 4 / 508 * w, h - (point.y * 2 - 125) / 2 * (float) 4 / 505 * h, 35, paint);
+                                canvas.drawCircle((point.x * 2 - 134) / 2 * (float) 4 / 510 * w, h - (point.y * 2 - 124) / 2 * (float) 4 / 505 * h, 35, paint);
                             }
                             teamFight.map.setImageBitmap(teamFight.bitmap);
                             expended = position;
@@ -497,7 +521,7 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     class TeamFight extends RecyclerView.ViewHolder {
-        LinearLayout tf;
+        final LinearLayout tf;
         final TextView radiant_gold_delta;
         final TextView radiant_death;
         final TextView start_end;
@@ -505,9 +529,9 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         final TextView dire_gold_delta;
         final View itemView;
         final TextView teamfight_win;
+        final ImageView map;
+        final RecyclerView teamfight_list;
         View team_fight_detail;
-        ImageView map;
-        RecyclerView teamfight_list;
         Bitmap bitmap;
 
         TeamFight(final View itemView) {

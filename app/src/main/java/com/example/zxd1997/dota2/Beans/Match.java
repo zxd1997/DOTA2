@@ -221,7 +221,6 @@ public class Match {
         private String key;
         private int player_slot;
         private int team;
-
         private String hero;
         private String name;
 
@@ -529,6 +528,14 @@ public class Match {
         private List<Objective> kills_log;
         private List<Objective> runes_log;
         private List<Buff> permanent_buffs = new ArrayList<>();
+
+        public List<Buff> getPermanent_buffs() {
+            return permanent_buffs;
+        }
+
+        public void setPermanent_buffs(List<Buff> permanent_buffs) {
+            this.permanent_buffs = permanent_buffs;
+        }
 
         public List<Objective> getBuyback_log() {
             return buyback_log;

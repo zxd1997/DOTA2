@@ -52,7 +52,7 @@
     <string name="spirit_bear">Spirit Bear</string>
     <string name="bear_backpack">Bear Backpack</string>
     <string name="settings">Settings</string>
-    <string name="kills">Kills:</string>
+    <string name="kills">Kills</string>
     <string name="radiant">Radiant</string>
     <string name="dire">Dire</string>
     <string name="res">res</string>
@@ -155,4 +155,7 @@
     <string name="drew">Drew</string>
     <string name="healing">Healing:%1$d</string>
     <string name="xp_earn">XP Gain:%1$d</string>
+    <string name="buffs">Buffs</string>
+    <string name="d_out">Damage Output:%1$d</string>
+    <string name="d_taken">Damage Taken:%1$d</string>
 </resources>

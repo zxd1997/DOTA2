@@ -42,7 +42,6 @@ import static android.support.constraint.Constraints.TAG;
 public class LogsFragment extends Fragment {
     private final List<Match.Objective> logs = new ArrayList<>();
     private final List<Match.Objective> current_logs = new ArrayList<>();
-    private Match match;
     private CheckBox rune;
     private CheckBox building;
     private CheckBox combats;
@@ -56,7 +55,7 @@ public class LogsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_log, container, false);
         MatchActivity activity = (MatchActivity) getActivity();
-        match = Objects.requireNonNull(activity).getMatch();
+        Match match = Objects.requireNonNull(activity).getMatch();
         if (match == null || match.getPlayers() == null) {
             Log.d("null", "onCreateView: " + 111111);
             Intent intent = new Intent(MyApplication.getContext(), MainActivity.class);
@@ -64,6 +63,14 @@ public class LogsFragment extends Fragment {
             Objects.requireNonNull(getActivity()).startActivity(intent);
             getActivity().finish();
         } else {
+            for (Match.Objective chat : match.getChat()) {
+                if (!"chatwheel".equals(chat.getType())) {
+                    Match.PPlayer p = match.getPlayers().get(chat.getSlot());
+                    chat.setHero_id("hero_" + p.getHero_id());
+                    chat.setName(p.getPersonaname());
+                    logs.add(chat);
+                }
+            }
             for (Match.TeamFight teamFight : match.getTeamfights()) {
                 teamFight.setTime(teamFight.getStart());
                 teamFight.setType("team_fight");
@@ -106,13 +113,9 @@ public class LogsFragment extends Fragment {
                         continue;
                     }
                 }
-                for (Match.PPlayer p : match.getPlayers()) {
-                    if (o.getPlayer_slot() == p.getPlayer_slot()) {
-                        o.setName(p.getPersonaname());
-                        o.setHero_id("hero_" + p.getHero_id());
-                        break;
-                    }
-                }
+                Match.PPlayer p = match.getPlayers().get(o.getSlot());
+                o.setName(p.getPersonaname());
+                o.setHero_id("hero_" + p.getHero_id());
                 logs.add(o);
             }
             for (Match.PPlayer p : match.getPlayers()) {
@@ -233,6 +236,7 @@ public class LogsFragment extends Fragment {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             recyclerView.setVisibility(View.GONE);
+            logAdapter.setExpended(-1);
             progressBar.setVisibility(View.VISIBLE);
             new Thread(new Runnable() {
                 @Override

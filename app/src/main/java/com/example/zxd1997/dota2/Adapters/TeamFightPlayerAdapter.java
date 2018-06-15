@@ -25,11 +25,11 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.List;
 import java.util.Objects;
 
-public class TeamFightPlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    Context context;
-    final int RADIANT_HEADER = 0;
-    final int DIRE_HEADER = 1;
-    private List<Match.TeamFight.TeamFightPlayer> teamFightPlayers;
+class TeamFightPlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private final Context context;
+    private final int RADIANT_HEADER = 0;
+    private final int DIRE_HEADER = 1;
+    private final List<Match.TeamFight.TeamFightPlayer> teamFightPlayers;
     public TeamFightPlayerAdapter(Context context, List<Match.TeamFight.TeamFightPlayer> teamFightPlayers) {
         this.context = context;
         this.teamFightPlayers = teamFightPlayers;
@@ -135,29 +135,28 @@ public class TeamFightPlayerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     class Header extends RecyclerView.ViewHolder {
-        TextView header_text;
-        TextView header_info;
-        View view;
+        final TextView header_text;
+        final View view;
 
-        public Header(View itemView) {
+        Header(View itemView) {
             super(itemView);
             view = itemView;
             header_text = itemView.findViewById(R.id.header_text);
-            header_info = itemView.findViewById(R.id.header_info);
         }
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        SimpleDraweeView header;
-        View color;
-        TextView name;
-        ImageView death;
-        TextView gold_delta;
-        TextView xp_delta;
-        TextView damage;
-        TextView healing;
-        RecyclerView team_fight_cast;
-        public ViewHolder(View itemView) {
+        final SimpleDraweeView header;
+        final View color;
+        final TextView name;
+        final ImageView death;
+        final TextView gold_delta;
+        final TextView xp_delta;
+        final TextView damage;
+        final TextView healing;
+        final RecyclerView team_fight_cast;
+
+        ViewHolder(View itemView) {
             super(itemView);
             header = itemView.findViewById(R.id.team_fight_header);
             color = itemView.findViewById(R.id.team_fight_color);
