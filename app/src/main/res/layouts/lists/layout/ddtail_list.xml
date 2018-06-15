@@ -61,40 +61,40 @@
             android:background="@android:color/white"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:background="@android:color/white"
-                android:text="@string/damage_dealt"
-                android:id="@+id/t1"
-                android:textColor="@color/win"
-                android:textSize="15sp" />
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="2dp"-->
+            <!--android:background="@android:color/white"-->
+            <!--android:text="@string/damage_dealt"-->
+            <!--android:id="@+id/t1"-->
+            <!--android:textColor="@color/win"-->
+            <!--android:textSize="15sp" />-->
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/d_output"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
                 android:background="@android:color/white" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:background="@android:color/white"
-                android:text="@string/damage_taken"
-                android:id="@+id/t2"
-                android:textColor="@color/lose"
-                android:textSize="15sp" />
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="2dp"-->
+            <!--android:background="@android:color/white"-->
+            <!--android:text="@string/damage_taken"-->
+            <!--android:id="@+id/t2"-->
+            <!--android:textColor="@color/lose"-->
+            <!--android:textSize="15sp" />-->
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/d_taken"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
                 android:background="@android:color/white" />
         </LinearLayout>
 

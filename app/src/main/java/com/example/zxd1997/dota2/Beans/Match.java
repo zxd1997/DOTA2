@@ -528,6 +528,7 @@ public class Match {
         private List<Objective> buyback_log;
         private List<Objective> kills_log;
         private List<Objective> runes_log;
+        private List<Buff> permanent_buffs = new ArrayList<>();
 
         public List<Objective> getBuyback_log() {
             return buyback_log;
@@ -552,8 +553,6 @@ public class Match {
         public void setRunes_log(List<Objective> runes_log) {
             this.runes_log = runes_log;
         }
-
-
 
         public List<Ward> getSen_left_log() {
             return sen_left_log;
@@ -1001,6 +1000,27 @@ public class Match {
 
         public void setBenchmarks(Benchmark benchmarks) {
             this.benchmarks = benchmarks;
+        }
+
+        public class Buff {
+            private int permanent_buff;
+            private int stack_count;
+
+            public int getPermanent_buff() {
+                return permanent_buff;
+            }
+
+            public void setPermanent_buff(int permanent_buff) {
+                this.permanent_buff = permanent_buff;
+            }
+
+            public int getStack_count() {
+                return stack_count;
+            }
+
+            public void setStack_count(int stack_count) {
+                this.stack_count = stack_count;
+            }
         }
 
         public class Ward {

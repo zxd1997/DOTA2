@@ -4,12 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/touch_bg"
+    android:id="@+id/tf"
+    android:descendantFocusability="beforeDescendants"
+    android:focusable="true"
+    android:focusableInTouchMode="false"
     android:orientation="vertical">
+    <!--android:focusable="true"-->
+    <!--android:focusableInTouchMode="true">-->
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="67dp">
+        android:layout_height="67dp"
+        android:background="@drawable/touch_bg"
+        android:focusable="true">
 
         <ImageView
             android:id="@+id/imageView4"
@@ -131,12 +138,12 @@
             tools:text="Radiant Wins" />
     </android.support.constraint.ConstraintLayout>
 
-    <ViewStub
-        android:id="@+id/team_fight_stub"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
-        android:layout_marginTop="2dp"
-        android:inflatedId="@+id/team_fight_detail"
-        android:layout="@layout/view_stub" />
+    <!--<ViewStub-->
+    <!--android:id="@+id/team_fight_stub"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="2dp"-->
+    <!--android:inflatedId="@+id/team_fight_detail"-->
+    <!--android:layout="@layout/view_stub" />-->
+    <include layout="@layout/view_stub" />
 </LinearLayout>

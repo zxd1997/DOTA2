@@ -159,7 +159,8 @@ public class MyFragment extends Fragment {
                     JsonArray jsonArray = parser.parse(message.obj.toString()).getAsJsonArray();
                     for (JsonElement e : jsonArray) {
                         RecentMatch recentMatch = new Gson().fromJson(e, RecentMatch.class);
-                        recentMatches.add(recentMatch);
+                        if (recentMatch.getGame_mode() != 19)
+                            recentMatches.add(recentMatch);
                     }
                     for (RecentMatch i : recentMatches) {
                         Log.d("id", "handleMessage: " + i.getMatch_id());

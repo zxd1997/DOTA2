@@ -96,9 +96,9 @@
     <string name="rune_1">Haste</string>
     <string name="rune_2">Illusion</string>
     <string name="rune_3">Invisibility</string>
+    <string name="rune_4">Regeneration</string>
     <string name="rune_5">Bounty</string>
     <string name="rune_6">Arcane</string>
-    <string name="rune_4">Regeneration</string>
     <string name="buyback">Just Brought Back to Game</string>
     <string name="anonymous">Anonymous</string>
     <string name="match_log">Match Log</string>
@@ -131,6 +131,7 @@
     <string name="npc_dota_badguys_range_rax_bot">Dire\'s Bottom Range Rax</string>
     <string name="npc_dota_badguys_melee_rax_bot">Dire\'s Bottom Melee Rax</string>
     <string name="npc_dota_badguys_fort">Dire\'s Ancient</string>
+    <string name="npc_dota_badguys_healers">Dire\'s Shrine</string>
     <string name="npc_dota_goodguys_tower1_bot">Radiant\'s Bottom Tire 1 Tower</string>
     <string name="npc_dota_goodguys_tower2_bot">Radiant\'s Bottom Tire 2 Tower</string>
     <string name="npc_dota_goodguys_tower3_bot">Radiant\'s Bottom Tire 3 Tower</string>
@@ -148,6 +149,7 @@
     <string name="npc_dota_goodguys_range_rax_bot">Radiant\'s Bottom Range Rax</string>
     <string name="npc_dota_goodguys_melee_rax_bot">Radiant\'s Bottom Melee Rax</string>
     <string name="npc_dota_goodguys_fort">Radiant\'s Ancient</string>
+    <string name="npc_dota_goodguys_healers">Radiant\'s Shrine</string>
     <string name="teamfight">TeamFight</string>
     <string name="stuns">Stuns:%1$.2fs</string>
     <string name="drew">Drew</string>

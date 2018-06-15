@@ -87,4 +87,21 @@
         <item>UNKNOWN</item>
         <item>PW UNICOM TIANJIN</item>
     </string-array>
+    <string-array name="buffs">
+        <item>null</item>
+        <item>Moon Shard</item>
+        <item>Ultimate Scepter</item>
+        <item>Silencer Glaives of Wisdom</item>
+        <item>Pudge Flesh Heap</item>
+        <item>Legion Commander Duel</item>
+    </string-array>
+    <string-array name="runes">
+        <item>@drawable/rune_0</item>
+        <item>@drawable/rune_1</item>
+        <item>@drawable/rune_2</item>
+        <item>@drawable/rune_3</item>
+        <item>@drawable/rune_4</item>
+        <item>@drawable/rune_5</item>
+        <item>@drawable/rune_6</item>
+    </string-array>
 </resources>
