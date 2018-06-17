@@ -3,7 +3,7 @@
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="27dp"
+    android:layout_height="28dp"
     android:orientation="horizontal">
 
     <TextView
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:textSize="12sp"
-        fresco:layout_constraintBottom_toBottomOf="parent"
+        fresco:layout_constraintBottom_toTopOf="@id/line"
         fresco:layout_constraintLeft_toLeftOf="parent"
         fresco:layout_constraintTop_toTopOf="parent"
         tools:text="1:00:00" />
@@ -22,9 +22,9 @@
         android:layout_width="48dp"
         android:layout_height="27dp"
         android:layout_marginLeft="2dp"
-        fresco:layout_constraintBottom_toBottomOf="parent"
         fresco:layout_constraintLeft_toRightOf="@id/log_time"
         fresco:layout_constraintTop_toTopOf="parent"
+        fresco:layout_constraintBottom_toTopOf="@id/line"
         fresco:roundBottomRight="false"
         fresco:roundTopRight="false"
         fresco:roundedCornerRadius="1dp" />
@@ -45,7 +45,7 @@
         android:singleLine="true"
         android:textColor="@android:color/black"
         android:textSize="13sp"
-        fresco:layout_constraintBottom_toBottomOf="parent"
+        fresco:layout_constraintBottom_toTopOf="@id/line"
         fresco:layout_constraintLeft_toRightOf="@id/log_color"
         fresco:layout_constraintTop_toTopOf="parent" />
 
@@ -54,8 +54,8 @@
         android:layout_width="24dp"
         android:layout_height="17dp"
         android:layout_marginRight="160dp"
-        fresco:layout_constraintBottom_toBottomOf="parent"
         fresco:layout_constraintRight_toRightOf="parent"
+        fresco:layout_constraintBottom_toTopOf="@id/line"
         fresco:layout_constraintTop_toTopOf="parent" />
 
     <com.facebook.drawee.view.SimpleDraweeView
@@ -64,7 +64,7 @@
         android:layout_height="27dp"
         android:visibility="gone"
         android:layout_marginLeft="4dp"
-        fresco:layout_constraintBottom_toBottomOf="parent"
+        fresco:layout_constraintBottom_toTopOf="@id/line"
         fresco:layout_constraintLeft_toRightOf="@+id/kill"
         fresco:layout_constraintTop_toTopOf="parent"
         fresco:roundedCornerRadius="1dp"
@@ -79,9 +79,16 @@
         android:singleLine="true"
         android:textSize="13sp"
         android:visibility="gone"
-        fresco:layout_constraintBottom_toBottomOf="parent"
+        fresco:layout_constraintBottom_toTopOf="@id/line"
         fresco:layout_constraintLeft_toRightOf="@+id/kill"
         fresco:layout_constraintTop_toTopOf="parent"
         tools:text="Radiant Middle Tower Tier 4"
         tools:visibility="visible" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        fresco:layout_constraintBottom_toBottomOf="parent" />
 </android.support.constraint.ConstraintLayout>

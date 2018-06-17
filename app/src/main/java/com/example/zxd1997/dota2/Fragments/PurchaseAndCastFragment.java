@@ -5,8 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +14,7 @@ import android.view.ViewGroup;
 
 import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Activities.MatchActivity;
-import com.example.zxd1997.dota2.Adapters.PurchaseAndCastAdapter;
+import com.example.zxd1997.dota2.Adapters.CastAdapter;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.MyApplication;
@@ -59,9 +58,16 @@ public class PurchaseAndCastFragment extends Fragment {
         } else {
             RecyclerView recyclerView = view.findViewById(R.id.p_c);
             recyclerView.setNestedScrollingEnabled(false);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            recyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
-            recyclerView.setAdapter(new PurchaseAndCastAdapter(getContext(), match.getPlayers()));
+            final CastAdapter castAdapter = new CastAdapter(getContext(), match.getPlayers(), "");
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 10);
+            gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    return (castAdapter.getItemViewType(position) == -1 || castAdapter.getItemViewType(position) == 9) ? 10 : 1;
+                }
+            });
+            recyclerView.setLayoutManager(gridLayoutManager);
+            recyclerView.setAdapter(castAdapter);
         }
         return view;
     }

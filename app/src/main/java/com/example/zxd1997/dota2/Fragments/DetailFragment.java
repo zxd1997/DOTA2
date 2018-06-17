@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -20,7 +18,7 @@ import android.view.ViewGroup;
 
 import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Activities.MatchActivity;
-import com.example.zxd1997.dota2.Adapters.DDetailAdapter;
+import com.example.zxd1997.dota2.Adapters.CastAdapter;
 import com.example.zxd1997.dota2.Adapters.KillsAdapter;
 import com.example.zxd1997.dota2.Beans.Content;
 import com.example.zxd1997.dota2.Beans.Hero;
@@ -139,10 +137,30 @@ public class DetailFragment extends Fragment {
             kill.setAdapter(killsAdapter);
             kill.setNestedScrollingEnabled(false);
             RecyclerView d_detail = view.findViewById(R.id.ddetail);
-            d_detail.setLayoutManager(new LinearLayoutManager(getContext()));
             d_detail.setNestedScrollingEnabled(false);
-            d_detail.setAdapter(new DDetailAdapter(getContext(), match.getPlayers()));
-            d_detail.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+            GridLayoutManager gridLayoutManager1 = new GridLayoutManager(getContext(), 20);
+            final CastAdapter castAdapter = new CastAdapter(getContext(), match.getPlayers(), 0);
+            gridLayoutManager1.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    switch (castAdapter.getItemViewType(position)) {
+                        case -1:
+                        case 9:
+                        case 10:
+                            return 20;
+                        case 4:
+                            return 1;
+                        case 5:
+                            return 3;
+                        case 6:
+                            return 20;
+                        default:
+                            return 2;
+                    }
+                }
+            });
+            d_detail.setLayoutManager(gridLayoutManager1);
+            d_detail.setAdapter(castAdapter);
         }
         return view;
     }

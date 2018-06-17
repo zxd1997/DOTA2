@@ -1,14 +1,10 @@
 package com.example.zxd1997.dota2.Fragments;
 
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ProgressBar;
 
 import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Activities.MatchActivity;
@@ -47,8 +42,16 @@ public class LogsFragment extends Fragment {
     private CheckBox combats;
     private CheckBox other;
     private LogAdapter logAdapter;
-    private ProgressBar progressBar;
     private RecyclerView recyclerView;
+
+    public LogsFragment() {
+        // Required empty public constructor
+    }
+
+    public static LogsFragment newInstance() {
+        return new LogsFragment();
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -145,7 +148,6 @@ public class LogsFragment extends Fragment {
                     return o1.getTime() - o2.getTime();
                 }
             });
-            progressBar = view.findViewById(R.id.progressBar4);
             current_logs.addAll(logs);
             for (Match.Objective objective : logs) {
                 Log.d(TAG, "onCreateView: Logs:" + objective.getType() + " " + objective.getKey());
@@ -163,30 +165,9 @@ public class LogsFragment extends Fragment {
             logAdapter = new LogAdapter(getContext(), current_logs, recyclerView);
             recyclerView.setAdapter(logAdapter);
             recyclerView.setNestedScrollingEnabled(false);
-            recyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
+//            recyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
         }
         return view;
-    }
-
-    @SuppressLint("HandlerLeak")
-    private final
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == 1) {
-                logAdapter.notifyDataSetChanged();
-                progressBar.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
-            }
-        }
-    };
-
-    public LogsFragment() {
-        // Required empty public constructor
-    }
-
-    public static LogsFragment newInstance() {
-        return new LogsFragment();
     }
 
     @Override
@@ -196,77 +177,64 @@ public class LogsFragment extends Fragment {
         System.runFinalization();
     }
 
-    class TeamfightPlayer {
-        private int player_slot;
-        private String personaname;
-        private String hero_id;
-
-        public TeamfightPlayer(int player_slot, String personaname, String hero_id) {
-            this.player_slot = player_slot;
-            this.personaname = personaname;
-            this.hero_id = hero_id;
-        }
-
-        public int getPlayer_slot() {
-            return player_slot;
-        }
-
-        public void setPlayer_slot(int player_slot) {
-            this.player_slot = player_slot;
-        }
-
-        public String getPersonaname() {
-            return personaname;
-        }
-
-        public void setPersonaname(String personaname) {
-            this.personaname = personaname;
-        }
-
-        public String getHero_id() {
-            return hero_id;
-        }
-
-        public void setHero_id(String hero_id) {
-            this.hero_id = hero_id;
-        }
-    }
 
     class CheckedListener implements CheckBox.OnCheckedChangeListener {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            recyclerView.setVisibility(View.GONE);
-            logAdapter.setExpended(-1);
-            progressBar.setVisibility(View.VISIBLE);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    Log.d(TAG, "onCheckedChanged: " + logs.size());
-                    current_logs.clear();
-                    for (Match.Objective o : logs) {
-                        if (o.getType().equals("team_fight")) {
-                            current_logs.add(o);
-                        } else if (o.getType().equals("kill")) {
-                            if (combats.isChecked())
-                                current_logs.add(o);
-                        } else if (o.getType().equals("rune_pickup")) {
-                            if (rune.isChecked())
-                                current_logs.add(o);
-                        } else if (o.getType().equals("buyback_log")) {
-                            if (combats.isChecked())
-                                current_logs.add(o);
-                        } else if (o.getType().equals("building_kill")) {
-                            if (building.isChecked())
-                                current_logs.add(o);
-                        } else if (other.isChecked()) {
-                            current_logs.add(o);
-                        }
+            for (int i = 0; i < logAdapter.getItemCount(); i++) {
+                Match.Objective o = logs.get(i);
+                switch (o.getType()) {
+                    case "kill": {
+                        if (buttonView.getId() == R.id.chk_kill)
+                            ((LogAdapter.ViewHolder) recyclerView.getChildViewHolder(recyclerView.getChildAt(i))).setVisibility(buttonView.isChecked());
+                        break;
                     }
-                    Message message = new Message();
-                    message.what = 1;
-                    handler.sendMessage(message);
+                    case "buyback_log": {
+                        if (buttonView.getId() == R.id.chk_kill)
+                            ((LogAdapter.ViewHolderNotKill) recyclerView.getChildViewHolder(recyclerView.getChildAt(i))).setVisibility(buttonView.isChecked());
+                        break;
+                    }
+                    case "building_kill": {
+                        if (buttonView.getId() == R.id.chk_buildings && recyclerView.getChildAt(i) != null)
+                            ((LogAdapter.ViewHolder) recyclerView.getChildViewHolder(recyclerView.getChildAt(i))).setVisibility(buttonView.isChecked());
+                        break;
+                    }
+                    case "CHAT_MESSAGE_COURIER_LOST": {
+                        if (buttonView.getId() == R.id.chk_other)
+                            ((LogAdapter.ViewHolder) recyclerView.getChildViewHolder(recyclerView.getChildAt(i))).setVisibility(buttonView.isChecked());
+                        break;
+                    }
+                    case "rune_pickup": {
+                        if (buttonView.getId() == R.id.chk_rune)
+                            ((LogAdapter.ViewHolderNotKill) recyclerView.getChildViewHolder(recyclerView.getChildAt(i))).setVisibility(buttonView.isChecked());
+                        break;
+                    }
+                    case "CHAT_MESSAGE_ROSHAN_KILL": {
+                        if (buttonView.getId() == R.id.chk_other)
+                            ((LogAdapter.ViewHolder) recyclerView.getChildViewHolder(recyclerView.getChildAt(i))).setVisibility(buttonView.isChecked());
+                        break;
+                    }
+                    case "CHAT_MESSAGE_FIRSTBLOOD": {
+                        if (buttonView.getId() == R.id.chk_kill)
+                            ((LogAdapter.ViewHolderNotKill) recyclerView.getChildViewHolder(recyclerView.getChildAt(i))).setVisibility(buttonView.isChecked());
+                        break;
+                    }
+                    case "CHAT_MESSAGE_AEGIS": {
+                        if (buttonView.getId() == R.id.chk_other)
+                            ((LogAdapter.ViewHolderNotKill) recyclerView.getChildViewHolder(recyclerView.getChildAt(i))).setVisibility(buttonView.isChecked());
+                        break;
+                    }
+                    case "chat": {
+                        if (buttonView.getId() == R.id.chk_other)
+                            ((LogAdapter.ViewHolderNotKill) recyclerView.getChildViewHolder(recyclerView.getChildAt(i))).setVisibility(buttonView.isChecked());
+                        break;
+                    }
+                    default: {
+                        break;
+                    }
                 }
-            }).start();
+                Log.d(TAG, "onCheckedChanged: " + recyclerView.getChildCount());
+            }
         }
     }
 }

@@ -66,12 +66,5 @@
             android:layout_marginTop="2dp"
             tools:visibility="gone" />
 
-        <ProgressBar
-            android:id="@+id/progressBar4"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginTop="200dp"
-            android:visibility="gone" />
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

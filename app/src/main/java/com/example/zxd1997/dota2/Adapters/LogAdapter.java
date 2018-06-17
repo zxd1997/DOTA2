@@ -2,14 +2,10 @@ package com.example.zxd1997.dota2.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -20,13 +16,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.R;
+import com.example.zxd1997.dota2.Utils.Tools;
+import com.example.zxd1997.dota2.Views.MapView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
@@ -127,17 +124,7 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @SuppressLint("RecyclerView")
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
-        int time = Math.abs(logs.get(position).getTime());
-        int h = time / 3600;
-        final int m = time % 3600 / 60;
-        int s = time % 3600 % 60;
-        StringBuilder tt = new StringBuilder();
-        if (logs.get(position).getTime() < 0) tt.append("-");
-        if (h > 0) {
-            tt.append((h < 10) ? "0" + h + ":" : h + ":");
-        }
-        tt.append((m < 10) ? "0" + m + ":" : m + ":");
-        tt.append((s < 10) ? "0" + s : s);
+        StringBuilder tt = Tools.getTime(logs.get(position).getTime());
         Log.d("type", "onBindViewHolder: " + getItemViewType(position));
         switch (getItemViewType(position)) {
             case KILL: {
@@ -305,49 +292,23 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 viewHolder.who.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(
                         context.getResources().getIdentifier(chat.getHero_id(), "drawable", context.getPackageName()))).build());
                 viewHolder.name.setText(chat.getName() == null ? context.getString(R.string.anonymous) : chat.getName());
-                viewHolder.log.setText(":" + chat.getKey());
+                viewHolder.log.setText(String.format(":%s", chat.getKey()));
                 viewHolder.time.setText(tt);
                 break;
             }
             default: {
-                class Point {
-                    private float x;
-                    private float y;
-                    private int color;
-
-                    private Point(float x, float y, int color) {
-                        this.x = x;
-                        this.y = y;
-                        this.color = color;
-                    }
-                }
                 final List<Point> points = new ArrayList<>();
                 float x;
                 float y;
                 final TeamFight teamFight = (TeamFight) holder;
                 final Match.TeamFight teamfight = (Match.TeamFight) logs.get(position);
-                int time1 = Math.abs(teamfight.getEnd());
-                int h1 = time1 / 3600;
-                int m1 = time1 % 3600 / 60;
-                int s1 = time1 % 3600 % 60;
-                StringBuilder tt1 = new StringBuilder();
-                if (logs.get(position).getTime() < 0) tt1.append("-");
-                if (h1 > 0) {
-                    tt1.append((h1 < 10) ? "0" + h1 + ":" : h1 + ":");
-                }
-                tt1.append((m1 < 10) ? "0" + m1 + ":" : m1 + ":");
-                tt1.append((s1 < 10) ? "0" + s1 : s1);
-                tt.append(" - ").append(tt1);
+                tt.append(" - ").append(Tools.getTime(teamfight.getEnd()));
                 teamFight.start_end.setText(tt);
                 int radiant_deaths = 0;
                 int dire_deaths = 0;
                 int radiant_gold_delta = 0;
                 int dire_gold_delta = 0;
                 int i = 0;
-                List<Match.TeamFight.TeamFightPlayer> attend = new ArrayList<>();
-                Match.TeamFight.TeamFightPlayer t = teamfight.new TeamFightPlayer();
-                t.setPersonaname("list_radiant_header");
-                attend.add(t);
                 for (Match.TeamFight.TeamFightPlayer player : teamfight.getPlayers()) {
                     if (i < 5) {
                         radiant_deaths += player.getDeaths();
@@ -355,14 +316,6 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     } else {
                         dire_deaths += player.getDeaths();
                         dire_gold_delta += player.getGold_delta();
-                    }
-                    if (i == 5) {
-                        t = teamfight.new TeamFightPlayer();
-                        t.setPersonaname("list_dire_header");
-                        attend.add(t);
-                    }
-                    if (player.getDeaths() > 0 || player.getBuybacks() > 0 || player.getDamage() > 0 || player.getHealing() > 0) {
-                        attend.add(player);
                     }
                     if (player.getDeaths() > 0) {
                         for (Map.Entry<Integer, Map<Integer, Integer>> entry : player.getDeaths_pos().entrySet()) {
@@ -429,8 +382,16 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
                 teamFight.radiant_death.setText(new SpannableStringBuilder().append(death).append(" Death:").append(radiant_death));
                 teamFight.dire_death.setText(new SpannableStringBuilder().append("Death:").append(dire_death).append(" ").append(death));
-                teamFight.teamfight_list.setLayoutManager(new LinearLayoutManager(context));
-                teamFight.teamfight_list.setAdapter(new TeamFightPlayerAdapter(context, attend));
+                final CastAdapter castAdapter = new CastAdapter(context, teamfight.getPlayers(), 'c');
+                GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 10);
+                gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                    @Override
+                    public int getSpanSize(int position) {
+                        return (castAdapter.getItemViewType(position) == -1 || castAdapter.getItemViewType(position) == 11 || castAdapter.getItemViewType(position) == 12) ? 10 : 1;
+                    }
+                });
+                teamFight.teamfight_list.setLayoutManager(gridLayoutManager);
+                teamFight.teamfight_list.setAdapter(castAdapter);
                 teamFight.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -440,33 +401,16 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             if (expended != -1) {
                                 TeamFight viewHolder = (TeamFight) recyclerView.getChildViewHolder(recyclerView.getChildAt(expended));
                                 viewHolder.team_fight_detail.setVisibility(View.GONE);
-                                viewHolder.bitmap.recycle();
-                                System.gc();
-                                System.runFinalization();
                                 recyclerView.smoothScrollToPosition(position);
                             }
-                            teamFight.bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.map).copy(Bitmap.Config.ARGB_8888, true);
-                            Canvas canvas = new Canvas(teamFight.bitmap);
-                            float h = teamFight.bitmap.getHeight();
-                            float w = teamFight.bitmap.getWidth();
-                            Paint paint = new Paint();
-                            paint.setAntiAlias(true);
-                            paint.setStrokeWidth(10);
-                            for (Point point : points) {
-                                paint.setColor(point.color);
-                                canvas.drawCircle((point.x * 2 - 134) / 2 * (float) 4 / 510 * w, h - (point.y * 2 - 124) / 2 * (float) 4 / 505 * h, 35, paint);
-                            }
-                            teamFight.map.setImageBitmap(teamFight.bitmap);
+                            teamFight.map.setPoints(points);
+                            teamFight.map.invalidate();
                             expended = position;
                             teamFight.team_fight_detail.setVisibility(View.VISIBLE);
                         } else {
                             Log.d(TAG, "onClick: VISIBLE");
                             teamFight.team_fight_detail.setVisibility(View.GONE);
-                            teamFight.bitmap.recycle();
-                            Log.d(TAG, "onClick: " + teamFight.isRecyclable());
                             expended = -1;
-                            System.gc();
-                            System.runFinalization();
                         }
 //                            notifyItemChanged(position,"");
                         recyclerView.smoothScrollToPosition(position);
@@ -482,7 +426,7 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return logs.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         final SimpleDraweeView killer;
         final SimpleDraweeView killed;
         final SimpleDraweeView kill_sign;
@@ -490,6 +434,20 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         final TextView name;
         final TextView log;
         final TextView time;
+
+        public void setVisibility(boolean isVisible) {
+            RecyclerView.LayoutParams param = (RecyclerView.LayoutParams) itemView.getLayoutParams();
+            if (isVisible) {
+                param.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+                param.width = LinearLayout.LayoutParams.MATCH_PARENT;
+                itemView.setVisibility(View.VISIBLE);
+            } else {
+                itemView.setVisibility(View.GONE);
+                param.height = getAdapterPosition() == getItemCount() - 1 ? 1 : 0;
+                param.width = 0;
+            }
+            itemView.setLayoutParams(param);
+        }
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -503,12 +461,62 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    class ViewHolderNotKill extends RecyclerView.ViewHolder {
+    public class Point {
+        private float x;
+        private float y;
+        private int color;
+
+        private Point(float x, float y, int color) {
+            this.x = x;
+            this.y = y;
+            this.color = color;
+        }
+
+        public float getX() {
+            return x;
+        }
+
+        public void setX(float x) {
+            this.x = x;
+        }
+
+        public float getY() {
+            return y;
+        }
+
+        public void setY(float y) {
+            this.y = y;
+        }
+
+        public int getColor() {
+            return color;
+        }
+
+        public void setColor(int color) {
+            this.color = color;
+        }
+    }
+
+    public class ViewHolderNotKill extends RecyclerView.ViewHolder {
         final SimpleDraweeView who;
         final View color;
         final TextView name;
         final TextView log;
         final TextView time;
+
+        public void setVisibility(boolean isVisible) {
+            RecyclerView.LayoutParams param = (RecyclerView.LayoutParams) itemView.getLayoutParams();
+            if (isVisible) {
+                param.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+                param.width = LinearLayout.LayoutParams.MATCH_PARENT;
+                itemView.setVisibility(View.VISIBLE);
+            } else {
+                itemView.setVisibility(View.GONE);
+                param.height = getAdapterPosition() == getItemCount() - 1 ? 1 : 0;
+                param.width = 0;
+            }
+            itemView.setLayoutParams(param);
+        }
 
         ViewHolderNotKill(View itemView) {
             super(itemView);
@@ -529,10 +537,9 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         final TextView dire_gold_delta;
         final View itemView;
         final TextView teamfight_win;
-        final ImageView map;
+        final MapView map;
         final RecyclerView teamfight_list;
         View team_fight_detail;
-        Bitmap bitmap;
 
         TeamFight(final View itemView) {
             super(itemView);

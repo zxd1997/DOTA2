@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.zxd1997.dota2.Beans.Wards;
 import com.example.zxd1997.dota2.R;
+import com.example.zxd1997.dota2.Utils.Tools;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -34,33 +35,11 @@ public class WardsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ViewHolder viewHolder = (ViewHolder) holder;
         Wards ward = wards.get(position);
-        int time = Math.abs(ward.getWard().getTime());
-        int h = time / 3600;
-        int m = time % 3600 / 60;
-        int s = time % 3600 % 60;
-        StringBuilder t = new StringBuilder();
-        if (ward.getWard().getTime() < 0) t.append("-");
-        if (h > 0) {
-            t.append((h < 10) ? "0" + h + ":" : h + ":");
-        }
-        t.append((m < 10) ? "0" + m + ":" : m + ":");
-        t.append((s < 10) ? "0" + s : s);
-        viewHolder.place.setText(t);
+        viewHolder.place.setText(Tools.getTime(ward.getWard().getTime()));
         if (ward.getWard_left() == null)
             viewHolder.left.setText("--:--");
         else {
-            time = Math.abs(ward.getWard_left().getTime());
-            h = time / 3600;
-            m = time % 3600 / 60;
-            s = time % 3600 % 60;
-            t = new StringBuilder();
-            if (ward.getWard_left().getTime() < 0) t.append("-");
-            if (h > 0) {
-                t.append((h < 10) ? "0" + h + ":" : h + ":");
-            }
-            t.append((m < 10) ? "0" + m + ":" : m + ":");
-            t.append((s < 10) ? "0" + s : s);
-            viewHolder.left.setText(t);
+            viewHolder.left.setText(Tools.getTime(ward.getWard_left().getTime()));
         }
         viewHolder.color.setBackgroundColor(context.getResources().getColor(context.getResources().getIdentifier("slot_" + ward.getWard().getPlayer_slot(), "color", context.getPackageName())));
         int OBSERVER = 0;

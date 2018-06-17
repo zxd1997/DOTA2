@@ -7,12 +7,23 @@ public class Wards {
     private String playerName;
     private int playerHero;
 
+    private boolean shown;
+
     public Wards(int type, Match.PPlayer.Ward ward, Match.PPlayer.Ward ward_left, String playerName, int playerHero) {
         this.type = type;
         this.ward = ward;
         this.ward_left = ward_left;
         this.playerName = playerName;
         this.playerHero = playerHero;
+        this.shown = true;
+    }
+
+    public boolean isShown() {
+        return shown;
+    }
+
+    public void setShown(boolean shown) {
+        this.shown = shown;
     }
 
     public int getType() {

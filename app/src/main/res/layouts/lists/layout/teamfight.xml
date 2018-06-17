@@ -9,8 +9,6 @@
     android:focusable="true"
     android:focusableInTouchMode="false"
     android:orientation="vertical">
-    <!--android:focusable="true"-->
-    <!--android:focusableInTouchMode="true">-->
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -138,12 +136,11 @@
             tools:text="Radiant Wins" />
     </android.support.constraint.ConstraintLayout>
 
-    <!--<ViewStub-->
-    <!--android:id="@+id/team_fight_stub"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_marginTop="2dp"-->
-    <!--android:inflatedId="@+id/team_fight_detail"-->
-    <!--android:layout="@layout/view_stub" />-->
     <include layout="@layout/view_stub" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray" />
 </LinearLayout>

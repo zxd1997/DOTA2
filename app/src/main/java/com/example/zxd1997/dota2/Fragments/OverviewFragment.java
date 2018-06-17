@@ -21,6 +21,7 @@ import com.example.zxd1997.dota2.Adapters.AbilityBuildAdapter;
 import com.example.zxd1997.dota2.Adapters.PlayerAdapter;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.R;
+import com.example.zxd1997.dota2.Utils.Tools;
 
 import java.util.Objects;
 
@@ -82,36 +83,8 @@ public class OverviewFragment extends Fragment {
             radiant_score.setText(String.valueOf(match.getRadiant_score()));
             dire_score.setText(String.valueOf(match.getDire_score()));
             match_id.setText(String.valueOf(match.getMatch_id()));
-            long now = System.currentTimeMillis() / 1000;
-            long year = (now - match.getStart_time()) / (3600 * 24 * 30 * 12);
-            long month = (now - match.getStart_time()) / (3600 * 24 * 30);
-            long day = (now - match.getStart_time()) / (3600 * 24);
-            long hour = (now - match.getStart_time()) / 3600;
-            long minute = (now - match.getStart_time()) / 60;
-            String tmp;
-            if (year > 0) {
-                tmp = year + " Years ago";
-            } else if (month > 0) {
-                tmp = month + " Months ago";
-            } else if (day > 0) {
-                tmp = day + " Days ago";
-            } else if (hour > 0) {
-                tmp = hour + " Hours ago";
-            } else if (minute > 3) {
-                tmp = minute + "Minutes ago";
-            } else tmp = "Just Now";
-            time.setText(tmp);
-            int h = match.getDuration() / 3600;
-            int m = match.getDuration() % 3600 / 60;
-            int s = match.getDuration() % 3600 % 60;
-            Log.d("time", "onCreateView: " + h + ":" + m + ":" + s);
-            StringBuilder t = new StringBuilder();
-            if (h > 0) {
-                t.append((h < 10) ? "0" + h + ":" : h + ":");
-            }
-            t.append((m < 10) ? "0" + m + ":" : m + ":");
-            t.append((s < 10) ? "0" + s : s);
-            duration.setText(t);
+            time.setText(Tools.getBefore(match.getStart_time()));
+            duration.setText(Tools.getTime(match.getDuration()));
             RecyclerView recyclerView = view.findViewById(R.id.players);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             PlayerAdapter playerAdapter = new PlayerAdapter(getContext(), match);

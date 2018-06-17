@@ -22,6 +22,7 @@ import com.example.zxd1997.dota2.Activities.MatchActivity;
 import com.example.zxd1997.dota2.Beans.Hero;
 import com.example.zxd1997.dota2.Beans.RecentMatch;
 import com.example.zxd1997.dota2.R;
+import com.example.zxd1997.dota2.Utils.Tools;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -94,27 +95,9 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         viewHolder.hero_header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
                 context.getResources().getIdentifier("hero_" + h.getId(), "drawable", context.getPackageName())
         )).build());
-        String tmp;
-        long now = System.currentTimeMillis() / 1000;
-        long year = (now - recentMatch.getStart_time()) / (3600 * 24 * 30 * 12);
-        long month = (now - recentMatch.getStart_time()) / (3600 * 24 * 30);
-        long day = (now - recentMatch.getStart_time()) / (3600 * 24);
-        long hour = (now - recentMatch.getStart_time()) / 3600;
-        long minute = (now - recentMatch.getStart_time()) / 60;
-        if (year > 0) {
-            tmp = year + " Years ago";
-        } else if (month > 0) {
-            tmp = month + " Months ago";
-        } else if (day > 0) {
-            tmp = day + " Days ago";
-        } else if (hour > 0) {
-            tmp = hour + " Hours ago";
-        } else if (minute > 3) {
-            tmp = minute + "Minutes ago";
-        } else tmp = "Just Now";
         typedArray = context.getResources().obtainTypedArray(R.array.game_mode);
         viewHolder.game_mode.setText(typedArray.getText(recentMatch.getGame_mode()));
-        viewHolder.time.setText(tmp);
+        viewHolder.time.setText(Tools.getBefore(recentMatch.getStart_time()));
     }
 
     @Override

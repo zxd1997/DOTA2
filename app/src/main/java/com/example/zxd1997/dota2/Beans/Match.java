@@ -478,6 +478,7 @@ public class Match {
         private int deaths;
         private int denies;
         private int gold_per_min;
+        private int gold_spent;
         private int hero_damage;
         private int hero_healing;
         private int hero_id;
@@ -528,6 +529,14 @@ public class Match {
         private List<Objective> kills_log;
         private List<Objective> runes_log;
         private List<Buff> permanent_buffs = new ArrayList<>();
+
+        public int getGold_spent() {
+            return gold_spent;
+        }
+
+        public void setGold_spent(int gold_spent) {
+            this.gold_spent = gold_spent;
+        }
 
         public List<Buff> getPermanent_buffs() {
             return permanent_buffs;
