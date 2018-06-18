@@ -4,7 +4,6 @@ package com.example.zxd1997.dota2.Fragments.Player;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.TypedArray;
-import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,7 +21,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.zxd1997.dota2.Activities.MainActivity;
@@ -63,7 +62,7 @@ public class PlayerOverviewFragment extends Fragment {
     TextView damage;
     TextView gpm;
     TextView xpm;
-    ImageView logo_progress;
+    ProgressBar progressBar;
     DecimalFormat df = new DecimalFormat("0.00");
     DecimalFormat df1 = new DecimalFormat("0.0");
     public PlayerOverviewFragment() {
@@ -156,7 +155,7 @@ public class PlayerOverviewFragment extends Fragment {
                     rec_xpm.setSpan(new RelativeSizeSpan(1.3f), 0, rec_xpm.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     t.append(rec_xpm).append("/").append(full_xpm);
                     xpm.setText(t);
-                    logo_progress.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
                     break;
                 }
             }
@@ -176,9 +175,7 @@ public class PlayerOverviewFragment extends Fragment {
             Objects.requireNonNull(getActivity()).startActivity(intent);
             getActivity().finish();
         } else {
-            logo_progress = view.findViewById(R.id.logo_progress_player);
-            AnimationDrawable logo = (AnimationDrawable) logo_progress.getDrawable();
-            logo.start();
+            progressBar = view.findViewById(R.id.progressBar);
             SimpleDraweeView player_header = view.findViewById(R.id.player_header);
             TextView player_name = view.findViewById(R.id.player_nickname);
             TextView player_id = view.findViewById(R.id.player_id);
@@ -233,7 +230,7 @@ public class PlayerOverviewFragment extends Fragment {
                 tier_name.setText(String.valueOf(typedArray.getString(t)));
                 typedArray.recycle();
             }
-            logo_progress.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
             OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/wl", handler, WL_FULL);
         }
         return view;

@@ -3,7 +3,6 @@ package com.example.zxd1997.dota2.Activities;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,7 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.example.zxd1997.dota2.Adapters.TabFragmentAdapter;
 import com.example.zxd1997.dota2.Beans.Match;
@@ -43,8 +42,7 @@ public class MatchActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private TabFragmentAdapter tabFragmentAdapter;
     private final List<Fragment> fragments = new ArrayList<>();
-    //    private ProgressBar progressBar;
-    ImageView logo_progress;
+    private ProgressBar progressBar;
     private Match match = null;
     @SuppressLint("HandlerLeak")
     private final
@@ -76,7 +74,7 @@ public class MatchActivity extends AppCompatActivity {
                 mViewPager.setOffscreenPageLimit(fragments.size());
             }
             tabFragmentAdapter.notifyDataSetChanged();
-            logo_progress.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
         }
     };
     private ViewPager mViewPager;
@@ -107,10 +105,8 @@ public class MatchActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        logo_progress = findViewById(R.id.logo_progress_match);
-        AnimationDrawable logo = (AnimationDrawable) logo_progress.getDrawable();
-        logo.start();
-        logo_progress.setVisibility(View.VISIBLE);
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
         OKhttp.getFromService(getString(R.string.api) + getString(R.string.matches) + id, handler, MATCH);
         tabLayout = findViewById(R.id.tabs);
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_5)));

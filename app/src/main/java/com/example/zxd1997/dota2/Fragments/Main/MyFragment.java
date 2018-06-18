@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
-import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,8 +27,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,8 +55,6 @@ public class MyFragment extends Fragment {
     private static final int WL = 2;
     private static final int RECENT_MATCHES = 3;
     private LinearLayout linearLayout;
-    private LinearLayout my;
-    ImageView logo_progress;
     private SharedPreferences sharedPreferences;
     private String tmp;
     private Button button1;
@@ -80,6 +77,7 @@ public class MyFragment extends Fragment {
     private final List<RecentMatch> recentMatches = new ArrayList<>();
     private CardView card;
     private TextView recent_match;
+    ProgressBar progressBar;
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -97,7 +95,8 @@ public class MyFragment extends Fragment {
                     Player t = new Gson().fromJson(message.obj.toString(), Player.class);
                     if (t == null || t.getProfile() == null) {
                         Toast.makeText(getContext(), "No Such Player", Toast.LENGTH_LONG).show();
-                        logo_progress.setVisibility(View.GONE);
+//                        logo_progress.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
                         button1.setVisibility(View.VISIBLE);
                     } else {
                         linearLayout.setVisibility(View.GONE);
@@ -181,7 +180,7 @@ public class MyFragment extends Fragment {
                     }
                     recent_match.setVisibility(View.VISIBLE);
                     swipeRefreshLayout.setVisibility(View.VISIBLE);
-                    logo_progress.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
                     swipeRefreshLayout.setVisibility(View.VISIBLE);
                     matchesAdapter.notifyDataSetChanged();
                     swipeRefreshLayout.setRefreshing(false);
@@ -207,9 +206,7 @@ public class MyFragment extends Fragment {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         recent_match = view.findViewById(R.id.recent_match);
         button1 = view.findViewById(R.id.verify);
-        logo_progress = view.findViewById(R.id.logo_progress);
-        AnimationDrawable logo = (AnimationDrawable) logo_progress.getDrawable();
-        logo.start();
+        progressBar = view.findViewById(R.id.progressBar);
         header = view.findViewById(R.id.header);
         persona_name = view.findViewById(R.id.personaname);
         loc_country_code = view.findViewById(R.id.loccountrycode);
@@ -250,7 +247,7 @@ public class MyFragment extends Fragment {
                     tmp = textInputEditText.getText().toString();
                     OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + tmp, handler, VERIFY);
                     button1.setVisibility(View.GONE);
-                    logo_progress.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -272,7 +269,7 @@ public class MyFragment extends Fragment {
             id = sharedPreferences.getString("id", "");
         }
         if (!id.equals("")) {
-            logo_progress.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
             OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id, handler, PLAYER_INFO);
         }
         String DISCONNECT = "disconnect from id";
