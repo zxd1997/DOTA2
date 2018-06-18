@@ -18,6 +18,7 @@ import com.example.zxd1997.dota2.Fragments.Player.PlayerMatchFragment;
 import com.example.zxd1997.dota2.Fragments.Player.PlayerOtherFragment;
 import com.example.zxd1997.dota2.Fragments.Player.PlayerOverviewFragment;
 import com.example.zxd1997.dota2.R;
+import com.example.zxd1997.dota2.Utils.Update;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,7 @@ public class PlayerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Update.setDensity(this, getApplication());
         setContentView(R.layout.activity_player);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

@@ -65,6 +65,7 @@ public class PlayerOverviewFragment extends Fragment {
     TextView xpm;
     ImageView logo_progress;
     DecimalFormat df = new DecimalFormat("0.00");
+    DecimalFormat df1 = new DecimalFormat("0.0");
     public PlayerOverviewFragment() {
 
     }
@@ -105,9 +106,10 @@ public class PlayerOverviewFragment extends Fragment {
                     t.append(rec_lose).append("/").append(full_lose);
                     lose.setText(t);
                     t = new SpannableStringBuilder();
+
                     SpannableString rec_win_rate = new SpannableString(df.format(wl_recent.getWinrate() * 100) + "%");
                     SpannableString full_win_rate = new SpannableString(df.format(wl_full.getWinrate() * 100) + "%");
-                    rec_win_rate.setSpan(new RelativeSizeSpan(1.25f), 0, rec_win_rate.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    rec_win_rate.setSpan(new RelativeSizeSpan(1.3f), 0, rec_win_rate.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     t.append(rec_win_rate).append("/").append(full_win_rate);
                     win_rate.setText(t);
                     OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/totals", handler, TOTAL_FULL);
@@ -139,19 +141,19 @@ public class PlayerOverviewFragment extends Fragment {
                     t = new SpannableStringBuilder();
                     SpannableString rec_damage = new SpannableString(df.format((float) totals_recent.get(11).getSum() / totals_recent.get(11).getN() / 1000) + "k");
                     SpannableString full_damage = new SpannableString(df.format((float) totals_full.get(11).getSum() / totals_full.get(11).getN() / 1000) + "k");
-                    rec_damage.setSpan(new RelativeSizeSpan(1.25f), 0, rec_damage.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    rec_damage.setSpan(new RelativeSizeSpan(1.3f), 0, rec_damage.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     t.append(rec_damage).append("/").append(full_damage);
                     damage.setText(t);
                     t = new SpannableStringBuilder();
-                    SpannableString rec_gpm = new SpannableString(df.format((float) totals_recent.get(4).getSum() / totals_recent.get(4).getN()));
-                    SpannableString full_gpm = new SpannableString(df.format((float) totals_full.get(4).getSum() / totals_full.get(4).getN()));
-                    rec_gpm.setSpan(new RelativeSizeSpan(1.25f), 0, rec_gpm.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    SpannableString rec_gpm = new SpannableString(df1.format((float) totals_recent.get(4).getSum() / totals_recent.get(4).getN()));
+                    SpannableString full_gpm = new SpannableString(df1.format((float) totals_full.get(4).getSum() / totals_full.get(4).getN()));
+                    rec_gpm.setSpan(new RelativeSizeSpan(1.3f), 0, rec_gpm.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     t.append(rec_gpm).append("/").append(full_gpm);
                     gpm.setText(t);
                     t = new SpannableStringBuilder();
-                    SpannableString rec_xpm = new SpannableString(df.format((float) totals_recent.get(5).getSum() / totals_recent.get(5).getN()));
-                    SpannableString full_xpm = new SpannableString(df.format((float) totals_full.get(5).getSum() / totals_full.get(5).getN()));
-                    rec_xpm.setSpan(new RelativeSizeSpan(1.25f), 0, rec_xpm.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    SpannableString rec_xpm = new SpannableString(df1.format((float) totals_recent.get(5).getSum() / totals_recent.get(5).getN()));
+                    SpannableString full_xpm = new SpannableString(df1.format((float) totals_full.get(5).getSum() / totals_full.get(5).getN()));
+                    rec_xpm.setSpan(new RelativeSizeSpan(1.3f), 0, rec_xpm.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     t.append(rec_xpm).append("/").append(full_xpm);
                     xpm.setText(t);
                     logo_progress.setVisibility(View.GONE);

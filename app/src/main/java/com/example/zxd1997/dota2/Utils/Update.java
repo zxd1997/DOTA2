@@ -30,11 +30,11 @@ public class Update {
         Log.d(TAG, "setDensity: " + displayMetrics.widthPixels + " " + targetDensity + " " + displayMetrics.density);
         Log.d(TAG, "setDensity: " + displayMetrics.densityDpi + " " + targetDensityDpi);
         displayMetrics.density = targetDensity;
-        displayMetrics.scaledDensity = targetScaledDensity;
+        displayMetrics.scaledDensity = (float) (targetDensity * 0.87);
         displayMetrics.densityDpi = targetDensityDpi;
         final DisplayMetrics activityDisplayMetrics = activity.getResources().getDisplayMetrics();
         activityDisplayMetrics.density = targetDensity;
-        activityDisplayMetrics.scaledDensity = targetScaledDensity;
+        activityDisplayMetrics.scaledDensity = (float) (targetDensity * 0.87);
         activityDisplayMetrics.densityDpi = targetDensityDpi;
     }
 
