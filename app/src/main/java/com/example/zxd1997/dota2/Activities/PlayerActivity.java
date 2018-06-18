@@ -8,13 +8,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.zxd1997.dota2.Adapters.TabFragmentAdapter;
 import com.example.zxd1997.dota2.Beans.Player;
-import com.example.zxd1997.dota2.Beans.WL;
 import com.example.zxd1997.dota2.Fragments.Player.PlayerHeroFragment;
 import com.example.zxd1997.dota2.Fragments.Player.PlayerMatchFragment;
 import com.example.zxd1997.dota2.Fragments.Player.PlayerOtherFragment;
@@ -26,12 +24,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class PlayerActivity extends AppCompatActivity {
-    private WL wl;
     private Player player;
 
-    public WL getWl() {
-        return wl;
-    }
 
     public Player getPlayer() {
         return player;
@@ -48,9 +42,7 @@ public class PlayerActivity extends AppCompatActivity {
         getWindow().setNavigationBarColor(Color.parseColor("#FFCC0000"));
         Intent intent = getIntent();
         long id = intent.getLongExtra("id", 0);
-        wl = (WL) intent.getSerializableExtra("WL");
         player = (Player) intent.getSerializableExtra("player");
-        Log.d("id", "onCreate: " + id + " " + player.getPersonaname() + " " + wl.getWin());
         if (player == null) {
             Intent intent1 = new Intent(PlayerActivity.this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

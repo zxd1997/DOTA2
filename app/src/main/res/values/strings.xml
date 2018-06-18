@@ -177,4 +177,5 @@
     <string name="placeholder">-/-</string>
     <string name="total">TOTAL</string>
     <string name="DAMAGE1">DAMAGE</string>
+    <string name="place_holder_1">-</string>
 </resources>

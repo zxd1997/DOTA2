@@ -10,7 +10,8 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:id="@+id/card_player"
+        android:layout_margin="8dp"
         app:layout_constraintTop_toTopOf="parent"
         fresco:cardCornerRadius="5dp">
 
@@ -27,7 +28,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 fresco:placeholderImage="@drawable/logo"
                 fresco:roundedCornerRadius="7dp"
-                fresco:roundingBorderColor="@color/trans_pri_red"
+                fresco:roundingBorderColor="@color/cardview_shadow_start_color"
                 fresco:roundingBorderWidth="2dp" />
 
             <TextView
@@ -67,7 +68,7 @@
                 android:id="@+id/tier"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:layout_marginRight="15dp"
+                android:layout_marginRight="18dp"
                 android:layout_marginTop="1dp"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/data"
@@ -118,18 +119,19 @@
                 android:id="@+id/data_tip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="6dp"
                 android:text="@string/data_tip"
-                android:textSize="19sp"
+                android:textSize="20sp"
                 app:layout_constraintLeft_toLeftOf="@id/data"
                 app:layout_constraintTop_toBottomOf="@id/data" />
 
             <android.support.v7.widget.CardView
                 android:id="@+id/card_win"
-                android:layout_width="100dp"
+                android:layout_width="105dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:padding="1dp"
+                android:layout_marginLeft="2dp"
                 app:layout_constraintLeft_toLeftOf="@id/data_tip"
                 app:layout_constraintTop_toBottomOf="@id/data_tip">
 
@@ -144,15 +146,15 @@
                 <TextView
                     android:id="@+id/player_win"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_height="33dp"
+                    android:layout_marginTop="17dp"
                     android:gravity="center"
                     android:text="@string/placeholder"
                     android:textSize="22sp" />
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
-                android:layout_width="100dp"
+                android:layout_width="105dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
@@ -171,19 +173,20 @@
                 <TextView
                     android:id="@+id/player_lose"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_height="33dp"
+                    android:layout_marginTop="17dp"
                     android:gravity="center"
                     android:text="@string/placeholder"
-                    android:textSize="23sp" />
+                    android:textSize="22sp" />
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
                 android:id="@+id/total_card"
-                android:layout_width="100dp"
+                android:layout_width="105dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:padding="1dp"
+                android:layout_marginLeft="2dp"
                 app:layout_constraintLeft_toLeftOf="@id/data_tip"
                 app:layout_constraintTop_toBottomOf="@id/card_win">
 
@@ -201,12 +204,12 @@
                     android:layout_height="30dp"
                     android:layout_marginTop="20dp"
                     android:gravity="center"
-                    android:text="@string/placeholder"
+                    android:text="@string/place_holder_1"
                     android:textSize="22sp" />
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
-                android:layout_width="100dp"
+                android:layout_width="105dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
@@ -229,15 +232,17 @@
                     android:layout_marginTop="20dp"
                     android:gravity="center"
                     android:text="@string/placeholder"
-                    android:textSize="23sp" />
+                    android:singleLine="true"
+                    android:textSize="15.5sp" />
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
                 android:id="@+id/kda_card"
-                android:layout_width="100dp"
+                android:layout_width="105dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:padding="1dp"
+                android:layout_marginLeft="2dp"
                 app:layout_constraintLeft_toLeftOf="@id/data_tip"
                 app:layout_constraintTop_toBottomOf="@id/total_card">
 
@@ -252,15 +257,16 @@
                 <TextView
                     android:id="@+id/player_kda"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_height="33dp"
+                    android:layout_marginTop="17dp"
+                    android:singleLine="true"
                     android:gravity="center"
                     android:text="@string/placeholder"
                     android:textSize="22sp" />
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
-                android:layout_width="100dp"
+                android:layout_width="105dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
@@ -279,20 +285,22 @@
                 <TextView
                     android:id="@+id/player_damage"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_height="33dp"
+                    android:layout_marginTop="17dp"
+                    android:singleLine="true"
                     android:gravity="center"
                     android:text="@string/placeholder"
-                    android:textSize="23sp" />
+                    android:textSize="17sp" />
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
                 android:id="@+id/gpm_card"
-                android:layout_width="100dp"
+                android:layout_width="105dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="10dp"
                 android:layout_marginTop="5dp"
                 android:padding="1dp"
+                android:layout_marginLeft="2dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="@id/data_tip"
                 app:layout_constraintTop_toBottomOf="@id/kda_card">
@@ -308,15 +316,15 @@
                 <TextView
                     android:id="@+id/player_gpm"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_height="33dp"
+                    android:layout_marginTop="17dp"
                     android:gravity="center"
                     android:text="@string/placeholder"
-                    android:textSize="22sp" />
+                    android:textSize="17sp" />
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
-                android:layout_width="100dp"
+                android:layout_width="105dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
@@ -335,13 +343,23 @@
                 <TextView
                     android:id="@+id/player_xpm"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_height="33dp"
+                    android:layout_marginTop="17dp"
                     android:gravity="center"
                     android:text="@string/placeholder"
-                    android:textSize="23sp" />
+                    android:textSize="17sp" />
             </android.support.v7.widget.CardView>
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 
+    <ImageView
+        android:id="@+id/logo_progress_player"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="2dp"
+        android:src="@drawable/logo_animation"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_player" />
 </android.support.constraint.ConstraintLayout>
