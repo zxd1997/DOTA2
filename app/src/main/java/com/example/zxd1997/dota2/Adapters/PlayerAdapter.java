@@ -102,7 +102,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     viewHolder.win_or_lose.setTextColor(Color.WHITE);
                 }
                 viewHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.radiant_header));
-                viewHolder.total_kill.setText(String.valueOf(match.getRadiant_score()));
+                viewHolder.total_kill.setText(String.format(":%s", String.valueOf(match.getRadiant_score())));
                 break;
             }
             case DIRE_HEADER: {
@@ -116,7 +116,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     viewHolder.win_or_lose.setTextColor(Color.WHITE);
                 }
                 viewHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.dire_header));
-                viewHolder.total_kill.setText(String.valueOf(match.getDire_score()));
+                viewHolder.total_kill.setText(String.format(":%s", String.valueOf(match.getDire_score())));
                 break;
             }
             case PLAYER: {
@@ -162,7 +162,8 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 });
                 viewHolder.color.setBackgroundColor(context.getResources().getColor(context.getResources().getIdentifier("slot_" + p.getPlayer_slot(), "color", context.getPackageName())));
                 viewHolder.k.setText(k);
-                viewHolder.in_battle.setText(String.format("%s%%", context.getString(R.string.in_battle, p.getTeamfight_participation())));
+                float in_battle = p.isRadiant() ? (float) (p.getKills() + p.getAssists()) / match.getRadiant_score() * 100 : (float) (p.getKills() + p.getAssists()) / match.getDire_score() * 100;
+                viewHolder.in_battle.setText(String.format("%s%%", context.getString(R.string.in_battle, in_battle)));
                 viewHolder.damage.setText(context.getString(R.string.damage_, p.getHero_damage()));
                 viewHolder.item_0.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
                         context.getResources().getIdentifier("item_" + p.getItem_0(), "drawable", context.getPackageName()))).build());

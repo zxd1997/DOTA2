@@ -1,6 +1,8 @@
 package com.example.zxd1997.dota2.Beans;
 
-public class Player {
+import java.io.Serializable;
+
+public class Player implements Serializable {
     private int leaderboard_rank;
     private int rank_tier;
     private Profile profile;
@@ -53,7 +55,7 @@ public class Player {
         return profile.loccountrycode;
     }
 
-    public class Profile {
+    public class Profile implements Serializable {
         private long account_id;
         private String personaname;
         private String steamid;

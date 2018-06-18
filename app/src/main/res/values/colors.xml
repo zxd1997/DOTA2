@@ -26,4 +26,6 @@
     <color name="reason_12">#AD00AD</color>
     <color name="reason_13">#5CC5E0</color>
     <color name="reason_14">#ffd500</color>
+    <color name="gold">#ffd700</color>
+    <color name="trans_pri_red">#78cc0000</color>
 </resources>

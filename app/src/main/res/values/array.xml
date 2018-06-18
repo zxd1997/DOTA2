@@ -10,6 +10,25 @@
         <item>@drawable/rank_icon_6</item>
         <item>@drawable/rank_icon_7</item>
         <item>@drawable/rank_icon_8</item>
+        <item>@drawable/rank_icon_9</item>
+        <item>@drawable/rank_icon_10</item>
+        <item>@drawable/rank_icon_11</item>
+        <item>@drawable/rank_icon_12</item>
+    </string-array>
+    <string-array name="tier_names">
+        <item>Unknown</item>
+        <item>Herald</item>
+        <item>Guardian</item>
+        <item>Crusader</item>
+        <item>Archon</item>
+        <item>Legend</item>
+        <item>Ancient</item>
+        <item>Divine</item>
+        <item>Immortal</item>
+        <item>Immortal</item>
+        <item>Immortal</item>
+        <item>Immortal</item>
+        <item>Immortal</item>
     </string-array>
     <string-array name="stars">
         <item>@drawable/rank_star_1</item>

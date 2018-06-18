@@ -19,13 +19,13 @@ import android.widget.ProgressBar;
 
 import com.example.zxd1997.dota2.Adapters.TabFragmentAdapter;
 import com.example.zxd1997.dota2.Beans.Match;
-import com.example.zxd1997.dota2.Fragments.DetailFragment;
-import com.example.zxd1997.dota2.Fragments.EconomyFragment;
-import com.example.zxd1997.dota2.Fragments.LogsFragment;
-import com.example.zxd1997.dota2.Fragments.NoDetailFragment;
-import com.example.zxd1997.dota2.Fragments.OverviewFragment;
-import com.example.zxd1997.dota2.Fragments.PurchaseAndCastFragment;
-import com.example.zxd1997.dota2.Fragments.VisionFragment;
+import com.example.zxd1997.dota2.Fragments.Match.DetailFragment;
+import com.example.zxd1997.dota2.Fragments.Match.EconomyFragment;
+import com.example.zxd1997.dota2.Fragments.Match.LogsFragment;
+import com.example.zxd1997.dota2.Fragments.Match.NoDetailFragment;
+import com.example.zxd1997.dota2.Fragments.Match.OverviewFragment;
+import com.example.zxd1997.dota2.Fragments.Match.PurchaseAndCastFragment;
+import com.example.zxd1997.dota2.Fragments.Match.VisionFragment;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.MyApplication;
 import com.example.zxd1997.dota2.Utils.OKhttp;
@@ -116,7 +116,6 @@ public class MatchActivity extends AppCompatActivity {
         mViewPager.setAdapter(tabFragmentAdapter);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
-
     }
 
 

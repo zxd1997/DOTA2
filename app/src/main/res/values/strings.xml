@@ -13,6 +13,10 @@
     <string name="tab_text_9">Purchase&amp;Cast</string>
     <string name="tab_text_10">Vision</string>
     <string name="tab_text_11">Logs</string>
+    <string name="tab_text_12">Overview</string>
+    <string name="tab_text_13">Matches</string>
+    <string name="tab_text_14">Heroes</string>
+    <string name="tab_text_15">Other</string>
     <string name="no_id">No Binding player id, please bind your 32bit steam id</string>
     <string name="wip">Work in progress</string>
     <string name="api">https://api.opendota.com/api/</string>
@@ -160,4 +164,17 @@
     <string name="d_taken">Damage Taken:%1$d</string>
     <string name="total_gold">Total Gold:%1$d</string>
     <string name="gold_spent">Gold Spent:%1$d</string>
+    <string name="title_activity_player">PlayerActivity</string>
+    <string name="id">id:%1$d</string>
+    <string name="match">Match</string>
+    <string name="data">Data</string>
+    <string name="data_tip">Recent 20 Matches/All Time</string>
+    <string name="unknown">Unknown</string>
+    <string name="gpm_">GPM</string>
+    <string name="xpm_">XPM</string>
+    <string name="winrate">WINRATE</string>
+    <string name="kda">KDA</string>
+    <string name="placeholder">-/-</string>
+    <string name="total">TOTAL</string>
+    <string name="DAMAGE1">DAMAGE</string>
 </resources>

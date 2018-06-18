@@ -1,6 +1,5 @@
 package com.example.zxd1997.dota2.Adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -191,7 +190,7 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     CastAdapter(Context context, List<Match.PPlayer.Buff> buffs) {
         this.context = context;
-        @SuppressLint("Recycle") TypedArray typedArray = Objects.requireNonNull(context).getResources().obtainTypedArray(R.array.buff);
+        TypedArray typedArray = Objects.requireNonNull(context).getResources().obtainTypedArray(R.array.buff);
         int i = 0;
         for (Match.PPlayer.Buff buff : buffs) {
             if (buff.getPermanent_buff() < 6) {
@@ -201,6 +200,7 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 i++;
             }
         }
+        typedArray.recycle();
     }
 
     @NonNull

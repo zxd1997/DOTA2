@@ -1,4 +1,4 @@
-package com.example.zxd1997.dota2.Fragments;
+package com.example.zxd1997.dota2.Fragments.Match;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -64,7 +64,7 @@ public class OverviewFragment extends Fragment {
             TextView match_id = view.findViewById(R.id.match_id);
             TextView region = view.findViewById(R.id.region);
             TextView skill = view.findViewById(R.id.skill);
-            @SuppressLint("Recycle") TypedArray typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.skills);
+            TypedArray typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.skills);
             skill.setText(typedArray.getText(match.getSkill()));
             typedArray = getContext().getResources().obtainTypedArray(R.array.skills_color);
             skill.setTextColor(getContext().getResources().getColor(typedArray.getResourceId(match.getSkill(), 0)));
@@ -80,6 +80,7 @@ public class OverviewFragment extends Fragment {
             game_mode.setText(typedArray.getText(match.getGame_mode()).toString());
             typedArray = getContext().getResources().obtainTypedArray(R.array.region);
             region.setText(typedArray.getText(match.getRegion()).toString());
+            typedArray.recycle();
             radiant_score.setText(String.valueOf(match.getRadiant_score()));
             dire_score.setText(String.valueOf(match.getDire_score()));
             match_id.setText(String.valueOf(match.getMatch_id()));

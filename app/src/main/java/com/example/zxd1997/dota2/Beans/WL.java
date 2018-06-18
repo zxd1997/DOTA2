@@ -1,6 +1,8 @@
 package com.example.zxd1997.dota2.Beans;
 
-public class WL {
+import java.io.Serializable;
+
+public class WL implements Serializable {
     private int win;
     private int lose;
     private double winrate;

@@ -70,7 +70,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         k.append(t1);
         viewHolder.kda.setText(k);
         viewHolder.lobby_type.setText("");
-        @SuppressLint("Recycle") TypedArray typedArray = context.getResources().obtainTypedArray(R.array.skills);
+        TypedArray typedArray = context.getResources().obtainTypedArray(R.array.skills);
         viewHolder.skills.setText(typedArray.getText(recentMatch.getSkill()));
         typedArray = context.getResources().obtainTypedArray(R.array.skills_color);
         viewHolder.skills.setTextColor(context.getResources().getColor(typedArray.getResourceId(recentMatch.getSkill(), 0)));
@@ -97,6 +97,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         )).build());
         typedArray = context.getResources().obtainTypedArray(R.array.game_mode);
         viewHolder.game_mode.setText(typedArray.getText(recentMatch.getGame_mode()));
+        typedArray.recycle();
         viewHolder.time.setText(Tools.getBefore(recentMatch.getStart_time()));
     }
 

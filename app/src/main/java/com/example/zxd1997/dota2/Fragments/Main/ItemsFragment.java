@@ -1,4 +1,4 @@
-package com.example.zxd1997.dota2.Fragments;
+package com.example.zxd1997.dota2.Fragments.Main;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

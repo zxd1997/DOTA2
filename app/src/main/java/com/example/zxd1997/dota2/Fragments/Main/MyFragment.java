@@ -1,4 +1,4 @@
-package com.example.zxd1997.dota2.Fragments;
+package com.example.zxd1997.dota2.Fragments.Main;
 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
@@ -18,6 +18,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -31,6 +32,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.zxd1997.dota2.Activities.PlayerActivity;
 import com.example.zxd1997.dota2.Adapters.MatchesAdapter;
 import com.example.zxd1997.dota2.Beans.Player;
 import com.example.zxd1997.dota2.Beans.RecentMatch;
@@ -75,7 +77,9 @@ public class MyFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private TextInputLayout textInputLayout;
     private final List<RecentMatch> recentMatches = new ArrayList<>();
-
+    private CardView card;
+    private WL wl;
+    private TextView recent_match;
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -106,11 +110,21 @@ public class MyFragment extends Fragment {
                     break;
                 }
                 case PLAYER_INFO: {
-                    Player player = new Gson().fromJson(message.obj.toString(), Player.class);
+                    final Player player = new Gson().fromJson(message.obj.toString(), Player.class);
                     persona_name.setText(player.getPersonaname() == null || player.getPersonaname().equals("") ? getString(R.string.anonymous) : player.getPersonaname());
                     loc_country_code.setText(player.getLoccountrycode());
-                    account_id.setText(String.valueOf(player.getAccount_id()));
+                    account_id.setText(getString(R.string.id, player.getAccount_id()));
                     header.setImageURI(player.getAvatarfull());
+                    card.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(getContext(), PlayerActivity.class);
+                            intent.putExtra("id", player.getAccount_id());
+                            intent.putExtra("player", player);
+                            intent.putExtra("WL", wl);
+                            startActivity(intent);
+                        }
+                    });
                     if (player.getRank_tier() != 0) {
                         int t = player.getRank_tier() / 10;
                         int star = player.getRank_tier() % 10;
@@ -119,27 +133,37 @@ public class MyFragment extends Fragment {
                         if (rank > 0) {
                             star = 0;
                             t = 8;
+                            if (rank == 1) {
+                                t = 12;
+                            } else if (rank <= 10) {
+                                t = 11;
+                            } else if (rank <= 100) {
+                                t = 10;
+                            } else if (rank <= 1000) {
+                                t = 9;
+                            }
                             ranks.setText(String.valueOf(rank));
                         }
                         if (star > 0) {
-                            @SuppressLint("Recycle") TypedArray typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.stars);
+                            TypedArray typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.stars);
                             stars.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(typedArray.getResourceId(star - 1, 0))).build());
                         }
                         Log.d("rank", "handleMessage: " + t + " " + star);
-                        @SuppressLint("Recycle") TypedArray typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.tiers);
+                        TypedArray typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.tiers);
                         tier.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(typedArray.getResourceId(t, 0))).build());
+                        typedArray.recycle();
                     }
                     OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id + "/wl", handler, WL);
                     break;
                 }
                 case WL: {
-                    com.example.zxd1997.dota2.Beans.WL wl = new Gson().fromJson(message.obj.toString(), WL.class);
+                    wl = new Gson().fromJson(message.obj.toString(), WL.class);
                     wl.setWinrate();
                     win.setText(getString(R.string.win1, wl.getWin()));
                     lose.setText(getString(R.string.lose1, wl.getLose()));
                     win_rate.setText(String.format("%s%%", getString(R.string.rate, wl.getWinrate() * 100)));
                     OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id + "/recentMatches", handler, RECENT_MATCHES);
-                    my.setVisibility(View.VISIBLE);
+                    card.setVisibility(View.VISIBLE);
                     swipeRefreshLayout.setVisibility(View.GONE);
                     break;
                 }
@@ -155,6 +179,8 @@ public class MyFragment extends Fragment {
                     for (RecentMatch i : recentMatches) {
                         Log.d("id", "handleMessage: " + i.getMatch_id());
                     }
+                    recent_match.setVisibility(View.VISIBLE);
+                    swipeRefreshLayout.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
                     swipeRefreshLayout.setVisibility(View.VISIBLE);
                     matchesAdapter.notifyDataSetChanged();
@@ -179,7 +205,7 @@ public class MyFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_my, container, false);
         linearLayout = view.findViewById(R.id.no_binding);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        my = view.findViewById(R.id.my);
+        recent_match = view.findViewById(R.id.recent_match);
         button1 = view.findViewById(R.id.verify);
         progressBar = view.findViewById(R.id.progressBar);
         header = view.findViewById(R.id.header);
@@ -200,6 +226,7 @@ public class MyFragment extends Fragment {
         recyclerView.setAdapter(matchesAdapter);
         swipeRefreshLayout = view.findViewById(R.id.swipe);
         textView = view.findViewById(R.id.text_notice);
+        card = view.findViewById(R.id.my_card);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -227,8 +254,9 @@ public class MyFragment extends Fragment {
         });
         if (sharedPreferences.getString("id", "").equals("")) {
             linearLayout.setVisibility(View.VISIBLE);
-            my.setVisibility(View.GONE);
-
+            card.setVisibility(View.GONE);
+            swipeRefreshLayout.setVisibility(View.GONE);
+            recent_match.setVisibility(View.GONE);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -256,7 +284,9 @@ public class MyFragment extends Fragment {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            my.setVisibility(View.GONE);
+            card.setVisibility(View.GONE);
+            swipeRefreshLayout.setVisibility(View.GONE);
+            recent_match.setVisibility(View.GONE);
             id = "";
             linearLayout.setVisibility(View.VISIBLE);
             textInputLayout.setVisibility(View.VISIBLE);

@@ -1,31 +1,32 @@
-package com.example.zxd1997.dota2.Fragments;
+package com.example.zxd1997.dota2.Fragments.Match;
 
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Activities.MatchActivity;
+import com.example.zxd1997.dota2.Adapters.CastAdapter;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.MyApplication;
-import com.example.zxd1997.dota2.Utils.OKhttp;
 
 import java.util.Objects;
 
-public class NoDetailFragment extends Fragment {
-
-    public NoDetailFragment() {
-        // Required empty public constructor
-    }
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link PurchaseAndCastFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class PurchaseAndCastFragment extends Fragment {
 
     @Override
     public void onDestroy() {
@@ -33,14 +34,19 @@ public class NoDetailFragment extends Fragment {
         System.gc();
         System.runFinalization();
     }
-    public static NoDetailFragment newInstance() {
-        return new NoDetailFragment();
+    public PurchaseAndCastFragment() {
+        // Required empty public constructor
+    }
+
+    public static PurchaseAndCastFragment newInstance() {
+        return new PurchaseAndCastFragment();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_nodetail, container, false);
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_purchase_and_cast, container, false);
         MatchActivity activity = (MatchActivity) getActivity();
         Match match = Objects.requireNonNull(activity).getMatch();
         if (match == null || match.getPlayers() == null) {
@@ -50,23 +56,18 @@ public class NoDetailFragment extends Fragment {
             Objects.requireNonNull(getActivity()).startActivity(intent);
             getActivity().finish();
         } else {
-            final long id = activity.getMatch().getMatch_id();
-            final long time = activity.getMatch().getStart_time();
-            final Button button = view.findViewById(R.id.reuqest_salt);
-            final TextView textView = view.findViewById(R.id.no_salt);
-            if (System.currentTimeMillis() / 1000 - time > 30 * 24 * 3600) {
-                button.setVisibility(View.INVISIBLE);
-                textView.setText(getString(R.string.expired));
-            }
-            button.setOnClickListener(new View.OnClickListener() {
+            RecyclerView recyclerView = view.findViewById(R.id.p_c);
+            recyclerView.setNestedScrollingEnabled(false);
+            final CastAdapter castAdapter = new CastAdapter(getContext(), match.getPlayers(), "");
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 10);
+            gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 @Override
-                public void onClick(View v) {
-                    OKhttp.post(getString(R.string.api) + getString(R.string.request) + id);
-                    Log.d("post", "onClick: " + getString(R.string.api) + getString(R.string.request) + id);
-                    button.setVisibility(View.INVISIBLE);
-                    textView.setText(getString(R.string.parsing));
+                public int getSpanSize(int position) {
+                    return (castAdapter.getItemViewType(position) == -1 || castAdapter.getItemViewType(position) == 9) ? 10 : 1;
                 }
             });
+            recyclerView.setLayoutManager(gridLayoutManager);
+            recyclerView.setAdapter(castAdapter);
         }
         return view;
     }
