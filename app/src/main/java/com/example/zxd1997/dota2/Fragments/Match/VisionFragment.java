@@ -53,59 +53,6 @@ public class VisionFragment extends Fragment {
         // Required empty public constructor
     }
 
-//    private Bitmap getBitmap(Bitmap map, List<Wards> wards){
-//        Canvas canvas=new Canvas(map);
-//        float h=map.getHeight();
-//        float w=map.getWidth();
-//        float ww;
-//        float hh;
-//        Bitmap tmp;
-//        Paint paint=new Paint();
-//        paint.setAntiAlias(true);
-//        float radius;
-//        for (Wards ward:wards){
-//            if (ward.getType()==OBSERVER){
-//                if (ward.getWard().getPlayer_slot()<5){
-//                    tmp=BitmapFactory.decodeResource(Objects.requireNonNull(getContext()).getResources(),R.drawable.goodguys_observer);
-//                    hh=tmp.getHeight();
-//                    ww=tmp.getWidth();
-//                    paint.setColor(Color.parseColor("#00ff00"));
-//                    radius=(float) 1600/19000*w;
-//                }else {
-//                    tmp=BitmapFactory.decodeResource(Objects.requireNonNull(getContext()).getResources(),R.drawable.badguys_observer);
-//                    hh=tmp.getHeight();
-//                    ww=tmp.getWidth();
-//                    paint.setColor(Color.parseColor("#ff0000"));
-//                    radius=(float) 1600/19000*w;
-//                }
-//            }else {
-//                if (ward.getWard().getPlayer_slot()<5){
-//                    tmp=BitmapFactory.decodeResource(Objects.requireNonNull(getContext()).getResources(),R.drawable.goodguys_sentry);
-//                    hh=tmp.getHeight();
-//                    ww=tmp.getWidth();
-//                    paint.setColor(Color.parseColor("#00ff00"));
-//                    radius=(float) 850/19000*w;
-//                }else {
-//                    tmp=BitmapFactory.decodeResource(Objects.requireNonNull(getContext()).getResources(),R.drawable.badguys_sentry);
-//                    hh=tmp.getHeight();
-//                    ww=tmp.getWidth();
-//                    paint.setColor(Color.parseColor("#ff0000"));
-//                    radius=(float) 850/19000*w;
-//                }
-//            }
-//            paint.setAlpha(60);
-//            paint.setStyle(Paint.Style.FILL);
-//            canvas.drawCircle((float)(ward.getWard().getX()*2-128)/2*(float) 4/502*w, h-(float) (ward.getWard().getY()*2-130)/2*(float) 4/503*h,radius,paint);
-//            paint.setStyle(Paint.Style.STROKE);
-//            paint.setStrokeWidth(4);
-//            paint.setAlpha(150);
-//            canvas.drawCircle((float)(ward.getWard().getX()*2-128)/2*(float) 4/502*w, h-(float) (ward.getWard().getY()*2-130)/2*(float) 4/503*h,radius,paint);
-//            canvas.drawBitmap(tmp,(float)(ward.getWard().getX()*2-128)/2*(float)4/502*w-ww/2, h-(float) (ward.getWard().getY()*2-130)/2*(float) 4/503*h-hh/2,new Paint());
-//            tmp.recycle();
-//        }
-//        return map;
-//    }
-
     public static VisionFragment newInstance() {
         return new VisionFragment();
     }

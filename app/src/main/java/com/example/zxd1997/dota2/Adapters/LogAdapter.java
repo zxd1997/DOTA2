@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -46,11 +47,12 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final List<Match.Objective> logs;
     private final RecyclerView recyclerView;
     private int expended = -1;
-
+    LinearLayoutManager linearLayoutManager;
     public LogAdapter(Context context, List<Match.Objective> logs, RecyclerView recyclerView) {
         this.context = context;
         this.logs = logs;
         this.recyclerView = recyclerView;
+        this.linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
     }
 
     public int getExpended() {
@@ -413,7 +415,9 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             expended = -1;
                         }
 //                            notifyItemChanged(position,"");
-                        recyclerView.smoothScrollToPosition(position);
+                        linearLayoutManager.scrollToPositionWithOffset(position, 0);
+                        linearLayoutManager.setStackFromEnd(true);
+//                        recyclerView.smoothScrollToPosition(position);
                     }
 
                 });
