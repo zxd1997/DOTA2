@@ -11,9 +11,10 @@
     android:layout_marginTop="2dp"
     fresco:cardCornerRadius="3dp">
 
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/relativeLayout2"
         android:background="@drawable/touch_bg">
 
         <com.facebook.drawee.view.SimpleDraweeView
@@ -21,75 +22,79 @@
             android:layout_width="80dp"
             android:layout_height="45dp"
             android:layout_margin="5dp"
+            fresco:layout_constraintStart_toStartOf="parent"
+            fresco:layout_constraintTop_toTopOf="parent"
             fresco:roundedCornerRadius="3dp" />
 
         <TextView
             android:id="@+id/hero_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/hero_header"
             android:textSize="20sp"
+            fresco:layout_constraintLeft_toRightOf="@id/hero_header"
+            fresco:layout_constraintTop_toTopOf="parent"
             tools:text="Phoenix" />
 
         <TextView
             android:id="@+id/winornot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/hero_header"
-            android:layout_alignLeft="@id/hero_name"
             android:textSize="17sp"
+            fresco:layout_constraintBottom_toBottomOf="@id/hero_header"
+            fresco:layout_constraintLeft_toLeftOf="@id/hero_name"
             tools:text="Lose" />
 
         <TextView
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/winornot"
             android:layout_marginBottom="2dp"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/winornot"
             android:textSize="12sp"
+            fresco:layout_constraintBottom_toBottomOf="@id/winornot"
+            fresco:layout_constraintLeft_toRightOf="@id/winornot"
             tools:text="2Days ago" />
 
         <TextView
             android:id="@+id/game_mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/hero_name"
             android:layout_marginBottom="3dp"
             android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@id/hero_name"
+            fresco:layout_constraintBottom_toBottomOf="@id/hero_name"
+            fresco:layout_constraintLeft_toRightOf="@id/hero_name"
             tools:text="All Pick" />
 
         <TextView
             android:id="@+id/lobby_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/game_mode"
             android:layout_marginBottom="3dp"
             android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@id/game_mode"
+            fresco:layout_constraintBottom_toBottomOf="@id/game_mode"
+            fresco:layout_constraintLeft_toRightOf="@id/game_mode"
             tools:text="Battle Cup" />
 
         <TextView
             android:id="@+id/skills"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_marginRight="5dp"
             android:textSize="19sp"
+            fresco:layout_constraintRight_toRightOf="parent"
+            fresco:layout_constraintTop_toTopOf="parent"
             tools:text="Very High" />
 
         <TextView
             android:id="@+id/kda"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/hero_header"
-            android:layout_alignRight="@id/skills"
             android:textSize="17sp"
+            fresco:layout_constraintBottom_toBottomOf="@id/hero_header"
+            fresco:layout_constraintRight_toRightOf="@id/skills"
             tools:text="10/0/10" />
 
 
-    </RelativeLayout>
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.v7.widget.CardView>

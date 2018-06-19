@@ -102,7 +102,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     viewHolder.win_or_lose.setTextColor(Color.WHITE);
                 }
                 viewHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.radiant_header));
-                viewHolder.total_kill.setText(String.format(":%s", String.valueOf(match.getRadiant_score())));
+                viewHolder.total_kill.setText(String.valueOf(match.getRadiant_score()));
                 break;
             }
             case DIRE_HEADER: {
@@ -116,7 +116,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     viewHolder.win_or_lose.setTextColor(Color.WHITE);
                 }
                 viewHolder.itemView.setBackground(context.getResources().getDrawable(R.drawable.dire_header));
-                viewHolder.total_kill.setText(String.format(":%s", String.valueOf(match.getDire_score())));
+                viewHolder.total_kill.setText(String.valueOf(match.getDire_score()));
                 break;
             }
             case PLAYER: {

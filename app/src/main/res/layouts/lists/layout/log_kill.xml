@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,61 +12,49 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:textSize="12sp"
-        fresco:layout_constraintBottom_toTopOf="@id/line"
-        fresco:layout_constraintLeft_toLeftOf="parent"
-        fresco:layout_constraintTop_toTopOf="parent"
+        android:layout_gravity="left|center_vertical"
         tools:text="1:00:00" />
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/log_killer"
         android:layout_width="48dp"
         android:layout_height="27dp"
-        android:layout_marginLeft="2dp"
-        fresco:layout_constraintLeft_toRightOf="@id/log_time"
-        fresco:layout_constraintTop_toTopOf="parent"
-        fresco:layout_constraintBottom_toTopOf="@id/line"
+        android:layout_gravity="left"
         fresco:roundBottomRight="false"
         fresco:roundTopRight="false"
+        android:layout_marginLeft="43dp"
+
         fresco:roundedCornerRadius="1dp" />
     <View
         android:id="@+id/log_color"
         android:layout_width="2dp"
         android:layout_height="27dp"
-        fresco:layout_constraintLeft_toRightOf="@id/log_killer"
-        fresco:layout_constraintTop_toTopOf="@id/log_killer" />
+        android:layout_gravity="left"
+        android:layout_marginLeft="91dp" />
 
     <TextView
         android:id="@+id/log_name"
         android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="2dp"
+        android:layout_marginLeft="95dp"
         android:ellipsize="end"
         android:singleLine="true"
         android:textColor="@android:color/black"
-        android:textSize="13sp"
-        fresco:layout_constraintBottom_toTopOf="@id/line"
-        fresco:layout_constraintLeft_toRightOf="@id/log_color"
-        fresco:layout_constraintTop_toTopOf="parent" />
-
+        android:textSize="13sp" />
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/kill"
         android:layout_width="24dp"
         android:layout_height="17dp"
         android:layout_marginRight="160dp"
-        fresco:layout_constraintRight_toRightOf="parent"
-        fresco:layout_constraintBottom_toTopOf="@id/line"
-        fresco:layout_constraintTop_toTopOf="parent" />
-
+        android:layout_gravity="right|center_vertical" />
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/log_killed"
         android:layout_width="48dp"
         android:layout_height="27dp"
         android:visibility="gone"
-        android:layout_marginLeft="4dp"
-        fresco:layout_constraintBottom_toTopOf="@id/line"
-        fresco:layout_constraintLeft_toRightOf="@+id/kill"
-        fresco:layout_constraintTop_toTopOf="parent"
+        android:layout_gravity="right"
+        android:layout_marginRight="111dp"
         fresco:roundedCornerRadius="1dp"
         tools:visibility="visible" />
 
@@ -79,9 +67,7 @@
         android:singleLine="true"
         android:textSize="13sp"
         android:visibility="gone"
-        fresco:layout_constraintBottom_toTopOf="@id/line"
-        fresco:layout_constraintLeft_toRightOf="@+id/kill"
-        fresco:layout_constraintTop_toTopOf="parent"
+        android:layout_gravity="right|center_vertical"
         tools:text="Radiant Middle Tower Tier 4"
         tools:visibility="visible" />
 
@@ -89,6 +75,6 @@
         android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        fresco:layout_constraintBottom_toBottomOf="parent" />
-</android.support.constraint.ConstraintLayout>
+        android:layout_gravity="bottom"
+        android:background="@android:color/darker_gray" />
+</FrameLayout>
