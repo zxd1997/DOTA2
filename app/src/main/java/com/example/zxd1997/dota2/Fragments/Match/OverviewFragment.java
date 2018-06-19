@@ -9,8 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +21,7 @@ import com.example.zxd1997.dota2.Adapters.PlayerAdapter;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.Tools;
+import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,7 +97,6 @@ public class OverviewFragment extends Fragment {
             recyclerView.setAdapter(playerAdapter);
             recyclerView.setNestedScrollingEnabled(false);
             final RecyclerView recyclerView1 = view.findViewById(R.id.ability_builds);
-            final StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(11,StaggeredGridLayoutManager.HORIZONTAL);
             final List <Integer> abilities_modify = new ArrayList<>();
             new Thread(new Runnable() {
                 @Override
@@ -162,21 +160,25 @@ public class OverviewFragment extends Fragment {
                     view.post(new Runnable() {
                         @Override
                         public void run() {
+                            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 11, GridLayoutManager.HORIZONTAL, false);
                             recyclerView1.setLayoutManager(gridLayoutManager);
+                            recyclerView1.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                                @Override
+                                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                                        Fresco.getImagePipeline().resume();
+                                    } else
+                                        Fresco.getImagePipeline().pause();
+                                }
+                            });
                             AbilityBuildAdapter abilityBuildAdapter = new AbilityBuildAdapter(getContext(), match,abilities_modify);
                             recyclerView1.setAdapter(abilityBuildAdapter);
-                            recyclerView1.setNestedScrollingEnabled(true);
+                            recyclerView1.setNestedScrollingEnabled(false);
                         }
                     });
                 }
             }).start();
-//            gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-//                @Override
-//                public int getSpanSize(int position) {
-//                    if (position % 26 == 0) return 5;
-//                    return 1;
-//                }
-//            });
+
 
         }
         return view;

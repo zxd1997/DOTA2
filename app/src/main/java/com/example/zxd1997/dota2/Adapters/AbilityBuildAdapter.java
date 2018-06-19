@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.R;
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AbilityBuildAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -84,7 +82,7 @@ public class AbilityBuildAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
             default: {
                 ViewHolder viewHolder = (ViewHolder) holder;
-                Log.d("ability", "onBindViewHolder: " + abilities.get(position));
+                ((ViewHolder) holder).talent.setText("");
                 int t=abilities.get(position);
                 if (t == 0) {
                     viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
