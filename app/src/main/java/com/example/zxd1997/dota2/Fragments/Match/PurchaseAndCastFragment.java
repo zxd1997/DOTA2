@@ -64,7 +64,7 @@ public class PurchaseAndCastFragment extends Fragment {
     Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            final CastAdapter castAdapter = new CastAdapter(getContext(), casts, 0);
+            final CastAdapter castAdapter = new CastAdapter(getContext(), casts);
             GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 10);
             gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 @Override
@@ -89,7 +89,7 @@ public class PurchaseAndCastFragment extends Fragment {
         MatchActivity activity = (MatchActivity) getActivity();
         match = Objects.requireNonNull(activity).getMatch();
         if (match == null || match.getPlayers() == null) {
-            Log.d("null", "onCreateView: " + 111111);
+//            Log.d("null", "onCreateView: " + 111111);
             Intent intent = new Intent(MyApplication.getContext(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             Objects.requireNonNull(getActivity()).startActivity(intent);

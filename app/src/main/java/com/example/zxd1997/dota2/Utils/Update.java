@@ -27,8 +27,6 @@ public class Update {
         final float targetDensity = (float) displayMetrics.widthPixels / (float) 411;
         final float targetScaledDensity = targetDensity * (displayMetrics.scaledDensity / displayMetrics.density);
         final int targetDensityDpi = (int) (160 * targetDensity);
-        Log.d(TAG, "setDensity: " + displayMetrics.widthPixels + " " + targetDensity + " " + displayMetrics.density);
-        Log.d(TAG, "setDensity: " + displayMetrics.densityDpi + " " + targetDensityDpi);
         displayMetrics.density = targetDensity;
         displayMetrics.scaledDensity = (float) (targetDensity * 0.87);
         displayMetrics.densityDpi = targetDensityDpi;

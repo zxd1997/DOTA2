@@ -25,6 +25,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -65,7 +66,6 @@ public class MyFragment extends Fragment {
     private SimpleDraweeView stars;
     private TextView textView;
     private TextView persona_name;
-    private TextView loc_country_code;
     private TextView account_id;
     private TextView win;
     private TextView lose;
@@ -78,6 +78,7 @@ public class MyFragment extends Fragment {
     private CardView card;
     private TextView recent_match;
     ProgressBar progressBar;
+    View view;
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -89,13 +90,12 @@ public class MyFragment extends Fragment {
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message message) {
-            Log.d("id", "handleMessage: " + message.obj.toString());
+//            Log.d("id", "handleMessage: " + message.obj.toString());
             switch (message.what) {
                 case VERIFY: {
                     Player t = new Gson().fromJson(message.obj.toString(), Player.class);
                     if (t == null || t.getProfile() == null) {
                         Toast.makeText(getContext(), "No Such Player", Toast.LENGTH_LONG).show();
-//                        logo_progress.setVisibility(View.GONE);
                         progressBar.setVisibility(View.GONE);
                         button1.setVisibility(View.VISIBLE);
                     } else {
@@ -110,8 +110,7 @@ public class MyFragment extends Fragment {
                 }
                 case PLAYER_INFO: {
                     final Player player = new Gson().fromJson(message.obj.toString(), Player.class);
-                    persona_name.setText(player.getPersonaname() == null || player.getPersonaname().equals("") ? getString(R.string.anonymous) : player.getPersonaname());
-                    loc_country_code.setText(player.getLoccountrycode());
+                    persona_name.setText(player.getName()!=null?player.getName():player.getPersonaname() == null || player.getPersonaname().equals("") ? getString(R.string.anonymous) : player.getPersonaname());
                     account_id.setText(getString(R.string.id, player.getAccount_id()));
                     header.setImageURI(player.getAvatarfull());
                     card.setOnClickListener(new View.OnClickListener() {
@@ -126,8 +125,11 @@ public class MyFragment extends Fragment {
                     if (player.getRank_tier() != 0) {
                         int t = player.getRank_tier() / 10;
                         int star = player.getRank_tier() % 10;
+                        ranks.setText("");
+                        stars.setImageDrawable(null);
+                        tier.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(R.drawable.rank_icon_0)).build());
                         int rank = player.getLeaderboard_rank();
-                        Log.d("rank", "handleMessage: " + rank);
+//                        Log.d("rank", "handleMessage: " + rank);
                         if (rank > 0) {
                             star = 0;
                             t = 8;
@@ -147,7 +149,7 @@ public class MyFragment extends Fragment {
                             stars.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(typedArray.getResourceId(star - 1, 0))).build());
                             typedArray.recycle();
                         }
-                        Log.d("rank", "handleMessage: " + t + " " + star);
+//                        Log.d("rank", "handleMessage: " + t + " " + star);
                         TypedArray typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.tiers);
                         tier.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(typedArray.getResourceId(t, 0))).build());
                         typedArray.recycle();
@@ -175,9 +177,6 @@ public class MyFragment extends Fragment {
                         if (recentMatch.getGame_mode() != 19)
                             recentMatches.add(recentMatch);
                     }
-                    for (RecentMatch i : recentMatches) {
-                        Log.d("id", "handleMessage: " + i.getMatch_id());
-                    }
                     recent_match.setVisibility(View.VISIBLE);
                     swipeRefreshLayout.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
@@ -201,15 +200,12 @@ public class MyFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_my, container, false);
-        linearLayout = view.findViewById(R.id.no_binding);
+        view = inflater.inflate(R.layout.fragment_my, container, false);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         recent_match = view.findViewById(R.id.recent_match);
-        button1 = view.findViewById(R.id.verify);
         progressBar = view.findViewById(R.id.progressBar);
         header = view.findViewById(R.id.header);
         persona_name = view.findViewById(R.id.personaname);
-        loc_country_code = view.findViewById(R.id.loccountrycode);
         account_id = view.findViewById(R.id.account_id);
         win = view.findViewById(R.id.win);
         lose = view.findViewById(R.id.lose);
@@ -218,13 +214,10 @@ public class MyFragment extends Fragment {
         ranks = view.findViewById(R.id.rank);
         stars = view.findViewById(R.id.star);
         RecyclerView recyclerView = view.findViewById(R.id.recent_matches);
-        button = view.findViewById(R.id.connect);
-        textInputLayout = view.findViewById(R.id.text_input);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         matchesAdapter = new MatchesAdapter(getContext(), recentMatches);
         recyclerView.setAdapter(matchesAdapter);
         swipeRefreshLayout = view.findViewById(R.id.swipe);
-        textView = view.findViewById(R.id.text_notice);
         card = view.findViewById(R.id.my_card);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -233,29 +226,19 @@ public class MyFragment extends Fragment {
                 OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id, handler, PLAYER_INFO);
             }
         });
-        button1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextInputEditText textInputEditText = view.findViewById(R.id.steam_id);
-                if (textInputEditText.getText().toString().equals("")) {
-                    Toast.makeText(getContext(), "Please input your Steam 32 ID!", Toast.LENGTH_LONG).show();
-                } else {
-                    InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    if (Objects.requireNonNull(imm).isActive()) {
-                        imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
-                    }
-                    tmp = textInputEditText.getText().toString();
-                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + tmp, handler, VERIFY);
-                    button1.setVisibility(View.GONE);
-                    progressBar.setVisibility(View.VISIBLE);
-                }
-            }
-        });
+
         if (sharedPreferences.getString("id", "").equals("")) {
+            ViewStub viewStub=view.findViewById(R.id.view_stub);
+            viewStub.setVisibility(View.VISIBLE);
+            linearLayout = view.findViewById(R.id.no_binding);
+            button = view.findViewById(R.id.connect);
+            button1 = view.findViewById(R.id.verify);
+            textInputLayout = view.findViewById(R.id.text_input);
             linearLayout.setVisibility(View.VISIBLE);
             card.setVisibility(View.GONE);
             swipeRefreshLayout.setVisibility(View.GONE);
             recent_match.setVisibility(View.GONE);
+            textView = view.findViewById(R.id.text_notice);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -263,6 +246,24 @@ public class MyFragment extends Fragment {
                     textInputLayout.setVisibility(View.VISIBLE);
                     button.setVisibility(View.GONE);
                     button1.setVisibility(View.VISIBLE);
+                }
+            });
+            button1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TextInputEditText textInputEditText = view.findViewById(R.id.steam_id);
+                    if (textInputEditText.getText().toString().equals("")) {
+                        Toast.makeText(getContext(), "Please input your Steam 32 ID!", Toast.LENGTH_LONG).show();
+                    } else {
+                        InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        if (Objects.requireNonNull(imm).isActive()) {
+                            imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
+                        }
+                        tmp = textInputEditText.getText().toString();
+                        OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + tmp, handler, VERIFY);
+                        button1.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.VISIBLE);
+                    }
                 }
             });
         } else {
@@ -283,6 +284,44 @@ public class MyFragment extends Fragment {
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            ViewStub viewStub=view.findViewById(R.id.view_stub);
+            if(viewStub!=null)viewStub.setVisibility(View.VISIBLE);
+            linearLayout = view.findViewById(R.id.no_binding);
+            button = view.findViewById(R.id.connect);
+            button1 = view.findViewById(R.id.verify);
+            textInputLayout = view.findViewById(R.id.text_input);
+            linearLayout.setVisibility(View.VISIBLE);
+            card.setVisibility(View.GONE);
+            swipeRefreshLayout.setVisibility(View.GONE);
+            recent_match.setVisibility(View.GONE);
+            textView = view.findViewById(R.id.text_notice);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    textView.setVisibility(View.INVISIBLE);
+                    textInputLayout.setVisibility(View.VISIBLE);
+                    button.setVisibility(View.GONE);
+                    button1.setVisibility(View.VISIBLE);
+                }
+            });
+            button1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TextInputEditText textInputEditText = view.findViewById(R.id.steam_id);
+                    if (textInputEditText.getText().toString().equals("")) {
+                        Toast.makeText(getContext(), "Please input your Steam 32 ID!", Toast.LENGTH_LONG).show();
+                    } else {
+                        InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        if (Objects.requireNonNull(imm).isActive()) {
+                            imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
+                        }
+                        tmp = textInputEditText.getText().toString();
+                        OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + tmp, handler, VERIFY);
+                        button1.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
             card.setVisibility(View.GONE);
             swipeRefreshLayout.setVisibility(View.GONE);
             recent_match.setVisibility(View.GONE);

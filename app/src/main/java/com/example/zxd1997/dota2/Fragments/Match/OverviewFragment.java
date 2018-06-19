@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,10 +24,15 @@ import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.Tools;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class OverviewFragment extends Fragment {
-
+    private final int ABILITY = 1;
+    private final int HEADER = -1;
+    private final int PLAYER = -2;
+    private final int LEVEL = -3;
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -45,17 +51,17 @@ public class OverviewFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_overview, container, false);
+        final View view = inflater.inflate(R.layout.fragment_overview, container, false);
         MatchActivity activity = (MatchActivity) getActivity();
-        Match match = Objects.requireNonNull(activity).getMatch();
+        final Match match = Objects.requireNonNull(activity).getMatch();
         if (match == null || match.getPlayers() == null) {
-            Log.d("null", "onCreateView: " + 111111);
+//            Log.d("null", "onCreateView: " + 111111);
             Intent intent = new Intent(activity.getApplicationContext(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             activity.startActivity(intent);
             activity.finish();
         } else {
-            Log.d("fragment", "onCreateView: " + match.getMatch_id());
+//            Log.d("fragment", "onCreateView: " + match.getMatch_id());
             TextView game_mode = view.findViewById(R.id.gamemode);
             TextView duration = view.findViewById(R.id.duration);
             TextView radiant_score = view.findViewById(R.id.radiant_score);
@@ -76,7 +82,7 @@ public class OverviewFragment extends Fragment {
                 dire_victory.setVisibility(View.VISIBLE);
             }
             typedArray = getContext().getResources().obtainTypedArray(R.array.game_mode);
-            Log.d("mode", "onCreateView: " + match.getGame_mode() + " " + match.getRegion() + " ");
+//            Log.d("mode", "onCreateView: " + match.getGame_mode() + " " + match.getRegion() + " ");
             game_mode.setText(typedArray.getText(match.getGame_mode()).toString());
             typedArray = getContext().getResources().obtainTypedArray(R.array.region);
             region.setText(typedArray.getText(match.getRegion()).toString());
@@ -91,19 +97,87 @@ public class OverviewFragment extends Fragment {
             PlayerAdapter playerAdapter = new PlayerAdapter(getContext(), match);
             recyclerView.setAdapter(playerAdapter);
             recyclerView.setNestedScrollingEnabled(false);
-            RecyclerView recyclerView1 = view.findViewById(R.id.ability_builds);
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 30);
-            gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            final RecyclerView recyclerView1 = view.findViewById(R.id.ability_builds);
+            final StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(11,StaggeredGridLayoutManager.HORIZONTAL);
+            final List <Integer> abilities_modify = new ArrayList<>();
+            new Thread(new Runnable() {
                 @Override
-                public int getSpanSize(int position) {
-                    if (position % 26 == 0) return 5;
-                    return 1;
+                public void run() {
+                    final List <Integer> abilities = new ArrayList<>();
+                    abilities.add(PLAYER);
+                    for (int i = 0; i < 25; i++) {
+                        abilities.add(LEVEL);
+                    }
+                    for (Match.PPlayer p : match.getPlayers()) {
+                        abilities.add(-1);
+                        if (p.getAbility_upgrades_arr().size() < 17) {
+                            abilities.addAll(p.getAbility_upgrades_arr());
+                            for (int i = 0; i < 25 - p.getAbility_upgrades_arr().size(); i++) {
+                                abilities.add(0);
+                            }
+                        } else if (p.getAbility_upgrades_arr().size() < 18) {
+                            for (int i = 0; i < p.getAbility_upgrades_arr().size() - 1; i++) {
+                                abilities.add(p.getAbility_upgrades_arr().get(i));
+                            }
+                            abilities.add(0);
+                            abilities.add(p.getAbility_upgrades_arr().get(p.getAbility_upgrades_arr().size() - 1));
+                            for (int i = 0; i < 25 - 18; i++) {
+                                abilities.add(0);
+                            }
+                        } else if (p.getAbility_upgrades_arr().size() < 19) {
+                            for (int i = 0; i < p.getAbility_upgrades_arr().size() - 2; i++) {
+                                abilities.add(p.getAbility_upgrades_arr().get(i));
+                            }
+                            abilities.add(0);
+                            abilities.add(p.getAbility_upgrades_arr().get(p.getAbility_upgrades_arr().size() - 2));
+                            abilities.add(0);
+                            abilities.add(p.getAbility_upgrades_arr().get(p.getAbility_upgrades_arr().size() - 1));
+                            for (int i = 0; i < 25 - 20; i++) {
+                                abilities.add(0);
+                            }
+                        } else if (p.getAbility_upgrades_arr().size() == 19) {
+                            for (int i = 0; i < p.getAbility_upgrades_arr().size() - 3; i++) {
+                                abilities.add(p.getAbility_upgrades_arr().get(i));
+                            }
+                            abilities.add(0);
+                            abilities.add(p.getAbility_upgrades_arr().get(p.getAbility_upgrades_arr().size() - 3));
+                            abilities.add(0);
+                            abilities.add(p.getAbility_upgrades_arr().get(p.getAbility_upgrades_arr().size() - 2));
+                            for (int i = 0; i < 24 - 20; i++) {
+                                abilities.add(0);
+                            }
+                            abilities.add(p.getAbility_upgrades_arr().get(p.getAbility_upgrades_arr().size() - 1));
+                        } else if (p.getAbility_upgrades_arr().size() < 25) {
+                            abilities.addAll(p.getAbility_upgrades_arr());
+                            for (int i = 0; i < 25 - p.getAbility_upgrades_arr().size(); i++) {
+                                abilities.add(0);
+                            }
+                        } else abilities.addAll(p.getAbility_upgrades_arr());
+                    }
+                    for (int i=0;i<26;i++){
+                        for (int j=i;j<=260+i;j+=26){
+                            abilities_modify.add(abilities.get(j));
+                        }
+                    }
+                    view.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            recyclerView1.setLayoutManager(gridLayoutManager);
+                            AbilityBuildAdapter abilityBuildAdapter = new AbilityBuildAdapter(getContext(), match,abilities_modify);
+                            recyclerView1.setAdapter(abilityBuildAdapter);
+                            recyclerView1.setNestedScrollingEnabled(true);
+                        }
+                    });
                 }
-            });
-            recyclerView1.setLayoutManager(gridLayoutManager);
-            AbilityBuildAdapter abilityBuildAdapter = new AbilityBuildAdapter(getContext(), match);
-            recyclerView1.setAdapter(abilityBuildAdapter);
-            recyclerView1.setNestedScrollingEnabled(false);
+            }).start();
+//            gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+//                @Override
+//                public int getSpanSize(int position) {
+//                    if (position % 26 == 0) return 5;
+//                    return 1;
+//                }
+//            });
+
         }
         return view;
     }

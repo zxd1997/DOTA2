@@ -193,7 +193,7 @@ public class PlayerOverviewFragment extends Fragment {
             gpm = view.findViewById(R.id.player_gpm);
             xpm = view.findViewById(R.id.player_xpm);
             player_header.setImageURI(player.getAvatarfull());
-            player_name.setText(null == player.getPersonaname() ? getString(R.string.anonymous) : player.getPersonaname());
+            player_name.setText(player.getName()!=null?player.getName():player.getPersonaname() == null || player.getPersonaname().equals("") ? getString(R.string.anonymous) : player.getPersonaname());
             player_id.setText(getString(R.string.id, player.getAccount_id()));
             SpannableString s = new SpannableString(player.getProfileurl());
             s.setSpan(new URLSpan(player.getProfileurl()), 0, player.getProfileurl().length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -203,7 +203,7 @@ public class PlayerOverviewFragment extends Fragment {
                 int t = player.getRank_tier() / 10;
                 int star = player.getRank_tier() % 10;
                 int rank = player.getLeaderboard_rank();
-                Log.d("rank", "handleMessage: " + rank);
+//                Log.d("rank", "handleMessage: " + rank);
                 if (rank > 0) {
                     star = 0;
                     t = 8;
@@ -223,7 +223,7 @@ public class PlayerOverviewFragment extends Fragment {
                     stars.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(typedArray.getResourceId(star - 1, 0))).build());
                     typedArray.recycle();
                 }
-                Log.d("rank", "handleMessage: " + t + " " + star);
+//                Log.d("rank", "handleMessage: " + t + " " + star);
                 TypedArray typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.tiers);
                 tier.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(typedArray.getResourceId(t, 0))).build());
                 typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.tier_names);

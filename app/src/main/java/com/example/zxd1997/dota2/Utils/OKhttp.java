@@ -23,7 +23,7 @@ import okhttp3.internal.Util;
 
 public class OKhttp {
     public static void post(String url) {
-        Log.d("post", "post: " + url);
+//        Log.d("post", "post: " + url);
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(url)
@@ -37,10 +37,7 @@ public class OKhttp {
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                Log.d("post", "onResponse: " + Objects.requireNonNull(response.body()).string());
-                class job {
-
-                }
+//                Log.d("post", "onResponse: " + Objects.requireNonNull(response.body()).string());
             }
         });
     }
@@ -86,7 +83,7 @@ public class OKhttp {
                 Enumeration list = zip.entries();
                 while (list.hasMoreElements()) {
                     ZipEntry entry = (ZipEntry) list.nextElement();
-                    Log.d("name", "onResponse: " + entry.getName());
+//                    Log.d("name", "onResponse: " + entry.getName());
                     boolean f = false;
                     String name = entry.getName();
                     String filename = "";

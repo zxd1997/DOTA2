@@ -74,7 +74,7 @@ public class LogsFragment extends Fragment {
         MatchActivity activity = (MatchActivity) getActivity();
         final Match match = Objects.requireNonNull(activity).getMatch();
         if (match == null || match.getPlayers() == null) {
-            Log.d("null", "onCreateView: " + 111111);
+//            Log.d("null", "onCreateView: " + 111111);
             Intent intent = new Intent(MyApplication.getContext(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             Objects.requireNonNull(getActivity()).startActivity(intent);
@@ -87,7 +87,7 @@ public class LogsFragment extends Fragment {
                         if (!"chatwheel".equals(chat.getType())) {
                             Match.PPlayer p = match.getPlayers().get(chat.getSlot());
                             chat.setHero_id("hero_" + p.getHero_id());
-                            chat.setName(p.getPersonaname());
+                            chat.setName(p.getName()!=null?p.getName():p.getPersonaname() == null || p.getPersonaname().equals("") ? getContext().getResources().getString(R.string.anonymous) : p.getPersonaname());
                             logs.add(chat);
                         }
                     }
@@ -100,7 +100,7 @@ public class LogsFragment extends Fragment {
                             i++;
                             p.setPlayer_slot(pPlayer.getPlayer_slot());
                             p.setHero_id("hero_" + pPlayer.getHero_id());
-                            p.setPersonaname(pPlayer.getPersonaname());
+                            p.setPersonaname(pPlayer.getName()!=null?pPlayer.getName():pPlayer.getPersonaname() == null || pPlayer.getPersonaname().equals("") ? getContext().getResources().getString(R.string.anonymous) : pPlayer.getPersonaname());
                         }
                         logs.add(teamFight);
                     }
@@ -134,7 +134,7 @@ public class LogsFragment extends Fragment {
                             }
                         }
                         Match.PPlayer p = match.getPlayers().get(o.getSlot());
-                        o.setName(p.getPersonaname());
+                        o.setName(p.getName()!=null?p.getName():p.getPersonaname() == null || p.getPersonaname().equals("") ? getContext().getResources().getString(R.string.anonymous) : p.getPersonaname());
                         o.setHero_id("hero_" + p.getHero_id());
                         logs.add(o);
                     }
@@ -142,19 +142,19 @@ public class LogsFragment extends Fragment {
                         for (Match.Objective rune : p.getRunes_log()) {
                             rune.setType("rune_pickup");
                             rune.setHero_id("hero_" + p.getHero_id());
-                            rune.setName(p.getPersonaname());
+                            rune.setName(p.getName()!=null?p.getName():p.getPersonaname() == null || p.getPersonaname().equals("") ? getContext().getResources().getString(R.string.anonymous) : p.getPersonaname());
                             rune.setPlayer_slot(p.getPlayer_slot());
                             logs.add(rune);
                         }
                         for (Match.Objective kill : p.getKills_log()) {
                             kill.setType("kill");
-                            kill.setName(p.getPersonaname());
+                            kill.setName(p.getName()!=null?p.getName():p.getPersonaname() == null || p.getPersonaname().equals("") ? getContext().getResources().getString(R.string.anonymous) : p.getPersonaname());
                             kill.setHero_id("hero_" + p.getHero_id());
                             kill.setPlayer_slot(p.getPlayer_slot());
                             logs.add(kill);
                         }
                         for (Match.Objective buyback : p.getBuyback_log()) {
-                            buyback.setName(p.getPersonaname());
+                            buyback.setName(p.getName()!=null?p.getName():p.getPersonaname() == null || p.getPersonaname().equals("") ? getContext().getResources().getString(R.string.anonymous) : p.getPersonaname());
                             buyback.setHero_id("hero_" + p.getHero_id());
                             logs.add(buyback);
                         }

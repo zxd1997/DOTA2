@@ -157,7 +157,7 @@ public class MyChartTouchHandler extends ChartTouchHandler {
         boolean needInvalidate = false;
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                Log.d("touch", "computeTouch: " + "DOWN");
+//                Log.d("touch", "computeTouch: " + "DOWN");
                 boolean wasTouched = renderer.isTouched();
                 boolean isTouched = checkTouch(event.getX(), event.getY());
                 if (wasTouched != isTouched) {

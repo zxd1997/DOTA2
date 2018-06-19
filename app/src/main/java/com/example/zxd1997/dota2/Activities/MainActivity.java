@@ -18,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.android.debug.hv.ViewServer;
 import com.example.zxd1997.dota2.Adapters.TabFragmentAdapter;
 import com.example.zxd1997.dota2.Beans.Ability;
 import com.example.zxd1997.dota2.Beans.Hero;
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+//        ViewServer.get(this).setFocusedWindow(this);
         System.gc();
         System.runFinalization();
     }
@@ -67,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        ViewServer.get(this).addWindow(this);
         getWindow().setStatusBarColor(Color.parseColor("#FFCC0000"));
         getWindow().setNavigationBarColor(Color.parseColor("#FFCC0000"));
         Update.setDensity(this, getApplication());
@@ -132,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+//        ViewServer.get(this).removeWindow(this);
         MyApplication.exit();
     }
 }

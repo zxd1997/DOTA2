@@ -48,62 +48,9 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Cast> contents = new ArrayList<>();
     private final Context context;
 
-    //
-//    CastAdapter(Context context, List<Match.TeamFight.TeamFightPlayer> teamFightPlayers, char c) {
-//        this.context = context;
-//        int j = 0;
-//        contents.add(new Cast(R.drawable.radiant_header, context.getResources().getString(R.string.radiant), RADIANT_HEADER));
-//        for (Match.TeamFight.TeamFightPlayer p : teamFightPlayers) {
-//            if (j == 5) {
-//                contents.add(new Cast(R.drawable.dire_header, context.getResources().getString(R.string.dire), RADIANT_HEADER));
-//            }
-//            j++;
-//            if (p.getDeaths() > 0 || p.getBuybacks() > 0 || p.getDamage() > 0 || p.getHealing() > 0) {
-//                contents.add(new TeamFightCast(0, "", TEAMFIGHT_HEADER, p));
-//                if (p.getKilled().size() > 0) {
-//                    contents.add(new Cast(context.getResources().getColor(R.color.win), context.getResources().getString(R.string.kills), HEADER));
-//                    for (Map.Entry<String, Integer> entry : p.getKilled().entrySet()) {
-//                        Hero hero = MainActivity.heroes.get(entry.getKey());
-//                        for (int i = 0; i < entry.getValue(); i++)
-//                            contents.add(new Cast(entry.getValue(), "hero_" + hero.getId() + "_icon", HERO));
-//                    }
-//                }
-//                if (p.getAbility_uses().size() + p.getItem_uses().size() > 0) {
-//                    contents.add(new Cast(context.getResources().getColor(R.color.lose), context.getResources().getString(R.string.cast), HEADER));
-//                    for (Map.Entry<String, Integer> entry : p.getAbility_uses().entrySet()) {
-//                        for (Map.Entry<String, String> entry1 : MainActivity.ability_ids.entrySet()) {
-//                            if (entry1.getValue().equals(entry.getKey())) {
-//                                contents.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY));
-//                                break;
-//                            }
-//                        }
-//                    }
-//                    for (Map.Entry<String, Integer> entry : p.getItem_uses().entrySet()) {
-//                        Item item = MainActivity.items.get(entry.getKey());
-//                        contents.add(new Cast(entry.getValue(), item.getId() + "", ITEM));
-//                    }
-//                }
-//            }
-//        }
-//    }
-    public CastAdapter(Context context, List<Cast> casts, int t) {
+    public CastAdapter(Context context, List<Cast> casts) {
         this.context = context;
         this.contents = casts;
-    }
-
-    CastAdapter(Context context, List<Match.PPlayer.Buff> buffs) {
-        this.context = context;
-        TypedArray typedArray = Objects.requireNonNull(context).getResources().obtainTypedArray(R.array.buff);
-        int i = 0;
-        for (Match.PPlayer.Buff buff : buffs) {
-            if (buff.getPermanent_buff() < 6) {
-                if (i == 0)
-                    contents.add(new Cast(Color.BLACK, context.getString(R.string.buffs), HEADER));
-                contents.add(new Cast(buff.getStack_count(), String.valueOf(typedArray.getResourceId(buff.getPermanent_buff(), 0)), BUFF));
-                i++;
-            }
-        }
-        typedArray.recycle();
     }
 
     @NonNull
@@ -183,7 +130,7 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case TEAMFIGHT_HEADER: {
                 TeamFight viewHolder = (TeamFight) holder;
                 Match.TeamFight.TeamFightPlayer p = ((TeamFightCast) contents.get(position)).getP();
-                viewHolder.name.setText(p.getPersonaname() == null ? context.getString(R.string.anonymous) : p.getPersonaname());
+                viewHolder.name.setText(p.getPersonaname());
                 viewHolder.color.setBackgroundColor(context.getResources().getColor(context.getResources().getIdentifier("slot_" + p.getPlayer_slot(), "color", context.getPackageName())));
                 if (p.getDeaths() > 0) viewHolder.death.setVisibility(View.VISIBLE);
                 viewHolder.header.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(

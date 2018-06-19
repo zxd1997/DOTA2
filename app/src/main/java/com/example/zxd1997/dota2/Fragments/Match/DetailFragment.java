@@ -84,7 +84,7 @@ public class DetailFragment extends Fragment {
             kill.setNestedScrollingEnabled(false);
             d_detail.setNestedScrollingEnabled(false);
             GridLayoutManager gridLayoutManager1 = new GridLayoutManager(getContext(), 20);
-            final CastAdapter castAdapter = new CastAdapter(getContext(), casts, 0);
+            final CastAdapter castAdapter = new CastAdapter(getContext(), casts);
             gridLayoutManager1.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 @Override
                 public int getSpanSize(int position) {
@@ -122,7 +122,7 @@ public class DetailFragment extends Fragment {
         MatchActivity activity = (MatchActivity) getActivity();
         match = Objects.requireNonNull(activity).getMatch();
         if (match == null) {
-            Log.d("null", "onCreateView: " + 111111);
+//            Log.d("null", "onCreateView: " + 111111);
             Intent intent = new Intent(MyApplication.getContext(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             Objects.requireNonNull(getActivity()).startActivity(intent);
@@ -139,7 +139,7 @@ public class DetailFragment extends Fragment {
                     contents1.add(new Content(true, -2, 0));
                     for (int i = 5; i < match.getPlayers().size(); i++) {
                         int color = Objects.requireNonNull(getContext()).getResources().getColor(getContext().getResources().getIdentifier("slot_" + match.getPlayers().get(i).getPlayer_slot(), "color", getContext().getPackageName()));
-                        Log.d("color", "onCreateView: " + color);
+//                        Log.d("color", "onCreateView: " + color);
                         contents.add(new Content(true, match.getPlayers().get(i).getHero_id(), color));
                         contents1.add(new Content(true, match.getPlayers().get(i).getHero_id(), color));
                     }
@@ -158,7 +158,7 @@ public class DetailFragment extends Fragment {
                                     name = entry.getKey();
                                 }
                             }
-                            Log.d("hero", "KillsAdapter: " + name);
+//                            Log.d("hero", "KillsAdapter: " + name);
                             int k = killed.get(name) == null ? 0 : killed.get(name);
                             int d = killed_by.get(name) == null ? 0 : killed_by.get(name);
                             double dam = damage.get(name) == null ? 0 : (double) damage.get(name) / 1000;
@@ -187,7 +187,7 @@ public class DetailFragment extends Fragment {
                     contents.addAll(contents1);
                     for (Match.PPlayer p : match.getPlayers()) {
                         CastHeader castHeader = new CastHeader(getContext().getResources().getColor(getContext().getResources().getIdentifier("slot_" + p.getPlayer_slot(), "color",
-                                getContext().getPackageName())), p.getPersonaname(), PLAYER_HEADER_DAMAGE, p.getHero_id(), p.getHero_damage(), 0);
+                                getContext().getPackageName())), p.getName()!=null?p.getName():p.getPersonaname() == null || p.getPersonaname().equals("") ? getContext().getResources().getString(R.string.anonymous) : p.getPersonaname(), PLAYER_HEADER_DAMAGE, p.getHero_id(), p.getHero_damage(), 0);
                         casts.add(castHeader);
                         casts.add(new Cast(getContext().getResources().getColor(R.color.win), getContext().getResources().getString(R.string.damage_dealt), HEADER));
                         for (Map.Entry<String, Integer> entry : p.getDamage_inflictor().entrySet()) {

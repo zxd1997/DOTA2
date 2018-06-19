@@ -52,7 +52,7 @@ public class KillsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             case 1:
                 if (contents.get(position).getHero_id() != -2) {
                     HeaderHolder headerHolder = (HeaderHolder) holder;
-                    Log.d("color", "onBindViewHolder: " + contents.get(position).getColor());
+//                    Log.d("color", "onBindViewHolder: " + contents.get(position).getColor());
                     headerHolder.color.setBackgroundColor(contents.get(position).getColor());
                     headerHolder.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
                             context.getResources().getIdentifier("hero_" + contents.get(position).getHero_id(), "drawable", context.getPackageName())

@@ -27,60 +27,10 @@ public class AbilityBuildAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final Match match;
     private final Context context;
 
-    public AbilityBuildAdapter(Context context, Match match) {
+    public AbilityBuildAdapter(Context context, Match match,List<Integer> abilities) {
         this.context = context;
         this.match = match;
-        this.abilities = new ArrayList<>();
-        abilities.add(PLAYER);
-        for (int i = 0; i < 25; i++) {
-            abilities.add(LEVEL);
-        }
-        for (Match.PPlayer p : match.getPlayers()) {
-            abilities.add(-1);
-            if (p.getAbility_upgrades_arr().size() < 17) {
-                abilities.addAll(p.getAbility_upgrades_arr());
-                for (int i = 0; i < 25 - p.getAbility_upgrades_arr().size(); i++) {
-                    abilities.add(0);
-                }
-            } else if (p.getAbility_upgrades_arr().size() < 18) {
-                for (int i = 0; i < p.getAbility_upgrades_arr().size() - 1; i++) {
-                    abilities.add(p.getAbility_upgrades_arr().get(i));
-                }
-                abilities.add(0);
-                abilities.add(p.getAbility_upgrades_arr().get(p.getAbility_upgrades_arr().size() - 1));
-                for (int i = 0; i < 25 - 18; i++) {
-                    abilities.add(0);
-                }
-            } else if (p.getAbility_upgrades_arr().size() < 19) {
-                for (int i = 0; i < p.getAbility_upgrades_arr().size() - 2; i++) {
-                    abilities.add(p.getAbility_upgrades_arr().get(i));
-                }
-                abilities.add(0);
-                abilities.add(p.getAbility_upgrades_arr().get(p.getAbility_upgrades_arr().size() - 2));
-                abilities.add(0);
-                abilities.add(p.getAbility_upgrades_arr().get(p.getAbility_upgrades_arr().size() - 1));
-                for (int i = 0; i < 25 - 20; i++) {
-                    abilities.add(0);
-                }
-            } else if (p.getAbility_upgrades_arr().size() == 19) {
-                for (int i = 0; i < p.getAbility_upgrades_arr().size() - 3; i++) {
-                    abilities.add(p.getAbility_upgrades_arr().get(i));
-                }
-                abilities.add(0);
-                abilities.add(p.getAbility_upgrades_arr().get(p.getAbility_upgrades_arr().size() - 3));
-                abilities.add(0);
-                abilities.add(p.getAbility_upgrades_arr().get(p.getAbility_upgrades_arr().size() - 2));
-                for (int i = 0; i < 24 - 20; i++) {
-                    abilities.add(0);
-                }
-                abilities.add(p.getAbility_upgrades_arr().get(p.getAbility_upgrades_arr().size() - 1));
-            } else if (p.getAbility_upgrades_arr().size() < 25) {
-                abilities.addAll(p.getAbility_upgrades_arr());
-                for (int i = 0; i < 25 - p.getAbility_upgrades_arr().size(); i++) {
-                    abilities.add(0);
-                }
-            } else abilities.addAll(p.getAbility_upgrades_arr());
-        }
+        this.abilities=abilities;
     }
 
     @Override
@@ -117,7 +67,7 @@ public class AbilityBuildAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         switch (abilities.get(position)) {
             case HEADER: {
-                Match.PPlayer p = match.getPlayers().get((position / 26) - 1);
+                Match.PPlayer p = match.getPlayers().get(position - 1);
                 HeaderHolder viewHolder = (HeaderHolder) holder;
                 viewHolder.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
                         context.getResources().getIdentifier("hero_" + p.getHero_id(), "drawable", context.getPackageName()))).build());
@@ -129,20 +79,21 @@ public class AbilityBuildAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 break;
             case LEVEL: {
                 LevelHolder viewHolder = (LevelHolder) holder;
-                viewHolder.level.setText(String.valueOf(position));
+                viewHolder.level.setText(String.valueOf(position/11));
                 break;
             }
             default: {
                 ViewHolder viewHolder = (ViewHolder) holder;
                 Log.d("ability", "onBindViewHolder: " + abilities.get(position));
-                if (abilities.get(position) == 0) {
+                int t=abilities.get(position);
+                if (t == 0) {
                     viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
                             context.getResources().getIdentifier("ability_0", "drawable", context.getPackageName()))).build());
                 } else {
-                    int res_id = context.getResources().getIdentifier("ability_" + abilities.get(position), "drawable", context.getPackageName());
+                    int res_id = context.getResources().getIdentifier("ability_" + t, "drawable", context.getPackageName());
                     if (res_id == 0) {
                         res_id = context.getResources().getIdentifier("talent_tree", "drawable", context.getPackageName());
-                        viewHolder.talent.setText(MainActivity.abilities.get(MainActivity.ability_ids.get(String.valueOf(abilities.get(position)))).getDname());
+                        viewHolder.talent.setText(MainActivity.abilities.get(MainActivity.ability_ids.get(String.valueOf(t))).getDname());
                     }
                     viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(res_id)).build());
                 }
@@ -153,7 +104,7 @@ public class AbilityBuildAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        Log.d("size", "getItemCount: " + abilities.size());
+//        Log.d("size", "getItemCount: " + abilities.size());
         return abilities.size();
     }
 

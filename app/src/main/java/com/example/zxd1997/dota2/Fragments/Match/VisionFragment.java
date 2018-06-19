@@ -45,7 +45,7 @@ public class VisionFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "onDestroy: ");
+//        Log.d(TAG, "onDestroy: ");
         System.gc();
         System.runFinalization();
     }
@@ -66,7 +66,7 @@ public class VisionFragment extends Fragment {
         MatchActivity activity = (MatchActivity) getActivity();
         final Match match = Objects.requireNonNull(activity).getMatch();
         if (match == null || match.getPlayers() == null) {
-            Log.d("null", "onCreateView: " + 111111);
+//            Log.d("null", "onCreateView: " + 111111);
             Intent intent = new Intent(MyApplication.getContext(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             Objects.requireNonNull(getActivity()).startActivity(intent);
@@ -130,7 +130,7 @@ public class VisionFragment extends Fragment {
                             seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                                 @Override
                                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                                    Log.d(TAG, "onProgressChanged: ");
+//                                    Log.d(TAG, "onProgressChanged: ");
                                     if (progress != 0) {
                                         time.setText(Tools.getTime(progress));
                                         current_wards.clear();

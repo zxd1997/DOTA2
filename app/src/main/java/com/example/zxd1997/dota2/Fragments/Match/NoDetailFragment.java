@@ -44,7 +44,7 @@ public class NoDetailFragment extends Fragment {
         MatchActivity activity = (MatchActivity) getActivity();
         Match match = Objects.requireNonNull(activity).getMatch();
         if (match == null || match.getPlayers() == null) {
-            Log.d("null", "onCreateView: " + 111111);
+//            Log.d("null", "onCreateView: " + 111111);
             Intent intent = new Intent(MyApplication.getContext(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             Objects.requireNonNull(getActivity()).startActivity(intent);
@@ -62,7 +62,7 @@ public class NoDetailFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     OKhttp.post(getString(R.string.api) + getString(R.string.request) + id);
-                    Log.d("post", "onClick: " + getString(R.string.api) + getString(R.string.request) + id);
+//                    Log.d("post", "onClick: " + getString(R.string.api) + getString(R.string.request) + id);
                     button.setVisibility(View.INVISIBLE);
                     textView.setText(getString(R.string.parsing));
                 }

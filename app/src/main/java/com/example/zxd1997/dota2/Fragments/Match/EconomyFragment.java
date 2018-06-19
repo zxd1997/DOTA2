@@ -69,7 +69,7 @@ public class EconomyFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_economy, container, false);
         Match match = Objects.requireNonNull(activity).getMatch();
         if (match == null || match.getPlayers() == null) {
-            Log.d("null", "onCreateView: " + 111111);
+//            Log.d("null", "onCreateView: " + 111111);
             Intent intent = new Intent(MyApplication.getContext(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             Objects.requireNonNull(getActivity()).startActivity(intent);
@@ -165,7 +165,7 @@ public class EconomyFragment extends Fragment {
                 List<Column> tmpColumn = new ArrayList<>();
                 for (Map.Entry<String, Integer> entry : p.getGold_reasons().entrySet()) {
                     sub_columnValues = new ArrayList<>();
-                    Log.d("key", "onCreateView: " + entry.getKey() + " " + entry.getValue());
+//                    Log.d("key", "onCreateView: " + entry.getKey() + " " + entry.getValue());
                     int id = getContext().getResources()
                             .getIdentifier("reason_" + entry.getKey(), "string", getContext().getPackageName());
                     if (id != 0) {
@@ -192,7 +192,7 @@ public class EconomyFragment extends Fragment {
             main_view.setOnValueTouchListener(new ColumnChartOnValueSelectListener() {
                 @Override
                 public void onValueSelected(int columnIndex, int sub_columnIndex, SubcolumnValue value) {
-                    Log.d("index", "onValueSelected: " + sub_columnIndex + columnIndex);
+//                    Log.d("index", "onValueSelected: " + sub_columnIndex + columnIndex);
                     showSub(tmpAxises.get(columnIndex), tmpColumns.get(columnIndex));
                 }
 
@@ -215,7 +215,7 @@ public class EconomyFragment extends Fragment {
     }
 
     private void showSub(List<AxisValue> tmp, List<Column> column) {
-        Log.d("size", "showSub: " + tmp.size() + " " + column.size());
+//        Log.d("size", "showSub: " + tmp.size() + " " + column.size());
         ColumnChartData columnChartData = new ColumnChartData(column);
         columnChartData.setAxisXBottom(new Axis(tmp).setTextColor(Color.BLACK));
         columnChartData.setAxisYLeft(new Axis().setHasLines(true).setName("Gold"));

@@ -2,6 +2,7 @@ package com.example.zxd1997.dota2.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -18,15 +19,19 @@ import android.text.style.ImageSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.TextView;
 
+import com.example.zxd1997.dota2.Beans.Cast;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.R;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int PLAYER = 1;
@@ -35,6 +40,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private final Match match;
     private final List<Content> contents = new LinkedList<>();
     private final Context context;
+
     public PlayerAdapter(Context context, Match match) {
         this.context = context;
         this.match = match;
@@ -123,7 +129,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 final ViewHolder viewHolder = (ViewHolder) holder;
                 viewHolder.player_hero.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(
                         context.getResources().getIdentifier("hero_" + p.getHero_id(), "drawable", context.getPackageName()))).build());
-                viewHolder.player.setText(p.getPersonaname() == null ? context.getString(R.string.anonymous) : p.getPersonaname());
+                viewHolder.player.setText(p.getName() != null ? p.getName() : p.getPersonaname() == null || p.getPersonaname().equals("") ? context.getResources().getString(R.string.anonymous) : p.getPersonaname());
                 SpannableStringBuilder k = new SpannableStringBuilder();
                 SpannableString t1 = new SpannableString("K");
                 t1.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.win)), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -244,6 +250,15 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     Match.PPlayer.Unit unit = p.getAdditional_units().get(0);
                     if (unit.getUnitname().equals("spirit_bear")) {
                         viewHolder.bear.setVisibility(View.VISIBLE);
+                        viewHolder.bear_item_0 = viewHolder.itemView.findViewById(R.id.bear_item_0);
+                        viewHolder.bear_item_1 = viewHolder.itemView.findViewById(R.id.bear_item_1);
+                        viewHolder.bear_item_2 = viewHolder.itemView.findViewById(R.id.bear_item_2);
+                        viewHolder.bear_item_3 = viewHolder.itemView.findViewById(R.id.bear_item_3);
+                        viewHolder.bear_item_4 = viewHolder.itemView.findViewById(R.id.bear_item_4);
+                        viewHolder.bear_item_5 = viewHolder.itemView.findViewById(R.id.bear_item_5);
+                        viewHolder.bear_backpack_0 = viewHolder.itemView.findViewById(R.id.bear_backpack_0);
+                        viewHolder.bear_backpack_1 = viewHolder.itemView.findViewById(R.id.bear_backpack_1);
+                        viewHolder.bear_backpack_2 = viewHolder.itemView.findViewById(R.id.bear_backpack_2);
                         viewHolder.bear_item_0.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
                                 context.getResources().getIdentifier("item_" + unit.getItem_0(), "drawable", context.getPackageName()))).build());
                         viewHolder.bear_item_1.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
@@ -265,17 +280,35 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                 }
                 if (p.getPermanent_buffs() != null && p.getPermanent_buffs().size() > 0) {
-                    final CastAdapter castAdapter = new CastAdapter(context, p.getPermanent_buffs());
-                    GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
-                    gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                        @Override
-                        public int getSpanSize(int position) {
-                            return castAdapter.getItemViewType(position) == -1 ? 3 : 1;
+                    final int HEADER = -1;
+                    final int BUFF = 8;
+                    TypedArray typedArray = Objects.requireNonNull(context).getResources().obtainTypedArray(R.array.buff);
+                    int i = 0;
+                    List<Cast> buffs = new ArrayList<>();
+                    for (Match.PPlayer.Buff buff : p.getPermanent_buffs()) {
+                        if (buff.getPermanent_buff() < 6) {
+                            if (i == 0)
+                                buffs.add(new Cast(Color.BLACK, context.getString(R.string.buffs), HEADER));
+                            buffs.add(new Cast(buff.getStack_count(), String.valueOf(typedArray.getResourceId(buff.getPermanent_buff(), 0)), BUFF));
+                            i++;
                         }
-                    });
-                    viewHolder.recyclerView.setLayoutManager(gridLayoutManager);
-                    viewHolder.recyclerView.setAdapter(castAdapter);
-                    viewHolder.recyclerView.setNestedScrollingEnabled(false);
+                    }
+                    typedArray.recycle();
+                    if (buffs.size() > 0) {
+                        viewHolder.buff.setVisibility(View.VISIBLE);
+                        viewHolder.recyclerView = viewHolder.itemView.findViewById(R.id.buffs);
+                        final CastAdapter castAdapter = new CastAdapter(context, buffs);
+                        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
+                        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                            @Override
+                            public int getSpanSize(int position) {
+                                return castAdapter.getItemViewType(position) == -1 ? 3 : 1;
+                            }
+                        });
+                        viewHolder.recyclerView.setLayoutManager(gridLayoutManager);
+                        viewHolder.recyclerView.setAdapter(castAdapter);
+                        viewHolder.recyclerView.setNestedScrollingEnabled(false);
+                    }
                 }
                 break;
             }
@@ -303,6 +336,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         final TextView total_kill;
         final TextView win_or_lose;
         final TextView name;
+
         RadiantHolder(View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.textView8);
@@ -329,7 +363,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         final TextView stuns;
         final View color;
         final View itemView;
-        final CardView cardView;
+        final ConstraintLayout cardView;
         final SimpleDraweeView backpack_0;
         final SimpleDraweeView backpack_1;
         final SimpleDraweeView backpack_2;
@@ -345,19 +379,22 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         final TextView kdm_ben;
         final TextView hdm_ben;
         final TextView td_ben;
-        final ConstraintLayout bear;
-        final SimpleDraweeView bear_item_0;
-        final SimpleDraweeView bear_item_1;
-        final SimpleDraweeView bear_item_2;
-        final SimpleDraweeView bear_item_3;
-        final SimpleDraweeView bear_item_4;
-        final SimpleDraweeView bear_item_5;
-        final SimpleDraweeView bear_backpack_0;
-        final SimpleDraweeView bear_backpack_1;
-        final SimpleDraweeView bear_backpack_2;
-        final RecyclerView recyclerView;
+        SimpleDraweeView bear_item_0;
+        SimpleDraweeView bear_item_1;
+        SimpleDraweeView bear_item_2;
+        SimpleDraweeView bear_item_3;
+        SimpleDraweeView bear_item_4;
+        SimpleDraweeView bear_item_5;
+        SimpleDraweeView bear_backpack_0;
+        SimpleDraweeView bear_backpack_1;
+        SimpleDraweeView bear_backpack_2;
+        RecyclerView recyclerView;
+        ViewStub buff;
+        ViewStub bear;
         ViewHolder(View itemView) {
             super(itemView);
+            bear=itemView.findViewById(R.id.bear);
+            buff=itemView.findViewById(R.id.buff_rec);
             this.itemView = itemView;
             lane = itemView.findViewById(R.id.lane);
             color = itemView.findViewById(R.id.color_hero);
@@ -390,17 +427,6 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             kdm_ben = itemView.findViewById(R.id.kpm_ben);
             hdm_ben = itemView.findViewById(R.id.hdm_ben);
             td_ben = itemView.findViewById(R.id.td_ben);
-            bear = itemView.findViewById(R.id.bear);
-            bear_item_0 = itemView.findViewById(R.id.bear_item_0);
-            bear_item_1 = itemView.findViewById(R.id.bear_item_1);
-            bear_item_2 = itemView.findViewById(R.id.bear_item_2);
-            bear_item_3 = itemView.findViewById(R.id.bear_item_3);
-            bear_item_4 = itemView.findViewById(R.id.bear_item_4);
-            bear_item_5 = itemView.findViewById(R.id.bear_item_5);
-            bear_backpack_0 = itemView.findViewById(R.id.bear_backpack_0);
-            bear_backpack_1 = itemView.findViewById(R.id.bear_backpack_1);
-            bear_backpack_2 = itemView.findViewById(R.id.bear_backpack_2);
-            recyclerView = itemView.findViewById(R.id.buffs);
         }
     }
 }

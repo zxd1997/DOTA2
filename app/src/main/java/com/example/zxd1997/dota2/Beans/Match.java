@@ -469,6 +469,7 @@ public class Match {
 
     public class PPlayer {
         private int player_slot;
+        private String name;
         private List<Integer> ability_upgrades_arr = new ArrayList<>();
         private long account_id;
         private int assists;
@@ -529,6 +530,14 @@ public class Match {
         private List<Objective> kills_log;
         private List<Objective> runes_log;
         private List<Buff> permanent_buffs = new ArrayList<>();
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
 
         public int getGold_spent() {
             return gold_spent;

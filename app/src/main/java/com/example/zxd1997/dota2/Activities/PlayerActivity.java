@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.android.debug.hv.ViewServer;
 import com.example.zxd1997.dota2.Adapters.TabFragmentAdapter;
 import com.example.zxd1997.dota2.Beans.Player;
 import com.example.zxd1997.dota2.Fragments.Player.PlayerHeroFragment;
@@ -32,9 +33,16 @@ public class PlayerActivity extends AppCompatActivity {
         return player;
     }
 
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        ViewServer.get(this).setFocusedWindow(this);
+//    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        ViewServer.get(this).addWindow(this);
         Update.setDensity(this, getApplication());
         setContentView(R.layout.activity_player);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -68,6 +76,12 @@ public class PlayerActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_player, menu);
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+//        ViewServer.get(this).removeWindow(this);
     }
 
     @Override

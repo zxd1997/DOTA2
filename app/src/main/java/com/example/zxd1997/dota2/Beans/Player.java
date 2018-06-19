@@ -54,7 +54,7 @@ public class Player implements Serializable {
     public String getLoccountrycode() {
         return profile.loccountrycode;
     }
-
+    public String getName(){return profile.name;}
     public class Profile implements Serializable {
         private long account_id;
         private String personaname;
@@ -62,6 +62,15 @@ public class Player implements Serializable {
         private String avatarfull;
         private String profileurl;
         private String loccountrycode;
+        private String name;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
 
         public long getAccount_id() {
             return account_id;

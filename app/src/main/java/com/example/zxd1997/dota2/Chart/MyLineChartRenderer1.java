@@ -421,7 +421,7 @@ public class MyLineChartRenderer1 extends AbstractChartRenderer {
         preBot = 0;
         preTop = 0;
 
-        Log.d("label", "highlightPoints: " + chart.getMaximumViewport().centerY());
+//        Log.d("label", "highlightPoints: " + chart.getMaximumViewport().centerY());
         Collections.sort(lines, new Comparator<Line>() {
             @Override
             public int compare(Line o1, Line o2) {
@@ -471,7 +471,7 @@ public class MyLineChartRenderer1 extends AbstractChartRenderer {
             preTop = top;
             preBot = bottom;
         } else {
-            Log.d("label", "drawLabel: " + dir);
+//            Log.d("label", "drawLabel: " + dir);
             top = preBot + labelMargin;
             bottom = top + labelHeight + labelMargin * (float) 1.3;
             preTop = top;

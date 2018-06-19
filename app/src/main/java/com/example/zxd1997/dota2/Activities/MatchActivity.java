@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.android.debug.hv.ViewServer;
 import com.example.zxd1997.dota2.Adapters.TabFragmentAdapter;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.Fragments.Match.DetailFragment;
@@ -49,9 +50,9 @@ public class MatchActivity extends AppCompatActivity {
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            Log.d("match", "handleMessage: " + msg.obj.toString());
+//            Log.d("match", "handleMessage: " + msg.obj.toString());
             match = new Gson().fromJson(msg.obj.toString(), Match.class);
-            Log.d("info", "handleMessage: " + match.getMatch_id() + " " + match.getRadiant_score() + " " + match.getDire_score() + " " + match.getReplay_salt());
+//            Log.d("info", "handleMessage: " + match.getMatch_id() + " " + match.getRadiant_score() + " " + match.getDire_score() + " " + match.getReplay_salt());
             fragments.add(OverviewFragment.newInstance());
             if (match.getRadiant_xp_adv() == null) {
                 tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_6)));
@@ -85,6 +86,7 @@ public class MatchActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+//        ViewServer.get(this).addWindow(this);
         Update.setDensity(this, getApplication());
         MyApplication.add(this);
         super.onCreate(savedInstanceState);
@@ -145,6 +147,12 @@ public class MatchActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        ViewServer.get(this).setFocusedWindow(this);
+//    }
+
     @Override
     protected void onDestroy() {
         int i = 0;
@@ -155,6 +163,7 @@ public class MatchActivity extends AppCompatActivity {
         ImagePipelineFactory.getInstance().getImagePipeline().clearMemoryCaches();
         System.gc();
         System.runFinalization();
+//        ViewServer.get(this).removeWindow(this);
         super.onDestroy();
     }
 }
