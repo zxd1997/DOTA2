@@ -62,9 +62,9 @@ public class VisionFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_vision, container, false);
+        final View view = inflater.inflate(R.layout.fragment_vision, container, false);
         MatchActivity activity = (MatchActivity) getActivity();
-        Match match = Objects.requireNonNull(activity).getMatch();
+        final Match match = Objects.requireNonNull(activity).getMatch();
         if (match == null || match.getPlayers() == null) {
             Log.d("null", "onCreateView: " + 111111);
             Intent intent = new Intent(MyApplication.getContext(), MainActivity.class);
@@ -73,96 +73,104 @@ public class VisionFragment extends Fragment {
             getActivity().finish();
         } else {
             final List<Wards> wards = new ArrayList<>();
-            int tot = 0;
-            for (Match.PPlayer p : match.getPlayers()) {
-                tot += p.getObs_log().size() + p.getSen_log().size();
-                for (Match.PPlayer.Ward ward : p.getObs_log()) {
-                    boolean f = false;
-                    for (Match.PPlayer.Ward ward_left : p.getObs_left_log()) {
-                        if (ward.getKey().equals(ward_left.getKey()) && ward.getEhandle() == ward_left.getEhandle()) {
-                            wards.add(new Wards(OBSERVER, ward, ward_left, p.getPersonaname(), p.getHero_id()));
-                            f = true;
-                            break;
-                        }
-                    }
-                    if (!f) {
-                        wards.add(new Wards(OBSERVER, ward, null, p.getPersonaname(), p.getHero_id()));
-                    }
-                }
-            }
-            for (Match.PPlayer p : match.getPlayers()) {
-                for (Match.PPlayer.Ward ward : p.getSen_log()) {
-                    boolean f = false;
-                    int SENTRY = 1;
-                    for (Match.PPlayer.Ward ward_left : p.getSen_left_log()) {
-                        if (ward.getKey().equals(ward_left.getKey()) && ward.getEhandle() == ward_left.getEhandle()) {
-                            wards.add(new Wards(SENTRY, ward, ward_left, p.getPersonaname(), p.getHero_id()));
-                            f = true;
-                            break;
-                        }
-                    }
-                    if (!f) {
-                        wards.add(new Wards(SENTRY, ward, null, p.getPersonaname(), p.getHero_id()));
-                    }
-                }
-            }
-            Collections.sort(wards, new Comparator<Wards>() {
+            final List<Wards> current_wards = new ArrayList<>();
+            new Thread(new Runnable() {
                 @Override
-                public int compare(Wards o1, Wards o2) {
-                    return o1.getWard().getTime() - o2.getWard().getTime();
-                }
-            });
-            final List<Wards> current_wards = new ArrayList<>(wards);
-            Log.d(TAG, "onCreateView: " + tot + " " + current_wards.size());
-            final WardsAdapter wardsAdapter = new WardsAdapter(getContext(), current_wards);
-            SeekBar seekBar = view.findViewById(R.id.seekBar);
-            final WardView map = view.findViewById(R.id.map);
-            final TextView time = view.findViewById(R.id.wards_time);
-            final RecyclerView recyclerView = view.findViewById(R.id.wards);
-            seekBar.setMax(match.getDuration());
-            time.setText(R.string.zero);
-            map.setWards(current_wards);
-            map.invalidate();
-            seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                @Override
-                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    Log.d(TAG, "onProgressChanged: ");
-                    if (progress != 0) {
-                        time.setText(Tools.getTime(progress));
-                        current_wards.clear();
-                        for (Wards ward : wards) {
-                            if (ward.getWard().getTime() <= progress) {
-                                if (ward.getWard_left() == null) {
-                                    current_wards.add(ward);
-                                } else if (ward.getWard_left().getTime() >= progress)
-                                    current_wards.add(ward);
+                public void run() {
+                    for (Match.PPlayer p : match.getPlayers()) {
+                        for (Match.PPlayer.Ward ward : p.getObs_log()) {
+                            boolean f = false;
+                            for (Match.PPlayer.Ward ward_left : p.getObs_left_log()) {
+                                if (ward.getKey().equals(ward_left.getKey()) && ward.getEhandle() == ward_left.getEhandle()) {
+                                    wards.add(new Wards(OBSERVER, ward, ward_left, p.getPersonaname(), p.getHero_id()));
+                                    f = true;
+                                    break;
+                                }
+                            }
+                            if (!f) {
+                                wards.add(new Wards(OBSERVER, ward, null, p.getPersonaname(), p.getHero_id()));
                             }
                         }
-                    } else {
-                        current_wards.clear();
-                        current_wards.addAll(wards);
-                        time.setText(R.string.zero);
                     }
-                    recyclerView.smoothScrollToPosition(0);
-                    wardsAdapter.notifyDataSetChanged();
-                    map.setWards(current_wards);
-                    map.invalidate();
+                    for (Match.PPlayer p : match.getPlayers()) {
+                        for (Match.PPlayer.Ward ward : p.getSen_log()) {
+                            boolean f = false;
+                            int SENTRY = 1;
+                            for (Match.PPlayer.Ward ward_left : p.getSen_left_log()) {
+                                if (ward.getKey().equals(ward_left.getKey()) && ward.getEhandle() == ward_left.getEhandle()) {
+                                    wards.add(new Wards(SENTRY, ward, ward_left, p.getPersonaname(), p.getHero_id()));
+                                    f = true;
+                                    break;
+                                }
+                            }
+                            if (!f) {
+                                wards.add(new Wards(SENTRY, ward, null, p.getPersonaname(), p.getHero_id()));
+                            }
+                        }
+                    }
+                    Collections.sort(wards, new Comparator<Wards>() {
+                        @Override
+                        public int compare(Wards o1, Wards o2) {
+                            return o1.getWard().getTime() - o2.getWard().getTime();
+                        }
+                    });
+                    current_wards.addAll(wards);
+                    view.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            final WardsAdapter wardsAdapter = new WardsAdapter(getContext(), current_wards);
+                            SeekBar seekBar = view.findViewById(R.id.seekBar);
+                            final WardView map = view.findViewById(R.id.map);
+                            final TextView time = view.findViewById(R.id.wards_time);
+                            final RecyclerView recyclerView = view.findViewById(R.id.wards);
+                            seekBar.setMax(match.getDuration());
+                            time.setText(R.string.zero);
+                            map.setWards(current_wards);
+                            map.invalidate();
+                            seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                                @Override
+                                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                                    Log.d(TAG, "onProgressChanged: ");
+                                    if (progress != 0) {
+                                        time.setText(Tools.getTime(progress));
+                                        current_wards.clear();
+                                        for (Wards ward : wards) {
+                                            if (ward.getWard().getTime() <= progress) {
+                                                if (ward.getWard_left() == null) {
+                                                    current_wards.add(ward);
+                                                } else if (ward.getWard_left().getTime() >= progress)
+                                                    current_wards.add(ward);
+                                            }
+                                        }
+                                    } else {
+                                        current_wards.clear();
+                                        current_wards.addAll(wards);
+                                        time.setText(R.string.zero);
+                                    }
+                                    recyclerView.smoothScrollToPosition(0);
+                                    wardsAdapter.notifyDataSetChanged();
+                                    map.setWards(current_wards);
+                                    map.invalidate();
+                                }
+
+                                @Override
+                                public void onStartTrackingTouch(SeekBar seekBar) {
+
+                                }
+
+                                @Override
+                                public void onStopTrackingTouch(SeekBar seekBar) {
+
+                                }
+                            });
+                            recyclerView.setNestedScrollingEnabled(false);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                            recyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
+                            recyclerView.setAdapter(wardsAdapter);
+                        }
+                    });
                 }
-
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {
-
-                }
-
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
-
-                }
-            });
-            recyclerView.setNestedScrollingEnabled(false);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            recyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
-            recyclerView.setAdapter(wardsAdapter);
+            }).start();
         }
         return view;
     }

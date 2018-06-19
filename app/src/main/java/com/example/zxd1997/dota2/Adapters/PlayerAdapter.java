@@ -35,7 +35,6 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private final Match match;
     private final List<Content> contents = new LinkedList<>();
     private final Context context;
-
     public PlayerAdapter(Context context, Match match) {
         this.context = context;
         this.match = match;

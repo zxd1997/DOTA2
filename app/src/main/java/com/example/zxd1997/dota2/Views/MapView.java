@@ -44,7 +44,7 @@ public class MapView extends View {
         paint.setStrokeWidth(10);
         for (LogAdapter.Point point : points) {
             paint.setColor(point.getColor());
-            canvas.drawCircle((point.getX() * 2 - 134) / 2 * (float) 4 / 510 * getWidth(), getHeight() - (point.getY() * 2 - 124) / 2 * (float) 4 / 505 * getHeight(), 25, paint);
+            canvas.drawCircle(point.getX() * getWidth(), getHeight() - point.getY() * getHeight(), 20, paint);
         }
     }
 

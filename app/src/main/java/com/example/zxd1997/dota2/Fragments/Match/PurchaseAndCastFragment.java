@@ -3,6 +3,8 @@ package com.example.zxd1997.dota2.Fragments.Match;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -15,10 +17,16 @@ import android.view.ViewGroup;
 import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Activities.MatchActivity;
 import com.example.zxd1997.dota2.Adapters.CastAdapter;
+import com.example.zxd1997.dota2.Beans.Cast;
+import com.example.zxd1997.dota2.Beans.CastHeader;
+import com.example.zxd1997.dota2.Beans.Item;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.MyApplication;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -27,7 +35,22 @@ import java.util.Objects;
  * create an instance of this fragment.
  */
 public class PurchaseAndCastFragment extends Fragment {
-
+    private final int ABILITY = 0;
+    private final int ITEM = 1;
+    private final int PURCHASE = 2;
+    private final int HEADER = -1;
+    private final int HERO = 3;
+    private final int HERO1 = 7;
+    private final int ARROW = 4;
+    private final int ENTER = 6;
+    private final int BUFF = 8;
+    private final int PLAYER_HEADER = 9;
+    private final int PLAYER_HEADER_DAMAGE = 10;
+    private final int RADIANT_HEADER = 11;
+    private final int TEAMFIGHT_HEADER = 12;
+    Match match;
+    RecyclerView recyclerView;
+    List<Cast> casts = new ArrayList<>();
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -38,6 +61,22 @@ public class PurchaseAndCastFragment extends Fragment {
         // Required empty public constructor
     }
 
+    Handler handler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            final CastAdapter castAdapter = new CastAdapter(getContext(), casts, 0);
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 10);
+            gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    return (castAdapter.getItemViewType(position) == -1 || castAdapter.getItemViewType(position) == 9) ? 10 : 1;
+                }
+            });
+            recyclerView.setLayoutManager(gridLayoutManager);
+            recyclerView.setAdapter(castAdapter);
+            return true;
+        }
+    });
     public static PurchaseAndCastFragment newInstance() {
         return new PurchaseAndCastFragment();
     }
@@ -48,7 +87,7 @@ public class PurchaseAndCastFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_purchase_and_cast, container, false);
         MatchActivity activity = (MatchActivity) getActivity();
-        Match match = Objects.requireNonNull(activity).getMatch();
+        match = Objects.requireNonNull(activity).getMatch();
         if (match == null || match.getPlayers() == null) {
             Log.d("null", "onCreateView: " + 111111);
             Intent intent = new Intent(MyApplication.getContext(), MainActivity.class);
@@ -56,18 +95,39 @@ public class PurchaseAndCastFragment extends Fragment {
             Objects.requireNonNull(getActivity()).startActivity(intent);
             getActivity().finish();
         } else {
-            RecyclerView recyclerView = view.findViewById(R.id.p_c);
+            recyclerView = view.findViewById(R.id.p_c);
             recyclerView.setNestedScrollingEnabled(false);
-            final CastAdapter castAdapter = new CastAdapter(getContext(), match.getPlayers(), "");
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 10);
-            gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            new Thread(new Runnable() {
                 @Override
-                public int getSpanSize(int position) {
-                    return (castAdapter.getItemViewType(position) == -1 || castAdapter.getItemViewType(position) == 9) ? 10 : 1;
+                public void run() {
+                    for (Match.PPlayer p : match.getPlayers()) {
+                        casts.add(new CastHeader(Objects.requireNonNull(getContext()).getResources().getColor(getContext().getResources().getIdentifier("slot_" + p.getPlayer_slot(), "color",
+                                getContext().getPackageName())), p.getPersonaname(), PLAYER_HEADER, p.getHero_id(), p.getTotal_gold(), p.getGold_spent()));
+                        casts.add(new Cast(getContext().getResources().getColor(R.color.win), getContext().getResources().getString(R.string.item_purchase), HEADER));
+                        for (Match.Objective purchase : p.getPurchase_log()) {
+                            if (purchase.getKey().equals("tpscroll") || purchase.getKey().equals("ward_observer") || purchase.getKey().equals("ward_sentry"))
+                                continue;
+                            Item item = MainActivity.items.get(purchase.getKey());
+                            casts.add(new Cast(purchase.getTime(), item.getId() + "", PURCHASE));
+                        }
+                        casts.add(new Cast(getContext().getResources().getColor(R.color.lose), getContext().getResources().getString(R.string.cast), HEADER));
+                        for (Map.Entry<String, Integer> entry : p.getAbility_uses().entrySet()) {
+                            for (Map.Entry<String, String> entry1 : MainActivity.ability_ids.entrySet()) {
+                                if (entry1.getValue().equals(entry.getKey())) {
+                                    casts.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY));
+                                    break;
+                                }
+                            }
+                        }
+                        for (Map.Entry<String, Integer> entry : p.getItem_uses().entrySet()) {
+                            Item item = MainActivity.items.get(entry.getKey());
+                            casts.add(new Cast(entry.getValue(), item.getId() + "", ITEM));
+                        }
+                    }
+                    handler.sendMessage(new Message());
                 }
-            });
-            recyclerView.setLayoutManager(gridLayoutManager);
-            recyclerView.setAdapter(castAdapter);
+            }).start();
+            
         }
         return view;
     }

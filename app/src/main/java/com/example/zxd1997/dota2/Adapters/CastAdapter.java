@@ -15,20 +15,20 @@ import android.text.style.ImageSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.zxd1997.dota2.Activities.MainActivity;
-import com.example.zxd1997.dota2.Beans.Hero;
-import com.example.zxd1997.dota2.Beans.Item;
+import com.example.zxd1997.dota2.Beans.Cast;
+import com.example.zxd1997.dota2.Beans.CastHeader;
 import com.example.zxd1997.dota2.Beans.Match;
+import com.example.zxd1997.dota2.Beans.TeamFightCast;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.Tools;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -45,147 +45,50 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int PLAYER_HEADER_DAMAGE = 10;
     private final int RADIANT_HEADER = 11;
     private final int TEAMFIGHT_HEADER = 12;
-    private final List<Cast> contents = new ArrayList<>();
+    private List<Cast> contents = new ArrayList<>();
     private final Context context;
 
-    public CastAdapter(Context context, List<Match.PPlayer> players, String s) {
+    //
+//    CastAdapter(Context context, List<Match.TeamFight.TeamFightPlayer> teamFightPlayers, char c) {
+//        this.context = context;
+//        int j = 0;
+//        contents.add(new Cast(R.drawable.radiant_header, context.getResources().getString(R.string.radiant), RADIANT_HEADER));
+//        for (Match.TeamFight.TeamFightPlayer p : teamFightPlayers) {
+//            if (j == 5) {
+//                contents.add(new Cast(R.drawable.dire_header, context.getResources().getString(R.string.dire), RADIANT_HEADER));
+//            }
+//            j++;
+//            if (p.getDeaths() > 0 || p.getBuybacks() > 0 || p.getDamage() > 0 || p.getHealing() > 0) {
+//                contents.add(new TeamFightCast(0, "", TEAMFIGHT_HEADER, p));
+//                if (p.getKilled().size() > 0) {
+//                    contents.add(new Cast(context.getResources().getColor(R.color.win), context.getResources().getString(R.string.kills), HEADER));
+//                    for (Map.Entry<String, Integer> entry : p.getKilled().entrySet()) {
+//                        Hero hero = MainActivity.heroes.get(entry.getKey());
+//                        for (int i = 0; i < entry.getValue(); i++)
+//                            contents.add(new Cast(entry.getValue(), "hero_" + hero.getId() + "_icon", HERO));
+//                    }
+//                }
+//                if (p.getAbility_uses().size() + p.getItem_uses().size() > 0) {
+//                    contents.add(new Cast(context.getResources().getColor(R.color.lose), context.getResources().getString(R.string.cast), HEADER));
+//                    for (Map.Entry<String, Integer> entry : p.getAbility_uses().entrySet()) {
+//                        for (Map.Entry<String, String> entry1 : MainActivity.ability_ids.entrySet()) {
+//                            if (entry1.getValue().equals(entry.getKey())) {
+//                                contents.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY));
+//                                break;
+//                            }
+//                        }
+//                    }
+//                    for (Map.Entry<String, Integer> entry : p.getItem_uses().entrySet()) {
+//                        Item item = MainActivity.items.get(entry.getKey());
+//                        contents.add(new Cast(entry.getValue(), item.getId() + "", ITEM));
+//                    }
+//                }
+//            }
+//        }
+//    }
+    public CastAdapter(Context context, List<Cast> casts, int t) {
         this.context = context;
-        for (Match.PPlayer p : players) {
-            contents.add(new CastHeader(context.getResources().getColor(context.getResources().getIdentifier("slot_" + p.getPlayer_slot(), "color",
-                    context.getPackageName())), p.getPersonaname(), PLAYER_HEADER, p.getHero_id(), p.getTotal_gold(), p.getGold_spent()));
-            contents.add(new Cast(context.getResources().getColor(R.color.win), context.getResources().getString(R.string.item_purchase), HEADER));
-            for (Match.Objective purchase : p.getPurchase_log()) {
-                if (purchase.getKey().equals("tpscroll") || purchase.getKey().equals("ward_observer") || purchase.getKey().equals("ward_sentry"))
-                    continue;
-                Item item = MainActivity.items.get(purchase.getKey());
-                contents.add(new Cast(purchase.getTime(), item.getId() + "", PURCHASE));
-            }
-            contents.add(new Cast(context.getResources().getColor(R.color.lose), context.getResources().getString(R.string.cast), HEADER));
-            for (Map.Entry<String, Integer> entry : p.getAbility_uses().entrySet()) {
-                for (Map.Entry<String, String> entry1 : MainActivity.ability_ids.entrySet()) {
-                    if (entry1.getValue().equals(entry.getKey())) {
-                        contents.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY));
-                        break;
-                    }
-                }
-            }
-            for (Map.Entry<String, Integer> entry : p.getItem_uses().entrySet()) {
-                Item item = MainActivity.items.get(entry.getKey());
-                contents.add(new Cast(entry.getValue(), item.getId() + "", ITEM));
-            }
-        }
-    }
-
-    CastAdapter(Context context, List<Match.TeamFight.TeamFightPlayer> teamFightPlayers, char c) {
-        this.context = context;
-        int j = 0;
-        contents.add(new Cast(R.drawable.radiant_header, context.getResources().getString(R.string.radiant), RADIANT_HEADER));
-        for (Match.TeamFight.TeamFightPlayer p : teamFightPlayers) {
-            if (j == 5) {
-                contents.add(new Cast(R.drawable.dire_header, context.getResources().getString(R.string.dire), RADIANT_HEADER));
-            }
-            j++;
-            if (p.getDeaths() > 0 || p.getBuybacks() > 0 || p.getDamage() > 0 || p.getHealing() > 0) {
-                contents.add(new TeamFightCast(0, "", TEAMFIGHT_HEADER, p));
-                if (p.getKilled().size() > 0) {
-                    contents.add(new Cast(context.getResources().getColor(R.color.win), context.getResources().getString(R.string.kills), HEADER));
-                    for (Map.Entry<String, Integer> entry : p.getKilled().entrySet()) {
-                        Hero hero = MainActivity.heroes.get(entry.getKey());
-                        for (int i = 0; i < entry.getValue(); i++)
-                            contents.add(new Cast(entry.getValue(), "hero_" + hero.getId() + "_icon", HERO));
-                    }
-                }
-                if (p.getAbility_uses().size() + p.getItem_uses().size() > 0) {
-                    contents.add(new Cast(context.getResources().getColor(R.color.lose), context.getResources().getString(R.string.cast), HEADER));
-                    for (Map.Entry<String, Integer> entry : p.getAbility_uses().entrySet()) {
-                        for (Map.Entry<String, String> entry1 : MainActivity.ability_ids.entrySet()) {
-                            if (entry1.getValue().equals(entry.getKey())) {
-                                contents.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY));
-                                break;
-                            }
-                        }
-                    }
-                    for (Map.Entry<String, Integer> entry : p.getItem_uses().entrySet()) {
-                        Item item = MainActivity.items.get(entry.getKey());
-                        contents.add(new Cast(entry.getValue(), item.getId() + "", ITEM));
-                    }
-                }
-            }
-        }
-    }
-
-    public CastAdapter(Context context, List<Match.PPlayer> players, int t) {
-        this.context = context;
-        for (Match.PPlayer p : players) {
-            CastHeader castHeader = new CastHeader(context.getResources().getColor(context.getResources().getIdentifier("slot_" + p.getPlayer_slot(), "color",
-                    context.getPackageName())), p.getPersonaname(), PLAYER_HEADER_DAMAGE, p.getHero_id(), p.getHero_damage(), 0);
-            contents.add(castHeader);
-            contents.add(new Cast(context.getResources().getColor(R.color.win), context.getResources().getString(R.string.damage_dealt), HEADER));
-            for (Map.Entry<String, Integer> entry : p.getDamage_inflictor().entrySet()) {
-                if (entry.getKey().equals("null")) {
-                    contents.add(new Cast(entry.getValue(), "default_attack", ABILITY));
-                    contents.add(new Cast(0, "", ARROW));
-                    int i = 0;
-                    for (Map.Entry<String, Integer> entry1 : p.getDamage_targets().get(entry.getKey()).entrySet()) {
-                        if (i == 8) contents.add(new Cast(0, "", ENTER));
-                        contents.add(new Cast(entry1.getValue(), "hero_" + MainActivity.heroes.get(entry1.getKey()).getId() + "_icon", HERO1));
-                        i++;
-                    }
-                    contents.add(new Cast(0, "", ENTER));
-                } else {
-                    boolean f = false;
-                    for (Map.Entry<String, String> entry1 : MainActivity.ability_ids.entrySet()) {
-                        if (entry1.getValue().equals(entry.getKey())) {
-                            contents.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY));
-                            contents.add(new Cast(0, "", ARROW));
-                            int i = 0;
-                            for (Map.Entry<String, Integer> entry2 : p.getDamage_targets().get(entry.getKey()).entrySet()) {
-                                if (i == 8) contents.add(new Cast(0, "", ENTER));
-                                contents.add(new Cast(entry2.getValue(), "hero_" + MainActivity.heroes.get(entry2.getKey()).getId() + "_icon", HERO1));
-                                i++;
-                            }
-                            contents.add(new Cast(0, "", ENTER));
-                            f = true;
-                            break;
-                        }
-                    }
-                    if (!f) {
-                        Item item = MainActivity.items.get(entry.getKey());
-                        contents.add(new Cast(entry.getValue(), item.getId() + "", ITEM));
-                        contents.add(new Cast(0, "", ARROW));
-                        int i = 0;
-                        for (Map.Entry<String, Integer> entry1 : p.getDamage_targets().get(entry.getKey()).entrySet()) {
-                            if (i == 8) contents.add(new Cast(0, "", ENTER));
-                            contents.add(new Cast(entry1.getValue(), "hero_" + MainActivity.heroes.get(entry1.getKey()).getId() + "_icon", HERO1));
-                            i++;
-                        }
-                        contents.add(new Cast(0, "", ENTER));
-                    }
-                }
-            }
-            int d_t = 0;
-            contents.add(new Cast(context.getResources().getColor(R.color.lose), context.getResources().getString(R.string.damage_taken), HEADER));
-            for (Map.Entry<String, Integer> entry : p.getDamage_inflictor_received().entrySet()) {
-                d_t += entry.getValue();
-                if (entry.getKey().equals("null")) {
-                    contents.add(new Cast(entry.getValue(), "default_attack", ABILITY));
-                } else {
-                    boolean f = false;
-                    for (Map.Entry<String, String> entry1 : MainActivity.ability_ids.entrySet()) {
-                        if (entry1.getValue().equals(entry.getKey())) {
-                            contents.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY));
-                            f = true;
-                            break;
-                        }
-                    }
-                    if (!f) {
-                        Item item = MainActivity.items.get(entry.getKey());
-                        contents.add(new Cast(entry.getValue(), item.getId() + "", ITEM));
-                    }
-                }
-            }
-            castHeader.damage_in = d_t;
-        }
+        this.contents = casts;
     }
 
     CastAdapter(Context context, List<Match.PPlayer.Buff> buffs) {
@@ -234,7 +137,7 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        return contents.get(position).type;
+        return contents.get(position).getType();
     }
 
     @Override
@@ -243,41 +146,43 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case PLAYER_HEADER_DAMAGE: {
                 PHeaderHolder castHeader = (PHeaderHolder) holder;
                 CastHeader p = (CastHeader) contents.get(position);
-                castHeader.color.setBackgroundColor(p.time);
+                castHeader.color.setBackgroundColor(p.getTime());
                 castHeader.pheader.setImageURI(new Uri.Builder().scheme("res").path(
-                        String.valueOf(context.getResources().getIdentifier("hero_" + p.hero_id, "drawable", context.getPackageName()))).build());
-                castHeader.out.setText(context.getResources().getString(R.string.d_out, p.damage_out));
-                castHeader.taken.setText(context.getResources().getString(R.string.d_taken, p.damage_in));
-                castHeader.name.setText(p.id);
+                        String.valueOf(context.getResources().getIdentifier("hero_" + p.getHero_id(), "drawable", context.getPackageName()))).build());
+                castHeader.out.setText(context.getResources().getString(R.string.d_out, p.getDamage_out()));
+                castHeader.taken.setText(context.getResources().getString(R.string.d_taken, p.getDamage_in()));
+                castHeader.name.setText(p.getId());
                 break;
             }
             case PLAYER_HEADER: {
                 PHeaderHolder castHeader = (PHeaderHolder) holder;
                 CastHeader p = (CastHeader) contents.get(position);
-                castHeader.color.setBackgroundColor(p.time);
+                castHeader.color.setBackgroundColor(p.getTime());
                 castHeader.pheader.setImageURI(new Uri.Builder().scheme("res").path(
-                        String.valueOf(context.getResources().getIdentifier("hero_" + p.hero_id, "drawable", context.getPackageName()))).build());
-                castHeader.out.setText(context.getResources().getString(R.string.total_gold, p.damage_out));
-                castHeader.taken.setText(context.getResources().getString(R.string.gold_spent, p.damage_in));
-                castHeader.name.setText(p.id);
+                        String.valueOf(context.getResources().getIdentifier("hero_" + p.getHero_id(), "drawable", context.getPackageName()))).build());
+                castHeader.out.setText(context.getResources().getString(R.string.total_gold, p.getDamage_out()));
+                castHeader.taken.setText(context.getResources().getString(R.string.gold_spent, p.getDamage_in()));
+                castHeader.name.setText(p.getId());
                 break;
             }
             case HEADER: {
                 Header header = (Header) holder;
-                header.header_text.setTextColor(contents.get(position).time);
-                header.header_text.setText(contents.get(position).id);
+                header.header_text.setTextColor(contents.get(position).getTime());
+                header.header_text.setText(contents.get(position).getId());
                 break;
             }
             case RADIANT_HEADER: {
                 Header header = (Header) holder;
                 header.header_text.setTextColor(Color.WHITE);
-                header.header_text.setText(contents.get(position).id);
-                header.itemView.setBackground(context.getDrawable(contents.get(position).time));
+                header.header_text.setText(contents.get(position).getId());
+                ViewGroup.LayoutParams layoutParams = header.itemView.getLayoutParams();
+                layoutParams.height = (int) (18 * context.getResources().getDisplayMetrics().density);
+                header.background.setBackground(context.getDrawable(contents.get(position).getTime()));
                 break;
             }
             case TEAMFIGHT_HEADER: {
                 TeamFight viewHolder = (TeamFight) holder;
-                Match.TeamFight.TeamFightPlayer p = ((TeamFightCast) contents.get(position)).p;
+                Match.TeamFight.TeamFightPlayer p = ((TeamFightCast) contents.get(position)).getP();
                 viewHolder.name.setText(p.getPersonaname() == null ? context.getString(R.string.anonymous) : p.getPersonaname());
                 viewHolder.color.setBackgroundColor(context.getResources().getColor(context.getResources().getIdentifier("slot_" + p.getPlayer_slot(), "color", context.getPackageName())));
                 if (p.getDeaths() > 0) viewHolder.death.setVisibility(View.VISIBLE);
@@ -313,42 +218,42 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 break;
             case BUFF: {
                 Buff buff = (Buff) holder;
-                buff.buff.setImageURI(new Uri.Builder().scheme("res").path(contents.get(position).id).build());
-                buff.count.setText(String.valueOf(contents.get(position).time));
+                buff.buff.setImageURI(new Uri.Builder().scheme("res").path(contents.get(position).getId()).build());
+                buff.count.setText(String.valueOf(contents.get(position).getTime()));
                 break;
             }
             default: {
                 ViewHolder viewHolder = (ViewHolder) holder;
                 if (getItemViewType(position) == PURCHASE) {
                     viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
-                            context.getResources().getIdentifier("item_" + contents.get(position).id, "drawable", context.getPackageName())))
+                            context.getResources().getIdentifier("item_" + contents.get(position).getId(), "drawable", context.getPackageName())))
                             .build());
-                    viewHolder.damage_taken.setText(Tools.getTime(contents.get(position).time));
+                    viewHolder.damage_taken.setText(Tools.getTime(contents.get(position).getTime()));
                 } else {
                     switch (getItemViewType(position)) {
                         case ABILITY:
                             viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
-                                    context.getResources().getIdentifier("ability_" + contents.get(position).id, "drawable", context.getPackageName())))
+                                    context.getResources().getIdentifier("ability_" + contents.get(position).getId(), "drawable", context.getPackageName())))
                                     .build());
                             break;
                         case ITEM:
                             viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
-                                    context.getResources().getIdentifier("item_" + contents.get(position).id, "drawable", context.getPackageName())))
+                                    context.getResources().getIdentifier("item_" + contents.get(position).getId(), "drawable", context.getPackageName())))
                                     .build());
                             break;
                         case HERO:
                             viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
-                                    context.getResources().getIdentifier(contents.get(position).id, "drawable", context.getPackageName())))
+                                    context.getResources().getIdentifier(contents.get(position).getId(), "drawable", context.getPackageName())))
                                     .build());
                             viewHolder.damage_taken.setVisibility(View.GONE);
                             break;
                         case HERO1:
                             viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
-                                    context.getResources().getIdentifier(contents.get(position).id, "drawable", context.getPackageName())))
+                                    context.getResources().getIdentifier(contents.get(position).getId(), "drawable", context.getPackageName())))
                                     .build());
                             break;
                     }
-                    viewHolder.damage_taken.setText(String.valueOf(contents.get(position).time));
+                    viewHolder.damage_taken.setText(String.valueOf(contents.get(position).getTime()));
                 }
                 break;
             }
@@ -360,39 +265,7 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return contents.size();
     }
 
-    class Cast {
-        final int time;
-        final String id;
-        final int type;
 
-        Cast(int time, String id, int type) {
-            this.type = type;
-            this.id = id;
-            this.time = time;
-        }
-    }
-
-    class TeamFightCast extends Cast {
-        Match.TeamFight.TeamFightPlayer p;
-
-        TeamFightCast(int time, String id, int type, Match.TeamFight.TeamFightPlayer p) {
-            super(time, id, type);
-            this.p = p;
-        }
-    }
-
-    class CastHeader extends Cast {
-        final int damage_out;
-        final int hero_id;
-        int damage_in;
-
-        CastHeader(int time, String id, int type, int hero_id, int damage_out, int damage_in) {
-            super(time, id, type);
-            this.hero_id = hero_id;
-            this.damage_out = damage_out;
-            this.damage_in = damage_in;
-        }
-    }
 
     class PHeaderHolder extends RecyclerView.ViewHolder {
         final SimpleDraweeView pheader;
@@ -430,9 +303,10 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     class Header extends RecyclerView.ViewHolder {
         final TextView header_text;
-
+        final FrameLayout background;
         Header(View itemView) {
             super(itemView);
+            background = itemView.findViewById(R.id.background);
             header_text = itemView.findViewById(R.id.header_text);
         }
     }
