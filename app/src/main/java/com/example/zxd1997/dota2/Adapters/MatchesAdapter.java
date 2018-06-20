@@ -47,7 +47,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @SuppressLint("Recycle")
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ViewHolder viewHolder = (ViewHolder) holder;
+        final ViewHolder viewHolder = (ViewHolder) holder;
         final RecentMatch recentMatch = recentMatches.get(position);
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,47 +58,56 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 context.startActivity(intent);
             }
         });
-        SpannableStringBuilder k = new SpannableStringBuilder();
-        SpannableString t1 = new SpannableString(recentMatch.getKills() + "");
-        t1.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.win)), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        k.append(t1).append("/");
-        t1 = new SpannableString(recentMatch.getDeaths() + "");
-        t1.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.lose)), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        k.append(t1).append("/");
-        t1 = new SpannableString(recentMatch.getAssists() + "");
-        t1.setSpan(new ForegroundColorSpan(Color.BLUE), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        k.append(t1);
-        viewHolder.kda.setText(k);
-        viewHolder.lobby_type.setText("");
-        TypedArray typedArray = context.getResources().obtainTypedArray(R.array.skills);
-        viewHolder.skills.setText(typedArray.getText(recentMatch.getSkill()));
-        typedArray = context.getResources().obtainTypedArray(R.array.skills_color);
-        viewHolder.skills.setTextColor(context.getResources().getColor(typedArray.getResourceId(recentMatch.getSkill(), 0)));
-        boolean win;
-        win = recentMatch.getPlayer_slot() < 128 && recentMatch.isRadiant_win() || recentMatch.getPlayer_slot() > 127 && !recentMatch.isRadiant_win();
-        if (win) {
-            viewHolder.win_or_not.setTextColor(context.getResources().getColor(R.color.win));
-            viewHolder.win_or_not.setText(context.getString(R.string.win));
-        } else {
-            viewHolder.win_or_not.setTextColor(context.getResources().getColor(R.color.lose));
-            viewHolder.win_or_not.setText(context.getString(R.string.lose));
-        }
-        Hero h = null;
-        for (Map.Entry<String, Hero> entry : MainActivity.heroes.entrySet()) {
-            if (entry.getValue().getId() == recentMatch.getHero_id()) {
-                h = entry.getValue();
-                break;
+        final SpannableStringBuilder k = new SpannableStringBuilder();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SpannableString t1 = new SpannableString(recentMatch.getKills() + "");
+                t1.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.win)), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                k.append(t1).append("/");
+                t1 = new SpannableString(recentMatch.getDeaths() + "");
+                t1.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.lose)), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                k.append(t1).append("/");
+                t1 = new SpannableString(recentMatch.getAssists() + "");
+                t1.setSpan(new ForegroundColorSpan(Color.BLUE), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                k.append(t1);
+                final boolean win = recentMatch.getPlayer_slot() < 128 && recentMatch.isRadiant_win() || recentMatch.getPlayer_slot() > 127 && !recentMatch.isRadiant_win();
+                Hero h = null;
+                for (Map.Entry<String, Hero> entry : MainActivity.heroes.entrySet()) {
+                    if (entry.getValue().getId() == recentMatch.getHero_id()) {
+                        h = entry.getValue();
+                        break;
+                    }
+                }
+                final Hero finalH = h;
+                viewHolder.itemView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (win) {
+                            viewHolder.win_or_not.setTextColor(context.getResources().getColor(R.color.win));
+                            viewHolder.win_or_not.setText(context.getString(R.string.win));
+                        } else {
+                            viewHolder.win_or_not.setTextColor(context.getResources().getColor(R.color.lose));
+                            viewHolder.win_or_not.setText(context.getString(R.string.lose));
+                        }
+                        viewHolder.kda.setText(k);
+                        assert finalH != null;
+                        viewHolder.hero_name.setText(finalH.getLocalized_name());
+                        viewHolder.hero_header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + finalH.getId(), R.drawable.class))).build());
+                        viewHolder.lobby_type.setText("");
+                        TypedArray typedArray = context.getResources().obtainTypedArray(R.array.skills);
+                        viewHolder.skills.setText(typedArray.getText(recentMatch.getSkill()));
+                        typedArray = context.getResources().obtainTypedArray(R.array.skills_color);
+                        viewHolder.skills.setTextColor(context.getResources().getColor(typedArray.getResourceId(recentMatch.getSkill(), 0)));
+                        typedArray = context.getResources().obtainTypedArray(R.array.game_mode);
+                        viewHolder.game_mode.setText(typedArray.getText(recentMatch.getGame_mode()));
+                        typedArray.recycle();
+                        viewHolder.time.setText(Tools.getBefore(recentMatch.getStart_time()));
+                    }
+                });
             }
-        }
-        assert h != null;
-        viewHolder.hero_name.setText(h.getLocalized_name());
-        viewHolder.hero_header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
-                context.getResources().getIdentifier("hero_" + h.getId(), "drawable", context.getPackageName())
-        )).build());
-        typedArray = context.getResources().obtainTypedArray(R.array.game_mode);
-        viewHolder.game_mode.setText(typedArray.getText(recentMatch.getGame_mode()));
-        typedArray.recycle();
-        viewHolder.time.setText(Tools.getBefore(recentMatch.getStart_time()));
+        }).start();
+
     }
 
     @Override

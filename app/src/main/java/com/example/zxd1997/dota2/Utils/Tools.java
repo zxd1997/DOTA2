@@ -1,6 +1,17 @@
 package com.example.zxd1997.dota2.Utils;
 
+import java.lang.reflect.Field;
+
 public class Tools {
+    public static int getResId(String variableName, Class<?> c) {
+        try {
+            Field idField = c.getDeclaredField(variableName);
+            return idField.getInt(idField);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
     public static StringBuilder getTime(int time) {
         StringBuilder t = new StringBuilder();
         if (time < 0) t.append("-");

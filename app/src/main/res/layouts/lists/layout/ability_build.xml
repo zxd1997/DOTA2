@@ -10,16 +10,18 @@
         android:layout_height="46dp"
         android:layout_marginLeft="1dp"
         android:layout_marginTop="1dp"
+        fresco:placeholderImage="@drawable/ability_0"
         fresco:roundedCornerRadius="2dp" />
 
     <TextView
         android:id="@+id/talent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="0.5dp"
-        android:lineSpacingMultiplier="0.8"
-        android:layout_marginTop="-1.5dp"
+        android:layout_marginLeft="0.9dp"
+        android:layout_marginRight="0.5dp"
+        android:layout_marginTop="-1.55dp"
+        android:lineSpacingMultiplier="0.78"
         android:textColor="@android:color/white"
-        android:textSize="10sp" />
+        android:textSize="9.8sp" />
 
 </FrameLayout>
