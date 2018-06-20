@@ -13,7 +13,6 @@ import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +29,7 @@ import com.example.zxd1997.dota2.Beans.Item;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.MyApplication;
+import com.example.zxd1997.dota2.Utils.Tools;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -137,24 +137,27 @@ public class DetailFragment extends Fragment {
                     contents.add(new Content(true, -2, 0));
                     contents1.add(new Content(true, -1, R.string.damage));
                     contents1.add(new Content(true, -2, 0));
-                    for (int i = 5; i < match.getPlayers().size(); i++) {
-                        int color = Objects.requireNonNull(getContext()).getResources().getColor(getContext().getResources().getIdentifier("slot_" + match.getPlayers().get(i).getPlayer_slot(), "color", getContext().getPackageName()));
+                    List<Match.PPlayer> players = match.getPlayers();
+                    for (int i = 5; i < players.size(); i++) {
+                        Match.PPlayer p = players.get(i);
+                        int color = Objects.requireNonNull(getContext()).getResources().getColor(Tools.getResId("slot_" + p.getPlayer_slot(), R.color.class));
 //                        Log.d("color", "onCreateView: " + color);
-                        contents.add(new Content(true, match.getPlayers().get(i).getHero_id(), color));
-                        contents1.add(new Content(true, match.getPlayers().get(i).getHero_id(), color));
+                        contents.add(new Content(true, p.getHero_id(), color));
+                        contents1.add(new Content(true, p.getHero_id(), color));
                     }
                     for (int i = 0; i < 5; i++) {
-                        int color = Objects.requireNonNull(getContext()).getResources().getColor(getContext().getResources().getIdentifier("slot_" + match.getPlayers().get(i).getPlayer_slot(), "color", getContext().getPackageName()));
-                        contents.add(new Content(true, match.getPlayers().get(i).getHero_id(), color));
-                        contents1.add(new Content(true, match.getPlayers().get(i).getHero_id(), color));
-                        Map<String, Integer> killed = match.getPlayers().get(i).getKilled();
-                        Map<String, Integer> killed_by = match.getPlayers().get(i).getKilled_by();
-                        Map<String, Integer> damage = match.getPlayers().get(i).getDamage();
-                        Map<String, Integer> damage_taken = match.getPlayers().get(i).getDamage_taken();
-                        for (int j = 5; j < match.getPlayers().size(); j++) {
+                        Match.PPlayer p = players.get(i);
+                        int color = Objects.requireNonNull(getContext()).getResources().getColor(Tools.getResId("slot_" + p.getPlayer_slot(), R.color.class));
+                        contents.add(new Content(true, p.getHero_id(), color));
+                        contents1.add(new Content(true, p.getHero_id(), color));
+                        Map<String, Integer> killed = p.getKilled();
+                        Map<String, Integer> killed_by = p.getKilled_by();
+                        Map<String, Integer> damage = p.getDamage();
+                        Map<String, Integer> damage_taken = p.getDamage_taken();
+                        for (int j = 5; j < players.size(); j++) {
                             String name = null;
                             for (Map.Entry<String, Hero> entry : MainActivity.heroes.entrySet()) {
-                                if (entry.getValue().getId() == match.getPlayers().get(j).getHero_id()) {
+                                if (entry.getValue().getId() == players.get(j).getHero_id()) {
                                     name = entry.getKey();
                                 }
                             }
@@ -186,8 +189,9 @@ public class DetailFragment extends Fragment {
                     }
                     contents.addAll(contents1);
                     for (Match.PPlayer p : match.getPlayers()) {
-                        CastHeader castHeader = new CastHeader(getContext().getResources().getColor(getContext().getResources().getIdentifier("slot_" + p.getPlayer_slot(), "color",
-                                getContext().getPackageName())), p.getName()!=null?p.getName():p.getPersonaname() == null || p.getPersonaname().equals("") ? getContext().getResources().getString(R.string.anonymous) : p.getPersonaname(), PLAYER_HEADER_DAMAGE, p.getHero_id(), p.getHero_damage(), 0);
+                        CastHeader castHeader = new CastHeader(getContext().getResources().getColor(Tools.getResId("slot_" + p.getPlayer_slot(), R.color.class)),
+                                p.getName() != null ? p.getName() : p.getPersonaname() == null || p.getPersonaname().equals("") ? getContext().getResources().getString(R.string.anonymous) : p.getPersonaname(),
+                                PLAYER_HEADER_DAMAGE, p.getHero_id(), p.getHero_damage(), 0);
                         casts.add(castHeader);
                         casts.add(new Cast(getContext().getResources().getColor(R.color.win), getContext().getResources().getString(R.string.damage_dealt), HEADER));
                         for (Map.Entry<String, Integer> entry : p.getDamage_inflictor().entrySet()) {

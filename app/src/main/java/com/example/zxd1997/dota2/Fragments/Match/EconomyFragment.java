@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +21,7 @@ import com.example.zxd1997.dota2.Chart.MyLineChartRenderer1;
 import com.example.zxd1997.dota2.Chart.MyLineChartView;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.MyApplication;
+import com.example.zxd1997.dota2.Utils.Tools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -132,8 +132,8 @@ public class EconomyFragment extends Fragment {
             for (Match.PPlayer p : match.getPlayers()) {
                 int i = 0;
                 String h_name = "";
-                TextView textView = view.findViewById(getContext().getResources().getIdentifier("name" + l, "id", getContext().getPackageName()));
-                View view1 = view.findViewById(getContext().getResources().getIdentifier("color" + l, "id", getContext().getPackageName()));
+                TextView textView = view.findViewById(Tools.getResId("name" + l, R.id.class));
+                View view1 = view.findViewById(Tools.getResId("color" + l, R.id.class));
                 for (Map.Entry<String, Hero> entry : MainActivity.heroes.entrySet()) {
                     if (entry.getValue().getId() == p.getHero_id()) {
                         h_name = entry.getValue().getLocalized_name();
@@ -144,7 +144,7 @@ public class EconomyFragment extends Fragment {
                 for (int k : p.getGold_t()) {
                     pointValues.add(new PointValue(i++, k).setLabel(h_name + ":" + k));
                 }
-                int color = getContext().getResources().getColor(getContext().getResources().getIdentifier("slot_" + p.getPlayer_slot(), "color", getContext().getPackageName()));
+                int color = getContext().getResources().getColor(Tools.getResId("slot_" + p.getPlayer_slot(), R.color.class));
                 textView.setText(h_name.length() > 12 ? h_name.substring(0, 10) + ".." : h_name);
                 view1.setBackgroundColor(color);
                 Line line1 = new Line(pointValues)
@@ -166,12 +166,10 @@ public class EconomyFragment extends Fragment {
                 for (Map.Entry<String, Integer> entry : p.getGold_reasons().entrySet()) {
                     sub_columnValues = new ArrayList<>();
 //                    Log.d("key", "onCreateView: " + entry.getKey() + " " + entry.getValue());
-                    int id = getContext().getResources()
-                            .getIdentifier("reason_" + entry.getKey(), "string", getContext().getPackageName());
+                    int id = Tools.getResId("reason_" + entry.getKey(), R.string.class);
                     if (id != 0) {
                         String t = getContext().getString(id);
-                        int c = getContext().getResources().getColor(getContext().getResources()
-                                .getIdentifier("reason_" + entry.getKey(), "color", getContext().getPackageName()));
+                        int c = Tools.getResId("reason_" + entry.getKey(), R.color.class);
                         tmpAxis.add(new AxisValue(o++).setLabel(t));
                         sub_columnValues.add(new SubcolumnValue(entry.getValue()).setColor(c));
                         tmpColumn.add(new Column(sub_columnValues).setHasLabels(true));

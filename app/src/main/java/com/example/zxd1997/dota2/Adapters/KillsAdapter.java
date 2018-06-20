@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.zxd1997.dota2.Beans.Content;
 import com.example.zxd1997.dota2.R;
+import com.example.zxd1997.dota2.Utils.Tools;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -52,11 +52,8 @@ public class KillsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             case 1:
                 if (contents.get(position).getHero_id() != -2) {
                     HeaderHolder headerHolder = (HeaderHolder) holder;
-//                    Log.d("color", "onBindViewHolder: " + contents.get(position).getColor());
                     headerHolder.color.setBackgroundColor(contents.get(position).getColor());
-                    headerHolder.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
-                            context.getResources().getIdentifier("hero_" + contents.get(position).getHero_id(), "drawable", context.getPackageName())
-                    )).build());
+                    headerHolder.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + contents.get(position).getHero_id(), R.drawable.class))).build());
                 }
                 break;
             case 2:

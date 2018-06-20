@@ -1,7 +1,6 @@
 package com.example.zxd1997.dota2.Adapters;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -94,8 +93,7 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 PHeaderHolder castHeader = (PHeaderHolder) holder;
                 CastHeader p = (CastHeader) contents.get(position);
                 castHeader.color.setBackgroundColor(p.getTime());
-                castHeader.pheader.setImageURI(new Uri.Builder().scheme("res").path(
-                        String.valueOf(context.getResources().getIdentifier("hero_" + p.getHero_id(), "drawable", context.getPackageName()))).build());
+                castHeader.pheader.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId("hero_" + p.getHero_id(), R.drawable.class))).build());
                 castHeader.out.setText(context.getResources().getString(R.string.d_out, p.getDamage_out()));
                 castHeader.taken.setText(context.getResources().getString(R.string.d_taken, p.getDamage_in()));
                 castHeader.name.setText(p.getId());
@@ -105,8 +103,7 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 PHeaderHolder castHeader = (PHeaderHolder) holder;
                 CastHeader p = (CastHeader) contents.get(position);
                 castHeader.color.setBackgroundColor(p.getTime());
-                castHeader.pheader.setImageURI(new Uri.Builder().scheme("res").path(
-                        String.valueOf(context.getResources().getIdentifier("hero_" + p.getHero_id(), "drawable", context.getPackageName()))).build());
+                castHeader.pheader.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId("hero_" + p.getHero_id(), R.drawable.class))).build());
                 castHeader.out.setText(context.getResources().getString(R.string.total_gold, p.getDamage_out()));
                 castHeader.taken.setText(context.getResources().getString(R.string.gold_spent, p.getDamage_in()));
                 castHeader.name.setText(p.getId());
@@ -131,10 +128,9 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 TeamFight viewHolder = (TeamFight) holder;
                 Match.TeamFight.TeamFightPlayer p = ((TeamFightCast) contents.get(position)).getP();
                 viewHolder.name.setText(p.getPersonaname());
-                viewHolder.color.setBackgroundColor(context.getResources().getColor(context.getResources().getIdentifier("slot_" + p.getPlayer_slot(), "color", context.getPackageName())));
+                viewHolder.color.setBackgroundColor(context.getResources().getColor(Tools.getResId("slot_" + p.getPlayer_slot(), R.color.class)));
                 if (p.getDeaths() > 0) viewHolder.death.setVisibility(View.VISIBLE);
-                viewHolder.header.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(
-                        context.getResources().getIdentifier(p.getHero_id(), "drawable", context.getPackageName()))).build());
+                viewHolder.header.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId(p.getHero_id(), R.drawable.class))).build());
                 SpannableString gold = new SpannableString(" ");
                 Drawable drawable = context.getDrawable(R.drawable.gold);
                 Objects.requireNonNull(drawable).setBounds(0, 0, 50, 34);
@@ -172,32 +168,22 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             default: {
                 ViewHolder viewHolder = (ViewHolder) holder;
                 if (getItemViewType(position) == PURCHASE) {
-                    viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
-                            context.getResources().getIdentifier("item_" + contents.get(position).getId(), "drawable", context.getPackageName())))
-                            .build());
+                    viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + contents.get(position).getId(), R.drawable.class))).build());
                     viewHolder.damage_taken.setText(Tools.getTime(contents.get(position).getTime()));
                 } else {
                     switch (getItemViewType(position)) {
                         case ABILITY:
-                            viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
-                                    context.getResources().getIdentifier("ability_" + contents.get(position).getId(), "drawable", context.getPackageName())))
-                                    .build());
+                            viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("ability_" + contents.get(position).getId(), R.drawable.class))).build());
                             break;
                         case ITEM:
-                            viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
-                                    context.getResources().getIdentifier("item_" + contents.get(position).getId(), "drawable", context.getPackageName())))
-                                    .build());
+                            viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + contents.get(position).getId(), R.drawable.class))).build());
                             break;
                         case HERO:
-                            viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
-                                    context.getResources().getIdentifier(contents.get(position).getId(), "drawable", context.getPackageName())))
-                                    .build());
+                            viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId(contents.get(position).getId(), R.drawable.class))).build());
                             viewHolder.damage_taken.setVisibility(View.GONE);
                             break;
                         case HERO1:
-                            viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
-                                    context.getResources().getIdentifier(contents.get(position).getId(), "drawable", context.getPackageName())))
-                                    .build());
+                            viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId(contents.get(position).getId(), R.drawable.class))).build());
                             break;
                     }
                     viewHolder.damage_taken.setText(String.valueOf(contents.get(position).getTime()));

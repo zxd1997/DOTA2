@@ -41,19 +41,14 @@ public class WardsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         else {
             viewHolder.left.setText(Tools.getTime(ward.getWard_left().getTime()));
         }
-        viewHolder.color.setBackgroundColor(context.getResources().getColor(context.getResources().getIdentifier("slot_" + ward.getWard().getPlayer_slot(), "color", context.getPackageName())));
+        viewHolder.color.setBackgroundColor(context.getResources().getColor(Tools.getResId("slot_" + ward.getWard().getPlayer_slot(), R.color.class)));
         int OBSERVER = 0;
         if (ward.getType() == OBSERVER)
-            viewHolder.type.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
-                    context.getResources().getIdentifier("item_42", "drawable", context.getPackageName())))
-                    .build());
-        else viewHolder.type.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
-                context.getResources().getIdentifier("item_43", "drawable", context.getPackageName())))
-                .build());
+            viewHolder.type.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(R.drawable.item_42)).build());
+        else
+            viewHolder.type.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(R.drawable.item_43)).build());
         viewHolder.name.setText(ward.getPlayerName() == null ? context.getString(R.string.anonymous) : ward.getPlayerName());
-        viewHolder.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(
-                context.getResources().getIdentifier("hero_" + ward.getPlayerHero(), "drawable", context.getPackageName())))
-                .build());
+        viewHolder.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + ward.getPlayerHero(), R.drawable.class))).build());
     }
 
     @Override

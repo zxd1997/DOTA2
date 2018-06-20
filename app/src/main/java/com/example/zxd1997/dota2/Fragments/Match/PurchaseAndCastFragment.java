@@ -22,6 +22,7 @@ import com.example.zxd1997.dota2.Beans.Item;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.MyApplication;
+import com.example.zxd1997.dota2.Utils.Tools;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.util.ArrayList;
@@ -110,8 +111,9 @@ public class PurchaseAndCastFragment extends Fragment {
                 @Override
                 public void run() {
                     for (Match.PPlayer p : match.getPlayers()) {
-                        casts.add(new CastHeader(Objects.requireNonNull(getContext()).getResources().getColor(getContext().getResources().getIdentifier("slot_" + p.getPlayer_slot(), "color",
-                                getContext().getPackageName())), p.getPersonaname(), PLAYER_HEADER, p.getHero_id(), p.getTotal_gold(), p.getGold_spent()));
+                        casts.add(new CastHeader(Objects.requireNonNull(getContext()).getResources().getColor(
+                                Tools.getResId("slot_" + p.getPlayer_slot(), R.color.class)),
+                                p.getPersonaname(), PLAYER_HEADER, p.getHero_id(), p.getTotal_gold(), p.getGold_spent()));
                         casts.add(new Cast(getContext().getResources().getColor(R.color.win), getContext().getResources().getString(R.string.item_purchase), HEADER));
                         for (Match.Objective purchase : p.getPurchase_log()) {
                             if (purchase.getKey().equals("tpscroll") || purchase.getKey().equals("ward_observer") || purchase.getKey().equals("ward_sentry"))
