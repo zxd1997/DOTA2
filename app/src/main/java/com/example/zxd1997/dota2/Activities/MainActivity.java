@@ -1,6 +1,5 @@
 package com.example.zxd1997.dota2.Activities;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,7 +17,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.android.debug.hv.ViewServer;
 import com.example.zxd1997.dota2.Adapters.TabFragmentAdapter;
 import com.example.zxd1997.dota2.Beans.Ability;
 import com.example.zxd1997.dota2.Beans.Hero;
@@ -43,11 +41,10 @@ public class MainActivity extends AppCompatActivity {
     public static Map<String, Item> items;
     private SharedPreferences sharedPreferences;
     private ProgressDialog pd;
-    @SuppressLint("HandlerLeak")
     private final
-    Handler handler = new Handler() {
+    Handler handler = new Handler(new Handler.Callback() {
         @Override
-        public void handleMessage(Message msg) {
+        public boolean handleMessage(Message msg) {
             switch (msg.what) {
                 case FINISHED: {
                     Update.readFromJson();
@@ -55,8 +52,9 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 }
             }
+            return true;
         }
-    };
+    });
 
     @Override
     protected void onResume() {

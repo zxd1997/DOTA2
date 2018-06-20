@@ -1,6 +1,5 @@
 package com.example.zxd1997.dota2.Fragments.Main;
 
-import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -21,7 +20,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,12 +83,10 @@ public class MyFragment extends Fragment {
         System.gc();
         System.runFinalization();
     }
-    @SuppressLint("HandlerLeak")
-    private final
-    Handler handler = new Handler() {
+
+    Handler handler = new Handler(new Handler.Callback() {
         @Override
-        public void handleMessage(Message message) {
-//            Log.d("id", "handleMessage: " + message.obj.toString());
+        public boolean handleMessage(Message message) {
             switch (message.what) {
                 case VERIFY: {
                     Player t = new Gson().fromJson(message.obj.toString(), Player.class);
@@ -186,9 +182,9 @@ public class MyFragment extends Fragment {
                     break;
                 }
             }
-
+            return true;
         }
-    };
+    });
 
     public MyFragment() {
     }

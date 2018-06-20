@@ -23,7 +23,6 @@ import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.MyApplication;
 import com.example.zxd1997.dota2.Utils.Tools;
-import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,15 +39,7 @@ public class PurchaseAndCastFragment extends Fragment {
     private final int ITEM = 1;
     private final int PURCHASE = 2;
     private final int HEADER = -1;
-    private final int HERO = 3;
-    private final int HERO1 = 7;
-    private final int ARROW = 4;
-    private final int ENTER = 6;
-    private final int BUFF = 8;
     private final int PLAYER_HEADER = 9;
-    private final int PLAYER_HEADER_DAMAGE = 10;
-    private final int RADIANT_HEADER = 11;
-    private final int TEAMFIGHT_HEADER = 12;
     Match match;
     RecyclerView recyclerView;
     List<Cast> casts = new ArrayList<>();
@@ -74,15 +65,6 @@ public class PurchaseAndCastFragment extends Fragment {
                 }
             });
             recyclerView.setLayoutManager(gridLayoutManager);
-            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                        Fresco.getImagePipeline().resume();
-                    } else
-                        Fresco.getImagePipeline().pause();
-                }
-            });
             recyclerView.setAdapter(castAdapter);
             return true;
         }
@@ -138,7 +120,6 @@ public class PurchaseAndCastFragment extends Fragment {
                     handler.sendMessage(new Message());
                 }
             }).start();
-            
         }
         return view;
     }

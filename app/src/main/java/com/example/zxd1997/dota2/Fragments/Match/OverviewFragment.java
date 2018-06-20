@@ -22,7 +22,6 @@ import com.example.zxd1997.dota2.Beans.Abilities;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.Tools;
-import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -241,15 +240,9 @@ public class OverviewFragment extends Fragment {
                             }
                         }
                     }
-//                    for (int i=0;i<26;i++){
-//                        for (int j=i;j<=260+i;j+=26){
-//                            abilities_modify.add(abilities.get(j));
-//                        }
-//                    }
                     view.post(new Runnable() {
                         @Override
                         public void run() {
-//                            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 11, GridLayoutManager.HORIZONTAL, false);
                             GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 30, GridLayoutManager.VERTICAL, false);
                             final AbilityBuildAdapter abilityBuildAdapter = new AbilityBuildAdapter(getContext(), abilities);
                             gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -265,16 +258,6 @@ public class OverviewFragment extends Fragment {
                                 }
                             });
                             recyclerView1.setLayoutManager(gridLayoutManager);
-//                            recyclerView1.setItemViewCacheSize(60);
-                            recyclerView1.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                                @Override
-                                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                                        Fresco.getImagePipeline().resume();
-                                    } else
-                                        Fresco.getImagePipeline().pause();
-                                }
-                            });
                             recyclerView1.setAdapter(abilityBuildAdapter);
                             recyclerView1.setNestedScrollingEnabled(false);
                         }

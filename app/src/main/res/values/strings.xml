@@ -160,7 +160,7 @@
     <string name="healing">Healing:%1$d</string>
     <string name="xp_earn">XP Gain:%1$d</string>
     <string name="buffs">Buffs</string>
-    <string name="d_out">Damage Output:%1$d</string>
+    <string name="d_out">Damage Dealt:%1$d</string>
     <string name="d_taken">Damage Taken:%1$d</string>
     <string name="total_gold">Total Gold:%1$d</string>
     <string name="gold_spent">Gold Spent:%1$d</string>

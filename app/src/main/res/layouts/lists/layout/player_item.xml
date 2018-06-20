@@ -35,17 +35,18 @@
 
             <View
                 android:id="@+id/color_hero"
-                android:layout_width="4dp"
+                android:layout_width="3dp"
                 android:layout_height="54dp"
                 fresco:layout_constraintLeft_toRightOf="@id/player_hero"
                 fresco:layout_constraintTop_toTopOf="@id/player_hero" />
 
             <TextView
                 android:id="@+id/player_name"
-                android:layout_width="180dp"
+                android:layout_width="185dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="3dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="2dp"
+                android:textSize="16sp"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:textColor="@android:color/black"
@@ -57,7 +58,7 @@
                 android:id="@+id/kk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 fresco:layout_constraintBottom_toTopOf="@id/k"
                 fresco:layout_constraintLeft_toLeftOf="@+id/player_name"
                 tools:text="K/D/A" />
@@ -66,7 +67,7 @@
                 android:id="@+id/k"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:textSize="13sp"
                 fresco:layout_constraintBottom_toBottomOf="@id/player_hero"
                 fresco:layout_constraintLeft_toLeftOf="@id/player_name"
                 tools:text="10/10/10" />
@@ -75,7 +76,7 @@
                 android:id="@+id/in_battle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:textSize="13sp"
                 fresco:layout_constraintRight_toRightOf="@id/damage"
                 fresco:layout_constraintTop_toBottomOf="@id/damage"
                 tools:text="In Battle:100%" />
@@ -85,7 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="3dp"
-                android:textSize="14sp"
+                android:textSize="13sp"
                 fresco:layout_constraintRight_toLeftOf="@id/item_0"
                 fresco:layout_constraintTop_toTopOf="@id/kk"
                 tools:text="Damage:100000" />

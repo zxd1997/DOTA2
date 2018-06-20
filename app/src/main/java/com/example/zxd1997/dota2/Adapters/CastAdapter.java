@@ -167,26 +167,27 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
             default: {
                 ViewHolder viewHolder = (ViewHolder) holder;
+                Cast c = contents.get(position);
                 if (getItemViewType(position) == PURCHASE) {
-                    viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + contents.get(position).getId(), R.drawable.class))).build());
-                    viewHolder.damage_taken.setText(Tools.getTime(contents.get(position).getTime()));
+                    viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + c.getId(), R.drawable.class))).build());
+                    viewHolder.damage_taken.setText(Tools.getTime(c.getTime()));
                 } else {
                     switch (getItemViewType(position)) {
                         case ABILITY:
-                            viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("ability_" + contents.get(position).getId(), R.drawable.class))).build());
+                            viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("ability_" + c.getId(), R.drawable.class))).build());
                             break;
                         case ITEM:
-                            viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + contents.get(position).getId(), R.drawable.class))).build());
+                            viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + c.getId(), R.drawable.class))).build());
                             break;
                         case HERO:
-                            viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId(contents.get(position).getId(), R.drawable.class))).build());
+                            viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId(c.getId(), R.drawable.class))).build());
                             viewHolder.damage_taken.setVisibility(View.GONE);
                             break;
                         case HERO1:
-                            viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId(contents.get(position).getId(), R.drawable.class))).build());
+                            viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId(c.getId(), R.drawable.class))).build());
                             break;
                     }
-                    viewHolder.damage_taken.setText(String.valueOf(contents.get(position).getTime()));
+                    viewHolder.damage_taken.setText(c.getTime() / 1000 >= 1 ? String.format("%.2fk", (float) c.getTime() / 1000) : String.valueOf(c.getTime()));
                 }
                 break;
             }

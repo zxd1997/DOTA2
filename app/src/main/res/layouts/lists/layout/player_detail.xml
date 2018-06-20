@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
-            android:textSize="14sp"
+            android:textSize="13sp"
             fresco:layout_constraintLeft_toLeftOf="parent"
             fresco:layout_constraintTop_toBottomOf="@id/detail"
             tools:text="Level:25" />
@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:textSize="14sp"
+            android:textSize="13sp"
             fresco:layout_constraintLeft_toRightOf="@id/lvl"
             fresco:layout_constraintTop_toTopOf="@id/lvl"
             tools:text="GPM:1000" />
@@ -50,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:textSize="14sp"
+            android:textSize="13sp"
             fresco:layout_constraintLeft_toRightOf="@id/gpm"
             fresco:layout_constraintTop_toTopOf="@id/lvl"
             tools:text="XPM:1000" />
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="3dp"
             android:layout_marginTop="4dp"
-            android:textSize="14sp"
+            android:textSize="13sp"
             fresco:layout_constraintLeft_toLeftOf="@id/lh"
             fresco:layout_constraintTop_toBottomOf="@id/lh"
             tools:text="Tower Damage:10000" />
@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="3dp"
-            android:textSize="14sp"
+            android:textSize="13sp"
             fresco:layout_constraintLeft_toRightOf="@id/td"
             fresco:layout_constraintTop_toTopOf="@id/td"
             tools:text="Hero Healing:10000" />
@@ -82,7 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:textSize="14sp"
+            android:textSize="13sp"
             fresco:layout_constraintLeft_toLeftOf="@id/lvl"
             fresco:layout_constraintTop_toBottomOf="@id/lvl"
             tools:text="Last Hits:1000" />
@@ -92,7 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:textSize="14sp"
+            android:textSize="13sp"
             fresco:layout_constraintLeft_toRightOf="@id/lh"
             fresco:layout_constraintTop_toTopOf="@id/lh"
             tools:text="Denies:1000" />
@@ -102,7 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:textSize="14sp"
+            android:textSize="13sp"
             fresco:layout_constraintLeft_toRightOf="@id/dn"
             fresco:layout_constraintTop_toTopOf="@id/dn"
             tools:text="Stuns:20s" />
@@ -143,7 +143,7 @@
             android:layout_marginLeft="2dp"
             android:lineSpacingMultiplier="0.6"
             android:text="@string/tip"
-            android:textSize="10sp"
+            android:textSize="9sp"
             fresco:layout_constraintLeft_toRightOf="@id/qm"
             fresco:layout_constraintTop_toTopOf="@id/qm" />
 
@@ -152,7 +152,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
-            android:textSize="13sp"
+            android:textSize="12sp"
             fresco:layout_constraintLeft_toLeftOf="@id/lvl"
             fresco:layout_constraintTop_toBottomOf="@id/tip"
             tools:text="GPM:100.00%" />
@@ -163,7 +163,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="3dp"
-            android:textSize="13sp"
+            android:textSize="12sp"
             fresco:layout_constraintLeft_toRightOf="@id/gpm_ben"
             fresco:layout_constraintTop_toBottomOf="@id/tip"
             tools:text="XPM:100.00%" />
@@ -174,7 +174,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="3dp"
-            android:textSize="13sp"
+            android:textSize="12sp"
             fresco:layout_constraintLeft_toRightOf="@id/xpm_ben"
             fresco:layout_constraintTop_toBottomOf="@id/tip"
             tools:text="Kills/Min:100.00%" />
@@ -184,7 +184,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
-            android:textSize="13sp"
+            android:textSize="12sp"
             fresco:layout_constraintLeft_toLeftOf="@id/gpm_ben"
             fresco:layout_constraintTop_toBottomOf="@id/gpm_ben"
             tools:text="Damage/Min:100.00%" />
@@ -196,7 +196,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="3dp"
             android:layout_marginBottom="3dp"
-            android:textSize="13sp"
+            android:textSize="12sp"
             fresco:layout_constraintLeft_toRightOf="@id/hdm_ben"
             fresco:layout_constraintTop_toBottomOf="@id/gpm_ben"
             tools:text="Tower Damage:100.00%" />

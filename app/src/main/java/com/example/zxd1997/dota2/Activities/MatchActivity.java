@@ -1,6 +1,5 @@
 package com.example.zxd1997.dota2.Activities;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,13 +10,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.android.debug.hv.ViewServer;
 import com.example.zxd1997.dota2.Adapters.TabFragmentAdapter;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.Fragments.Match.DetailFragment;
@@ -45,12 +42,10 @@ public class MatchActivity extends AppCompatActivity {
     private final List<Fragment> fragments = new ArrayList<>();
     private ProgressBar progressBar;
     private Match match = null;
-    @SuppressLint("HandlerLeak")
     private final
-    Handler handler = new Handler() {
+    Handler handler = new Handler(new Handler.Callback() {
         @Override
-        public void handleMessage(Message msg) {
-//            Log.d("match", "handleMessage: " + msg.obj.toString());
+        public boolean handleMessage(Message msg) {
             match = new Gson().fromJson(msg.obj.toString(), Match.class);
 //            Log.d("info", "handleMessage: " + match.getMatch_id() + " " + match.getRadiant_score() + " " + match.getDire_score() + " " + match.getReplay_salt());
             fragments.add(OverviewFragment.newInstance());
@@ -76,8 +71,9 @@ public class MatchActivity extends AppCompatActivity {
             }
             tabFragmentAdapter.notifyDataSetChanged();
             progressBar.setVisibility(View.GONE);
+            return true;
         }
-    };
+    });
     private ViewPager mViewPager;
 
     public Match getMatch() {

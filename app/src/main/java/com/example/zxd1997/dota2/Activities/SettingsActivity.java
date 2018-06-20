@@ -1,6 +1,5 @@
 package com.example.zxd1997.dota2.Activities;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -27,11 +26,9 @@ import java.util.Objects;
 public class SettingsActivity extends AppCompatActivity {
     private final static int FINISHED = 8;
     private ProgressDialog pd;
-    @SuppressLint("HandlerLeak")
-    private final
-    Handler handler = new Handler() {
+    Handler handler = new Handler(new Handler.Callback() {
         @Override
-        public void handleMessage(Message msg) {
+        public boolean handleMessage(Message msg) {
             switch (msg.what) {
                 case FINISHED: {
                     Update.readFromJson();
@@ -39,8 +36,9 @@ public class SettingsActivity extends AppCompatActivity {
                     break;
                 }
             }
+            return true;
         }
-    };
+    });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

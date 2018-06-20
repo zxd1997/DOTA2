@@ -42,17 +42,11 @@ public class DetailFragment extends Fragment {
     final List<Content> contents1 = new ArrayList<>();
     private final int ABILITY = 0;
     private final int ITEM = 1;
-    private final int PURCHASE = 2;
     private final int HEADER = -1;
-    private final int HERO = 3;
     private final int HERO1 = 7;
     private final int ARROW = 4;
     private final int ENTER = 6;
-    private final int BUFF = 8;
-    private final int PLAYER_HEADER = 9;
     private final int PLAYER_HEADER_DAMAGE = 10;
-    private final int RADIANT_HEADER = 11;
-    private final int TEAMFIGHT_HEADER = 12;
     RecyclerView kill;
     RecyclerView d_detail;
     Match match;
