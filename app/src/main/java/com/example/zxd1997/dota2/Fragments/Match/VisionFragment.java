@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,8 +31,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-
-import static android.support.constraint.Constraints.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -167,6 +166,11 @@ public class VisionFragment extends Fragment {
                             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                             recyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
                             recyclerView.setAdapter(wardsAdapter);
+                            LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
+                            Intent intent = new Intent("loaded");
+                            localBroadcastManager.sendBroadcast(intent);
+                            Log.d("send", "run: send");
+
                         }
                     });
                 }

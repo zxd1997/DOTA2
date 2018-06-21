@@ -1,12 +1,16 @@
 package com.example.zxd1997.dota2.Activities;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -37,43 +41,83 @@ import java.util.Objects;
 
 public class MatchActivity extends AppCompatActivity {
     private final static int MATCH = 5;
+    private final static int LOADED = 1;
+    private final static int LOADEDALL = 6;
     private TabLayout tabLayout;
     private TabFragmentAdapter tabFragmentAdapter;
     private final List<Fragment> fragments = new ArrayList<>();
     private ProgressBar progressBar;
     private Match match = null;
-    private final
-    Handler handler = new Handler(new Handler.Callback() {
+    private int count = 0;
+    private boolean parsed = false;
+    private final Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            match = new Gson().fromJson(msg.obj.toString(), Match.class);
+            switch (msg.what) {
+                case MATCH: {
+                    match = new Gson().fromJson(msg.obj.toString(), Match.class);
 //            Log.d("info", "handleMessage: " + match.getMatch_id() + " " + match.getRadiant_score() + " " + match.getDire_score() + " " + match.getReplay_salt());
-            fragments.add(OverviewFragment.newInstance());
-            if (match.getRadiant_xp_adv() == null) {
-                tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_6)));
-                fragments.add(NoDetailFragment.newInstance());
-                tabFragmentAdapter.notifyDataSetChanged();
-                mViewPager.setOffscreenPageLimit(fragments.size());
-            } else {
-                tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-                tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_7)));
-                fragments.add(DetailFragment.newInstance());
-                tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_8)));
-                fragments.add(EconomyFragment.newInstance());
-                tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_9)));
-                fragments.add(PurchaseAndCastFragment.newInstance());
-                tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_10)));
-                fragments.add(VisionFragment.newInstance());
-                tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_11)));
-                fragments.add(LogsFragment.newInstance());
-                tabFragmentAdapter.notifyDataSetChanged();
-                mViewPager.setOffscreenPageLimit(fragments.size());
+                    fragments.add(OverviewFragment.newInstance());
+                    IntentFilter intentFilter = new IntentFilter("loaded");
+                    Receiver receiver = new Receiver();
+                    LocalBroadcastManager.getInstance(Objects.requireNonNull(getApplicationContext())).registerReceiver(receiver, intentFilter);
+                    if (match.getRadiant_xp_adv() == null) {
+                        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_6)));
+                        fragments.add(NoDetailFragment.newInstance());
+                        tabFragmentAdapter.notifyDataSetChanged();
+                        mViewPager.setOffscreenPageLimit(fragments.size());
+                        tabFragmentAdapter.notifyDataSetChanged();
+                    } else {
+                        parsed = true;
+                        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+                        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_7)));
+                        fragments.add(DetailFragment.newInstance());
+                        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_8)));
+                        fragments.add(EconomyFragment.newInstance());
+                        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_9)));
+                        fragments.add(PurchaseAndCastFragment.newInstance());
+                        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_10)));
+                        fragments.add(VisionFragment.newInstance());
+                        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_11)));
+                        fragments.add(LogsFragment.newInstance());
+                        tabFragmentAdapter.notifyDataSetChanged();
+                        mViewPager.setOffscreenPageLimit(fragments.size());
+                    }
+                    break;
+                }
+                case LOADED: {
+                    mViewPager.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
+                    break;
+                }
+                case LOADEDALL: {
+                    mViewPager.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
+                    break;
+                }
             }
-            tabFragmentAdapter.notifyDataSetChanged();
-            progressBar.setVisibility(View.GONE);
+
             return true;
         }
     });
+
+    class Receiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            count++;
+            if (count == 1 && !parsed) {
+                Message message = new Message();
+                message.what = LOADED;
+                handler.sendMessage(message);
+            }
+            if (count == 6 && parsed) {
+                Message message = new Message();
+                message.what = LOADEDALL;
+                handler.sendMessage(message);
+            }
+        }
+    }
     private ViewPager mViewPager;
 
     public Match getMatch() {

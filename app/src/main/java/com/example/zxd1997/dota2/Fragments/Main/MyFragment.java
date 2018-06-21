@@ -75,16 +75,8 @@ public class MyFragment extends Fragment {
     private final List<RecentMatch> recentMatches = new ArrayList<>();
     private CardView card;
     private TextView recent_match;
-    ProgressBar progressBar;
-    View view;
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        System.gc();
-        System.runFinalization();
-    }
-
-    Handler handler = new Handler(new Handler.Callback() {
+    private ProgressBar progressBar;
+    private final Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message message) {
             switch (message.what) {
@@ -114,7 +106,6 @@ public class MyFragment extends Fragment {
                         public void onClick(View v) {
                             Intent intent = new Intent(getContext(), PlayerActivity.class);
                             intent.putExtra("id", player.getAccount_id());
-                            intent.putExtra("player", player);
                             startActivity(intent);
                         }
                     });
@@ -185,6 +176,15 @@ public class MyFragment extends Fragment {
             return true;
         }
     });
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        System.gc();
+        System.runFinalization();
+    }
+
+    private View view;
 
     public MyFragment() {
     }

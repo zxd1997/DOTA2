@@ -19,15 +19,15 @@ import java.util.List;
 import java.util.Objects;
 
 public class WardView extends View {
-    Bitmap radiant_obs = BitmapFactory.decodeResource(Objects.requireNonNull(getContext()).getResources(), R.drawable.goodguys_observer);
-    float hh = radiant_obs.getHeight();
-    float ww = radiant_obs.getWidth();
-    Paint paint = new Paint();
-    Rect rect = new Rect(0, 0, (int) ww, (int) hh);
-    Rect drect = new Rect();
-    Bitmap dire_obs = BitmapFactory.decodeResource(Objects.requireNonNull(getContext()).getResources(), R.drawable.badguys_observer);
-    Bitmap radiant_sen = BitmapFactory.decodeResource(Objects.requireNonNull(getContext()).getResources(), R.drawable.goodguys_sentry);
-    Bitmap dire_sen = BitmapFactory.decodeResource(Objects.requireNonNull(getContext()).getResources(), R.drawable.badguys_sentry);
+    private final Bitmap radiant_obs = BitmapFactory.decodeResource(Objects.requireNonNull(getContext()).getResources(), R.drawable.goodguys_observer);
+    private final float hh = radiant_obs.getHeight();
+    private final float ww = radiant_obs.getWidth();
+    private final Paint paint = new Paint();
+    private final Rect rect = new Rect(0, 0, (int) ww, (int) hh);
+    private final Rect drect = new Rect();
+    private final Bitmap dire_obs = BitmapFactory.decodeResource(Objects.requireNonNull(getContext()).getResources(), R.drawable.badguys_observer);
+    private final Bitmap radiant_sen = BitmapFactory.decodeResource(Objects.requireNonNull(getContext()).getResources(), R.drawable.goodguys_sentry);
+    private final Bitmap dire_sen = BitmapFactory.decodeResource(Objects.requireNonNull(getContext()).getResources(), R.drawable.badguys_sentry);
     private List<Wards> wards = new ArrayList<>();
 
     public WardView(Context context) {

@@ -26,7 +26,7 @@ import java.util.Objects;
 public class SettingsActivity extends AppCompatActivity {
     private final static int FINISHED = 8;
     private ProgressDialog pd;
-    Handler handler = new Handler(new Handler.Callback() {
+    private final Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             switch (msg.what) {

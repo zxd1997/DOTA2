@@ -1,9 +1,9 @@
 package com.example.zxd1997.dota2.Beans;
 
 public class Cast {
-    final int time;
-    final String id;
-    final int type;
+    private final int time;
+    private final String id;
+    private final int type;
 
     public Cast(int time, String id, int type) {
         this.type = type;

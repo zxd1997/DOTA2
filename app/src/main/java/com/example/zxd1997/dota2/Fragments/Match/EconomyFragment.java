@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -218,6 +219,9 @@ public class EconomyFragment extends Fragment {
                             chart1.setZoomEnabled(false);
                             chart1.setInteractive(true);
                             chart1.setLineChartData(data1);
+                            LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
+                            Intent intent = new Intent("loaded");
+                            localBroadcastManager.sendBroadcast(intent);
                         }
                     });
                 }

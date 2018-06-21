@@ -26,15 +26,13 @@ import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.Tools;
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private final int HEADER = -1;
     private final int ABILITY = 0;
     private final int ITEM = 1;
-    private final int PURCHASE = 2;
-    private final int HEADER = -1;
     private final int HERO = 3;
     private final int HERO1 = 7;
     private final int ARROW = 4;
@@ -44,7 +42,7 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int PLAYER_HEADER_DAMAGE = 10;
     private final int RADIANT_HEADER = 11;
     private final int TEAMFIGHT_HEADER = 12;
-    private List<Cast> contents = new ArrayList<>();
+    private List<Cast> contents;
     private final Context context;
 
     public CastAdapter(Context context, List<Cast> casts) {
@@ -168,6 +166,7 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             default: {
                 ViewHolder viewHolder = (ViewHolder) holder;
                 Cast c = contents.get(position);
+                int PURCHASE = 2;
                 if (getItemViewType(position) == PURCHASE) {
                     viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + c.getId(), R.drawable.class))).build());
                     viewHolder.damage_taken.setText(Tools.getTime(c.getTime()));
@@ -187,7 +186,7 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId(c.getId(), R.drawable.class))).build());
                             break;
                     }
-                    viewHolder.damage_taken.setText(c.getTime() / 1000 >= 1 ? String.format("%.2fk", (float) c.getTime() / 1000) : String.valueOf(c.getTime()));
+                    viewHolder.damage_taken.setText(c.getTime() / 1000 >= 1 ? String.format(context.getString(R.string.k), (float) c.getTime() / 1000) : String.valueOf(c.getTime()));
                 }
                 break;
             }

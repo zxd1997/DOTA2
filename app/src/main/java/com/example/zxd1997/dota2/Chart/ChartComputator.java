@@ -11,33 +11,33 @@ import lecho.lib.hellocharts.model.Viewport;
 /**
  * Computes raw points coordinates(in pixels), holds content area dimensions and chart viewport.
  */
-public class ChartComputator {
+class ChartComputator {
 
     /**
      * Maximum chart zoom.
      */
-    protected static final float DEFAULT_MAXIMUM_ZOOM = 20f;
-    protected float maxZoom = DEFAULT_MAXIMUM_ZOOM;
-    protected int chartWidth;
-    protected int chartHeight;
+    private static final float DEFAULT_MAXIMUM_ZOOM = 20f;
     //contentRectMinusAllMargins <= contentRectMinusAxesMargins <= maxContentRect
-    protected Rect contentRectMinusAllMargins = new Rect();
-    protected Rect contentRectMinusAxesMargins = new Rect();
-    protected Rect maxContentRect = new Rect();
+    private final Rect contentRectMinusAllMargins = new Rect();
+    private final Rect contentRectMinusAxesMargins = new Rect();
+    private final Rect maxContentRect = new Rect();
     /**
      * This rectangle represents the currently visible chart values ranges. The currently visible chart X values are
      * from this rectangle's left to its right. The currently visible chart Y values are from this rectangle's top to
      * its bottom.
      */
-    protected Viewport currentViewport = new Viewport();
-    protected Viewport maxViewport = new Viewport();
-    protected float minViewportWidth;
-    protected float minViewportHeight;
+    private final Viewport currentViewport = new Viewport();
+    private final Viewport maxViewport = new Viewport();
+    private float maxZoom = DEFAULT_MAXIMUM_ZOOM;
+    private int chartWidth;
+    private int chartHeight;
+    private float minViewportWidth;
+    private float minViewportHeight;
     /**
      * Warning! Viewport listener is disabled for all charts beside preview charts to avoid additional method calls
      * during animations.
      */
-    protected ViewportChangeListener viewportChangeListener = new DummyVieportChangeListener();
+    private ViewportChangeListener viewportChangeListener = new DummyVieportChangeListener();
 
     /**
      * Calculates available width and height. Should be called when chart dimensions change. ContentRect is relative to
@@ -66,7 +66,7 @@ public class ChartComputator {
         insetContentRectByInternalMargins(deltaLeft, deltaTop, deltaRight, deltaBottom);
     }
 
-    public void insetContentRectByInternalMargins(int deltaLeft, int deltaTop, int deltaRight, int deltaBottom) {
+    private void insetContentRectByInternalMargins(int deltaLeft, int deltaTop, int deltaRight, int deltaBottom) {
         contentRectMinusAllMargins.left = contentRectMinusAllMargins.left + deltaLeft;
         contentRectMinusAllMargins.top = contentRectMinusAllMargins.top + deltaTop;
         contentRectMinusAllMargins.right = contentRectMinusAllMargins.right - deltaRight;
@@ -76,7 +76,7 @@ public class ChartComputator {
     /**
      * Checks if new viewport doesn't exceed max available viewport.
      */
-    public void constrainViewport(float left, float top, float right, float bottom) {
+    private void constrainViewport(float left, float top, float right, float bottom) {
 
         if (right - left < minViewportWidth) {
             // Minimum width - constrain horizontal zoom!
@@ -239,7 +239,7 @@ public class ChartComputator {
      *
      * @param viewport
      */
-    public void setCurrentViewport(Viewport viewport) {
+    private void setCurrentViewport(Viewport viewport) {
         constrainViewport(viewport.left, viewport.top, viewport.right, viewport.bottom);
     }
 
@@ -271,7 +271,7 @@ public class ChartComputator {
     /**
      * Set new values for maximum viewport, that will change what part of chart is visible.
      */
-    public void setMaxViewport(float left, float top, float right, float bottom) {
+    private void setMaxViewport(float left, float top, float right, float bottom) {
         this.maxViewport.set(left, top, right, bottom);
         computeMinimumWidthAndHeight();
     }

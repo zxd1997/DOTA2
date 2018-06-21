@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -40,9 +41,9 @@ public class PurchaseAndCastFragment extends Fragment {
     private final int PURCHASE = 2;
     private final int HEADER = -1;
     private final int PLAYER_HEADER = 9;
-    Match match;
-    RecyclerView recyclerView;
-    List<Cast> casts = new ArrayList<>();
+    private final List<Cast> casts = new ArrayList<>();
+    private Match match;
+    private RecyclerView recyclerView;
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -53,7 +54,7 @@ public class PurchaseAndCastFragment extends Fragment {
         // Required empty public constructor
     }
 
-    Handler handler = new Handler(new Handler.Callback() {
+    private final Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             final CastAdapter castAdapter = new CastAdapter(getContext(), casts);
@@ -66,6 +67,9 @@ public class PurchaseAndCastFragment extends Fragment {
             });
             recyclerView.setLayoutManager(gridLayoutManager);
             recyclerView.setAdapter(castAdapter);
+            LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(Objects.requireNonNull(getContext()));
+            Intent intent = new Intent("loaded");
+            localBroadcastManager.sendBroadcast(intent);
             return true;
         }
     });

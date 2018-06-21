@@ -8,7 +8,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
-import android.util.Log;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -33,20 +32,20 @@ public class MyLineChartRenderer1 extends AbstractChartRenderer {
     private static final int MODE_DRAW = 0;
     private static final int MODE_HIGHLIGHT = 1;
     private int dir;
-    private LineChartDataProvider dataProvider;
+    private final LineChartDataProvider dataProvider;
 
-    private int checkPrecision;
+    private final int checkPrecision;
 
     private float baseValue;
 
-    private int touchToleranceMargin;
-    private Path path = new Path();
-    private Paint linePaint = new Paint();
-    private Paint pointPaint = new Paint();
+    private final int touchToleranceMargin;
+    private final Path path = new Path();
+    private final Paint linePaint = new Paint();
+    private final Paint pointPaint = new Paint();
 
     private Bitmap softwareBitmap;
-    private Canvas softwareCanvas = new Canvas();
-    private Viewport tempMaximumViewport = new Viewport();
+    private final Canvas softwareCanvas = new Canvas();
+    private final Viewport tempMaximumViewport = new Viewport();
     //    private List<Float> preTop;
 //    private List<Float> preBot;
     private float preBot;

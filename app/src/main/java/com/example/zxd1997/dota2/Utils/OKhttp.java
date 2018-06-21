@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -36,7 +35,7 @@ public class OKhttp {
             }
 
             @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+            public void onResponse(@NonNull Call call, @NonNull Response response) {
 //                Log.d("post", "onResponse: " + Objects.requireNonNull(response.body()).string());
             }
         });

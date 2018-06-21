@@ -7,9 +7,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,22 +37,31 @@ import java.util.Objects;
 public class LogsFragment extends Fragment {
     private final List<Match.Objective> logs = new ArrayList<>();
     private final List<Match.Objective> current_logs = new ArrayList<>();
-    private CheckBox rune;
-    private CheckBox building;
-    private CheckBox combats;
-    private CheckBox other;
-    final static int LOAD = 0;
-    View view;
-    private LogAdapter logAdapter;
+    private final static int LOAD = 0;
+    private View view;
     private RecyclerView recyclerView;
-    Handler handler = new Handler(new Handler.Callback() {
+    private final Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             if (msg.what == LOAD) {
+
+                CheckBox rune = view.findViewById(R.id.chk_rune);
+                CheckedListener checkedListener = new CheckedListener();
+                rune.setOnCheckedChangeListener(checkedListener);
+                CheckBox building = view.findViewById(R.id.chk_buildings);
+                building.setOnCheckedChangeListener(checkedListener);
+                CheckBox combats = view.findViewById(R.id.chk_kill);
+                combats.setOnCheckedChangeListener(checkedListener);
+                CheckBox other = view.findViewById(R.id.chk_other);
+                other.setOnCheckedChangeListener(checkedListener);
+                recyclerView = view.findViewById(R.id.logs);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                logAdapter = new LogAdapter(getContext(), current_logs, recyclerView);
+                LogAdapter logAdapter = new LogAdapter(getContext(), current_logs, recyclerView);
                 recyclerView.setAdapter(logAdapter);
                 recyclerView.setNestedScrollingEnabled(false);
+                LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(Objects.requireNonNull(getContext()));
+                Intent intent = new Intent("loaded");
+                localBroadcastManager.sendBroadcast(intent);
             }
             return true;
         }
@@ -87,7 +96,7 @@ public class LogsFragment extends Fragment {
                         if (!"chatwheel".equals(chat.getType())) {
                             Match.PPlayer p = match.getPlayers().get(chat.getSlot());
                             chat.setHero_id("hero_" + p.getHero_id());
-                            chat.setName(p.getName()!=null?p.getName():p.getPersonaname() == null || p.getPersonaname().equals("") ? getContext().getResources().getString(R.string.anonymous) : p.getPersonaname());
+                            chat.setName(p.getName() != null ? p.getName() : p.getPersonaname() == null || p.getPersonaname().equals("") ? Objects.requireNonNull(getContext()).getResources().getString(R.string.anonymous) : p.getPersonaname());
                             logs.add(chat);
                         }
                     }
@@ -171,16 +180,6 @@ public class LogsFragment extends Fragment {
                     handler.sendMessage(new Message());
                 }
             }).start();
-            rune = view.findViewById(R.id.chk_rune);
-            CheckedListener checkedListener = new CheckedListener();
-            rune.setOnCheckedChangeListener(checkedListener);
-            building = view.findViewById(R.id.chk_buildings);
-            building.setOnCheckedChangeListener(checkedListener);
-            combats = view.findViewById(R.id.chk_kill);
-            combats.setOnCheckedChangeListener(checkedListener);
-            other = view.findViewById(R.id.chk_other);
-            other.setOnCheckedChangeListener(checkedListener);
-            recyclerView = view.findViewById(R.id.logs);
         }
         return view;
     }
@@ -309,7 +308,6 @@ public class LogsFragment extends Fragment {
                     }
                 }
             }).start();
-
         }
     }
 }

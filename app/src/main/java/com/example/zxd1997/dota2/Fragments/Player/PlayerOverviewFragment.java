@@ -43,27 +43,27 @@ import java.util.Objects;
 
 
 public class PlayerOverviewFragment extends Fragment {
-    final static int WL_FULL = 1;
-    final static int WL_RECENT = 2;
-    final static int TOTAL_FULL = 3;
-    final static int TOTAL_RECENT = 4;
-    WL wl_full;
-    WL wl_recent;
-    List<Total> totals_full = new ArrayList<>();
-    List<Total> totals_recent = new ArrayList<>();
-    Player player;
-    TextView win;
-    TextView lose;
-    TextView total;
-    TextView win_rate;
-    TextView kda;
-    TextView damage;
-    TextView gpm;
-    TextView xpm;
-    ProgressBar progressBar;
-    View view;
-    DecimalFormat df = new DecimalFormat("0.00");
-    DecimalFormat df1 = new DecimalFormat("0.0");
+    private final static int WL_FULL = 1;
+    private final static int WL_RECENT = 2;
+    private final static int TOTAL_FULL = 3;
+    private final static int TOTAL_RECENT = 4;
+    private final List<Total> totals_full = new ArrayList<>();
+    private final List<Total> totals_recent = new ArrayList<>();
+    private final DecimalFormat df = new DecimalFormat("0.00");
+    private final DecimalFormat df1 = new DecimalFormat("0.0");
+    private WL wl_full;
+    private WL wl_recent;
+    private Player player;
+    private TextView win;
+    private TextView lose;
+    private TextView total;
+    private TextView win_rate;
+    private TextView kda;
+    private TextView damage;
+    private TextView gpm;
+    private TextView xpm;
+    private ProgressBar progressBar;
+    private View view;
 
     public PlayerOverviewFragment() {
 
@@ -73,7 +73,7 @@ public class PlayerOverviewFragment extends Fragment {
         return new PlayerOverviewFragment();
     }
 
-    Handler handler = new Handler(new Handler.Callback() {
+    private final Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             switch (msg.what) {

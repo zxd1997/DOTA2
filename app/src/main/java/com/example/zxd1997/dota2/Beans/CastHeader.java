@@ -1,9 +1,9 @@
 package com.example.zxd1997.dota2.Beans;
 
 public class CastHeader extends Cast {
-    final int damage_out;
-    final int hero_id;
-    int damage_in;
+    private final int damage_out;
+    private final int hero_id;
+    private int damage_in;
 
     public CastHeader(int time, String id, int type, int hero_id, int damage_out, int damage_in) {
         super(time, id, type);

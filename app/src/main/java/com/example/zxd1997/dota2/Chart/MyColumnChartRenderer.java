@@ -7,7 +7,6 @@ import android.graphics.Paint.Cap;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.util.Log;
 
 import lecho.lib.hellocharts.model.Column;
 import lecho.lib.hellocharts.model.ColumnChartData;
@@ -23,45 +22,45 @@ import lecho.lib.hellocharts.view.Chart;
  * Magic renderer for ColumnChart.
  */
 public class MyColumnChartRenderer extends AbstractChartRenderer {
-    public static final int DEFAULT_SUBCOLUMN_SPACING_DP = 1;
-    public static final int DEFAULT_COLUMN_TOUCH_ADDITIONAL_WIDTH_DP = 4;
+    private static final int DEFAULT_SUBCOLUMN_SPACING_DP = 1;
+    private static final int DEFAULT_COLUMN_TOUCH_ADDITIONAL_WIDTH_DP = 4;
 
     private static final int MODE_DRAW = 0;
     private static final int MODE_CHECK_TOUCH = 1;
     private static final int MODE_HIGHLIGHT = 2;
 
-    private ColumnChartDataProvider dataProvider;
+    private final ColumnChartDataProvider dataProvider;
 
     /**
      * Additional width for hightlighted column, used to give tauch feedback.
      */
-    private int touchAdditionalWidth;
+    private final int touchAdditionalWidth;
 
     /**
      * Spacing between sub-columns.
      */
-    private int subcolumnSpacing;
+    private final int subcolumnSpacing;
 
     /**
      * Paint used to draw every column.
      */
-    private Paint columnPaint = new Paint();
+    private final Paint columnPaint = new Paint();
 
     /**
      * Holds coordinates for currently processed column/sub-column.
      */
-    private RectF drawRect = new RectF();
+    private final RectF drawRect = new RectF();
 
     /**
      * Coordinated of user tauch.
      */
-    private PointF touchedPoint = new PointF();
+    private final PointF touchedPoint = new PointF();
 
     private float fillRatio;
 
     private float baseValue;
 
-    private Viewport tempMaximumViewport = new Viewport();
+    private final Viewport tempMaximumViewport = new Viewport();
 
     public MyColumnChartRenderer(Context context, Chart chart, ColumnChartDataProvider dataProvider) {
         super(context, chart);
@@ -403,7 +402,7 @@ public class MyColumnChartRenderer extends AbstractChartRenderer {
         } else if (!isStacked) {
             // For not stacked draw label at the top for positive and at the bottom for negative values
             if (columnValue.getValue() >= baseValue) {
-                Log.d("value", "drawLabel: " + columnValue.getValue());
+//                Log.d("value", "drawLabel: " + columnValue.getValue());
                 top = drawRect.top - offset - labelHeight - labelMargin * 2;
                 if (top < computator.getContentRectMinusAllMargins().top) {
                     top = drawRect.top + offset;
@@ -421,7 +420,7 @@ public class MyColumnChartRenderer extends AbstractChartRenderer {
 //                }
                 bottom = drawRect.top - labelMargin;
                 top = bottom - labelHeight - labelMargin;
-                Log.d("label", "drawLabel: " + bottom + " " + top);
+//                Log.d("label", "drawLabel: " + bottom + " " + top);
             }
         } else {
             // Draw nothing.

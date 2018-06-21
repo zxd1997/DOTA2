@@ -2,6 +2,7 @@ package com.example.zxd1997.dota2.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -21,6 +22,7 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.TextView;
 
+import com.example.zxd1997.dota2.Activities.PlayerActivity;
 import com.example.zxd1997.dota2.Beans.Cast;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.R;
@@ -129,6 +131,16 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 final ViewHolder viewHolder = (ViewHolder) holder;
                 viewHolder.player_hero.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId("hero_" + p.getHero_id(), R.drawable.class))).build());
                 viewHolder.player.setText(p.getName() != null ? p.getName() : p.getPersonaname() == null || p.getPersonaname().equals("") ? context.getResources().getString(R.string.anonymous) : p.getPersonaname());
+                if (p.getName() != null || p.getPersonaname() != null) {
+                    viewHolder.player.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(context, PlayerActivity.class);
+                            intent.putExtra("id", p.getAccount_id());
+                            context.startActivity(intent);
+                        }
+                    });
+                }
                 SpannableStringBuilder k = new SpannableStringBuilder();
                 SpannableString t1 = new SpannableString("K");
                 t1.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.win)), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -370,8 +382,8 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         SimpleDraweeView bear_backpack_1;
         SimpleDraweeView bear_backpack_2;
         RecyclerView recyclerView;
-        ViewStub buff;
-        ViewStub bear;
+        final ViewStub buff;
+        final ViewStub bear;
         ViewHolder(View itemView) {
             super(itemView);
             bear=itemView.findViewById(R.id.bear);

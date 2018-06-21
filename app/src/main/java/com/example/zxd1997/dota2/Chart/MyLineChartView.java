@@ -2,9 +2,7 @@ package com.example.zxd1997.dota2.Chart;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 
-import lecho.lib.hellocharts.BuildConfig;
 import lecho.lib.hellocharts.listener.DummyLineChartOnValueSelectListener;
 import lecho.lib.hellocharts.listener.LineChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.ChartData;
@@ -22,8 +20,8 @@ import lecho.lib.hellocharts.renderer.LineChartRenderer;
  */
 public class MyLineChartView extends MyAbstractChartView implements LineChartDataProvider {
     private static final String TAG = "LineChartView";
-    protected LineChartData data;
-    protected LineChartOnValueSelectListener onValueTouchListener = new DummyLineChartOnValueSelectListener();
+    private LineChartData data;
+    private LineChartOnValueSelectListener onValueTouchListener = new DummyLineChartOnValueSelectListener();
 
     public MyLineChartView(Context context) {
         this(context, null, 0);
@@ -46,9 +44,9 @@ public class MyLineChartView extends MyAbstractChartView implements LineChartDat
 
     @Override
     public void setLineChartData(LineChartData data) {
-        if (BuildConfig.DEBUG) {
-            Log.d(TAG, "Setting data for LineChartView");
-        }
+//        if (BuildConfig.DEBUG) {
+////            Log.d(TAG, "Setting data for LineChartView");
+//        }
 
         if (null == data) {
             this.data = LineChartData.generateDummyData();

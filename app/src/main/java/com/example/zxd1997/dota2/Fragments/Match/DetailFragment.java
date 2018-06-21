@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
@@ -38,8 +39,8 @@ import java.util.Map;
 import java.util.Objects;
 
 public class DetailFragment extends Fragment {
-    final List<Content> contents = new ArrayList<>();
-    final List<Content> contents1 = new ArrayList<>();
+    private final List<Content> contents = new ArrayList<>();
+    private final List<Content> contents1 = new ArrayList<>();
     private final int ABILITY = 0;
     private final int ITEM = 1;
     private final int HEADER = -1;
@@ -47,22 +48,10 @@ public class DetailFragment extends Fragment {
     private final int ARROW = 4;
     private final int ENTER = 6;
     private final int PLAYER_HEADER_DAMAGE = 10;
-    RecyclerView kill;
-    RecyclerView d_detail;
-    Match match;
-    List<Cast> casts = new ArrayList<>();
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        System.gc();
-        System.runFinalization();
-    }
-
-    public DetailFragment() {
-        // Required empty public constructor
-    }
-
-    Handler handler = new Handler(new Handler.Callback() {
+    private final List<Cast> casts = new ArrayList<>();
+    private RecyclerView kill;
+    private RecyclerView d_detail;
+    private final Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 6);
@@ -100,9 +89,25 @@ public class DetailFragment extends Fragment {
             });
             d_detail.setLayoutManager(gridLayoutManager1);
             d_detail.setAdapter(castAdapter);
+            LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(Objects.requireNonNull(getContext()));
+            Intent intent = new Intent("loaded");
+            localBroadcastManager.sendBroadcast(intent);
             return true;
         }
     });
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        System.gc();
+        System.runFinalization();
+    }
+
+    public DetailFragment() {
+        // Required empty public constructor
+    }
+
+    private Match match;
 
     public static DetailFragment newInstance() {
         return new DetailFragment();

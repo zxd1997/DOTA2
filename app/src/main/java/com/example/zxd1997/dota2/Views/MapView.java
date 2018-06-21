@@ -13,7 +13,7 @@ import java.util.List;
 
 
 public class MapView extends View {
-    Paint paint = new Paint();
+    private final Paint paint = new Paint();
 
     private List<LogAdapter.Point> points = new ArrayList<>();
 

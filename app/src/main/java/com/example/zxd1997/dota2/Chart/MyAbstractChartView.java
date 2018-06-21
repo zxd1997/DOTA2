@@ -30,15 +30,15 @@ import lecho.lib.hellocharts.view.Chart;
  * @author Leszek Wach
  */
 public abstract class MyAbstractChartView extends View implements Chart {
-    protected ChartComputator chartComputator;
-    protected AxesRenderer axesRenderer;
-    protected ChartTouchHandler touchHandler;
-    protected ChartRenderer chartRenderer;
-    protected ChartDataAnimator dataAnimator;
-    protected ChartViewportAnimator viewportAnimator;
-    protected boolean isInteractive = true;
-    protected boolean isContainerScrollEnabled = false;
-    protected ContainerScrollType containerScrollType;
+    private final ChartComputator chartComputator;
+    private final AxesRenderer axesRenderer;
+    private final ChartTouchHandler touchHandler;
+    private final ChartDataAnimator dataAnimator;
+    private final ChartViewportAnimator viewportAnimator;
+    ChartRenderer chartRenderer;
+    private boolean isInteractive = true;
+    private boolean isContainerScrollEnabled = false;
+    private ContainerScrollType containerScrollType;
 
     public MyAbstractChartView(Context context) {
         this(context, null, 0);
@@ -458,7 +458,7 @@ public abstract class MyAbstractChartView extends View implements Chart {
         this.containerScrollType = containerScrollType;
     }
 
-    protected void onChartDataChange() {
+    void onChartDataChange() {
         chartComputator.resetContentRect();
         chartRenderer.onChartDataChanged();
         axesRenderer.onChartDataChanged();
@@ -469,7 +469,7 @@ public abstract class MyAbstractChartView extends View implements Chart {
      * You should call this method in derived classes, most likely from constructor if you changed chart/axis renderer,
      * touch handler or chart computator
      */
-    protected void resetRendererAndTouchHandler() {
+    private void resetRendererAndTouchHandler() {
         this.chartRenderer.resetRenderer();
         this.axesRenderer.resetRenderer();
         this.touchHandler.resetTouchHandler();

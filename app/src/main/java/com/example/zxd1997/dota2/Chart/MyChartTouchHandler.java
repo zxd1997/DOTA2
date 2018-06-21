@@ -1,7 +1,6 @@
 package com.example.zxd1997.dota2.Chart;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -21,38 +20,34 @@ import lecho.lib.hellocharts.view.Chart;
 /**
  * Default touch handler for most charts. Handles value touch, scroll, fling and zoom.
  */
-public class MyChartTouchHandler extends ChartTouchHandler {
-    protected GestureDetector gestureDetector;
-    protected ScaleGestureDetector scaleGestureDetector;
-    protected ChartScroller chartScroller;
-    protected ChartZoomer chartZoomer;
-    protected Chart chart;
-    protected ChartComputator computator;
-    protected ChartRenderer renderer;
-
-    protected boolean isZoomEnabled = true;
-    protected boolean isScrollEnabled = true;
-    protected boolean isValueTouchEnabled = true;
-    protected boolean isValueSelectionEnabled = false;
-
+class MyChartTouchHandler extends ChartTouchHandler {
+    private final GestureDetector gestureDetector;
+    private final ScaleGestureDetector scaleGestureDetector;
+    private final ChartScroller chartScroller;
+    private final ChartZoomer chartZoomer;
+    private final Chart chart;
     /**
      * Used only for selection mode to avoid calling listener multiple times for the same selection. Small thing but it
      * is more intuitive this way.
      */
-    protected SelectedValue selectionModeOldValue = new SelectedValue();
-
-    protected SelectedValue selectedValue = new SelectedValue();
-    protected SelectedValue oldSelectedValue = new SelectedValue();
-
+    private final SelectedValue selectionModeOldValue = new SelectedValue();
+    private final SelectedValue selectedValue = new SelectedValue();
+    private final SelectedValue oldSelectedValue = new SelectedValue();
+    private ChartComputator computator;
+    private ChartRenderer renderer;
+    private boolean isZoomEnabled = true;
+    private boolean isScrollEnabled = true;
+    private boolean isValueTouchEnabled = true;
+    private boolean isValueSelectionEnabled = false;
     /**
      * ViewParent to disallow touch events interception if chart is within scroll container.
      */
-    protected ViewParent viewParent;
+    private ViewParent viewParent;
 
     /**
      * Type of scroll of container, horizontal or vertical.
      */
-    protected ContainerScrollType containerScrollType;
+    private ContainerScrollType containerScrollType;
 
     public MyChartTouchHandler(Context context, Chart chart) {
         super(context, chart);
@@ -268,7 +263,7 @@ public class MyChartTouchHandler extends ChartTouchHandler {
         this.isValueSelectionEnabled = isValueSelectionEnabled;
     }
 
-    protected class ChartScaleGestureListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+    class ChartScaleGestureListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
 
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
@@ -284,9 +279,9 @@ public class MyChartTouchHandler extends ChartTouchHandler {
         }
     }
 
-    protected class ChartGestureListener extends GestureDetector.SimpleOnGestureListener {
+    class ChartGestureListener extends GestureDetector.SimpleOnGestureListener {
 
-        protected ScrollResult scrollResult = new ScrollResult();
+        final ScrollResult scrollResult = new ScrollResult();
 
         @Override
         public boolean onDown(MotionEvent e) {

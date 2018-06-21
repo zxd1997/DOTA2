@@ -48,24 +48,16 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int FIRST_BLOOD = 7;
     private final Context context;
     private final List<Match.Objective> logs;
-    private final RecyclerView recyclerView;
     private int expended = -1;
-    LinearLayoutManager linearLayoutManager;
+    private final LinearLayoutManager linearLayoutManager;
 
     public LogAdapter(Context context, List<Match.Objective> logs, RecyclerView recyclerView) {
         this.context = context;
         this.logs = logs;
-        this.recyclerView = recyclerView;
+        RecyclerView recyclerView1 = recyclerView;
         this.linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
     }
 
-    public int getExpended() {
-        return expended;
-    }
-
-    public void setExpended(int expended) {
-        this.expended = expended;
-    }
 
     @Override
     public int getItemViewType(int position) {
@@ -295,9 +287,7 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
             default: {
                 final List<Point> points = new ArrayList<>();
-
                 final TeamFight teamFight = (TeamFight) holder;
-
                 teamFight.start_end.setText(tt);
                 new Thread(new Runnable() {
                     @Override
@@ -398,7 +388,6 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         radiant_death.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.lose)), 0, radiant_death.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                         final int radiant_gold_delta_f = radiant_gold_delta;
                         final int dire_gold_delta_f = dire_gold_delta;
-
                         teamFight.itemView.post(new Runnable() {
                             @Override
                             public void run() {
@@ -437,30 +426,29 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                         return (castAdapter.getItemViewType(position) == -1 || castAdapter.getItemViewType(position) == 11 || castAdapter.getItemViewType(position) == 12) ? 10 : 1;
                                     }
                                 });
+                                teamFight.map.setPoints(points);
+                                teamFight.map.invalidate();
                                 teamFight.teamfight_list.setLayoutManager(gridLayoutManager);
                                 teamFight.teamfight_list.setAdapter(castAdapter);
                                 teamFight.itemView.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        recyclerView.scrollBy(0, teamFight.tf.getTop());
-                                        if (teamFight.team_fight_detail.getVisibility() == View.GONE) {
+                                        if (teamFight.map.getVisibility() == View.GONE) {
 //                                            Log.d(TAG, "onClick: GONE");
-                                            if (expended != -1) {
-                                                TeamFight viewHolder = (TeamFight) recyclerView.getChildViewHolder(recyclerView.getChildAt(expended));
-                                                viewHolder.team_fight_detail.setVisibility(View.GONE);
-                                                recyclerView.smoothScrollToPosition(position);
-                                            }
-                                            teamFight.map.setPoints(points);
-                                            teamFight.map.invalidate();
-                                            expended = position;
-                                            teamFight.team_fight_detail.setVisibility(View.VISIBLE);
+//                                            if (expended != -1) {
+//                                                TeamFight viewHolder = (TeamFight) recyclerView.getChildViewHolder(recyclerView.getChildAt(expended));
+//                                                viewHolder.team_fight_detail.setVisibility(View.GONE);
+//                                                recyclerView.smoothScrollToPosition(position);
+//                                            }
+//                                            expended = position;
+                                            teamFight.map.setVisibility(View.VISIBLE);
+                                            teamFight.teamfight_list.setVisibility(View.VISIBLE);
                                         } else {
 //                                            Log.d(TAG, "onClick: VISIBLE");
-                                            teamFight.team_fight_detail.setVisibility(View.GONE);
-                                            expended = -1;
+                                            teamFight.map.setVisibility(View.GONE);
+                                            teamFight.teamfight_list.setVisibility(View.GONE);
+//                                            expended = -1;
                                         }
-                                        linearLayoutManager.scrollToPositionWithOffset(position, 0);
-                                        linearLayoutManager.setStackFromEnd(true);
                                     }
 
                                 });
@@ -494,7 +482,7 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 itemView.setVisibility(View.VISIBLE);
             } else {
                 itemView.setVisibility(View.GONE);
-                param.height = getAdapterPosition() == getItemCount() - 1 ? 1 : 0;
+                param.height = getAdapterPosition() == getItemCount() - 1 || getAdapterPosition() == 0 ? 1 : 0;
                 param.width = 0;
             }
             itemView.setLayoutParams(param);
@@ -563,7 +551,7 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 itemView.setVisibility(View.VISIBLE);
             } else {
                 itemView.setVisibility(View.GONE);
-                param.height = getAdapterPosition() == getItemCount() - 1 ? 1 : 0;
+                param.height = getAdapterPosition() == getItemCount() - 1 || getAdapterPosition() == 0 ? 1 : 0;
                 param.width = 0;
             }
             itemView.setLayoutParams(param);
@@ -590,20 +578,17 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         final TextView teamfight_win;
         final MapView map;
         final RecyclerView teamfight_list;
-        View team_fight_detail;
 
         TeamFight(final View itemView) {
             super(itemView);
             tf = itemView.findViewById(R.id.tf);
             this.itemView = itemView;
             teamfight_win = itemView.findViewById(R.id.teamfight_win);
-            team_fight_detail = itemView.findViewById(R.id.team_fight_detail);
             radiant_gold_delta = itemView.findViewById(R.id.radiant_gold_delta);
             radiant_death = itemView.findViewById(R.id.radiant_death);
             start_end = itemView.findViewById(R.id.start_end);
             dire_death = itemView.findViewById(R.id.dire_death);
             dire_gold_delta = itemView.findViewById(R.id.dire_gold_delta);
-            team_fight_detail = itemView.findViewById(R.id.team_fight_detail);
             map = itemView.findViewById(R.id.imageView6);
             teamfight_list = itemView.findViewById(R.id.team_fight_list);
             teamfight_list.setNestedScrollingEnabled(false);

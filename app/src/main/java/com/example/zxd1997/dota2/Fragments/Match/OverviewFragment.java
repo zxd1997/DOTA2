@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -260,6 +261,9 @@ public class OverviewFragment extends Fragment {
                             recyclerView1.setLayoutManager(gridLayoutManager);
                             recyclerView1.setAdapter(abilityBuildAdapter);
                             recyclerView1.setNestedScrollingEnabled(false);
+                            LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
+                            Intent intent = new Intent("loaded");
+                            localBroadcastManager.sendBroadcast(intent);
                         }
                     });
                 }
