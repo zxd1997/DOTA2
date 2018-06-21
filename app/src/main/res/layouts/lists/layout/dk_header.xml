@@ -7,21 +7,21 @@
     android:layout_marginBottom="1dp">
 
 
-            <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/kd_header"
-                android:layout_width="64dp"
-                android:layout_gravity="left|center_vertical"
-                android:layout_marginLeft="2dp"
-                android:layout_height="36dp"
-                app:roundBottomRight="false"
-                app:roundTopRight="false"
-                app:roundedCornerRadius="2dp" />
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/kd_header"
+        android:layout_width="64dp"
+        android:layout_height="36dp"
+        android:layout_gravity="left|center_vertical"
+        android:layout_marginLeft="2dp"
+        app:roundBottomRight="false"
+        app:roundTopRight="false"
+        app:roundedCornerRadius="2dp" />
 
-            <View
-                android:id="@+id/color_kd"
-                android:layout_width="2dp"
-                android:layout_height="36dp"
-                android:layout_gravity="left|center_vertical"
-                android:layout_marginLeft="66dp" />
+    <View
+        android:id="@+id/color_kd"
+        android:layout_width="2dp"
+        android:layout_height="36dp"
+        android:layout_gravity="left|center_vertical"
+        android:layout_marginLeft="66dp" />
 
-    </android.support.v7.widget.CardView>
+</android.support.v7.widget.CardView>

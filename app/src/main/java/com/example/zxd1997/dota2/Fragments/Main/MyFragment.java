@@ -20,6 +20,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,11 +110,12 @@ public class MyFragment extends Fragment {
                             startActivity(intent);
                         }
                     });
+                    ranks.setText("");
+                    stars.setImageDrawable(null);
+                    tier.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(R.drawable.rank_icon_0)).build());
                     if (player.getRank_tier() != 0) {
                         int t = player.getRank_tier() / 10;
                         int star = player.getRank_tier() % 10;
-                        ranks.setText("");
-                        stars.setImageDrawable(null);
                         tier.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(R.drawable.rank_icon_0)).build());
                         int rank = player.getLeaderboard_rank();
 //                        Log.d("rank", "handleMessage: " + rank);
@@ -152,7 +154,6 @@ public class MyFragment extends Fragment {
                     win_rate.setText(String.format("%s%%", getString(R.string.rate, wl.getWinrate() * 100)));
                     OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id + "/recentMatches", handler, RECENT_MATCHES);
                     card.setVisibility(View.VISIBLE);
-                    swipeRefreshLayout.setVisibility(View.GONE);
                     break;
                 }
                 case RECENT_MATCHES: {
@@ -164,6 +165,7 @@ public class MyFragment extends Fragment {
                         if (recentMatch.getGame_mode() != 19)
                             recentMatches.add(recentMatch);
                     }
+                    Log.d("size", "handleMessage: " + recentMatches.size() + " " + jsonArray.size());
                     recent_match.setVisibility(View.VISIBLE);
                     swipeRefreshLayout.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
@@ -212,6 +214,7 @@ public class MyFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recent_matches);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         matchesAdapter = new MatchesAdapter(getContext(), recentMatches);
+        matchesAdapter.setHasfoot(false);
         recyclerView.setAdapter(matchesAdapter);
         swipeRefreshLayout = view.findViewById(R.id.swipe);
         card = view.findViewById(R.id.my_card);

@@ -44,8 +44,8 @@
         <item>Very High</item>
     </string-array>
     <string-array name="skills_color">
-        <item>@android:color/darker_gray</item>
-        <item>@android:color/darker_gray</item>
+        <item>@color/normal</item>
+        <item>@color/normal</item>
         <item>@color/high</item>
         <item>@color/very_high</item>
     </string-array>
@@ -128,5 +128,17 @@
         <item>@drawable/rune_4</item>
         <item>@drawable/rune_5</item>
         <item>@drawable/rune_6</item>
+    </string-array>
+    <string-array name="lobby_type">
+        <item>Normal</item>
+        <item>Practice</item>
+        <item>Tournament</item>
+        <item>Tutorial</item>
+        <item>Coop_bots</item>
+        <item>Team Ranked</item>
+        <item>Solo Ranked</item>
+        <item>Ranked</item>
+        <item>1v1 Mid</item>
+        <item>Battle Cup</item>
     </string-array>
 </resources>

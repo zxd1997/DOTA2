@@ -28,4 +28,5 @@
     <color name="reason_14">#ffd500</color>
     <color name="gold">#ffd700</color>
     <color name="trans_pri_red">#78cc0000</color>
+    <color name="normal">#89000000</color>
 </resources>
