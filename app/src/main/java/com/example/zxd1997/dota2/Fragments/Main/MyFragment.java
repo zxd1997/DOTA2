@@ -34,11 +34,13 @@ import android.widget.Toast;
 
 import com.example.zxd1997.dota2.Activities.PlayerActivity;
 import com.example.zxd1997.dota2.Adapters.MatchesAdapter;
+import com.example.zxd1997.dota2.Beans.MatchHero;
 import com.example.zxd1997.dota2.Beans.Player;
 import com.example.zxd1997.dota2.Beans.RecentMatch;
 import com.example.zxd1997.dota2.Beans.WL;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.OKhttp;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -73,7 +75,7 @@ public class MyFragment extends Fragment {
     private MatchesAdapter matchesAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private TextInputLayout textInputLayout;
-    private final List<RecentMatch> recentMatches = new ArrayList<>();
+    private final List<MatchHero> recentMatches = new ArrayList<>();
     private CardView card;
     private TextView recent_match;
     private ProgressBar progressBar;
@@ -162,6 +164,7 @@ public class MyFragment extends Fragment {
                     JsonArray jsonArray = parser.parse(message.obj.toString()).getAsJsonArray();
                     for (JsonElement e : jsonArray) {
                         RecentMatch recentMatch = new Gson().fromJson(e, RecentMatch.class);
+                        recentMatch.setType(1);
                         if (recentMatch.getGame_mode() != 19)
                             recentMatches.add(recentMatch);
                     }
@@ -216,6 +219,14 @@ public class MyFragment extends Fragment {
         matchesAdapter = new MatchesAdapter(getContext(), recentMatches);
         matchesAdapter.setHasfoot(false);
         recyclerView.setAdapter(matchesAdapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    Fresco.getImagePipeline().resume();
+                } else Fresco.getImagePipeline().pause();
+            }
+        });
         swipeRefreshLayout = view.findViewById(R.id.swipe);
         card = view.findViewById(R.id.my_card);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -237,6 +248,7 @@ public class MyFragment extends Fragment {
             card.setVisibility(View.GONE);
             swipeRefreshLayout.setVisibility(View.GONE);
             recent_match.setVisibility(View.GONE);
+            swipeRefreshLayout.setColorSchemeResources(R.color.lose);
             textView = view.findViewById(R.id.text_notice);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override

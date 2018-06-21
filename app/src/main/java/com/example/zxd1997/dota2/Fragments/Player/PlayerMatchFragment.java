@@ -17,11 +17,13 @@ import android.view.ViewGroup;
 import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Activities.PlayerActivity;
 import com.example.zxd1997.dota2.Adapters.MatchesAdapter;
+import com.example.zxd1997.dota2.Beans.MatchHero;
 import com.example.zxd1997.dota2.Beans.Player;
 import com.example.zxd1997.dota2.Beans.RecentMatch;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.MyApplication;
 import com.example.zxd1997.dota2.Utils.OKhttp;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -45,7 +47,7 @@ public class PlayerMatchFragment extends Fragment {
     Player player;
     SwipeRefreshLayout swipeRefreshLayout;
     MatchesAdapter matchesAdapter;
-    List<RecentMatch> matches = new ArrayList<>();
+    List<MatchHero> matches = new ArrayList<>();
     public PlayerMatchFragment() {
         // Required empty public constructor
     }
@@ -64,6 +66,7 @@ public class PlayerMatchFragment extends Fragment {
                     JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
                     for (JsonElement e : jsonArray) {
                         RecentMatch recentMatch = new Gson().fromJson(e, RecentMatch.class);
+                        recentMatch.setType(1);
                         if (recentMatch.getGame_mode() != 19)
                             matches.add(recentMatch);
                     }
@@ -78,12 +81,14 @@ public class PlayerMatchFragment extends Fragment {
                     if (jsonArray.size() == 0) {
                         matchesAdapter.setHasfoot(false);
                     }
+                    int t = matches.size();
                     for (JsonElement e : jsonArray) {
                         RecentMatch recentMatch = new Gson().fromJson(e, RecentMatch.class);
+                        recentMatch.setType(1);
                         if (recentMatch.getGame_mode() != 19)
                             matches.add(recentMatch);
                     }
-                    matchesAdapter.notifyDataSetChanged();
+                    matchesAdapter.notifyItemRangeChanged(t, matchesAdapter.getItemCount());
                 }
             }
             return true;
@@ -111,6 +116,7 @@ public class PlayerMatchFragment extends Fragment {
             recyclerView.setAdapter(matchesAdapter);
             OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?offset=" + offset + "&limit=" + (offset + NUMBER), handler, MATCHES);
             swipeRefreshLayout.setRefreshing(true);
+            swipeRefreshLayout.setColorSchemeResources(R.color.lose);
             swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
@@ -125,11 +131,12 @@ public class PlayerMatchFragment extends Fragment {
                 @Override
                 public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                     if (newState == RecyclerView.SCROLL_STATE_IDLE && matchesAdapter.isHasfoot()) {
+                        Fresco.getImagePipeline().resume();
                         if (linearLayoutManager.findLastVisibleItemPosition() == matchesAdapter.getItemCount() - 1) {
                             offset += NUMBER;
                             OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?offset=" + offset + "&limit=" + NUMBER, handler, UPDATE);
                         }
-                    }
+                    } else Fresco.getImagePipeline().pause();
                 }
             });
         }

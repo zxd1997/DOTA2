@@ -1,13 +1,12 @@
 package com.example.zxd1997.dota2.Beans;
 
-public class RecentMatch {
+public class RecentMatch extends MatchHero {
     private long match_id;
     private int player_slot;
     private boolean radiant_win;
     private int duration;
     private int game_mode;
     private int lobby_type;
-    private int hero_id;
     private long start_time;
     private int kills;
     private int deaths;
@@ -67,14 +66,6 @@ public class RecentMatch {
 
     public void setLobby_type(int lobby_type) {
         this.lobby_type = lobby_type;
-    }
-
-    public int getHero_id() {
-        return hero_id;
-    }
-
-    public void setHero_id(int hero_id) {
-        this.hero_id = hero_id;
     }
 
     public long getStart_time() {

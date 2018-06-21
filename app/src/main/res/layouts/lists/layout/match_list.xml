@@ -9,7 +9,7 @@
     android:layout_marginLeft="3dp"
     android:layout_marginRight="3dp"
     android:layout_marginTop="2dp"
-    fresco:cardCornerRadius="3dp">
+    fresco:cardCornerRadius="2dp">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -30,8 +30,10 @@
             android:id="@+id/hero_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
             android:layout_marginLeft="5dp"
+            android:layout_marginTop="2dp"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="20sp"
             fresco:layout_constraintLeft_toRightOf="@id/hero_header"
             fresco:layout_constraintTop_toTopOf="parent"
             tools:text="Phantom Assassin" />
@@ -40,7 +42,7 @@
             android:id="@+id/winornot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="17sp"
+            android:textSize="18sp"
             fresco:layout_constraintBottom_toBottomOf="@id/hero_header"
             fresco:layout_constraintLeft_toLeftOf="@id/hero_name"
             tools:text="Lose" />
@@ -49,9 +51,8 @@
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
             android:layout_marginLeft="10dp"
-            android:textSize="12sp"
+            android:textSize="13sp"
             fresco:layout_constraintBottom_toBottomOf="@id/winornot"
             fresco:layout_constraintLeft_toRightOf="@id/winornot"
             tools:text="2Days ago" />
@@ -60,7 +61,7 @@
             android:id="@+id/game_mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="3dp"
+            android:layout_marginBottom="2dp"
             android:layout_marginLeft="5dp"
             fresco:layout_constraintBottom_toBottomOf="@id/hero_name"
             fresco:layout_constraintLeft_toRightOf="@id/hero_name"
@@ -71,6 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
+            android:textSize="15sp"
             fresco:layout_constraintBottom_toBottomOf="@id/winornot"
             fresco:layout_constraintLeft_toRightOf="@id/time"
             tools:text="Battle Cup" />
@@ -81,6 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
             android:textColor="@color/normal"
+            android:layout_marginTop="3dp"
             android:textSize="19sp"
             fresco:layout_constraintRight_toRightOf="parent"
             fresco:layout_constraintTop_toTopOf="parent"
@@ -90,7 +93,7 @@
             android:id="@+id/kda"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="17sp"
+            android:textSize="18sp"
             fresco:layout_constraintBottom_toBottomOf="@id/hero_header"
             fresco:layout_constraintRight_toRightOf="@id/skills"
             tools:text="10/0/10" />

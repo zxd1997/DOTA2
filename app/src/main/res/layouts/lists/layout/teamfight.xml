@@ -136,7 +136,7 @@
             tools:text="Radiant Wins" />
     </android.support.constraint.ConstraintLayout>
 
-    <include layout="@layout/view_stub" />
+    <include layout="@layout/team_fight_detail" />
 
     <View
         android:id="@+id/line"

@@ -179,4 +179,6 @@
     <string name="DAMAGE1">DAMAGE</string>
     <string name="place_holder_1">-</string>
     <string name="k">%.2fk</string>
+    <string name="matches_">Matches:%1$d</string>
+    <string name="winrate_">Winrate:</string>
 </resources>

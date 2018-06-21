@@ -22,18 +22,24 @@ import android.widget.TextView;
 import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Activities.MatchActivity;
 import com.example.zxd1997.dota2.Beans.Hero;
+import com.example.zxd1997.dota2.Beans.MatchHero;
+import com.example.zxd1997.dota2.Beans.PlayedHero;
 import com.example.zxd1997.dota2.Beans.RecentMatch;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.Tools;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 
 public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private final List<RecentMatch> recentMatches;
+    private final List<MatchHero> contents;
     private final Context context;
     private boolean hasfoot = true;
+    private final int MATCH = 1;
+    private final int HERO = 2;
+    private final int FOOT = 0;
 
     public boolean isHasfoot() {
         return hasfoot;
@@ -43,25 +49,31 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.hasfoot = hasfoot;
     }
 
-    public MatchesAdapter(Context context, List<RecentMatch> recentMatches) {
-        this.recentMatches = recentMatches;
+    public MatchesAdapter(Context context, List<MatchHero> contents) {
+        this.contents = contents;
         this.context = context;
     }
 
     @Override
     public int getItemViewType(int position) {
         if (hasfoot)
-            return position == getItemCount() - 1 ? 0 : 1;
-        else return 1;
+            return position == getItemCount() - 1 ? 0 : contents.get(position).getType();
+        else return contents.get(position).getType();
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == 1)
-            return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.match_list, parent, false));
-        else
-            return new Footer(LayoutInflater.from(parent.getContext()).inflate(R.layout.loading, parent, false));
+        switch (viewType) {
+            case MATCH: {
+                return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.match_list, parent, false));
+            }
+            case FOOT: {
+                return new Footer(LayoutInflater.from(parent.getContext()).inflate(R.layout.loading, parent, false));
+            }
+            default:
+                return new HeroHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.hero_played, parent, false));
+        }
     }
 
     @SuppressLint("Recycle")
@@ -72,87 +84,160 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             AnimationDrawable animationDrawable = (AnimationDrawable) footer.logo.getDrawable();
             animationDrawable.start();
         } else {
-            final ViewHolder viewHolder = (ViewHolder) holder;
-            final RecentMatch recentMatch = recentMatches.get(position);
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, MatchActivity.class);
-                    intent.putExtra("id", recentMatch.getMatch_id());
-                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    context.startActivity(intent);
-                }
-            });
-            final SpannableStringBuilder k = new SpannableStringBuilder();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    SpannableString t1 = new SpannableString(recentMatch.getKills() + "");
-                    t1.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.win)), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    k.append(t1).append("/");
-                    t1 = new SpannableString(recentMatch.getDeaths() + "");
-                    t1.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.lose)), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    k.append(t1).append("/");
-                    t1 = new SpannableString(recentMatch.getAssists() + "");
-                    t1.setSpan(new ForegroundColorSpan(Color.BLUE), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    k.append(t1);
-                    final boolean win = recentMatch.getPlayer_slot() < 128 && recentMatch.isRadiant_win() || recentMatch.getPlayer_slot() > 127 && !recentMatch.isRadiant_win();
-                    Hero h = null;
-                    for (Map.Entry<String, Hero> entry : MainActivity.heroes.entrySet()) {
-                        if (entry.getValue().getId() == recentMatch.getHero_id()) {
-                            h = entry.getValue();
-                            break;
-                        }
+            if (getItemViewType(position) == MATCH) {
+                final ViewHolder viewHolder = (ViewHolder) holder;
+                final RecentMatch recentMatch = (RecentMatch) contents.get(position);
+                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, MatchActivity.class);
+                        intent.putExtra("id", recentMatch.getMatch_id());
+                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        context.startActivity(intent);
                     }
-                    final Hero finalH = h;
-                    viewHolder.itemView.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (win) {
-                                viewHolder.win_or_not.setTextColor(context.getResources().getColor(R.color.win));
-                                viewHolder.win_or_not.setText(context.getString(R.string.win));
-                            } else {
-                                viewHolder.win_or_not.setTextColor(context.getResources().getColor(R.color.lose));
-                                viewHolder.win_or_not.setText(context.getString(R.string.lose));
+                });
+                final SpannableStringBuilder k = new SpannableStringBuilder();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        SpannableString t1 = new SpannableString(recentMatch.getKills() + "");
+                        t1.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.win)), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        k.append(t1).append("/");
+                        t1 = new SpannableString(recentMatch.getDeaths() + "");
+                        t1.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.lose)), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        k.append(t1).append("/");
+                        t1 = new SpannableString(recentMatch.getAssists() + "");
+                        t1.setSpan(new ForegroundColorSpan(Color.BLUE), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        k.append(t1);
+                        final boolean win = recentMatch.getPlayer_slot() < 128 && recentMatch.isRadiant_win() || recentMatch.getPlayer_slot() > 127 && !recentMatch.isRadiant_win();
+                        Hero h = null;
+                        for (Map.Entry<String, Hero> entry : MainActivity.heroes.entrySet()) {
+                            if (entry.getValue().getId() == recentMatch.getHero_id()) {
+                                h = entry.getValue();
+                                break;
                             }
-                            viewHolder.kda.setText(k);
-                            assert finalH != null;
-                            viewHolder.hero_name.setText(finalH.getLocalized_name());
-                            viewHolder.hero_header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + finalH.getId(), R.drawable.class))).build());
-                            TypedArray typedArray = context.getResources().obtainTypedArray(R.array.skills);
-                            viewHolder.skills.setText(typedArray.getText(recentMatch.getSkill()));
-                            typedArray = context.getResources().obtainTypedArray(R.array.lobby_type);
-                            if (recentMatch.getLobby_type() == 2 || recentMatch.getLobby_type() == 5 || recentMatch.getLobby_type() == 6 || recentMatch.getLobby_type() == 7 || recentMatch.getLobby_type() == 9)
-                                viewHolder.lobby_type.setTextColor(context.getResources().getColor(R.color.very_high));
-                            else
-                                viewHolder.lobby_type.setTextColor(context.getResources().getColor(R.color.normal));
-                            viewHolder.lobby_type.setText(typedArray.getText(recentMatch.getLobby_type()));
-                            typedArray = context.getResources().obtainTypedArray(R.array.skills_color);
-                            viewHolder.skills.setTextColor(context.getResources().getColor(typedArray.getResourceId(recentMatch.getSkill(), 0)));
-                            typedArray = context.getResources().obtainTypedArray(R.array.game_mode);
-                            viewHolder.game_mode.setText(typedArray.getText(recentMatch.getGame_mode()));
-                            typedArray.recycle();
-                            viewHolder.time.setText(Tools.getBefore(recentMatch.getStart_time()));
                         }
-                    });
-                }
-            }).start();
+                        final Hero finalH = h;
+                        viewHolder.itemView.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (win) {
+                                    viewHolder.win_or_not.setTextColor(context.getResources().getColor(R.color.win));
+                                    viewHolder.win_or_not.setText(context.getString(R.string.win));
+                                } else {
+                                    viewHolder.win_or_not.setTextColor(context.getResources().getColor(R.color.lose));
+                                    viewHolder.win_or_not.setText(context.getString(R.string.lose));
+                                }
+                                viewHolder.kda.setText(k);
+                                assert finalH != null;
+                                viewHolder.hero_name.setText(finalH.getLocalized_name());
+                                viewHolder.hero_header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + finalH.getId(), R.drawable.class))).build());
+                                TypedArray typedArray = context.getResources().obtainTypedArray(R.array.skills);
+                                viewHolder.skills.setText(typedArray.getText(recentMatch.getSkill()));
+                                typedArray = context.getResources().obtainTypedArray(R.array.lobby_type);
+                                if (recentMatch.getLobby_type() == 2 || recentMatch.getLobby_type() == 5 || recentMatch.getLobby_type() == 6 || recentMatch.getLobby_type() == 7 || recentMatch.getLobby_type() == 9)
+                                    viewHolder.lobby_type.setTextColor(context.getResources().getColor(R.color.very_high));
+                                else
+                                    viewHolder.lobby_type.setTextColor(context.getResources().getColor(R.color.normal));
+                                viewHolder.lobby_type.setText(typedArray.getText(recentMatch.getLobby_type()));
+                                typedArray = context.getResources().obtainTypedArray(R.array.skills_color);
+                                viewHolder.skills.setTextColor(context.getResources().getColor(typedArray.getResourceId(recentMatch.getSkill(), 0)));
+                                typedArray = context.getResources().obtainTypedArray(R.array.game_mode);
+                                viewHolder.game_mode.setText(typedArray.getText(recentMatch.getGame_mode()));
+                                typedArray.recycle();
+                                viewHolder.time.setText(Tools.getBefore(recentMatch.getStart_time()));
+                            }
+                        });
+                    }
+                }).start();
+            } else {
+                final PlayedHero hero = (PlayedHero) contents.get(position);
+                final HeroHolder heroHolder = (HeroHolder) holder;
+                heroHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        Intent intent = new Intent(context, MyHeroActivity.class);
+//                        intent.putExtra("id", hero.getHero_id());
+//                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//                        context.startActivity(intent);
+                    }
+                });
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        final float winrate = (float) hero.getWin() / hero.getGames();
+                        Hero h = null;
+                        for (Map.Entry<String, Hero> entry : MainActivity.heroes.entrySet()) {
+                            if (entry.getValue().getId() == hero.getHero_id()) {
+                                h = entry.getValue();
+                                break;
+                            }
+                        }
+                        final Hero finalH = h;
+                        heroHolder.itemView.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                assert finalH != null;
+                                heroHolder.hero_name.setText(finalH.getLocalized_name());
+                                heroHolder.hero_header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + finalH.getId(), R.drawable.class))).build());
+                                heroHolder.winrate.setText(new SpannableStringBuilder(context.getResources().getString(R.string.winrate_)).append(getS(winrate)));
+                                heroHolder.matches.setText(context.getResources().getString(R.string.matches_, hero.getGames()));
+                                heroHolder.last_played.setText(Tools.getBefore(hero.getLast_played()));
+                            }
+                        });
+                    }
+                }).start();
+            }
         }
     }
 
+    private SpannableString getS(double pct) {
+        pct *= 100;
+        DecimalFormat df = new DecimalFormat("0.00");
+        SpannableString t = new SpannableString(df.format(pct) + "%");
+        if (pct >= 80) {
+            t.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.win)), 0, t.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else if (pct >= 60) {
+            t.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.slot_0)), 0, t.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else if (pct >= 40) {
+            t.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.high)), 0, t.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else if (pct >= 20) {
+            t.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.very_high)), 0, t.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else {
+            t.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.lose)), 0, t.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        return t;
+    }
     @Override
     public int getItemCount() {
         if (hasfoot)
-            return recentMatches.size() + 1;
-        return recentMatches.size();
+            return contents.size() + 1;
+        return contents.size();
     }
 
     class Footer extends RecyclerView.ViewHolder {
         ImageView logo;
 
-        public Footer(View itemView) {
+        Footer(View itemView) {
             super(itemView);
             logo = itemView.findViewById(R.id.loading_logo);
+        }
+    }
+
+    class HeroHolder extends RecyclerView.ViewHolder {
+        SimpleDraweeView hero_header;
+        TextView hero_name;
+        TextView matches;
+        TextView winrate;
+        TextView last_played;
+
+        HeroHolder(View itemView) {
+            super(itemView);
+            hero_header = itemView.findViewById(R.id.played_header);
+            hero_name = itemView.findViewById(R.id.played_name);
+            matches = itemView.findViewById(R.id.matches_played);
+            winrate = itemView.findViewById(R.id.hero_win_rate);
+            last_played = itemView.findViewById(R.id.last_played);
         }
     }
 

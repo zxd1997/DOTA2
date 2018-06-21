@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="55dp"
+    android:layout_marginBottom="2dp"
+    android:layout_marginLeft="3dp"
+    android:layout_marginRight="3dp"
+    android:layout_marginTop="2dp"
+    fresco:cardCornerRadius="2dp">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/touch_bg" />
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/played_header"
+        android:layout_width="80dp"
+        android:layout_height="45dp"
+        android:layout_margin="5dp"
+        android:textColor="?android:attr/textColorPrimary"
+        fresco:roundedCornerRadius="3dp" />
+
+    <TextView
+        android:id="@+id/played_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="90dp"
+        android:layout_marginTop="2dp"
+        android:textSize="20sp"
+        tools:text="Phantom Assassin" />
+
+    <TextView
+        android:id="@+id/last_played"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|bottom"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="90dp"
+        tools:text="1 year ago" />
+
+    <TextView
+        android:id="@+id/matches_played"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|top"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="3dp"
+        android:textSize="18sp"
+        tools:text="Played:500" />
+
+    <TextView
+        android:id="@+id/hero_win_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="5dp"
+        android:textSize="18sp"
+        tools:text="Winrate:50.00%" />
+</android.support.v7.widget.CardView>
