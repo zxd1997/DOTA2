@@ -19,6 +19,15 @@ public class RecentMatch extends MatchHero {
     private int hero_healing;
     private int last_hits;
     private int leaver_status;
+    private int denies;
+
+    public int getDenies() {
+        return denies;
+    }
+
+    public void setDenies(int denies) {
+        this.denies = denies;
+    }
 
     public long getMatch_id() {
         return match_id;

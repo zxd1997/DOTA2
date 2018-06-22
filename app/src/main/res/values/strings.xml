@@ -181,4 +181,16 @@
     <string name="k">%.2fk</string>
     <string name="matches_">Matches:%1$d</string>
     <string name="winrate_">Winrate:</string>
+    <string name="hightest_kills">Highest Kills:</string>
+    <string name="highest_death">Highest Deaths:</string>
+    <string name="highest_assists">Highest Assists:</string>
+    <string name="hightest_gpm">Highest GPM:</string>
+    <string name="hightest_xpm">Highest XPM:</string>
+    <string name="highest_lh">Highest Last Hits:</string>
+    <string name="hightest_denies">Highest Denies:</string>
+    <string name="hightest_damage">Highest Hero Damage:</string>
+    <string name="hightest_td">Highest Tower Damage:</string>
+    <string name="hightest_hh">Highest Hero Healing:</string>
+    <string name="longest_duration">Longest Match Duration:</string>
+    <string name="records">Records</string>
 </resources>

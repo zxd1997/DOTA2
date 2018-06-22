@@ -40,7 +40,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final int MATCH = 1;
     private final int HERO = 2;
     private final int FOOT = 0;
-
+    private final int RECORD = 3;
     public boolean isHasfoot() {
         return hasfoot;
     }
@@ -71,8 +71,11 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             case FOOT: {
                 return new Footer(LayoutInflater.from(parent.getContext()).inflate(R.layout.loading, parent, false));
             }
-            default:
+            case HERO: {
                 return new HeroHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.hero_played, parent, false));
+            }
+            default:
+                return new RecordHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.record, parent, false));
         }
     }
 
@@ -150,7 +153,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         });
                     }
                 }).start();
-            } else {
+            } else if (getItemViewType(position) == HERO) {
                 final PlayedHero hero = (PlayedHero) contents.get(position);
                 final HeroHolder heroHolder = (HeroHolder) holder;
                 heroHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -187,6 +190,43 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         });
                     }
                 }).start();
+            } else if (getItemViewType(position) == RECORD) {
+                final RecordHolder viewHolder = (RecordHolder) holder;
+                final RecentMatch recentMatch = (RecentMatch) contents.get(position);
+                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, MatchActivity.class);
+                        intent.putExtra("id", recentMatch.getMatch_id());
+                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        context.startActivity(intent);
+                    }
+                });
+                final boolean win = recentMatch.getPlayer_slot() < 128 && recentMatch.isRadiant_win() || recentMatch.getPlayer_slot() > 127 && !recentMatch.isRadiant_win();
+                Hero h = null;
+                for (Map.Entry<String, Hero> entry : MainActivity.heroes.entrySet()) {
+                    if (entry.getValue().getId() == recentMatch.getHero_id()) {
+                        h = entry.getValue();
+                        break;
+                    }
+                }
+                final Hero finalH = h;
+                viewHolder.itemView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (win) {
+                            viewHolder.win_or_not.setTextColor(context.getResources().getColor(R.color.win));
+                            viewHolder.win_or_not.setText(context.getString(R.string.win));
+                        } else {
+                            viewHolder.win_or_not.setTextColor(context.getResources().getColor(R.color.lose));
+                            viewHolder.win_or_not.setText(context.getString(R.string.lose));
+                        }
+                        assert finalH != null;
+                        viewHolder.record_title.setText(recentMatch.getTitle());
+                        viewHolder.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + finalH.getId(), R.drawable.class))).build());
+                        viewHolder.time.setText(Tools.getBefore(recentMatch.getStart_time()));
+                    }
+                });
             }
         }
     }
@@ -213,6 +253,21 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (hasfoot)
             return contents.size() + 1;
         return contents.size();
+    }
+
+    class RecordHolder extends RecyclerView.ViewHolder {
+        SimpleDraweeView header;
+        TextView record_title;
+        TextView time;
+        TextView win_or_not;
+
+        public RecordHolder(View itemView) {
+            super(itemView);
+            header = itemView.findViewById(R.id.record_hero);
+            record_title = itemView.findViewById(R.id.record_title);
+            time = itemView.findViewById(R.id.record_time);
+            win_or_not = itemView.findViewById(R.id.record_win);
+        }
     }
 
     class Footer extends RecyclerView.ViewHolder {

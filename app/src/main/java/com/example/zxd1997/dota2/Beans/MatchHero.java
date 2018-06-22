@@ -3,6 +3,15 @@ package com.example.zxd1997.dota2.Beans;
 public class MatchHero {
     private int hero_id;
     private int type;
+    private String title;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public int getType() {
         return type;

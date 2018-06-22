@@ -9,6 +9,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -24,12 +26,17 @@ import android.widget.TextView;
 
 import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Activities.PlayerActivity;
+import com.example.zxd1997.dota2.Adapters.MatchesAdapter;
+import com.example.zxd1997.dota2.Beans.MatchHero;
 import com.example.zxd1997.dota2.Beans.Player;
+import com.example.zxd1997.dota2.Beans.RecentMatch;
 import com.example.zxd1997.dota2.Beans.Total;
 import com.example.zxd1997.dota2.Beans.WL;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.MyApplication;
 import com.example.zxd1997.dota2.Utils.OKhttp;
+import com.example.zxd1997.dota2.Utils.Tools;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -47,12 +54,24 @@ public class PlayerOverviewFragment extends Fragment {
     private final static int WL_RECENT = 2;
     private final static int TOTAL_FULL = 3;
     private final static int TOTAL_RECENT = 4;
+    private final static int KILLS = 5;
+    private final static int DEATHS = 6;
+    private final static int ASSISTS = 7;
+    private final static int GPM = 8;
+    private final static int XPM = 9;
+    private final static int LASTHIT = 10;
+    private final static int DENIES = 11;
+    private final static int DAMAGE = 12;
+    private final static int TOWER = 13;
+    private final static int HEALING = 14;
+    private final static int DURATION = 15;
     private final List<Total> totals_full = new ArrayList<>();
     private final List<Total> totals_recent = new ArrayList<>();
     private final DecimalFormat df = new DecimalFormat("0.00");
     private final DecimalFormat df1 = new DecimalFormat("0.0");
     private WL wl_full;
     private WL wl_recent;
+    private TextView record;
     private Player player;
     private TextView win;
     private TextView lose;
@@ -64,7 +83,9 @@ public class PlayerOverviewFragment extends Fragment {
     private TextView xpm;
     private ProgressBar progressBar;
     private View view;
-
+    private RecyclerView recyclerView;
+    private MatchesAdapter matchesAdapter;
+    private List<MatchHero> records = new ArrayList<>();
     public PlayerOverviewFragment() {
 
     }
@@ -108,7 +129,6 @@ public class PlayerOverviewFragment extends Fragment {
                             SpannableString full_win_rate = new SpannableString(df.format(wl_full.getWinrate() * 100) + "%");
                             rec_win_rate.setSpan(new RelativeSizeSpan(1.3f), 0, rec_win_rate.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                             t2.append(rec_win_rate).append("/").append(full_win_rate);
-                            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/totals", handler, TOTAL_FULL);
                             view.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -169,11 +189,133 @@ public class PlayerOverviewFragment extends Fragment {
                                     damage.setText(t1);
                                     gpm.setText(t2);
                                     xpm.setText(t3);
-                                    progressBar.setVisibility(View.GONE);
                                 }
                             });
                         }
                     }).start();
+                    break;
+                }
+                case KILLS: {
+                    JsonParser parser = new JsonParser();
+                    JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
+                    RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
+                    recentMatch.setType(3);
+                    recentMatch.setTitle(getString(R.string.hightest_kills) + recentMatch.getKills());
+                    record.setVisibility(View.VISIBLE);
+                    records.add(recentMatch);
+                    matchesAdapter = new MatchesAdapter(getContext(), records);
+                    matchesAdapter.setHasfoot(false);
+                    recyclerView.setAdapter(matchesAdapter);
+                    progressBar.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=deaths" + "&limit=1", handler, DEATHS);
+                    break;
+                }
+                case DEATHS: {
+                    JsonParser parser = new JsonParser();
+                    JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
+                    RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
+                    recentMatch.setType(3);
+                    recentMatch.setTitle(getString(R.string.highest_death) + recentMatch.getDeaths());
+                    records.add(recentMatch);
+                    matchesAdapter.notifyItemInserted(matchesAdapter.getItemCount() - 1);
+                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=assists" + "&limit=1", handler, ASSISTS);
+                    break;
+                }
+                case ASSISTS: {
+                    JsonParser parser = new JsonParser();
+                    JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
+                    RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
+                    recentMatch.setType(3);
+                    recentMatch.setTitle(getString(R.string.highest_assists) + recentMatch.getAssists());
+                    records.add(recentMatch);
+                    matchesAdapter.notifyItemInserted(matchesAdapter.getItemCount() - 1);
+                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=gold_per_min" + "&limit=1", handler, GPM);
+                    break;
+                }
+                case GPM: {
+                    JsonParser parser = new JsonParser();
+                    JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
+                    RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
+                    recentMatch.setType(3);
+                    recentMatch.setTitle(getString(R.string.hightest_gpm) + recentMatch.getGold_per_min());
+                    records.add(recentMatch);
+                    matchesAdapter.notifyItemInserted(matchesAdapter.getItemCount() - 1);
+                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=xp_per_min" + "&limit=1", handler, XPM);
+                    break;
+                }
+                case XPM: {
+                    JsonParser parser = new JsonParser();
+                    JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
+                    RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
+                    recentMatch.setType(3);
+                    recentMatch.setTitle(getString(R.string.hightest_xpm) + recentMatch.getXp_per_min());
+                    records.add(recentMatch);
+                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=last_hits" + "&limit=1", handler, LASTHIT);
+                    break;
+                }
+                case LASTHIT: {
+                    JsonParser parser = new JsonParser();
+                    JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
+                    RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
+                    recentMatch.setType(3);
+                    recentMatch.setTitle(getString(R.string.highest_lh) + recentMatch.getLast_hits());
+                    records.add(recentMatch);
+                    matchesAdapter.notifyItemInserted(matchesAdapter.getItemCount() - 1);
+                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=denies" + "&limit=1", handler, DENIES);
+                    break;
+                }
+                case DENIES: {
+                    JsonParser parser = new JsonParser();
+                    JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
+                    RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
+                    recentMatch.setType(3);
+                    recentMatch.setTitle(getString(R.string.hightest_denies) + recentMatch.getDenies());
+                    records.add(recentMatch);
+                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=hero_damage" + "&limit=1", handler, DAMAGE);
+                    break;
+                }
+                case DAMAGE: {
+                    JsonParser parser = new JsonParser();
+                    JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
+                    RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
+                    recentMatch.setType(3);
+                    recentMatch.setTitle(getString(R.string.hightest_damage) + recentMatch.getHero_damage());
+                    records.add(recentMatch);
+                    matchesAdapter.notifyItemInserted(matchesAdapter.getItemCount() - 1);
+                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=tower_damage" + "&limit=1", handler, TOWER);
+                    break;
+                }
+                case TOWER: {
+                    JsonParser parser = new JsonParser();
+                    JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
+                    RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
+                    recentMatch.setType(3);
+                    recentMatch.setTitle(getString(R.string.hightest_td) + recentMatch.getTower_damage());
+                    records.add(recentMatch);
+                    matchesAdapter.notifyItemInserted(matchesAdapter.getItemCount() - 1);
+                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=hero_healing" + "&limit=1", handler, HEALING);
+                    break;
+                }
+                case HEALING: {
+                    JsonParser parser = new JsonParser();
+                    JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
+                    RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
+                    recentMatch.setType(3);
+                    recentMatch.setTitle(getString(R.string.hightest_hh) + recentMatch.getHero_healing());
+                    records.add(recentMatch);
+                    matchesAdapter.notifyItemInserted(matchesAdapter.getItemCount() - 1);
+                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=duration" + "&limit=1", handler, DURATION);
+                    break;
+                }
+                case DURATION: {
+                    JsonParser parser = new JsonParser();
+                    JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
+                    RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
+                    recentMatch.setType(3);
+                    recentMatch.setTitle(getString(R.string.longest_duration) + Tools.getTime(recentMatch.getDuration()));
+                    records.add(recentMatch);
+                    matchesAdapter.notifyItemInserted(matchesAdapter.getItemCount() - 1);
                     break;
                 }
             }
@@ -211,6 +353,17 @@ public class PlayerOverviewFragment extends Fragment {
             damage = view.findViewById(R.id.player_damage);
             gpm = view.findViewById(R.id.player_gpm);
             xpm = view.findViewById(R.id.player_xpm);
+            recyclerView = view.findViewById(R.id.record);
+            record = view.findViewById(R.id.records);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE)
+                        Fresco.getImagePipeline().resume();
+                    else Fresco.getImagePipeline().pause();
+                }
+            });
             player_header.setImageURI(player.getAvatarfull());
             player_name.setText(player.getName() != null ? player.getName() : player.getPersonaname() == null || player.getPersonaname().equals("") ? getString(R.string.anonymous) : player.getPersonaname());
             player_id.setText(getString(R.string.id, player.getAccount_id()));
@@ -251,6 +404,8 @@ public class PlayerOverviewFragment extends Fragment {
             }
             progressBar.setVisibility(View.VISIBLE);
             OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/wl", handler, WL_FULL);
+            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/totals", handler, TOTAL_FULL);
+            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=kills" + "&limit=1", handler, KILLS);
         }
         return view;
     }
