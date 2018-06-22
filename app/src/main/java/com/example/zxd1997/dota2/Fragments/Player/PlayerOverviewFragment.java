@@ -45,6 +45,8 @@ import com.google.gson.JsonParser;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -65,6 +67,12 @@ public class PlayerOverviewFragment extends Fragment {
     private final static int TOWER = 13;
     private final static int HEALING = 14;
     private final static int DURATION = 15;
+    private final static int WL_FINISH = 16;
+    private final static int TOTAL_FINISH = 17;
+    private final static int RECORD_FINISH = 18;
+    int wl_count = 0;
+    int total_count = 0;
+    int record_count = 0;
     private final List<Total> totals_full = new ArrayList<>();
     private final List<Total> totals_recent = new ArrayList<>();
     private final DecimalFormat df = new DecimalFormat("0.00");
@@ -101,12 +109,26 @@ public class PlayerOverviewFragment extends Fragment {
                 case WL_FULL: {
                     wl_full = new Gson().fromJson(msg.obj.toString(), WL.class);
                     wl_full.setWinrate();
-                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/wl?limit=20", handler, WL_RECENT);
+                    wl_count++;
+                    if (wl_count == 2) {
+                        Message message = new Message();
+                        message.what = WL_FINISH;
+                        handler.sendMessage(message);
+                    }
                     break;
                 }
                 case WL_RECENT: {
                     wl_recent = new Gson().fromJson(msg.obj.toString(), WL.class);
                     wl_recent.setWinrate();
+                    wl_count++;
+                    if (wl_count == 2) {
+                        Message message = new Message();
+                        message.what = WL_FINISH;
+                        handler.sendMessage(message);
+                    }
+                    break;
+                }
+                case WL_FINISH: {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -149,7 +171,12 @@ public class PlayerOverviewFragment extends Fragment {
                         Total total = new Gson().fromJson(e, Total.class);
                         totals_full.add(total);
                     }
-                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/totals?limit=20", handler, TOTAL_RECENT);
+                    total_count++;
+                    if (total_count == 2) {
+                        Message message = new Message();
+                        message.what = TOTAL_FINISH;
+                        handler.sendMessage(message);
+                    }
                     break;
                 }
                 case TOTAL_RECENT: {
@@ -159,6 +186,15 @@ public class PlayerOverviewFragment extends Fragment {
                         Total total = new Gson().fromJson(e, Total.class);
                         totals_recent.add(total);
                     }
+                    total_count++;
+                    if (total_count == 2) {
+                        Message message = new Message();
+                        message.what = TOTAL_FINISH;
+                        handler.sendMessage(message);
+                    }
+                    break;
+                }
+                case TOTAL_FINISH: {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -195,20 +231,45 @@ public class PlayerOverviewFragment extends Fragment {
                     }).start();
                     break;
                 }
+                case RECORD_FINISH: {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Collections.sort(records, new Comparator<MatchHero>() {
+                                @Override
+                                public int compare(MatchHero o1, MatchHero o2) {
+                                    return o1.getNo() - o2.getNo();
+                                }
+                            });
+                            matchesAdapter = new MatchesAdapter(getContext(), records);
+                            matchesAdapter.setHasfoot(false);
+                            view.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    record.setVisibility(View.VISIBLE);
+                                    recyclerView.setAdapter(matchesAdapter);
+                                    progressBar.setVisibility(View.GONE);
+                                    recyclerView.setVisibility(View.VISIBLE);
+                                }
+                            });
+                        }
+                    }).start();
+                    break;
+                }
                 case KILLS: {
                     JsonParser parser = new JsonParser();
                     JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
                     RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
                     recentMatch.setType(3);
                     recentMatch.setTitle(getString(R.string.hightest_kills) + recentMatch.getKills());
-                    record.setVisibility(View.VISIBLE);
+                    recentMatch.setNo(1);
                     records.add(recentMatch);
-                    matchesAdapter = new MatchesAdapter(getContext(), records);
-                    matchesAdapter.setHasfoot(false);
-                    recyclerView.setAdapter(matchesAdapter);
-                    progressBar.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.VISIBLE);
-                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=deaths" + "&limit=1", handler, DEATHS);
+                    record_count++;
+                    if (record_count == 11) {
+                        Message message = new Message();
+                        message.what = RECORD_FINISH;
+                        handler.sendMessage(message);
+                    }
                     break;
                 }
                 case DEATHS: {
@@ -217,9 +278,14 @@ public class PlayerOverviewFragment extends Fragment {
                     RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
                     recentMatch.setType(3);
                     recentMatch.setTitle(getString(R.string.highest_death) + recentMatch.getDeaths());
+                    recentMatch.setNo(2);
                     records.add(recentMatch);
-                    matchesAdapter.notifyItemInserted(matchesAdapter.getItemCount() - 1);
-                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=assists" + "&limit=1", handler, ASSISTS);
+                    record_count++;
+                    if (record_count == 11) {
+                        Message message = new Message();
+                        message.what = RECORD_FINISH;
+                        handler.sendMessage(message);
+                    }
                     break;
                 }
                 case ASSISTS: {
@@ -228,9 +294,14 @@ public class PlayerOverviewFragment extends Fragment {
                     RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
                     recentMatch.setType(3);
                     recentMatch.setTitle(getString(R.string.highest_assists) + recentMatch.getAssists());
+                    recentMatch.setNo(3);
                     records.add(recentMatch);
-                    matchesAdapter.notifyItemInserted(matchesAdapter.getItemCount() - 1);
-                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=gold_per_min" + "&limit=1", handler, GPM);
+                    record_count++;
+                    if (record_count == 11) {
+                        Message message = new Message();
+                        message.what = RECORD_FINISH;
+                        handler.sendMessage(message);
+                    }
                     break;
                 }
                 case GPM: {
@@ -239,9 +310,14 @@ public class PlayerOverviewFragment extends Fragment {
                     RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
                     recentMatch.setType(3);
                     recentMatch.setTitle(getString(R.string.hightest_gpm) + recentMatch.getGold_per_min());
+                    recentMatch.setNo(4);
                     records.add(recentMatch);
-                    matchesAdapter.notifyItemInserted(matchesAdapter.getItemCount() - 1);
-                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=xp_per_min" + "&limit=1", handler, XPM);
+                    record_count++;
+                    if (record_count == 11) {
+                        Message message = new Message();
+                        message.what = RECORD_FINISH;
+                        handler.sendMessage(message);
+                    }
                     break;
                 }
                 case XPM: {
@@ -250,8 +326,14 @@ public class PlayerOverviewFragment extends Fragment {
                     RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
                     recentMatch.setType(3);
                     recentMatch.setTitle(getString(R.string.hightest_xpm) + recentMatch.getXp_per_min());
+                    recentMatch.setNo(5);
                     records.add(recentMatch);
-                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=last_hits" + "&limit=1", handler, LASTHIT);
+                    record_count++;
+                    if (record_count == 11) {
+                        Message message = new Message();
+                        message.what = RECORD_FINISH;
+                        handler.sendMessage(message);
+                    }
                     break;
                 }
                 case LASTHIT: {
@@ -260,9 +342,14 @@ public class PlayerOverviewFragment extends Fragment {
                     RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
                     recentMatch.setType(3);
                     recentMatch.setTitle(getString(R.string.highest_lh) + recentMatch.getLast_hits());
+                    recentMatch.setNo(6);
                     records.add(recentMatch);
-                    matchesAdapter.notifyItemInserted(matchesAdapter.getItemCount() - 1);
-                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=denies" + "&limit=1", handler, DENIES);
+                    record_count++;
+                    if (record_count == 11) {
+                        Message message = new Message();
+                        message.what = RECORD_FINISH;
+                        handler.sendMessage(message);
+                    }
                     break;
                 }
                 case DENIES: {
@@ -271,8 +358,14 @@ public class PlayerOverviewFragment extends Fragment {
                     RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
                     recentMatch.setType(3);
                     recentMatch.setTitle(getString(R.string.hightest_denies) + recentMatch.getDenies());
+                    recentMatch.setNo(7);
                     records.add(recentMatch);
-                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=hero_damage" + "&limit=1", handler, DAMAGE);
+                    record_count++;
+                    if (record_count == 11) {
+                        Message message = new Message();
+                        message.what = RECORD_FINISH;
+                        handler.sendMessage(message);
+                    }
                     break;
                 }
                 case DAMAGE: {
@@ -281,9 +374,14 @@ public class PlayerOverviewFragment extends Fragment {
                     RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
                     recentMatch.setType(3);
                     recentMatch.setTitle(getString(R.string.hightest_damage) + recentMatch.getHero_damage());
+                    recentMatch.setNo(8);
                     records.add(recentMatch);
-                    matchesAdapter.notifyItemInserted(matchesAdapter.getItemCount() - 1);
-                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=tower_damage" + "&limit=1", handler, TOWER);
+                    record_count++;
+                    if (record_count == 11) {
+                        Message message = new Message();
+                        message.what = RECORD_FINISH;
+                        handler.sendMessage(message);
+                    }
                     break;
                 }
                 case TOWER: {
@@ -292,9 +390,14 @@ public class PlayerOverviewFragment extends Fragment {
                     RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
                     recentMatch.setType(3);
                     recentMatch.setTitle(getString(R.string.hightest_td) + recentMatch.getTower_damage());
+                    recentMatch.setNo(9);
                     records.add(recentMatch);
-                    matchesAdapter.notifyItemInserted(matchesAdapter.getItemCount() - 1);
-                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=hero_healing" + "&limit=1", handler, HEALING);
+                    record_count++;
+                    if (record_count == 11) {
+                        Message message = new Message();
+                        message.what = RECORD_FINISH;
+                        handler.sendMessage(message);
+                    }
                     break;
                 }
                 case HEALING: {
@@ -303,9 +406,14 @@ public class PlayerOverviewFragment extends Fragment {
                     RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
                     recentMatch.setType(3);
                     recentMatch.setTitle(getString(R.string.hightest_hh) + recentMatch.getHero_healing());
+                    recentMatch.setNo(10);
                     records.add(recentMatch);
-                    matchesAdapter.notifyItemInserted(matchesAdapter.getItemCount() - 1);
-                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=duration" + "&limit=1", handler, DURATION);
+                    record_count++;
+                    if (record_count == 11) {
+                        Message message = new Message();
+                        message.what = RECORD_FINISH;
+                        handler.sendMessage(message);
+                    }
                     break;
                 }
                 case DURATION: {
@@ -314,8 +422,14 @@ public class PlayerOverviewFragment extends Fragment {
                     RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
                     recentMatch.setType(3);
                     recentMatch.setTitle(getString(R.string.longest_duration) + Tools.getTime(recentMatch.getDuration()));
+                    recentMatch.setNo(11);
                     records.add(recentMatch);
-                    matchesAdapter.notifyItemInserted(matchesAdapter.getItemCount() - 1);
+                    record_count++;
+                    if (record_count == 11) {
+                        Message message = new Message();
+                        message.what = RECORD_FINISH;
+                        handler.sendMessage(message);
+                    }
                     break;
                 }
             }
@@ -404,8 +518,23 @@ public class PlayerOverviewFragment extends Fragment {
             }
             progressBar.setVisibility(View.VISIBLE);
             OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/wl", handler, WL_FULL);
+            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/wl?limit=20", handler, WL_RECENT);
+
             OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/totals", handler, TOTAL_FULL);
+            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/totals?limit=20", handler, TOTAL_RECENT);
+
             OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=kills" + "&limit=1", handler, KILLS);
+            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=deaths" + "&limit=1", handler, DEATHS);
+            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=assists" + "&limit=1", handler, ASSISTS);
+            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=gold_per_min" + "&limit=1", handler, GPM);
+            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=xp_per_min" + "&limit=1", handler, XPM);
+            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=last_hits" + "&limit=1", handler, LASTHIT);
+            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=denies" + "&limit=1", handler, DENIES);
+            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=hero_damage" + "&limit=1", handler, DAMAGE);
+            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=tower_damage" + "&limit=1", handler, TOWER);
+            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=hero_healing" + "&limit=1", handler, HEALING);
+            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=duration" + "&limit=1", handler, DURATION);
+
         }
         return view;
     }

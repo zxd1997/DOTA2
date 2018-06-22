@@ -5,6 +5,15 @@ public class MatchHero {
     private int type;
     private String title;
 
+    private int no;
+
+    public int getNo() {
+        return no;
+    }
+
+    public void setNo(int no) {
+        this.no = no;
+    }
     public String getTitle() {
         return title;
     }
