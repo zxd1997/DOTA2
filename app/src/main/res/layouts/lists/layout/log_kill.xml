@@ -23,7 +23,6 @@
         fresco:roundBottomRight="false"
         fresco:roundTopRight="false"
         android:layout_marginLeft="43dp"
-
         fresco:roundedCornerRadius="1dp" />
     <View
         android:id="@+id/log_color"

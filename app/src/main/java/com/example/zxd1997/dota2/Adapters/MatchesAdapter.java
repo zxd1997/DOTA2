@@ -24,6 +24,7 @@ import com.example.zxd1997.dota2.Activities.MatchActivity;
 import com.example.zxd1997.dota2.Beans.Hero;
 import com.example.zxd1997.dota2.Beans.MatchHero;
 import com.example.zxd1997.dota2.Beans.PlayedHero;
+import com.example.zxd1997.dota2.Beans.Ranking;
 import com.example.zxd1997.dota2.Beans.RecentMatch;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.Tools;
@@ -41,6 +42,8 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final int HERO = 2;
     private final int FOOT = 0;
     private final int RECORD = 3;
+    private final int RANKING = 4;
+    private final int HEADER = 5;
     public boolean isHasfoot() {
         return hasfoot;
     }
@@ -74,15 +77,23 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             case HERO: {
                 return new HeroHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.hero_played, parent, false));
             }
-            default:
+            case RECORD:
                 return new RecordHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.record, parent, false));
+            case RANKING:
+                return new RankHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.ranking_list, parent, false));
+            default:
+                return new HeaderHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.header, parent, false));
         }
     }
 
     @SuppressLint("Recycle")
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (getItemViewType(position) == 0) {
+        if (getItemViewType(position) == HEADER) {
+            HeaderHolder headerHolder = (HeaderHolder) holder;
+            headerHolder.text.setText(contents.get(position).getTitle());
+            headerHolder.text.setTextSize(8 * context.getResources().getDisplayMetrics().scaledDensity + 0.5f);
+        } else if (getItemViewType(position) == FOOT) {
             Footer footer = (Footer) holder;
             AnimationDrawable animationDrawable = (AnimationDrawable) footer.logo.getDrawable();
             animationDrawable.start();
@@ -183,7 +194,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 assert finalH != null;
                                 heroHolder.hero_name.setText(finalH.getLocalized_name());
                                 heroHolder.hero_header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + finalH.getId(), R.drawable.class))).build());
-                                heroHolder.winrate.setText(new SpannableStringBuilder(context.getResources().getString(R.string.winrate_)).append(getS(winrate)));
+                                heroHolder.winrate.setText(new SpannableStringBuilder(context.getResources().getString(R.string.winrate_)).append(Tools.getS(winrate)));
                                 heroHolder.matches.setText(context.getResources().getString(R.string.matches_, hero.getGames()));
                                 heroHolder.last_played.setText(Tools.getBefore(hero.getLast_played()));
                             }
@@ -227,32 +238,67 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         viewHolder.time.setText(Tools.getBefore(recentMatch.getStart_time()));
                     }
                 });
+            } else if (getItemViewType(position) == RANKING) {
+                final Ranking ranking = (Ranking) contents.get(position);
+                final RankHolder rankHolder = (RankHolder) holder;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Hero h = null;
+                        for (Map.Entry<String, Hero> entry : MainActivity.heroes.entrySet()) {
+                            if (entry.getValue().getId() == ranking.getHero_id()) {
+                                h = entry.getValue();
+                                break;
+                            }
+                        }
+                        final Hero finalH = h;
+                        rankHolder.itemView.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                assert finalH != null;
+                                rankHolder.hero_name.setText(finalH.getLocalized_name());
+                                rankHolder.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + finalH.getId(), R.drawable.class))).build());
+                                final DecimalFormat df = new DecimalFormat("0.00");
+                                rankHolder.score.setText(df.format(ranking.getScore()));
+                                rankHolder.percentage.setText(Tools.getS(ranking.getPercent_rank()));
+                                rankHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+//                                        Intent intent = new Intent(context, MyHeroActivity.class);
+//                                        intent.putExtra("id", hero.getHero_id());
+//                                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//                                        context.startActivity(intent);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }).start();
             }
         }
     }
 
-    private SpannableString getS(double pct) {
-        pct *= 100;
-        DecimalFormat df = new DecimalFormat("0.00");
-        SpannableString t = new SpannableString(df.format(pct) + "%");
-        if (pct >= 80) {
-            t.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.win)), 0, t.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if (pct >= 60) {
-            t.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.slot_0)), 0, t.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if (pct >= 40) {
-            t.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.high)), 0, t.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if (pct >= 20) {
-            t.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.very_high)), 0, t.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else {
-            t.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.lose)), 0, t.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-        return t;
-    }
+
     @Override
     public int getItemCount() {
         if (hasfoot)
             return contents.size() + 1;
         return contents.size();
+    }
+
+    class RankHolder extends RecyclerView.ViewHolder {
+        SimpleDraweeView header;
+        TextView hero_name;
+        TextView score;
+        TextView percentage;
+
+        RankHolder(View itemView) {
+            super(itemView);
+            header = itemView.findViewById(R.id.ranking_header);
+            hero_name = itemView.findViewById(R.id.ranking_name);
+            score = itemView.findViewById(R.id.score);
+            percentage = itemView.findViewById(R.id.percentage);
+        }
     }
 
     class RecordHolder extends RecyclerView.ViewHolder {
@@ -261,7 +307,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextView time;
         TextView win_or_not;
 
-        public RecordHolder(View itemView) {
+        RecordHolder(View itemView) {
             super(itemView);
             header = itemView.findViewById(R.id.record_hero);
             record_title = itemView.findViewById(R.id.record_title);
@@ -293,6 +339,15 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             matches = itemView.findViewById(R.id.matches_played);
             winrate = itemView.findViewById(R.id.hero_win_rate);
             last_played = itemView.findViewById(R.id.last_played);
+        }
+    }
+
+    class HeaderHolder extends RecyclerView.ViewHolder {
+        TextView text;
+
+        HeaderHolder(View itemView) {
+            super(itemView);
+            text = itemView.findViewById(R.id.header_text);
         }
     }
 

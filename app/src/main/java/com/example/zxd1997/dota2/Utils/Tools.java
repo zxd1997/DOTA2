@@ -1,6 +1,13 @@
 package com.example.zxd1997.dota2.Utils;
 
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+
+import com.example.zxd1997.dota2.R;
+
 import java.lang.reflect.Field;
+import java.text.DecimalFormat;
 
 public class Tools {
     public static int getResId(String variableName, Class<?> c) {
@@ -27,6 +34,23 @@ public class Tools {
         return t;
     }
 
+    public static SpannableString getS(double pct) {
+        pct *= 100;
+        DecimalFormat df = new DecimalFormat("0.00");
+        SpannableString t = new SpannableString(df.format(pct) + "%");
+        if (pct >= 80) {
+            t.setSpan(new ForegroundColorSpan(MyApplication.getContext().getResources().getColor(R.color.win)), 0, t.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else if (pct >= 60) {
+            t.setSpan(new ForegroundColorSpan(MyApplication.getContext().getResources().getColor(R.color.slot_0)), 0, t.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else if (pct >= 40) {
+            t.setSpan(new ForegroundColorSpan(MyApplication.getContext().getResources().getColor(R.color.high)), 0, t.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else if (pct >= 20) {
+            t.setSpan(new ForegroundColorSpan(MyApplication.getContext().getResources().getColor(R.color.very_high)), 0, t.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else {
+            t.setSpan(new ForegroundColorSpan(MyApplication.getContext().getResources().getColor(R.color.lose)), 0, t.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        return t;
+    }
     public static StringBuilder getBefore(long time) {
         long now = System.currentTimeMillis() / 1000;
         long year = (now - time) / (3600 * 24 * 30 * 12);

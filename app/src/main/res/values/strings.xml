@@ -193,4 +193,6 @@
     <string name="hightest_hh">Highest Hero Healing:</string>
     <string name="longest_duration">Longest Match Duration:</string>
     <string name="records">Records</string>
+    <string name="percentage">Percentage</string>
+    <string name="score">Score</string>
 </resources>

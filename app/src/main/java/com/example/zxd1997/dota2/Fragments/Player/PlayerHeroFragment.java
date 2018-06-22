@@ -20,6 +20,7 @@ import com.example.zxd1997.dota2.Adapters.MatchesAdapter;
 import com.example.zxd1997.dota2.Beans.MatchHero;
 import com.example.zxd1997.dota2.Beans.PlayedHero;
 import com.example.zxd1997.dota2.Beans.Player;
+import com.example.zxd1997.dota2.Beans.Ranking;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.MyApplication;
 import com.example.zxd1997.dota2.Utils.OKhttp;
@@ -39,7 +40,7 @@ import java.util.Objects;
  * create an instance of this fragment.
  */
 public class PlayerHeroFragment extends Fragment {
-
+    final int RANKING = 23;
     final int HEROES = 22;
     Player player;
     RecyclerView recyclerView;
@@ -55,16 +56,41 @@ public class PlayerHeroFragment extends Fragment {
         public boolean handleMessage(Message msg) {
             switch (msg.what) {
                 case HEROES: {
-                    hero_matches.clear();
+                    MatchHero m = new MatchHero();
+                    m.setTitle("Heroes Played");
+                    m.setType(5);
+                    hero_matches.add(m);
                     JsonParser parser = new JsonParser();
                     JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
                     for (JsonElement e : jsonArray) {
                         PlayedHero playedHero = new Gson().fromJson(e, PlayedHero.class);
                         playedHero.setType(2);
                         hero_matches.add(playedHero);
+                        matchesAdapter.notifyItemInserted(matchesAdapter.getItemCount() - 1);
                     }
                     matchesAdapter.notifyDataSetChanged();
                     swipeRefreshLayout.setRefreshing(false);
+                    break;
+                }
+                case RANKING: {
+                    hero_matches.clear();
+                    MatchHero m = new MatchHero();
+                    m.setTitle("Heroes Ranking");
+                    m.setType(5);
+                    hero_matches.add(m);
+                    JsonParser parser = new JsonParser();
+                    JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
+                    int i = 0;
+                    for (JsonElement e : jsonArray) {
+                        if (i < 10) {
+                            Ranking rankings = new Gson().fromJson(e, Ranking.class);
+                            rankings.setType(4);
+                            hero_matches.add(rankings);
+                        }
+                        i++;
+                    }
+                    matchesAdapter.notifyDataSetChanged();
+                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/heroes", handler, HEROES);
                     break;
                 }
             }
@@ -95,7 +121,7 @@ public class PlayerHeroFragment extends Fragment {
             recyclerView.setLayoutManager(linearLayoutManager);
             matchesAdapter = new MatchesAdapter(getContext(), hero_matches);
             recyclerView.setAdapter(matchesAdapter);
-            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/heroes", handler, HEROES);
+            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/rankings?limit=10", handler, RANKING);
             swipeRefreshLayout.setRefreshing(true);
             matchesAdapter.setHasfoot(false);
             swipeRefreshLayout.setColorSchemeResources(R.color.lose);
@@ -103,7 +129,7 @@ public class PlayerHeroFragment extends Fragment {
                 @Override
                 public void onRefresh() {
                     swipeRefreshLayout.setRefreshing(true);
-                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/heroes", handler, HEROES);
+                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/rankings?limit=10", handler, RANKING);
                 }
             });
             recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

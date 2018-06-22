@@ -57,6 +57,7 @@ public class PlayerActivity extends AppCompatActivity {
             TabFragmentAdapter tabFragmentAdapter = new TabFragmentAdapter(getSupportFragmentManager(), fragments);
             ViewPager mViewPager = findViewById(R.id.player_pager);
             mViewPager.setAdapter(tabFragmentAdapter);
+            mViewPager.setOffscreenPageLimit(fragments.size());
             mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
             tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
             progressBar.setVisibility(View.GONE);

@@ -29,7 +29,6 @@ import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.Tools;
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -75,24 +74,6 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public int getItemViewType(int position) {
         return contents.get(position).type;
-    }
-
-    private SpannableString getS(double pct) {
-        pct *= 100;
-        DecimalFormat df = new DecimalFormat("0.0");
-        SpannableString t = new SpannableString(df.format(pct) + "%");
-        if (pct >= 80) {
-            t.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.win)), 0, t.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if (pct >= 60) {
-            t.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.slot_0)), 0, t.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if (pct >= 40) {
-            t.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.high)), 0, t.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if (pct >= 20) {
-            t.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.very_high)), 0, t.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else {
-            t.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.lose)), 0, t.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-        return t;
     }
 
     @Override
@@ -240,11 +221,11 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 viewHolder.heroHealing.setText(context.getString(R.string.hh, p.getHero_healing()));
                 viewHolder.lastHits.setText(context.getString(R.string.lh, p.getLast_hits()));
                 viewHolder.denies.setText(context.getString(R.string.dn, p.getDenies()));
-                viewHolder.gpm_ben.setText(new SpannableStringBuilder("GPM:").append(getS(p.getBenchmarks().getGold_per_min().getPct())));
-                viewHolder.xpm_ben.setText(new SpannableStringBuilder("XPM:").append(getS(p.getBenchmarks().getXp_per_min().getPct())));
-                viewHolder.hdm_ben.setText(new SpannableStringBuilder(context.getString(R.string.dpm)).append(getS(p.getBenchmarks().getHero_damage_per_min().getPct())));
-                viewHolder.kdm_ben.setText(new SpannableStringBuilder(context.getString(R.string.kpm)).append(getS(p.getBenchmarks().getKills_per_min().getPct())));
-                viewHolder.td_ben.setText(new SpannableStringBuilder("Tower Damage:").append(getS(p.getBenchmarks().getTower_damage().getPct())));
+                viewHolder.gpm_ben.setText(new SpannableStringBuilder("GPM:").append(Tools.getS(p.getBenchmarks().getGold_per_min().getPct())));
+                viewHolder.xpm_ben.setText(new SpannableStringBuilder("XPM:").append(Tools.getS(p.getBenchmarks().getXp_per_min().getPct())));
+                viewHolder.hdm_ben.setText(new SpannableStringBuilder(context.getString(R.string.dpm)).append(Tools.getS(p.getBenchmarks().getHero_damage_per_min().getPct())));
+                viewHolder.kdm_ben.setText(new SpannableStringBuilder(context.getString(R.string.kpm)).append(Tools.getS(p.getBenchmarks().getKills_per_min().getPct())));
+                viewHolder.td_ben.setText(new SpannableStringBuilder("Tower Damage:").append(Tools.getS(p.getBenchmarks().getTower_damage().getPct())));
                 viewHolder.backpack_0.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + p.getBackpack_0(), R.drawable.class))).build());
                 viewHolder.backpack_1.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + p.getBackpack_1(), R.drawable.class))).build());
                 viewHolder.backpack_2.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + p.getBackpack_2(), R.drawable.class))).build());
