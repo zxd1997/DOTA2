@@ -27,8 +27,7 @@
         <lecho.lib.hellocharts.view.PieChartView
             android:layout_width="match_parent"
             android:id="@+id/pie_chart"
-            android:layout_height="200dp"
-            android:layout_margin="3dp"
+            android:layout_height="360dp"
             android:visibility="gone" />
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

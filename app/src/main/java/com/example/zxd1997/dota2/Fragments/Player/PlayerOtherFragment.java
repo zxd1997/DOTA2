@@ -94,12 +94,12 @@ public class PlayerOtherFragment extends Fragment {
                         TypedArray typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.lobby_type_color);
                         sliceValue.setColor(typedArray.getColor(Integer.valueOf(entry.getKey()), 0));
                         typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.lobby_type);
-                        sliceValue.setLabel(typedArray.getString(Integer.valueOf(entry.getKey())) + ":" + wl.getGames() + " Matches Winrate:" + Tools.getS((double) wl.getWin() / wl.getGames()));
+                        sliceValue.setLabel(typedArray.getString(Integer.valueOf(entry.getKey())) + " Match:" + wl.getGames() + " Winrate:" + Tools.getS((double) wl.getWin() / wl.getGames()));
                         sliceValues.add(sliceValue);
                         typedArray.recycle();
                     }
                     pieChartData = new PieChartData(sliceValues);
-                    pieChartData.setHasLabelsOnlyForSelected(true);
+                    pieChartData.setHasLabels(true);
                     pieChartView.setPieChartData(pieChartData);
                     pieChartView.setVisibility(View.VISIBLE);
                     break;
