@@ -6,6 +6,19 @@ public class WL implements Serializable {
     private int win;
     private int lose;
     private double winrate;
+    private int games;
+
+    public void setWinrate(double winrate) {
+        this.winrate = winrate;
+    }
+
+    public int getGames() {
+        return games;
+    }
+
+    public void setGames(int games) {
+        this.games = games;
+    }
 
     public int getWin() {
         return win;

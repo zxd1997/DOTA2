@@ -278,7 +278,9 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case CHAT: {
                 Match.Objective chat = logs.get(position);
                 ViewHolderNotKill viewHolder = (ViewHolderNotKill) holder;
-                viewHolder.color.setBackgroundColor(context.getResources().getColor(Tools.getResId("slot_" + chat.getPlayer_slot(), R.color.class)));
+                int resid = Tools.getResId("slot_" + chat.getPlayer_slot(), R.color.class);
+                if (resid != 0)
+                    viewHolder.color.setBackgroundColor(context.getResources().getColor(resid));
                 viewHolder.who.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId(chat.getHero_id(), R.drawable.class))).build());
                 viewHolder.name.setText(chat.getName());
                 viewHolder.log.setText(String.format(":%s", chat.getKey()));

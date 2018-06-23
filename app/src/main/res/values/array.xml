@@ -141,4 +141,16 @@
         <item>1v1 Mid</item>
         <item>Battle Cup</item>
     </string-array>
+    <string-array name="lobby_type_color">
+        <item>@color/cardview_shadow_start_color</item>
+        <item>@color/slot_0</item>
+        <item>@color/slot_130</item>
+        <item>@color/slot_1</item>
+        <item>@color/slot_2</item>
+        <item>@color/slot_3</item>
+        <item>@color/gold</item>
+        <item>@color/very_high</item>
+        <item>@color/slot_4</item>
+        <item>@color/high</item>
+    </string-array>
 </resources>

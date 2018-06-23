@@ -68,7 +68,8 @@ public class AbilityBuildAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 HeaderHolder viewHolder = (HeaderHolder) holder;
                 viewHolder.header.setImageURI(new Uri.Builder().scheme("res").path(a.getId() + "").build());
                 viewHolder.name.setText(a.getWhat());
-                viewHolder.color.setBackgroundColor(context.getResources().getColor(a.getColor()));
+                if (a.getColor() != 0)
+                    viewHolder.color.setBackgroundColor(context.getResources().getColor(a.getColor()));
                 break;
             }
             case PLAYER:

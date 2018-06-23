@@ -35,6 +35,10 @@
             android:name=".Activities.PlayerActivity"
             android:label="@string/title_activity_player"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.PeerActivity"
+            android:label="@string/title_activity_peer"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

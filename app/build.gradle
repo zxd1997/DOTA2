@@ -25,7 +25,7 @@ android {
     sourceSets {
         main {
             res.srcDirs('src/main/res/layouts/activities',
-                    'src/main/res/layouts/fragments','src/main/res/layouts/fragments/match','src/main/res/layouts/fragments/main','src/main/res/layouts/fragments/player',
+                    'src/main/res/layouts/fragments', 'src/main/res/layouts/fragments/match', 'src/main/res/layouts/fragments/main', 'src/main/res/layouts/fragments/player',
                     'src/main/res/layouts/lists',
                     'src/main/res/layouts',
                     'src/main/res')

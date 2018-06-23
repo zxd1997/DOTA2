@@ -13,6 +13,7 @@ import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +22,10 @@ import android.widget.TextView;
 
 import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Activities.MatchActivity;
+import com.example.zxd1997.dota2.Activities.PeerActivity;
 import com.example.zxd1997.dota2.Beans.Hero;
 import com.example.zxd1997.dota2.Beans.MatchHero;
+import com.example.zxd1997.dota2.Beans.Peer;
 import com.example.zxd1997.dota2.Beans.PlayedHero;
 import com.example.zxd1997.dota2.Beans.Ranking;
 import com.example.zxd1997.dota2.Beans.RecentMatch;
@@ -44,6 +47,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final int RECORD = 3;
     private final int RANKING = 4;
     private final int HEADER = 5;
+    private final int PEERS = 6;
     public boolean isHasfoot() {
         return hasfoot;
     }
@@ -81,8 +85,10 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 return new RecordHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.record, parent, false));
             case RANKING:
                 return new RankHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.ranking_list, parent, false));
-            default:
+            case HEADER:
                 return new HeaderHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.header, parent, false));
+            default:
+                return new PeerHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.peer, parent, false));
         }
     }
 
@@ -131,6 +137,8 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 break;
                             }
                         }
+                        Log.d("id" +
+                                "", "run: " + recentMatch.getHero_id());
                         final Hero finalH = h;
                         viewHolder.itemView.post(new Runnable() {
                             @Override
@@ -265,7 +273,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     @Override
                                     public void onClick(View v) {
 //                                        Intent intent = new Intent(context, MyHeroActivity.class);
-//                                        intent.putExtra("id", hero.getHero_id());
+//                                        intent.putExtra("id", ranking.getHero_id());
 //                                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 //                                        context.startActivity(intent);
                                     }
@@ -274,6 +282,24 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         });
                     }
                 }).start();
+            } else if (getItemViewType(position) == PEERS) {
+                final Peer peer = (Peer) contents.get(position);
+                PeerHolder peerHolder = (PeerHolder) holder;
+                peerHolder.header.setImageURI(peer.getAvatar_full());
+                peerHolder.name.setText(peer.getPersonaname());
+                peerHolder.last.setText(Tools.getBefore(peer.getLast_played()));
+                peerHolder.matches.setText(String.valueOf(peer.getWith_games()));
+                peerHolder.winrate.setText(Tools.getS((double) peer.getWith_win() / peer.getWith_games()));
+                peerHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, PeerActivity.class);
+                        intent.putExtra("id", peer.getAccount_id());
+                        intent.putExtra("name", peer.getPersonaname());
+                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        context.startActivity(intent);
+                    }
+                });
             }
         }
     }
@@ -298,6 +324,23 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             hero_name = itemView.findViewById(R.id.ranking_name);
             score = itemView.findViewById(R.id.score);
             percentage = itemView.findViewById(R.id.percentage);
+        }
+    }
+
+    class PeerHolder extends RecyclerView.ViewHolder {
+        SimpleDraweeView header;
+        TextView name;
+        TextView last;
+        TextView matches;
+        TextView winrate;
+
+        PeerHolder(View itemView) {
+            super(itemView);
+            header = itemView.findViewById(R.id.peer_header);
+            name = itemView.findViewById(R.id.peer_name);
+            last = itemView.findViewById(R.id.last_together);
+            matches = itemView.findViewById(R.id.peer_matches);
+            winrate = itemView.findViewById(R.id.together_winrate);
         }
     }
 

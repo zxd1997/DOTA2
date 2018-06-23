@@ -49,7 +49,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         for (int i = 0; i < 5; i++) {
             contents.add(new Content(PLAYER, match.getPlayers().get(i)));
         }
-        contents.add(new Content(DIRE_HEADER, null));
+        if (match.getGame_mode() != 19) contents.add(new Content(DIRE_HEADER, null));
         for (int i = 5; i < match.getPlayers().size(); i++) {
             contents.add(new Content(PLAYER, match.getPlayers().get(i)));
         }
@@ -157,7 +157,9 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         }
                     }
                 });
-                viewHolder.color.setBackgroundColor(context.getResources().getColor(Tools.getResId("slot_" + p.getPlayer_slot(), R.color.class)));
+                int resid = Tools.getResId("slot_" + p.getPlayer_slot(), R.color.class);
+                if (resid != 0)
+                    viewHolder.color.setBackgroundColor(context.getResources().getColor(resid));
                 viewHolder.k.setText(k);
                 float in_battle = p.isRadiant() ? (float) (p.getKills() + p.getAssists()) / match.getRadiant_score() * 100 : (float) (p.getKills() + p.getAssists()) / match.getDire_score() * 100;
                 viewHolder.in_battle.setText(String.format("%s%%", context.getString(R.string.in_battle, in_battle)));

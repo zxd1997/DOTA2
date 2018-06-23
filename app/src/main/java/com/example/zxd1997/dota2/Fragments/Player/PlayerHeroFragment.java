@@ -86,7 +86,7 @@ public class PlayerHeroFragment extends Fragment {
                             Ranking rankings = new Gson().fromJson(e, Ranking.class);
                             rankings.setType(4);
                             hero_matches.add(rankings);
-                        }
+                        } else break;
                         i++;
                     }
                     matchesAdapter.notifyDataSetChanged();

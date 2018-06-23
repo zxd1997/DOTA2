@@ -56,6 +56,9 @@ public class NoDetailFragment extends Fragment {
             if (System.currentTimeMillis() / 1000 - time > 30 * 24 * 3600) {
                 button.setVisibility(View.INVISIBLE);
                 textView.setText(getString(R.string.expired));
+            } else if (match.getGame_mode() == 19) {
+                button.setVisibility(View.INVISIBLE);
+                textView.setText(R.string.event);
             }
             button.setOnClickListener(new View.OnClickListener() {
                 @Override

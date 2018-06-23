@@ -165,7 +165,7 @@ public class MyFragment extends Fragment {
                     for (JsonElement e : jsonArray) {
                         RecentMatch recentMatch = new Gson().fromJson(e, RecentMatch.class);
                         recentMatch.setType(1);
-                        if (recentMatch.getGame_mode() != 19)
+                        if (recentMatch.getHero_id() != 0)
                             recentMatches.add(recentMatch);
                     }
                     Log.d("size", "handleMessage: " + recentMatches.size() + " " + jsonArray.size());
