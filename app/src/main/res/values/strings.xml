@@ -202,4 +202,14 @@
     <string name="matches_with">Matches With </string>
     <string name="palyer_p_w">Player Played With</string>
     <string name="counts">Counts</string>
+    <string name="title_activity_my_hero">MyHeroActivity</string>
+    <string name="average_hero_performance">Average Hero Performance</string>
+    <string name="deaths">DEATHS</string>
+    <string name="assists">ASSISTS</string>
+    <string name="kills_">KILLS</string>
+    <string name="lhs">LAST HITS</string>
+    <string name="denies">DENIES</string>
+    <string name="placeholder1">-</string>
+    <string name="tower">TOWER</string>
+    <string name="healing_">HEALING</string>
 </resources>

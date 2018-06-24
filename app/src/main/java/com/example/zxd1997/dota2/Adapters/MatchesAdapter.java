@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Activities.MatchActivity;
+import com.example.zxd1997.dota2.Activities.MyHeroActivity;
 import com.example.zxd1997.dota2.Activities.PeerActivity;
 import com.example.zxd1997.dota2.Beans.Hero;
 import com.example.zxd1997.dota2.Beans.MatchHero;
@@ -48,6 +49,8 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final int RANKING = 4;
     private final int HEADER = 5;
     private final int PEERS = 6;
+    private final int HERO_CARD = 7;
+
     public boolean isHasfoot() {
         return hasfoot;
     }
@@ -87,15 +90,29 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 return new RankHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.ranking_list, parent, false));
             case HEADER:
                 return new HeaderHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.header, parent, false));
-            default:
+            case PEERS:
                 return new PeerHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.peer, parent, false));
+            default:
+                return new HeroCard(LayoutInflater.from(parent.getContext()).inflate(R.layout.hero_card, parent, false));
         }
     }
 
     @SuppressLint("Recycle")
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (getItemViewType(position) == HEADER) {
+        if (getItemViewType(position) == HERO_CARD) {
+            Hero h = null;
+            for (Map.Entry<String, Hero> entry : MainActivity.heroes.entrySet()) {
+                if (entry.getValue().getId() == contents.get(position).getHero_id()) {
+                    h = entry.getValue();
+                    break;
+                }
+            }
+            HeroCard heroCard = (HeroCard) holder;
+            assert h != null;
+            heroCard.name.setText(String.format("%s %s Hero", h.getAttack_type(), h.getPrimary_attr()));
+            heroCard.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + contents.get(position).getHero_id(), R.drawable.class))).build());
+        } else if (getItemViewType(position) == HEADER) {
             HeaderHolder headerHolder = (HeaderHolder) holder;
             headerHolder.text.setText(contents.get(position).getTitle());
             headerHolder.text.setTextSize(8 * context.getResources().getDisplayMetrics().scaledDensity + 0.5f);
@@ -178,10 +195,10 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 heroHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        Intent intent = new Intent(context, MyHeroActivity.class);
-//                        intent.putExtra("id", hero.getHero_id());
-//                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//                        context.startActivity(intent);
+                        Intent intent = new Intent(context, MyHeroActivity.class);
+                        intent.putExtra("id", hero.getHero_id());
+                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        context.startActivity(intent);
                     }
                 });
                 new Thread(new Runnable() {
@@ -272,10 +289,10 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 rankHolder.itemView.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-//                                        Intent intent = new Intent(context, MyHeroActivity.class);
-//                                        intent.putExtra("id", ranking.getHero_id());
-//                                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//                                        context.startActivity(intent);
+                                        Intent intent = new Intent(context, MyHeroActivity.class);
+                                        intent.putExtra("id", ranking.getHero_id());
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                        context.startActivity(intent);
                                     }
                                 });
                             }
@@ -391,6 +408,43 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         HeaderHolder(View itemView) {
             super(itemView);
             text = itemView.findViewById(R.id.header_text);
+        }
+    }
+
+    public class HeroCard extends RecyclerView.ViewHolder {
+        public TextView winrate;
+        public TextView total;
+        public TextView kill;
+        public TextView death;
+        public TextView assists;
+        public TextView kda;
+        public TextView gpm;
+        public TextView xpm;
+        public TextView lh;
+        public TextView dn;
+        public TextView damage;
+        public TextView td;
+        public TextView hh;
+        public TextView name;
+        public SimpleDraweeView header;
+
+        HeroCard(View itemView) {
+            super(itemView);
+            total = itemView.findViewById(R.id.hero_total);
+            winrate = itemView.findViewById(R.id.hero_win_rate);
+            kill = itemView.findViewById(R.id.hero_kill);
+            death = itemView.findViewById(R.id.hero_death);
+            assists = itemView.findViewById(R.id.hero_assists);
+            kda = itemView.findViewById(R.id.hero_kda);
+            gpm = itemView.findViewById(R.id.hero_gpm);
+            xpm = itemView.findViewById(R.id.hero_xpm);
+            lh = itemView.findViewById(R.id.hero_lh);
+            dn = itemView.findViewById(R.id.hero_dn);
+            damage = itemView.findViewById(R.id.hero_damage);
+            hh = itemView.findViewById(R.id.hero_hh);
+            td = itemView.findViewById(R.id.hero_td);
+            name = itemView.findViewById(R.id.hero_name_header);
+            header = itemView.findViewById(R.id.hero_big_header);
         }
     }
 

@@ -519,10 +519,8 @@ public class PlayerOverviewFragment extends Fragment {
             progressBar.setVisibility(View.VISIBLE);
             OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/wl", handler, WL_FULL);
             OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/wl?limit=20", handler, WL_RECENT);
-
             OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/totals", handler, TOTAL_FULL);
             OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/totals?limit=20", handler, TOTAL_RECENT);
-
             OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=kills" + "&limit=1", handler, KILLS);
             OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=deaths" + "&limit=1", handler, DEATHS);
             OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=assists" + "&limit=1", handler, ASSISTS);
