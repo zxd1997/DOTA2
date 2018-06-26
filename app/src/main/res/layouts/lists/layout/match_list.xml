@@ -43,8 +43,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            fresco:layout_constraintBottom_toBottomOf="@id/hero_header"
+            android:layout_marginBottom="1dp"
             fresco:layout_constraintLeft_toLeftOf="@id/hero_name"
+            fresco:layout_constraintBottom_toBottomOf="parent"
             tools:text="Lose" />
 
         <TextView
@@ -53,6 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:textSize="13sp"
+            android:layout_marginBottom="2dp"
             fresco:layout_constraintBottom_toBottomOf="@id/winornot"
             fresco:layout_constraintLeft_toRightOf="@id/winornot"
             tools:text="2Days ago" />
@@ -71,7 +73,8 @@
             android:id="@+id/lobby_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
+            android:layout_marginBottom="1dp"
+            android:layout_marginLeft="10dp"
             android:textSize="15sp"
             fresco:layout_constraintBottom_toBottomOf="@id/winornot"
             fresco:layout_constraintLeft_toRightOf="@id/time"
@@ -94,7 +97,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            fresco:layout_constraintBottom_toBottomOf="@id/hero_header"
+            android:layout_marginBottom="2dp"
+            fresco:layout_constraintBottom_toBottomOf="parent"
             fresco:layout_constraintRight_toRightOf="@id/skills"
             tools:text="10/0/10" />
 

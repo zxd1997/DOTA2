@@ -212,4 +212,5 @@
     <string name="placeholder1">-</string>
     <string name="tower">TOWER</string>
     <string name="healing_">HEALING</string>
+    <string name="matches_play_together">Matches Play Together</string>
 </resources>

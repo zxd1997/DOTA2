@@ -11,6 +11,7 @@
         android:orientation="vertical"
     tools:context=".Fragments.Player.PlayerOtherFragment">
 
+        <include layout="@layout/progressbar" />
         <android.support.v7.widget.RecyclerView
             android:id="@+id/peers"
             android:layout_width="match_parent"
@@ -21,6 +22,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/counts"
+        android:id="@+id/counts"
+        android:visibility="gone"
         android:textColor="@android:color/black"
         android:textSize="18sp" />
 

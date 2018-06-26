@@ -38,13 +38,11 @@ public class Tools {
         pct *= 100;
         DecimalFormat df = new DecimalFormat("0.00");
         SpannableString t = new SpannableString(df.format(pct) + "%");
-        if (pct >= 80) {
+        if (pct >= 75) {
             t.setSpan(new ForegroundColorSpan(MyApplication.getContext().getResources().getColor(R.color.win)), 0, t.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if (pct >= 60) {
-            t.setSpan(new ForegroundColorSpan(MyApplication.getContext().getResources().getColor(R.color.slot_0)), 0, t.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if (pct >= 40) {
-            t.setSpan(new ForegroundColorSpan(MyApplication.getContext().getResources().getColor(R.color.high)), 0, t.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if (pct >= 20) {
+        } else if (pct >= 50) {
+            t.setSpan(new ForegroundColorSpan(MyApplication.getContext().getResources().getColor(R.color.blue_light)), 0, t.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else if (pct >= 25) {
             t.setSpan(new ForegroundColorSpan(MyApplication.getContext().getResources().getColor(R.color.very_high)), 0, t.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else {
             t.setSpan(new ForegroundColorSpan(MyApplication.getContext().getResources().getColor(R.color.lose)), 0, t.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

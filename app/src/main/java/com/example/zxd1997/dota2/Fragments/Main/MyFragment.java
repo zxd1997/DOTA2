@@ -20,7 +20,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,6 +95,8 @@ public class MyFragment extends Fragment {
                         editor.putString("id", id);
                         editor.apply();
                         OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id, handler, PLAYER_INFO);
+                        OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id + "/wl", handler, WL);
+                        OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id + "/recentMatches", handler, RECENT_MATCHES);
                     }
                     break;
                 }
@@ -145,7 +146,7 @@ public class MyFragment extends Fragment {
                         tier.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(typedArray.getResourceId(t, 0))).build());
                         typedArray.recycle();
                     }
-                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id + "/wl", handler, WL);
+                    card.setVisibility(View.VISIBLE);
                     break;
                 }
                 case WL: {
@@ -154,8 +155,6 @@ public class MyFragment extends Fragment {
                     win.setText(getString(R.string.win1, wl.getWin()));
                     lose.setText(getString(R.string.lose1, wl.getLose()));
                     win_rate.setText(String.format("%s%%", getString(R.string.rate, wl.getWinrate() * 100)));
-                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id + "/recentMatches", handler, RECENT_MATCHES);
-                    card.setVisibility(View.VISIBLE);
                     break;
                 }
                 case RECENT_MATCHES: {
@@ -168,7 +167,6 @@ public class MyFragment extends Fragment {
                         if (recentMatch.getHero_id() != 0)
                             recentMatches.add(recentMatch);
                     }
-                    Log.d("size", "handleMessage: " + recentMatches.size() + " " + jsonArray.size());
                     recent_match.setVisibility(View.VISIBLE);
                     swipeRefreshLayout.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
@@ -234,6 +232,9 @@ public class MyFragment extends Fragment {
             public void onRefresh() {
                 swipeRefreshLayout.setRefreshing(true);
                 OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id, handler, PLAYER_INFO);
+                OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id + "/wl", handler, WL);
+                OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id + "/recentMatches", handler, RECENT_MATCHES);
+
             }
         });
 
@@ -283,6 +284,8 @@ public class MyFragment extends Fragment {
         if (!id.equals("")) {
             progressBar.setVisibility(View.VISIBLE);
             OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id, handler, PLAYER_INFO);
+            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id + "/wl", handler, WL);
+            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id + "/recentMatches", handler, RECENT_MATCHES);
         }
         String DISCONNECT = "disconnect from id";
         IntentFilter intentFilter = new IntentFilter(DISCONNECT);

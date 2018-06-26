@@ -532,7 +532,6 @@ public class PlayerOverviewFragment extends Fragment {
             OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=tower_damage" + "&limit=1", handler, TOWER);
             OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=hero_healing" + "&limit=1", handler, HEALING);
             OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?sort=duration" + "&limit=1", handler, DURATION);
-
         }
         return view;
     }

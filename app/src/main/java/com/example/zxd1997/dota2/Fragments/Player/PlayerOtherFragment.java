@@ -13,6 +13,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Activities.PlayerActivity;
@@ -41,6 +43,7 @@ import lecho.lib.hellocharts.model.PieChartData;
 import lecho.lib.hellocharts.model.SliceValue;
 import lecho.lib.hellocharts.view.PieChartView;
 
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link PlayerOtherFragment#newInstance} factory method to
@@ -54,6 +57,8 @@ public class PlayerOtherFragment extends Fragment {
         return new PlayerOtherFragment();
     }
 
+    TextView count;
+    ProgressBar progressBar;
     RecyclerView recyclerView;
     MatchesAdapter matchesAdapter;
     List<MatchHero> peers = new ArrayList<>();
@@ -98,10 +103,12 @@ public class PlayerOtherFragment extends Fragment {
                         sliceValues.add(sliceValue);
                         typedArray.recycle();
                     }
+                    progressBar.setVisibility(View.GONE);
                     pieChartData = new PieChartData(sliceValues);
                     pieChartData.setHasLabels(true);
                     pieChartView.setPieChartData(pieChartData);
                     pieChartView.setVisibility(View.VISIBLE);
+                    count.setVisibility(View.VISIBLE);
                     break;
                 }
             }
@@ -122,6 +129,9 @@ public class PlayerOtherFragment extends Fragment {
             getActivity().finish();
         } else {
             recyclerView = view.findViewById(R.id.peers);
+            count = view.findViewById(R.id.counts);
+            progressBar = view.findViewById(R.id.progressBar);
+            progressBar.setVisibility(View.VISIBLE);
             final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
             recyclerView.setLayoutManager(linearLayoutManager);
             recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

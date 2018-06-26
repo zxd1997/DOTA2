@@ -37,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left|bottom"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="3dp"
         android:layout_marginLeft="90dp"
         tools:text="1 year ago" />
 
@@ -46,7 +46,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"
-        android:layout_margin="4dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginRight="4dp"
         android:textSize="20sp"
         tools:text="WIN" />
 
