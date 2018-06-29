@@ -93,7 +93,7 @@ public class EconomyFragment extends Fragment {
                     List<Line> lines = new ArrayList<>();
                     List<PointValue> pointValues = new ArrayList<>();
                     for (int i : match.getRadiant_gold_adv()) {
-                        pointValues.add(new PointValue(j++, i).setLabel(i >= 0 ? "Radiant Gold Advantage:" + i : "Dire Gold Advantage:" + Math.abs(i)));
+                        pointValues.add(new PointValue(j++, i).setLabel(i >= 0 ? getString(R.string.rga) + i : getString(R.string.dga) + Math.abs(i)));
                     }
                     Line line = new Line(pointValues)
                             .setColor(Objects.requireNonNull(getContext()).getResources().getColor(R.color.very_high))
@@ -107,7 +107,7 @@ public class EconomyFragment extends Fragment {
                     List<PointValue> pointValues1 = new ArrayList<>();
                     j = 0;
                     for (int i : match.getRadiant_xp_adv()) {
-                        pointValues1.add(new PointValue(j++, i).setLabel(i >= 0 ? "Radiant XP Advantage:" + i : "Dire XP Advantage:" + Math.abs(i)));
+                        pointValues1.add(new PointValue(j++, i).setLabel(i >= 0 ? getString(R.string.rxa) + i : getString(R.string.dxa) + Math.abs(i)));
                     }
                     line = new Line(pointValues1)
                             .setColor(getContext().getResources().getColor(R.color.win))
@@ -120,9 +120,9 @@ public class EconomyFragment extends Fragment {
                     lines.add(line);
                     final LineChartData data = new LineChartData();
                     data.setLines(lines);
-                    Axis axisY = new Axis().setName("Advantage").setHasLines(true);
+                    Axis axisY = new Axis().setName(getString(R.string.advantage)).setHasLines(true);
                     data.setAxisYLeft(axisY);
-                    Axis axisX = new Axis().setName("Time/min");
+                    Axis axisX = new Axis().setName(getString(R.string.t_m));
                     data.setAxisXBottom(axisX);
                     List<AxisValue> axisValues = new ArrayList<>();
                     List<Column> columns = new ArrayList<>();
@@ -187,12 +187,12 @@ public class EconomyFragment extends Fragment {
                     }
                     final ColumnChartData columnChartData = new ColumnChartData(columns);
                     columnChartData.setAxisXBottom(new Axis(axisValues).setTextSize(10).setTextColor(Color.BLACK));
-                    columnChartData.setAxisYLeft(new Axis().setHasLines(true).setName("Total Gold").setTextSize(8));
+                    columnChartData.setAxisYLeft(new Axis().setHasLines(true).setName(getString(R.string.tg)).setTextSize(8));
                     final LineChartData data1 = new LineChartData();
                     data1.setLines(lines1);
-                    Axis axisY1 = new Axis().setName("Gold").setHasLines(true).setTextSize(9).setFormatter(new SimpleAxisValueFormatter());
+                    Axis axisY1 = new Axis().setName(getString(R.string.gold)).setHasLines(true).setTextSize(9).setFormatter(new SimpleAxisValueFormatter());
                     data1.setAxisYLeft(axisY1);
-                    Axis axisX1 = new Axis().setName("Time/min");
+                    Axis axisX1 = new Axis().setName(getString(R.string.t_m));
                     data1.setAxisXBottom(axisX1);
                     view.post(new Runnable() {
                         @Override
@@ -233,7 +233,7 @@ public class EconomyFragment extends Fragment {
     private void showSub(List<AxisValue> tmp, List<Column> column) {
         ColumnChartData columnChartData = new ColumnChartData(column);
         columnChartData.setAxisXBottom(new Axis(tmp).setTextColor(Color.BLACK));
-        columnChartData.setAxisYLeft(new Axis().setHasLines(true).setName("Gold"));
+        columnChartData.setAxisYLeft(new Axis().setHasLines(true).setName(getString(R.string.gold)));
         subview.setColumnChartData(columnChartData);
         subview.startDataAnimation(300);
     }

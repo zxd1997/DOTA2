@@ -408,18 +408,18 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                     teamFight.dire_gold_delta.setText(new SpannableStringBuilder().append(gold).append(" ").append(dire_gold).append(down));
                                 }
                                 if (radiant_gold_delta_f - dire_gold_delta_f > 0) {
-                                    teamFight.teamfight_win.setText(String.format("%s %ss", context.getString(R.string.radiant), context.getString(R.string.win)));
+                                    teamFight.teamfight_win.setText(String.format("%s %s", context.getString(R.string.radiant), context.getString(R.string.win)));
                                     teamFight.teamfight_win.setTextColor(context.getResources().getColor(R.color.win));
                                 } else {
-                                    teamFight.teamfight_win.setText(String.format("%s %ss", context.getString(R.string.dire), context.getString(R.string.win)));
+                                    teamFight.teamfight_win.setText(String.format("%s %s", context.getString(R.string.dire), context.getString(R.string.win)));
                                     teamFight.teamfight_win.setTextColor(context.getResources().getColor(R.color.lose));
                                 }
                                 if (Math.abs(Math.abs(radiant_gold_delta_f) - Math.abs(dire_gold_delta_f)) < 250) {
                                     teamFight.teamfight_win.setText(context.getString(R.string.drew));
                                     teamFight.teamfight_win.setTextColor(context.getResources().getColor(R.color.high));
                                 }
-                                teamFight.radiant_death.setText(new SpannableStringBuilder().append(death).append(" Death:").append(radiant_death));
-                                teamFight.dire_death.setText(new SpannableStringBuilder().append("Death:").append(dire_death).append(" ").append(death));
+                                teamFight.radiant_death.setText(new SpannableStringBuilder().append(death).append(context.getString(R.string.r_d)).append(radiant_death));
+                                teamFight.dire_death.setText(new SpannableStringBuilder().append(context.getString(R.string.d_d)).append(dire_death).append(" ").append(death));
                                 final CastAdapter castAdapter = new CastAdapter(context, contents);
                                 GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 10);
                                 gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {

@@ -156,7 +156,7 @@ public class MyHeroActivity extends AppCompatActivity {
             m = new MatchHero();
             m.setHero_id(hero_id);
             m.setType(5);
-            m.setTitle("Matches on this Hero");
+            m.setTitle(getString(R.string.moth));
             matches.add(m);
             matchesAdapter = new MatchesAdapter(this, matches);
             matchesAdapter.setHasfoot(true);

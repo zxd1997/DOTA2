@@ -227,7 +227,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 viewHolder.xpm_ben.setText(new SpannableStringBuilder("XPM:").append(Tools.getS(p.getBenchmarks().getXp_per_min().getPct())));
                 viewHolder.hdm_ben.setText(new SpannableStringBuilder(context.getString(R.string.dpm)).append(Tools.getS(p.getBenchmarks().getHero_damage_per_min().getPct())));
                 viewHolder.kdm_ben.setText(new SpannableStringBuilder(context.getString(R.string.kpm)).append(Tools.getS(p.getBenchmarks().getKills_per_min().getPct())));
-                viewHolder.td_ben.setText(new SpannableStringBuilder("Tower Damage:").append(Tools.getS(p.getBenchmarks().getTower_damage().getPct())));
+                viewHolder.td_ben.setText(new SpannableStringBuilder(context.getString(R.string.td_)).append(Tools.getS(p.getBenchmarks().getTower_damage().getPct())));
                 viewHolder.backpack_0.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + p.getBackpack_0(), R.drawable.class))).build());
                 viewHolder.backpack_1.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + p.getBackpack_1(), R.drawable.class))).build());
                 viewHolder.backpack_2.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + p.getBackpack_2(), R.drawable.class))).build());
