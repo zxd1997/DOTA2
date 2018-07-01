@@ -154,7 +154,7 @@
     <string name="winrate">胜率</string>
     <string name="total">总场次</string>
     <string name="DAMAGE1">英雄伤害</string>
-    <string name="matches_">此赛场次：%1$d</string>
+    <string name="matches_">比赛场次：%1$d</string>
     <string name="winrate_">胜率：</string>
     <string name="hightest_kills">最高击杀：</string>
     <string name="highest_death">最高死亡：</string>
@@ -172,7 +172,7 @@
     <string name="score">英雄分</string>
     <string name="matches1">比赛</string>
     <string name="event">不能分析活动录像</string>
-    <string name="matches_with">场次</string>
+    <string name="matches_with">游玩过的比赛和</string>
     <string name="palyer_p_w">队友玩家</string>
     <string name="spectator">观战玩家：</string>
     <string name="counts">统计</string>
@@ -196,4 +196,10 @@
     <string name="moth">使用此英雄的比赛</string>
     <string name="r_d">死亡：</string>
     <string name="d_d">死亡：</string>
+    <string name="year_ago">年前</string>
+    <string name="month_ago">个月前</string>
+    <string name="day_ago">天前</string>
+    <string name="hour_ago">小时前</string>
+    <string name="minute_ago">分钟前</string>
+    <string name="just_now">刚刚</string>
 </resources>

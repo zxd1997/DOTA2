@@ -2,6 +2,7 @@ package com.example.zxd1997.dota2.Activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,7 +17,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.zxd1997.dota2.Adapters.MatchesAdapter;
-import com.example.zxd1997.dota2.Beans.Hero;
 import com.example.zxd1997.dota2.Beans.MatchHero;
 import com.example.zxd1997.dota2.Beans.RecentMatch;
 import com.example.zxd1997.dota2.Beans.Total;
@@ -32,7 +32,6 @@ import com.google.gson.JsonParser;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class MyHeroActivity extends AppCompatActivity {
@@ -136,15 +135,9 @@ public class MyHeroActivity extends AppCompatActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent1);
         } else {
-            Hero h = null;
-            for (Map.Entry<String, Hero> entry : MainActivity.heroes.entrySet()) {
-                if (entry.getValue().getId() == hero_id) {
-                    h = entry.getValue();
-                    break;
-                }
-            }
-            assert h != null;
-            setTitle(h.getLocalized_name());
+            TypedArray typedArray = getResources().obtainTypedArray(R.array.heroes);
+            setTitle(typedArray.getString(hero_id));
+            typedArray.recycle();
             recyclerView = findViewById(R.id.player_matches);
             swipeRefreshLayout = findViewById(R.id.swipe_player);
             final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);

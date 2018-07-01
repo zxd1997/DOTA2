@@ -13,18 +13,15 @@ import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Activities.MatchActivity;
 import com.example.zxd1997.dota2.Activities.MyHeroActivity;
 import com.example.zxd1997.dota2.Activities.PeerActivity;
-import com.example.zxd1997.dota2.Beans.Hero;
 import com.example.zxd1997.dota2.Beans.MatchHero;
 import com.example.zxd1997.dota2.Beans.Peer;
 import com.example.zxd1997.dota2.Beans.PlayedHero;
@@ -36,7 +33,6 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.text.DecimalFormat;
 import java.util.List;
-import java.util.Map;
 
 public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final List<MatchHero> contents;
@@ -101,16 +97,9 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == HERO_CARD) {
-            Hero h = null;
-            for (Map.Entry<String, Hero> entry : MainActivity.heroes.entrySet()) {
-                if (entry.getValue().getId() == contents.get(position).getHero_id()) {
-                    h = entry.getValue();
-                    break;
-                }
-            }
             HeroCard heroCard = (HeroCard) holder;
-            assert h != null;
-            heroCard.name.setText(String.format("%s %s Hero", h.getAttack_type(), h.getPrimary_attr()));
+            TypedArray typedArray = context.getResources().obtainTypedArray(R.array.heroes);
+            heroCard.name.setText(typedArray.getText(contents.get(position).getHero_id()));
             heroCard.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + contents.get(position).getHero_id(), R.drawable.class))).build());
         } else if (getItemViewType(position) == HEADER) {
             HeaderHolder headerHolder = (HeaderHolder) holder;
@@ -147,16 +136,6 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         t1.setSpan(new ForegroundColorSpan(Color.BLUE), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                         k.append(t1);
                         final boolean win = recentMatch.getPlayer_slot() < 128 && recentMatch.isRadiant_win() || recentMatch.getPlayer_slot() > 127 && !recentMatch.isRadiant_win();
-                        Hero h = null;
-                        for (Map.Entry<String, Hero> entry : MainActivity.heroes.entrySet()) {
-                            if (entry.getValue().getId() == recentMatch.getHero_id()) {
-                                h = entry.getValue();
-                                break;
-                            }
-                        }
-                        Log.d("id" +
-                                "", "run: " + recentMatch.getHero_id());
-                        final Hero finalH = h;
                         viewHolder.itemView.post(new Runnable() {
                             @Override
                             public void run() {
@@ -168,10 +147,10 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     viewHolder.win_or_not.setText(context.getString(R.string.lose));
                                 }
                                 viewHolder.kda.setText(k);
-                                assert finalH != null;
-                                viewHolder.hero_name.setText(finalH.getLocalized_name());
-                                viewHolder.hero_header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + finalH.getId(), R.drawable.class))).build());
-                                TypedArray typedArray = context.getResources().obtainTypedArray(R.array.skills);
+                                TypedArray typedArray = context.getResources().obtainTypedArray(R.array.heroes);
+                                viewHolder.hero_name.setText(typedArray.getText(recentMatch.getHero_id()));
+                                viewHolder.hero_header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + recentMatch.getHero_id(), R.drawable.class))).build());
+                                typedArray = context.getResources().obtainTypedArray(R.array.skills);
                                 viewHolder.skills.setText(typedArray.getText(recentMatch.getSkill()));
                                 typedArray = context.getResources().obtainTypedArray(R.array.lobby_type);
                                 if (recentMatch.getLobby_type() == 2 || recentMatch.getLobby_type() == 5 || recentMatch.getLobby_type() == 6 || recentMatch.getLobby_type() == 7 || recentMatch.getLobby_type() == 9)
@@ -205,21 +184,13 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     @Override
                     public void run() {
                         final float winrate = (float) hero.getWin() / hero.getGames();
-                        Hero h = null;
-                        for (Map.Entry<String, Hero> entry : MainActivity.heroes.entrySet()) {
-                            if (entry.getValue().getId() == hero.getHero_id()) {
-                                h = entry.getValue();
-                                break;
-                            }
-                        }
-                        final Hero finalH = h;
                         heroHolder.itemView.post(new Runnable() {
                             @Override
                             public void run() {
-                                assert finalH != null;
-                                heroHolder.hero_name.setText(finalH.getLocalized_name());
-                                heroHolder.hero_header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + finalH.getId(), R.drawable.class))).build());
-                                heroHolder.winrate.setText(new SpannableStringBuilder(context.getResources().getString(R.string.winrate_)).append(Tools.getS(winrate)));
+                                TypedArray typedArray = context.getResources().obtainTypedArray(R.array.heroes);
+                                heroHolder.hero_name.setText(typedArray.getText(hero.getHero_id()));
+                                heroHolder.hero_header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + hero.getHero_id(), R.drawable.class))).build());
+                                heroHolder.winrate.setText(new SpannableStringBuilder(context.getResources().getString(R.string.winrate_)).append(Tools.getS(winrate > 0 ? winrate : 0)));
                                 heroHolder.matches.setText(context.getResources().getString(R.string.matches_, hero.getGames()));
                                 heroHolder.last_played.setText(Tools.getBefore(hero.getLast_played()));
                             }
@@ -239,14 +210,6 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 });
                 final boolean win = recentMatch.getPlayer_slot() < 128 && recentMatch.isRadiant_win() || recentMatch.getPlayer_slot() > 127 && !recentMatch.isRadiant_win();
-                Hero h = null;
-                for (Map.Entry<String, Hero> entry : MainActivity.heroes.entrySet()) {
-                    if (entry.getValue().getId() == recentMatch.getHero_id()) {
-                        h = entry.getValue();
-                        break;
-                    }
-                }
-                final Hero finalH = h;
                 viewHolder.itemView.post(new Runnable() {
                     @Override
                     public void run() {
@@ -257,9 +220,8 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             viewHolder.win_or_not.setTextColor(context.getResources().getColor(R.color.lose));
                             viewHolder.win_or_not.setText(context.getString(R.string.lose));
                         }
-                        assert finalH != null;
                         viewHolder.record_title.setText(recentMatch.getTitle());
-                        viewHolder.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + finalH.getId(), R.drawable.class))).build());
+                        viewHolder.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + recentMatch.getHero_id(), R.drawable.class))).build());
                         viewHolder.time.setText(Tools.getBefore(recentMatch.getStart_time()));
                     }
                 });
@@ -269,20 +231,12 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        Hero h = null;
-                        for (Map.Entry<String, Hero> entry : MainActivity.heroes.entrySet()) {
-                            if (entry.getValue().getId() == ranking.getHero_id()) {
-                                h = entry.getValue();
-                                break;
-                            }
-                        }
-                        final Hero finalH = h;
                         rankHolder.itemView.post(new Runnable() {
                             @Override
                             public void run() {
-                                assert finalH != null;
-                                rankHolder.hero_name.setText(finalH.getLocalized_name());
-                                rankHolder.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + finalH.getId(), R.drawable.class))).build());
+                                TypedArray typedArray = context.getResources().obtainTypedArray(R.array.heroes);
+                                rankHolder.hero_name.setText(typedArray.getText(ranking.getHero_id()));
+                                rankHolder.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + ranking.getHero_id(), R.drawable.class))).build());
                                 final DecimalFormat df = new DecimalFormat("0.00");
                                 rankHolder.score.setText(df.format(ranking.getScore()));
                                 rankHolder.percentage.setText(Tools.getS(ranking.getPercent_rank()));

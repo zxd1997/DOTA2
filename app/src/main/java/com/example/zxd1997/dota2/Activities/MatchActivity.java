@@ -60,6 +60,7 @@ public class MatchActivity extends AppCompatActivity {
                     fragments.add(OverviewFragment.newInstance());
                     IntentFilter intentFilter = new IntentFilter("loaded");
                     Receiver receiver = new Receiver();
+                    setTitle(getApplication().getString(R.string.match) + ":" + match.getMatch_id());
                     LocalBroadcastManager.getInstance(Objects.requireNonNull(getApplicationContext())).registerReceiver(receiver, intentFilter);
                     if (match.getRadiant_xp_adv() == null) {
                         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_6)));

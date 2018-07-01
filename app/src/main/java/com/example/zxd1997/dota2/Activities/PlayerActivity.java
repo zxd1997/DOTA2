@@ -48,6 +48,7 @@ public class PlayerActivity extends AppCompatActivity {
         @Override
         public boolean handleMessage(Message msg) {
             player = new Gson().fromJson(msg.obj.toString(), Player.class);
+            setTitle(String.format("%s:%s", getApplication().getString(R.string.player), player.getName()) != null ? player.getName() : player.getPersonaname());
             List<Fragment> fragments = new ArrayList<>();
             TabLayout tabLayout = findViewById(R.id.player_tab);
             fragments.add(PlayerOverviewFragment.newInstance());

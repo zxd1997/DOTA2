@@ -214,7 +214,7 @@
     <string name="healing_">HEALING</string>
     <string name="matches_play_together">Matches Play Together</string>
     <string name="td_">Tower Damage:</string>
-    <string name="rga">Radiant Gold Advantage:</string>
+    <string name="rga">Radiant Gold Advanage:</string>
     <string name="dga">Dire Gold Advantage:</string>
     <string name="rxa">Radiant XP Advantage:</string>
     <string name="dxa">Dire XP Advantage:</string>
@@ -224,4 +224,10 @@
     <string name="moth">Matches on this Hero</string>
     <string name="r_d">Deaths:</string>
     <string name="d_d">Deaths:</string>
+    <string name="year_ago"> Years ago</string>
+    <string name="month_ago"> Months ago</string>
+    <string name="day_ago"> Days ago</string>
+    <string name="hour_ago"> Hours ago</string>
+    <string name="minute_ago"> Minutes ago</string>
+    <string name="just_now">Just Now</string>
 </resources>

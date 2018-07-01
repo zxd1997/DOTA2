@@ -153,4 +153,127 @@
         <item>@color/slot_4</item>
         <item>@color/high</item>
     </string-array>
+    <string-array name="heroes">
+        <item>Unknown</item>
+        <item>Anti-Mage</item>
+        <item>Axe</item>
+        <item>Bane</item>
+        <item>Bloodseeker</item>
+        <item>Crystal Maiden</item>
+        <item>Drow Ranger</item>
+        <item>Earthshaker</item>
+        <item>Juggernaut</item>
+        <item>Mirana</item>
+        <item>Morphling</item>
+        <item>Shadow Fiend</item>
+        <item>Phantom Lancer</item>
+        <item>Puck</item>
+        <item>Pudge</item>
+        <item>Razor</item>
+        <item>Sand King</item>
+        <item>Storm Spirit</item>
+        <item>Sven</item>
+        <item>Tiny</item>
+        <item>Vengeful Spirit</item>
+        <item>Windranger</item>
+        <item>Zeus</item>
+        <item>Kunkka</item>
+        <item>Unknown</item>
+        <item>Lina</item>
+        <item>Lion</item>
+        <item>Shadow Shaman</item>
+        <item>Slardar</item>
+        <item>Tidehunter</item>
+        <item>Witch Doctor</item>
+        <item>Lich</item>
+        <item>Riki</item>
+        <item>Enigma</item>
+        <item>Tinker</item>
+        <item>Sniper</item>
+        <item>Necrophos</item>
+        <item>Warlock</item>
+        <item>Beastmaster</item>
+        <item>Queen of Pain</item>
+        <item>Venomancer</item>
+        <item>Faceless Void</item>
+        <item>Wraith King</item>
+        <item>Death Prophet</item>
+        <item>Phantom Assassin</item>
+        <item>Pugna</item>
+        <item>Templar Assassin</item>
+        <item>Viper</item>
+        <item>Luna</item>
+        <item>Dragon Knight</item>
+        <item>Dazzle</item>
+        <item>Clockwerk</item>
+        <item>Leshrac</item>
+        <item>Nature's Prophet</item>
+        <item>Lifestealer</item>
+        <item>Dark Seer</item>
+        <item>Clinkz</item>
+        <item>Omniknight</item>
+        <item>Enchantress</item>
+        <item>Huskar</item>
+        <item>Night Stalker</item>
+        <item>Broodmother</item>
+        <item>Bounty Hunter</item>
+        <item>Weaver</item>
+        <item>Jakiro</item>
+        <item>Batrider</item>
+        <item>Chen</item>
+        <item>Spectre</item>
+        <item>Ancient Apparition</item>
+        <item>Doom</item>
+        <item>Ursa</item>
+        <item>Spirit Breaker</item>
+        <item>Gyrocopter</item>
+        <item>Alchemist</item>
+        <item>Invoker</item>
+        <item>Silencer</item>
+        <item>Outworld Devourer</item>
+        <item>Lycan</item>
+        <item>Brewmaster</item>
+        <item>Shadow Demon</item>
+        <item>Lone Druid</item>
+        <item>Chaos Knight</item>
+        <item>Meepo</item>
+        <item>Treant Protector</item>
+        <item>Ogre Magi</item>
+        <item>Undying</item>
+        <item>Rubick</item>
+        <item>Disruptor</item>
+        <item>Nyx Assassin</item>
+        <item>Naga Siren</item>
+        <item>Keeper of the Light</item>
+        <item>Io</item>
+        <item>Visage</item>
+        <item>Slark</item>
+        <item>Medusa</item>
+        <item>Troll Warlord</item>
+        <item>Centaur Warrunner</item>
+        <item>Magnus</item>
+        <item>Timbersaw</item>
+        <item>Bristleback</item>
+        <item>Tusk</item>
+        <item>Skywrath Mage</item>
+        <item>Abaddon</item>
+        <item>Elder Titan</item>
+        <item>Legion Commander</item>
+        <item>Techies</item>
+        <item>Ember Spirit</item>
+        <item>Earth Spirit</item>
+        <item>Underlord</item>
+        <item>Terrorblade</item>
+        <item>Phoenix</item>
+        <item>Oracle</item>
+        <item>Winter Wyvern</item>
+        <item>Arc Warden</item>
+        <item>Monkey King</item>
+        <item>Unknown</item>
+        <item>Unknown</item>
+        <item>Unknown</item>
+        <item>Unknown</item>
+        <item>Dark Willow</item>
+        <item>Pangolier</item>
+    </string-array>
 </resources>

@@ -58,16 +58,16 @@ public class Tools {
         long minute = (now - time) / 60;
         StringBuilder tmp = new StringBuilder();
         if (year > 0) {
-            tmp.append(year).append(" Years ago");
+            tmp.append(year).append(MyApplication.getContext().getString(R.string.year_ago));
         } else if (month > 0) {
-            tmp.append(month).append(" Months ago");
+            tmp.append(month).append(MyApplication.getContext().getString(R.string.month_ago));
         } else if (day > 0) {
-            tmp.append(day).append(" Days ago");
+            tmp.append(day).append(MyApplication.getContext().getString(R.string.day_ago));
         } else if (hour > 0) {
-            tmp.append(hour).append(" Hours ago");
+            tmp.append(hour).append(MyApplication.getContext().getString(R.string.hour_ago));
         } else if (minute > 3) {
-            tmp.append(minute).append("Minutes ago");
-        } else tmp.append("Just Now");
+            tmp.append(minute).append(MyApplication.getContext().getString(R.string.minute_ago));
+        } else tmp.append(MyApplication.getContext().getString(R.string.just_now));
         return tmp;
     }
 }
