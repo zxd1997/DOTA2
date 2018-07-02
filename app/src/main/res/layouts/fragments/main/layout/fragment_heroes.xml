@@ -8,9 +8,16 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
-    <TextView
-        android:id="@+id/hero_text"
+    <!--<TextView-->
+    <!--android:id="@+id/hero_text"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_width="match_parent" />-->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/heroes"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent" />
-
+        android:layout_width="match_parent"
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp"
+        android:nestedScrollingEnabled="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 </android.support.v4.widget.NestedScrollView>

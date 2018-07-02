@@ -22,6 +22,7 @@ import com.example.zxd1997.dota2.Fragments.Player.PlayerMatchFragment;
 import com.example.zxd1997.dota2.Fragments.Player.PlayerOtherFragment;
 import com.example.zxd1997.dota2.Fragments.Player.PlayerOverviewFragment;
 import com.example.zxd1997.dota2.R;
+import com.example.zxd1997.dota2.Utils.MyApplication;
 import com.example.zxd1997.dota2.Utils.OKhttp;
 import com.example.zxd1997.dota2.Utils.Update;
 import com.google.gson.Gson;
@@ -48,7 +49,7 @@ public class PlayerActivity extends AppCompatActivity {
         @Override
         public boolean handleMessage(Message msg) {
             player = new Gson().fromJson(msg.obj.toString(), Player.class);
-            setTitle(String.format("%s:%s", getApplication().getString(R.string.player), player.getName()) != null ? player.getName() : player.getPersonaname());
+            Objects.requireNonNull(getSupportActionBar()).setTitle(MyApplication.getContext().getString(R.string.player) + "：" + (player.getName() != null ? player.getName() : player.getPersonaname()));
             List<Fragment> fragments = new ArrayList<>();
             TabLayout tabLayout = findViewById(R.id.player_tab);
             fragments.add(PlayerOverviewFragment.newInstance());

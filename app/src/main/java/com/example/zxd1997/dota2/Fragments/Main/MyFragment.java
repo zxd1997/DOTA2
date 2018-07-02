@@ -83,96 +83,104 @@ public class MyFragment extends Fragment {
         public boolean handleMessage(Message message) {
             switch (message.what) {
                 case VERIFY: {
-                    Player t = new Gson().fromJson(message.obj.toString(), Player.class);
-                    if (t == null || t.getProfile() == null) {
-                        Toast.makeText(getContext(), "No Such Player", Toast.LENGTH_LONG).show();
-                        progressBar.setVisibility(View.GONE);
-                        button1.setVisibility(View.VISIBLE);
-                    } else {
-                        linearLayout.setVisibility(View.GONE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        id = tmp;
-                        editor.putString("id", id);
-                        editor.apply();
-                        OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id, handler, PLAYER_INFO);
-                        OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id + "/wl", handler, WL);
-                        OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id + "/recentMatches", handler, RECENT_MATCHES);
+                    if (getContext() != null) {
+                        Player t = new Gson().fromJson(message.obj.toString(), Player.class);
+                        if (t == null || t.getProfile() == null) {
+                            Toast.makeText(getContext(), "No Such Player", Toast.LENGTH_LONG).show();
+                            progressBar.setVisibility(View.GONE);
+                            button1.setVisibility(View.VISIBLE);
+                        } else {
+                            linearLayout.setVisibility(View.GONE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            id = tmp;
+                            editor.putString("id", id);
+                            editor.apply();
+                            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id, handler, PLAYER_INFO);
+                            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id + "/wl", handler, WL);
+                            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id + "/recentMatches", handler, RECENT_MATCHES);
+                        }
                     }
                     break;
                 }
                 case PLAYER_INFO: {
-                    final Player player = new Gson().fromJson(message.obj.toString(), Player.class);
-                    persona_name.setText(player.getName()!=null?player.getName():player.getPersonaname() == null || player.getPersonaname().equals("") ? getString(R.string.anonymous) : player.getPersonaname());
-                    account_id.setText(getString(R.string.id, player.getAccount_id()));
-                    header.setImageURI(player.getAvatarfull());
-                    card.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(getContext(), PlayerActivity.class);
-                            intent.putExtra("id", player.getAccount_id());
-                            startActivity(intent);
-                        }
-                    });
-                    ranks.setText("");
-                    stars.setImageDrawable(null);
-                    tier.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(R.drawable.rank_icon_0)).build());
-                    if (player.getRank_tier() != 0) {
-                        int t = player.getRank_tier() / 10;
-                        int star = player.getRank_tier() % 10;
-                        tier.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(R.drawable.rank_icon_0)).build());
-                        int rank = player.getLeaderboard_rank();
-//                        Log.d("rank", "handleMessage: " + rank);
-                        if (rank > 0) {
-                            star = 0;
-                            t = 8;
-                            if (rank == 1) {
-                                t = 12;
-                            } else if (rank <= 10) {
-                                t = 11;
-                            } else if (rank <= 100) {
-                                t = 10;
-                            } else if (rank <= 1000) {
-                                t = 9;
+                    if (getContext() != null) {
+                        final Player player = new Gson().fromJson(message.obj.toString(), Player.class);
+                        persona_name.setText(player.getName() != null ? player.getName() : player.getPersonaname() == null || player.getPersonaname().equals("") ? getString(R.string.anonymous) : player.getPersonaname());
+                        account_id.setText(getString(R.string.id, player.getAccount_id()));
+                        header.setImageURI(player.getAvatarfull());
+                        card.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(getContext(), PlayerActivity.class);
+                                intent.putExtra("id", player.getAccount_id());
+                                startActivity(intent);
                             }
-                            ranks.setText(String.valueOf(rank));
-                        }
-                        if (star > 0) {
-                            TypedArray typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.stars);
-                            stars.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(typedArray.getResourceId(star - 1, 0))).build());
+                        });
+                        ranks.setText("");
+                        stars.setImageDrawable(null);
+                        tier.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(R.drawable.rank_icon_0)).build());
+                        if (player.getRank_tier() != 0) {
+                            int t = player.getRank_tier() / 10;
+                            int star = player.getRank_tier() % 10;
+                            tier.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(R.drawable.rank_icon_0)).build());
+                            int rank = player.getLeaderboard_rank();
+//                        Log.d("rank", "handleMessage: " + rank);
+                            if (rank > 0) {
+                                star = 0;
+                                t = 8;
+                                if (rank == 1) {
+                                    t = 12;
+                                } else if (rank <= 10) {
+                                    t = 11;
+                                } else if (rank <= 100) {
+                                    t = 10;
+                                } else if (rank <= 1000) {
+                                    t = 9;
+                                }
+                                ranks.setText(String.valueOf(rank));
+                            }
+                            if (star > 0) {
+                                TypedArray typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.stars);
+                                stars.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(typedArray.getResourceId(star - 1, 0))).build());
+                                typedArray.recycle();
+                            }
+//                        Log.d("rank", "handleMessage: " + t + " " + star);
+                            TypedArray typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.tiers);
+                            tier.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(typedArray.getResourceId(t, 0))).build());
                             typedArray.recycle();
                         }
-//                        Log.d("rank", "handleMessage: " + t + " " + star);
-                        TypedArray typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.tiers);
-                        tier.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(typedArray.getResourceId(t, 0))).build());
-                        typedArray.recycle();
+                        card.setVisibility(View.VISIBLE);
                     }
-                    card.setVisibility(View.VISIBLE);
                     break;
                 }
                 case WL: {
-                    com.example.zxd1997.dota2.Beans.WL wl = new Gson().fromJson(message.obj.toString(), WL.class);
-                    wl.setWinrate();
-                    win.setText(getString(R.string.win1, wl.getWin()));
-                    lose.setText(getString(R.string.lose1, wl.getLose()));
-                    win_rate.setText(String.format("%s%%", getString(R.string.rate, wl.getWinrate() * 100)));
-                    break;
+                    if (getContext() != null) {
+                        com.example.zxd1997.dota2.Beans.WL wl = new Gson().fromJson(message.obj.toString(), WL.class);
+                        wl.setWinrate();
+                        win.setText(getString(R.string.win1, wl.getWin()));
+                        lose.setText(getString(R.string.lose1, wl.getLose()));
+                        win_rate.setText(String.format("%s%%", getString(R.string.rate, wl.getWinrate() * 100)));
+                        break;
+                    }
                 }
                 case RECENT_MATCHES: {
-                    recentMatches.clear();
-                    JsonParser parser = new JsonParser();
-                    JsonArray jsonArray = parser.parse(message.obj.toString()).getAsJsonArray();
-                    for (JsonElement e : jsonArray) {
-                        RecentMatch recentMatch = new Gson().fromJson(e, RecentMatch.class);
-                        recentMatch.setType(1);
-                        if (recentMatch.getHero_id() != 0)
-                            recentMatches.add(recentMatch);
+                    if (getContext() != null) {
+                        recentMatches.clear();
+                        JsonParser parser = new JsonParser();
+                        JsonArray jsonArray = parser.parse(message.obj.toString()).getAsJsonArray();
+                        for (JsonElement e : jsonArray) {
+                            RecentMatch recentMatch = new Gson().fromJson(e, RecentMatch.class);
+                            recentMatch.setType(1);
+                            if (recentMatch.getHero_id() != 0)
+                                recentMatches.add(recentMatch);
+                        }
+                        recent_match.setVisibility(View.VISIBLE);
+                        swipeRefreshLayout.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.GONE);
+                        swipeRefreshLayout.setVisibility(View.VISIBLE);
+                        matchesAdapter.notifyDataSetChanged();
+                        swipeRefreshLayout.setRefreshing(false);
                     }
-                    recent_match.setVisibility(View.VISIBLE);
-                    swipeRefreshLayout.setVisibility(View.VISIBLE);
-                    progressBar.setVisibility(View.GONE);
-                    swipeRefreshLayout.setVisibility(View.VISIBLE);
-                    matchesAdapter.notifyDataSetChanged();
-                    swipeRefreshLayout.setRefreshing(false);
                     break;
                 }
             }
@@ -239,7 +247,7 @@ public class MyFragment extends Fragment {
         });
 
         if (sharedPreferences.getString("id", "").equals("")) {
-            ViewStub viewStub=view.findViewById(R.id.view_stub);
+            ViewStub viewStub = view.findViewById(R.id.view_stub);
             viewStub.setVisibility(View.VISIBLE);
             linearLayout = view.findViewById(R.id.no_binding);
             button = view.findViewById(R.id.connect);
@@ -298,8 +306,8 @@ public class MyFragment extends Fragment {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            ViewStub viewStub=view.findViewById(R.id.view_stub);
-            if(viewStub!=null)viewStub.setVisibility(View.VISIBLE);
+            ViewStub viewStub = view.findViewById(R.id.view_stub);
+            if (viewStub != null) viewStub.setVisibility(View.VISIBLE);
             linearLayout = view.findViewById(R.id.no_binding);
             button = view.findViewById(R.id.connect);
             button1 = view.findViewById(R.id.verify);

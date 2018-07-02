@@ -54,44 +54,46 @@ public class DetailFragment extends Fragment {
     private final Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 6);
-            final KillsAdapter killsAdapter = new KillsAdapter(getContext(), contents);
-            gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                @Override
-                public int getSpanSize(int position) {
-                    return killsAdapter.getItemViewType(position) == 2 ? 6 : 1;
-                }
-            });
-            kill.setLayoutManager(gridLayoutManager);
-            kill.setAdapter(killsAdapter);
-            kill.setNestedScrollingEnabled(false);
-            d_detail.setNestedScrollingEnabled(false);
-            GridLayoutManager gridLayoutManager1 = new GridLayoutManager(getContext(), 20);
-            final CastAdapter castAdapter = new CastAdapter(getContext(), casts);
-            gridLayoutManager1.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                @Override
-                public int getSpanSize(int position) {
-                    switch (castAdapter.getItemViewType(position)) {
-                        case -1:
-                        case 9:
-                        case 10:
-                            return 20;
-                        case 4:
-                            return 1;
-                        case 5:
-                            return 3;
-                        case 6:
-                            return 20;
-                        default:
-                            return 2;
+            if (getContext() != null) {
+                GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 6);
+                final KillsAdapter killsAdapter = new KillsAdapter(getContext(), contents);
+                gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                    @Override
+                    public int getSpanSize(int position) {
+                        return killsAdapter.getItemViewType(position) == 2 ? 6 : 1;
                     }
-                }
-            });
-            d_detail.setLayoutManager(gridLayoutManager1);
-            d_detail.setAdapter(castAdapter);
-            LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(Objects.requireNonNull(getContext()));
-            Intent intent = new Intent("loaded");
-            localBroadcastManager.sendBroadcast(intent);
+                });
+                kill.setLayoutManager(gridLayoutManager);
+                kill.setAdapter(killsAdapter);
+                kill.setNestedScrollingEnabled(false);
+                d_detail.setNestedScrollingEnabled(false);
+                GridLayoutManager gridLayoutManager1 = new GridLayoutManager(getContext(), 20);
+                final CastAdapter castAdapter = new CastAdapter(getContext(), casts);
+                gridLayoutManager1.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                    @Override
+                    public int getSpanSize(int position) {
+                        switch (castAdapter.getItemViewType(position)) {
+                            case -1:
+                            case 9:
+                            case 10:
+                                return 20;
+                            case 4:
+                                return 1;
+                            case 5:
+                                return 3;
+                            case 6:
+                                return 20;
+                            default:
+                                return 2;
+                        }
+                    }
+                });
+                d_detail.setLayoutManager(gridLayoutManager1);
+                d_detail.setAdapter(castAdapter);
+                LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(Objects.requireNonNull(getContext()));
+                Intent intent = new Intent("loaded");
+                localBroadcastManager.sendBroadcast(intent);
+            }
             return true;
         }
     });

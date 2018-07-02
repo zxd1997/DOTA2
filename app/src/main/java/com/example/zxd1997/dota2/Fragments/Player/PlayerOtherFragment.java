@@ -67,49 +67,51 @@ public class PlayerOtherFragment extends Fragment {
     Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            switch (msg.what) {
-                case PEERS: {
-                    JsonParser parser = new JsonParser();
-                    JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
-                    int i = 0;
-                    MatchHero m = new MatchHero();
-                    m.setTitle(getString(R.string.palyer_p_w));
-                    m.setType(5);
-                    peers.add(m);
-                    for (JsonElement e : jsonArray) {
-                        if (i < 10) {
-                            Peer peer = new Gson().fromJson(e, Peer.class);
-                            peer.setType(6);
-                            peers.add(peer);
-                        } else break;
-                        i++;
+            if (getContext() != null) {
+                switch (msg.what) {
+                    case PEERS: {
+                        JsonParser parser = new JsonParser();
+                        JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
+                        int i = 0;
+                        MatchHero m = new MatchHero();
+                        m.setTitle(getString(R.string.palyer_p_w));
+                        m.setType(5);
+                        peers.add(m);
+                        for (JsonElement e : jsonArray) {
+                            if (i < 10) {
+                                Peer peer = new Gson().fromJson(e, Peer.class);
+                                peer.setType(6);
+                                peers.add(peer);
+                            } else break;
+                            i++;
+                        }
+                        matchesAdapter = new MatchesAdapter(getContext(), peers);
+                        matchesAdapter.setHasfoot(false);
+                        matchesAdapter.notifyDataSetChanged();
+                        recyclerView.setAdapter(matchesAdapter);
+                        break;
                     }
-                    matchesAdapter = new MatchesAdapter(getContext(), peers);
-                    matchesAdapter.setHasfoot(false);
-                    matchesAdapter.notifyDataSetChanged();
-                    recyclerView.setAdapter(matchesAdapter);
-                    break;
-                }
-                case COUNTS: {
-                    Counts counts = new Gson().fromJson(msg.obj.toString(), Counts.class);
-                    List<SliceValue> sliceValues = new ArrayList<>();
-                    for (Map.Entry<String, WL> entry : counts.getLobby_type().entrySet()) {
-                        WL wl = entry.getValue();
-                        SliceValue sliceValue = new SliceValue(wl.getGames());
-                        TypedArray typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.lobby_type_color);
-                        sliceValue.setColor(typedArray.getColor(Integer.valueOf(entry.getKey()), 0));
-                        typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.lobby_type);
-                        sliceValue.setLabel(typedArray.getString(Integer.valueOf(entry.getKey())) + " Match:" + wl.getGames() + " Winrate:" + Tools.getS((double) wl.getWin() / wl.getGames()));
-                        sliceValues.add(sliceValue);
-                        typedArray.recycle();
+                    case COUNTS: {
+                        Counts counts = new Gson().fromJson(msg.obj.toString(), Counts.class);
+                        List<SliceValue> sliceValues = new ArrayList<>();
+                        for (Map.Entry<String, WL> entry : counts.getLobby_type().entrySet()) {
+                            WL wl = entry.getValue();
+                            SliceValue sliceValue = new SliceValue(wl.getGames());
+                            TypedArray typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.lobby_type_color);
+                            sliceValue.setColor(typedArray.getColor(Integer.valueOf(entry.getKey()), 0));
+                            typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.lobby_type);
+                            sliceValue.setLabel(typedArray.getString(Integer.valueOf(entry.getKey())) + " Match:" + wl.getGames() + " Winrate:" + Tools.getS((double) wl.getWin() / wl.getGames()));
+                            sliceValues.add(sliceValue);
+                            typedArray.recycle();
+                        }
+                        progressBar.setVisibility(View.GONE);
+                        pieChartData = new PieChartData(sliceValues);
+                        pieChartData.setHasLabels(true);
+                        pieChartView.setPieChartData(pieChartData);
+                        pieChartView.setVisibility(View.VISIBLE);
+                        count.setVisibility(View.VISIBLE);
+                        break;
                     }
-                    progressBar.setVisibility(View.GONE);
-                    pieChartData = new PieChartData(sliceValues);
-                    pieChartData.setHasLabels(true);
-                    pieChartView.setPieChartData(pieChartData);
-                    pieChartView.setVisibility(View.VISIBLE);
-                    count.setVisibility(View.VISIBLE);
-                    break;
                 }
             }
             return true;

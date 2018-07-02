@@ -1,43 +1,70 @@
 package com.example.zxd1997.dota2.Beans;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class WikiContent {
-    private Parse parse;
+    private Query query;
 
-    public Parse getParse() {
-        return parse;
+    public Query getQuery() {
+        return query;
     }
 
-    public void setParse(Parse parse) {
-        this.parse = parse;
+    public void setQuery(Query query) {
+        this.query = query;
     }
 
-    public class Parse {
-        private String title;
-        private int pageid;
-        private String text;
+    public class Query {
+        List<Page> pages = new ArrayList<>();
 
-        public String getTitle() {
-            return title;
+        public List<Page> getPages() {
+            return pages;
         }
 
-        public void setTitle(String title) {
-            this.title = title;
+        public void setPages(List<Page> pages) {
+            this.pages = pages;
         }
 
-        public int getPageid() {
-            return pageid;
-        }
+        public class Page {
+            int pageid;
+            String title;
+            List<Revisions> revisions = new ArrayList<>();
 
-        public void setPageid(int pageid) {
-            this.pageid = pageid;
-        }
+            public int getPageid() {
+                return pageid;
+            }
 
-        public String getText() {
-            return text;
-        }
+            public void setPageid(int pageid) {
+                this.pageid = pageid;
+            }
 
-        public void setText(String text) {
-            this.text = text;
+            public String getTitle() {
+                return title;
+            }
+
+            public void setTitle(String title) {
+                this.title = title;
+            }
+
+            public List<Revisions> getRevisions() {
+                return revisions;
+            }
+
+            public void setRevisions(List<Revisions> revisions) {
+                this.revisions = revisions;
+            }
+
+            public class Revisions {
+                String content;
+
+                public String getContent() {
+                    return content;
+                }
+
+                public void setContent(String content) {
+                    this.content = content;
+                }
+            }
         }
     }
 }

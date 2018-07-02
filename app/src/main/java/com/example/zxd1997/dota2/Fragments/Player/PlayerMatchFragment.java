@@ -48,6 +48,7 @@ public class PlayerMatchFragment extends Fragment {
     SwipeRefreshLayout swipeRefreshLayout;
     MatchesAdapter matchesAdapter;
     List<MatchHero> matches = new ArrayList<>();
+
     public PlayerMatchFragment() {
         // Required empty public constructor
     }
@@ -59,36 +60,38 @@ public class PlayerMatchFragment extends Fragment {
     Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            switch (msg.what) {
-                case MATCHES: {
-                    matches.clear();
-                    JsonParser parser = new JsonParser();
-                    JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
-                    for (JsonElement e : jsonArray) {
-                        RecentMatch recentMatch = new Gson().fromJson(e, RecentMatch.class);
-                        recentMatch.setType(1);
+            if (getContext() != null) {
+                switch (msg.what) {
+                    case MATCHES: {
+                        matches.clear();
+                        JsonParser parser = new JsonParser();
+                        JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
+                        for (JsonElement e : jsonArray) {
+                            RecentMatch recentMatch = new Gson().fromJson(e, RecentMatch.class);
+                            recentMatch.setType(1);
 //                        if (recentMatch.getGame_mode() != 19)
                             matches.add(recentMatch);
+                        }
+                        matchesAdapter.setHasfoot(true);
+                        matchesAdapter.notifyDataSetChanged();
+                        swipeRefreshLayout.setRefreshing(false);
+                        break;
                     }
-                    matchesAdapter.setHasfoot(true);
-                    matchesAdapter.notifyDataSetChanged();
-                    swipeRefreshLayout.setRefreshing(false);
-                    break;
-                }
-                case UPDATE: {
-                    JsonParser parser = new JsonParser();
-                    JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
-                    if (jsonArray.size() == 0) {
-                        matchesAdapter.setHasfoot(false);
-                    }
-                    int t = matches.size();
-                    for (JsonElement e : jsonArray) {
-                        RecentMatch recentMatch = new Gson().fromJson(e, RecentMatch.class);
-                        recentMatch.setType(1);
+                    case UPDATE: {
+                        JsonParser parser = new JsonParser();
+                        JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
+                        if (jsonArray.size() == 0) {
+                            matchesAdapter.setHasfoot(false);
+                        }
+                        int t = matches.size();
+                        for (JsonElement e : jsonArray) {
+                            RecentMatch recentMatch = new Gson().fromJson(e, RecentMatch.class);
+                            recentMatch.setType(1);
 //                        if (recentMatch.getGame_mode() != 19)
                             matches.add(recentMatch);
+                        }
+                        matchesAdapter.notifyItemRangeChanged(t, matchesAdapter.getItemCount());
                     }
-                    matchesAdapter.notifyItemRangeChanged(t, matchesAdapter.getItemCount());
                 }
             }
             return true;

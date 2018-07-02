@@ -43,24 +43,26 @@ public class LogsFragment extends Fragment {
     private final Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            if (msg.what == LOAD) {
-                CheckBox rune = view.findViewById(R.id.chk_rune);
-                CheckedListener checkedListener = new CheckedListener();
-                rune.setOnCheckedChangeListener(checkedListener);
-                CheckBox building = view.findViewById(R.id.chk_buildings);
-                building.setOnCheckedChangeListener(checkedListener);
-                CheckBox combats = view.findViewById(R.id.chk_kill);
-                combats.setOnCheckedChangeListener(checkedListener);
-                CheckBox other = view.findViewById(R.id.chk_other);
-                other.setOnCheckedChangeListener(checkedListener);
-                recyclerView = view.findViewById(R.id.logs);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                LogAdapter logAdapter = new LogAdapter(getContext(), current_logs, recyclerView);
-                recyclerView.setAdapter(logAdapter);
-                recyclerView.setNestedScrollingEnabled(false);
-                LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(Objects.requireNonNull(getContext()));
-                Intent intent = new Intent("loaded");
-                localBroadcastManager.sendBroadcast(intent);
+            if (getContext() != null) {
+                if (msg.what == LOAD) {
+                    CheckBox rune = view.findViewById(R.id.chk_rune);
+                    CheckedListener checkedListener = new CheckedListener();
+                    rune.setOnCheckedChangeListener(checkedListener);
+                    CheckBox building = view.findViewById(R.id.chk_buildings);
+                    building.setOnCheckedChangeListener(checkedListener);
+                    CheckBox combats = view.findViewById(R.id.chk_kill);
+                    combats.setOnCheckedChangeListener(checkedListener);
+                    CheckBox other = view.findViewById(R.id.chk_other);
+                    other.setOnCheckedChangeListener(checkedListener);
+                    recyclerView = view.findViewById(R.id.logs);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                    LogAdapter logAdapter = new LogAdapter(getContext(), current_logs, recyclerView);
+                    recyclerView.setAdapter(logAdapter);
+                    recyclerView.setNestedScrollingEnabled(false);
+                    LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(Objects.requireNonNull(getContext()));
+                    Intent intent = new Intent("loaded");
+                    localBroadcastManager.sendBroadcast(intent);
+                }
             }
             return true;
         }

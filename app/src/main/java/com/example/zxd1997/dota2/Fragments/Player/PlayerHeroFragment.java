@@ -47,6 +47,7 @@ public class PlayerHeroFragment extends Fragment {
     SwipeRefreshLayout swipeRefreshLayout;
     MatchesAdapter matchesAdapter;
     List<MatchHero> hero_matches = new ArrayList<>();
+
     public PlayerHeroFragment() {
         // Required empty public constructor
     }
@@ -54,49 +55,52 @@ public class PlayerHeroFragment extends Fragment {
     Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            switch (msg.what) {
-                case HEROES: {
-                    MatchHero m = new MatchHero();
-                    m.setTitle("Heroes Played");
-                    m.setType(5);
-                    hero_matches.add(m);
-                    JsonParser parser = new JsonParser();
-                    JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
-                    for (JsonElement e : jsonArray) {
-                        PlayedHero playedHero = new Gson().fromJson(e, PlayedHero.class);
-                        playedHero.setType(2);
-                        hero_matches.add(playedHero);
-                        matchesAdapter.notifyItemInserted(matchesAdapter.getItemCount() - 1);
+            if (getContext() != null) {
+                switch (msg.what) {
+                    case HEROES: {
+                        MatchHero m = new MatchHero();
+                        m.setTitle("Heroes Played");
+                        m.setType(5);
+                        hero_matches.add(m);
+                        JsonParser parser = new JsonParser();
+                        JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
+                        for (JsonElement e : jsonArray) {
+                            PlayedHero playedHero = new Gson().fromJson(e, PlayedHero.class);
+                            playedHero.setType(2);
+                            hero_matches.add(playedHero);
+                            matchesAdapter.notifyItemInserted(matchesAdapter.getItemCount() - 1);
+                        }
+                        matchesAdapter.notifyDataSetChanged();
+                        swipeRefreshLayout.setRefreshing(false);
+                        break;
                     }
-                    matchesAdapter.notifyDataSetChanged();
-                    swipeRefreshLayout.setRefreshing(false);
-                    break;
-                }
-                case RANKING: {
-                    hero_matches.clear();
-                    MatchHero m = new MatchHero();
-                    m.setTitle("Heroes Ranking");
-                    m.setType(5);
-                    hero_matches.add(m);
-                    JsonParser parser = new JsonParser();
-                    JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
-                    int i = 0;
-                    for (JsonElement e : jsonArray) {
-                        if (i < 10) {
-                            Ranking rankings = new Gson().fromJson(e, Ranking.class);
-                            rankings.setType(4);
-                            hero_matches.add(rankings);
-                        } else break;
-                        i++;
+                    case RANKING: {
+                        hero_matches.clear();
+                        MatchHero m = new MatchHero();
+                        m.setTitle("Heroes Ranking");
+                        m.setType(5);
+                        hero_matches.add(m);
+                        JsonParser parser = new JsonParser();
+                        JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
+                        int i = 0;
+                        for (JsonElement e : jsonArray) {
+                            if (i < 10) {
+                                Ranking rankings = new Gson().fromJson(e, Ranking.class);
+                                rankings.setType(4);
+                                hero_matches.add(rankings);
+                            } else break;
+                            i++;
+                        }
+                        matchesAdapter.notifyDataSetChanged();
+                        OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/heroes", handler, HEROES);
+                        break;
                     }
-                    matchesAdapter.notifyDataSetChanged();
-                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/heroes", handler, HEROES);
-                    break;
                 }
             }
             return true;
         }
     });
+
     public static PlayerHeroFragment newInstance() {
         return new PlayerHeroFragment();
     }
