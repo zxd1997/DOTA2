@@ -200,7 +200,7 @@
     <string name="spectator">Spectator:</string>
     <string name="title_activity_peer" translatable="false">PeerActivity</string>
     <string name="matches_with">Matches With </string>
-    <string name="palyer_p_w">Player Played With</string>
+    <string name="player_p_w">Player Played With</string>
     <string name="counts">Counts</string>
     <string name="title_activity_my_hero" translatable="false">MyHeroActivity</string>
     <string name="average_hero_performance">Average Hero Performance</string>

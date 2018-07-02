@@ -74,7 +74,7 @@ public class PlayerOtherFragment extends Fragment {
                         JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
                         int i = 0;
                         MatchHero m = new MatchHero();
-                        m.setTitle(getString(R.string.palyer_p_w));
+                        m.setTitle(getString(R.string.player_p_w));
                         m.setType(5);
                         peers.add(m);
                         for (JsonElement e : jsonArray) {

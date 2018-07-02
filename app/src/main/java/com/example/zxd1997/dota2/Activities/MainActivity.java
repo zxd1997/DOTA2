@@ -48,6 +48,20 @@ public class MainActivity extends AppCompatActivity {
             switch (msg.what) {
                 case FINISHED: {
                     Update.readFromJson();
+                    Toolbar toolbar = findViewById(R.id.toolbar);
+                    setSupportActionBar(toolbar);
+                    List<Fragment> fragments = new ArrayList<>();
+                    fragments.add(MyFragment.newInstance());
+                    fragments.add(HeroesFragment.newInstance());
+                    fragments.add(ItemsFragment.newInstance());
+                    fragments.add(ProFragment.newInstance());
+                    TabFragmentAdapter tabFragmentAdapter = new TabFragmentAdapter(getSupportFragmentManager(), fragments);
+                    ViewPager mViewPager = findViewById(R.id.container);
+                    mViewPager.setAdapter(tabFragmentAdapter);
+                    mViewPager.setOffscreenPageLimit(fragments.size());
+                    TabLayout tabLayout = findViewById(R.id.tabs);
+                    mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+                    tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
                     pd.dismiss();
                     break;
                 }
@@ -83,21 +97,22 @@ public class MainActivity extends AppCompatActivity {
             pd.show();
         } else {
             Update.readFromJson();
+            Toolbar toolbar = findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            List<Fragment> fragments = new ArrayList<>();
+            fragments.add(MyFragment.newInstance());
+            fragments.add(HeroesFragment.newInstance());
+            fragments.add(ItemsFragment.newInstance());
+            fragments.add(ProFragment.newInstance());
+            TabFragmentAdapter tabFragmentAdapter = new TabFragmentAdapter(getSupportFragmentManager(), fragments);
+            ViewPager mViewPager = findViewById(R.id.container);
+            mViewPager.setAdapter(tabFragmentAdapter);
+            mViewPager.setOffscreenPageLimit(fragments.size());
+            TabLayout tabLayout = findViewById(R.id.tabs);
+            mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+            tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
         }
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        List<Fragment> fragments = new ArrayList<>();
-        fragments.add(MyFragment.newInstance());
-        fragments.add(HeroesFragment.newInstance());
-        fragments.add(ItemsFragment.newInstance());
-        fragments.add(ProFragment.newInstance());
-        TabFragmentAdapter tabFragmentAdapter = new TabFragmentAdapter(getSupportFragmentManager(), fragments);
-        ViewPager mViewPager = findViewById(R.id.container);
-        mViewPager.setAdapter(tabFragmentAdapter);
-        mViewPager.setOffscreenPageLimit(fragments.size());
-        TabLayout tabLayout = findViewById(R.id.tabs);
-        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+
     }
 
 
