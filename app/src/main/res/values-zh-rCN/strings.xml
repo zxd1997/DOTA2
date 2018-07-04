@@ -202,4 +202,5 @@
     <string name="hour_ago">小时前</string>
     <string name="minute_ago">分钟前</string>
     <string name="just_now">刚刚</string>
+    <string name="average_kills_deaths_assists">平均击杀/死亡/助攻</string>
 </resources>

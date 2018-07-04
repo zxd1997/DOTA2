@@ -45,17 +45,17 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="22dp"
                 android:background="@color/cardview_shadow_start_color"
                 android:gravity="center"
                 android:text="@string/total"
-                android:textSize="18sp" />
+                android:textSize="17sp" />
 
             <TextView
                 android:id="@+id/hero_total"
                 android:layout_width="match_parent"
                 android:layout_height="33dp"
-                android:layout_marginTop="17dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:text="@string/placeholder1"
                 android:textSize="22sp" />
@@ -75,17 +75,17 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="22dp"
                 android:background="@color/cardview_shadow_start_color"
                 android:gravity="center"
                 android:text="@string/winrate"
-                android:textSize="18sp" />
+                android:textSize="17sp" />
 
             <TextView
                 android:id="@+id/hero_win_rate"
                 android:layout_width="match_parent"
                 android:layout_height="33dp"
-                android:layout_marginTop="17dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:text="@string/placeholder1"
                 android:textSize="22sp" />
@@ -117,17 +117,17 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="22dp"
                 android:background="@color/cardview_shadow_start_color"
                 android:gravity="center"
                 android:text="@string/kills_"
-                android:textSize="18sp" />
+                android:textSize="17sp" />
 
             <TextView
                 android:id="@+id/hero_kill"
                 android:layout_width="match_parent"
                 android:layout_height="33dp"
-                android:layout_marginTop="17dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:text="@string/placeholder1"
                 android:textSize="22sp" />
@@ -148,17 +148,17 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="22dp"
                 android:background="@color/cardview_shadow_start_color"
                 android:gravity="center"
                 android:text="@string/deaths"
-                android:textSize="18sp" />
+                android:textSize="17sp" />
 
             <TextView
                 android:id="@+id/hero_death"
                 android:layout_width="match_parent"
                 android:layout_height="33dp"
-                android:layout_marginTop="17dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:text="@string/placeholder1"
                 android:textSize="22sp" />
@@ -179,17 +179,17 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="22dp"
                 android:background="@color/cardview_shadow_start_color"
                 android:gravity="center"
                 android:text="@string/assists"
-                android:textSize="18sp" />
+                android:textSize="17sp" />
 
             <TextView
                 android:id="@+id/hero_assists"
                 android:layout_width="match_parent"
                 android:layout_height="33dp"
-                android:layout_marginTop="17dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:text="@string/placeholder1"
                 android:textSize="22sp" />
@@ -210,17 +210,17 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="22dp"
                 android:background="@color/cardview_shadow_start_color"
                 android:gravity="center"
                 android:text="@string/kda"
-                android:textSize="18sp" />
+                android:textSize="17sp" />
 
             <TextView
                 android:id="@+id/hero_kda"
                 android:layout_width="match_parent"
                 android:layout_height="33dp"
-                android:layout_marginTop="17dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:text="@string/placeholder1"
                 android:textSize="22sp" />
@@ -241,17 +241,17 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="22dp"
                 android:background="@color/cardview_shadow_start_color"
                 android:gravity="center"
                 android:text="@string/gpm_"
-                android:textSize="18sp" />
+                android:textSize="17sp" />
 
             <TextView
                 android:id="@+id/hero_gpm"
                 android:layout_width="match_parent"
                 android:layout_height="33dp"
-                android:layout_marginTop="17dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:text="@string/placeholder1"
                 android:textSize="22sp" />
@@ -274,17 +274,17 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="22dp"
                 android:background="@color/cardview_shadow_start_color"
                 android:gravity="center"
-                android:text="@string/deaths"
-                android:textSize="18sp" />
+                android:text="@string/xpm_"
+                android:textSize="17sp" />
 
             <TextView
                 android:id="@+id/hero_xpm"
                 android:layout_width="match_parent"
                 android:layout_height="33dp"
-                android:layout_marginTop="17dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:text="@string/placeholder1"
                 android:textSize="22sp" />
@@ -305,17 +305,17 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="22dp"
                 android:background="@color/cardview_shadow_start_color"
                 android:gravity="center"
                 android:text="@string/lhs"
-                android:textSize="18sp" />
+                android:textSize="17sp" />
 
             <TextView
                 android:id="@+id/hero_lh"
                 android:layout_width="match_parent"
                 android:layout_height="33dp"
-                android:layout_marginTop="17dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:text="@string/placeholder1"
                 android:textSize="22sp" />
@@ -336,17 +336,17 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="22dp"
                 android:background="@color/cardview_shadow_start_color"
                 android:gravity="center"
                 android:text="@string/denies"
-                android:textSize="18sp" />
+                android:textSize="17sp" />
 
             <TextView
                 android:id="@+id/hero_dn"
                 android:layout_width="match_parent"
                 android:layout_height="33dp"
-                android:layout_marginTop="17dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:text="@string/placeholder1"
                 android:textSize="22sp" />
@@ -369,17 +369,17 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="22dp"
                 android:background="@color/cardview_shadow_start_color"
                 android:gravity="center"
                 android:text="@string/DAMAGE1"
-                android:textSize="18sp" />
+                android:textSize="17sp" />
 
             <TextView
                 android:id="@+id/hero_damage"
                 android:layout_width="match_parent"
                 android:layout_height="33dp"
-                android:layout_marginTop="17dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:text="@string/placeholder1"
                 android:textSize="22sp" />
@@ -400,17 +400,17 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="22dp"
                 android:background="@color/cardview_shadow_start_color"
                 android:gravity="center"
                 android:text="@string/tower"
-                android:textSize="18sp" />
+                android:textSize="17sp" />
 
             <TextView
                 android:id="@+id/hero_td"
                 android:layout_width="match_parent"
                 android:layout_height="33dp"
-                android:layout_marginTop="17dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:text="@string/placeholder1"
                 android:textSize="22sp" />
@@ -431,17 +431,17 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="22dp"
                 android:background="@color/cardview_shadow_start_color"
                 android:gravity="center"
                 android:text="@string/healing_"
-                android:textSize="18sp" />
+                android:textSize="17sp" />
 
             <TextView
                 android:id="@+id/hero_hh"
                 android:layout_width="match_parent"
                 android:layout_height="33dp"
-                android:layout_marginTop="17dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:text="@string/placeholder1"
                 android:textSize="22sp" />

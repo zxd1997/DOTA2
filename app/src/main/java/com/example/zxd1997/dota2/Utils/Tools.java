@@ -1,6 +1,7 @@
 package com.example.zxd1997.dota2.Utils;
 
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 
@@ -10,6 +11,20 @@ import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 
 public class Tools {
+    public static SpannableStringBuilder getavgKDA(float k, float d, float a) {
+        SpannableStringBuilder kk = new SpannableStringBuilder();
+        DecimalFormat df = new DecimalFormat("0.00");
+        SpannableString t1 = new SpannableString(df.format(k));
+        t1.setSpan(new ForegroundColorSpan(MyApplication.getContext().getResources().getColor(R.color.win)), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        kk.append(t1).append("/");
+        t1 = new SpannableString(df.format(d));
+        t1.setSpan(new ForegroundColorSpan(MyApplication.getContext().getResources().getColor(R.color.lose)), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        kk.append(t1).append("/");
+        t1 = new SpannableString(df.format(a));
+        t1.setSpan(new ForegroundColorSpan(MyApplication.getContext().getResources().getColor(R.color.blue_light)), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        kk.append(t1);
+        return kk;
+    }
     public static int getResId(String variableName, Class<?> c) {
         try {
             Field idField = c.getDeclaredField(variableName);

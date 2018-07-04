@@ -124,7 +124,7 @@
             android:layout_marginRight="4.5dp"
             android:gravity="center"
             android:textColor="@color/gold"
-            android:textSize="21sp"
+            android:textSize="20sp"
             fresco:layout_constraintBottom_toBottomOf="@id/tier"
             fresco:layout_constraintLeft_toLeftOf="@id/tier" />
     </android.support.v7.widget.CardView>

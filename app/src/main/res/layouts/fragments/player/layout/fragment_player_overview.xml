@@ -78,36 +78,36 @@
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/tier"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_marginRight="18dp"
+                android:layout_width="135dp"
+                android:layout_height="135dp"
                 android:layout_marginTop="1dp"
                 app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/xpm_card"
                 app:layout_constraintTop_toBottomOf="@id/data"
                 fresco:placeholderImage="@drawable/rank_icon_0"
                 fresco:roundedCornerRadius="5dp" />
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/star"
-                android:layout_width="120dp"
-                android:layout_height="22dp"
+                android:layout_width="135dp"
+                android:layout_height="25dp"
                 app:layout_constraintLeft_toLeftOf="@id/tier"
                 app:layout_constraintTop_toBottomOf="@id/data" />
 
             <TextView
                 android:id="@+id/rank"
-                android:layout_width="120dp"
+                android:layout_width="135dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="7dp"
+                android:layout_marginBottom="8dp"
                 android:gravity="center"
                 android:textColor="@color/gold"
-                android:textSize="25sp"
+                android:textSize="27sp"
                 app:layout_constraintBottom_toBottomOf="@id/tier"
                 app:layout_constraintLeft_toLeftOf="@id/tier" />
 
             <TextView
                 android:id="@+id/tier_name"
-                android:layout_width="120dp"
+                android:layout_width="135dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/unknown"
@@ -336,6 +336,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
                 android:padding="1dp"
+                android:id="@+id/xpm_card"
                 app:layout_constraintLeft_toRightOf="@id/card_win"
                 app:layout_constraintTop_toBottomOf="@id/kda_card">
 
@@ -355,6 +356,37 @@
                     android:gravity="center"
                     android:text="@string/placeholder"
                     android:textSize="17sp" />
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:padding="1dp"
+                app:layout_constraintBottom_toBottomOf="@id/gpm_card"
+                app:layout_constraintLeft_toRightOf="@id/xpm_card"
+                app:layout_constraintRight_toRightOf="parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/cardview_shadow_start_color"
+                    android:gravity="center"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:text="@string/average_kills_deaths_assists"
+                    android:textSize="19sp" />
+
+                <TextView
+                    android:id="@+id/player_avg_kda"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:gravity="center"
+                    android:text="@string/placeholder2"
+                    android:textSize="20.5sp" />
             </android.support.v7.widget.CardView>
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>

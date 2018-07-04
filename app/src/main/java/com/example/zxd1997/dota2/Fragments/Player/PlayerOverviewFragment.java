@@ -80,7 +80,6 @@ public class PlayerOverviewFragment extends Fragment {
     private WL wl_full;
     private WL wl_recent;
     private TextView record;
-    private Player player;
     private TextView win;
     private TextView lose;
     private TextView total;
@@ -93,6 +92,7 @@ public class PlayerOverviewFragment extends Fragment {
     private View view;
     private RecyclerView recyclerView;
     private MatchesAdapter matchesAdapter;
+    private TextView avg_kda;
     private List<MatchHero> records = new ArrayList<>();
     public PlayerOverviewFragment() {
 
@@ -219,6 +219,8 @@ public class PlayerOverviewFragment extends Fragment {
                                 SpannableString full_xpm = new SpannableString(df1.format((float) totals_full.get(5).getSum() / totals_full.get(5).getN()));
                                 rec_xpm.setSpan(new RelativeSizeSpan(1.3f), 0, rec_xpm.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                                 t3.append(rec_xpm).append("/").append(full_xpm);
+                                final SpannableStringBuilder k_rec = Tools.getavgKDA((float) totals_recent.get(0).getSum() / totals_recent.get(0).getN(), (float) totals_recent.get(1).getSum() / totals_recent.get(1).getN(), (float) totals_recent.get(2).getSum() / totals_recent.get(2).getN());
+                                final SpannableStringBuilder k_total = Tools.getavgKDA((float) totals_full.get(0).getSum() / totals_full.get(0).getN(), (float) totals_full.get(1).getSum() / totals_full.get(1).getN(), (float) totals_full.get(2).getSum() / totals_full.get(2).getN());
                                 view.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -226,6 +228,7 @@ public class PlayerOverviewFragment extends Fragment {
                                         damage.setText(t1);
                                         gpm.setText(t2);
                                         xpm.setText(t3);
+                                        avg_kda.setText(new SpannableStringBuilder().append(k_rec).append("\n").append(k_total));
                                     }
                                 });
                             }
@@ -445,7 +448,7 @@ public class PlayerOverviewFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_player_overview, container, false);
         PlayerActivity playerActivity = (PlayerActivity) getActivity();
-        player = Objects.requireNonNull(playerActivity).getPlayer();
+        Player player = Objects.requireNonNull(playerActivity).getPlayer();
         if (player == null) {
             Intent intent = new Intent(MyApplication.getContext(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -471,6 +474,7 @@ public class PlayerOverviewFragment extends Fragment {
             xpm = view.findViewById(R.id.player_xpm);
             recyclerView = view.findViewById(R.id.record);
             record = view.findViewById(R.id.records);
+            avg_kda = view.findViewById(R.id.player_avg_kda);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override

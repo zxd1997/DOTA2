@@ -130,7 +130,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 t1.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.lose)), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 k.append(t1).append("/");
                 t1 = new SpannableString("A");
-                t1.setSpan(new ForegroundColorSpan(Color.BLUE), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                t1.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.blue_light)), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 k.append(t1);
                 viewHolder.kk.setText(k);
                 k = new SpannableStringBuilder();
@@ -141,7 +141,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 t1.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.lose)), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 k.append(t1).append("/");
                 t1 = new SpannableString(p.getAssists() + "");
-                t1.setSpan(new ForegroundColorSpan(Color.BLUE), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                t1.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.blue_light)), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 k.append(t1);
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
