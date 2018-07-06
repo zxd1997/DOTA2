@@ -16,11 +16,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spanned;
+import android.transition.Transition;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
@@ -28,7 +31,6 @@ import android.widget.TextView;
 
 import com.example.zxd1997.dota2.Beans.Hero;
 import com.example.zxd1997.dota2.R;
-import com.example.zxd1997.dota2.Utils.MyApplication;
 import com.example.zxd1997.dota2.Utils.OKhttp;
 import com.example.zxd1997.dota2.Utils.Tools;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -60,12 +62,15 @@ public class HeroActivity extends AppCompatActivity {
     TextView spell_amp;
     TextView move_speed;
     TextView level;
+    int id;
+    String name;
     Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             Log.d("waht", "handleMessage: " + msg.obj.toString());
             switch (msg.what) {
                 case PARSE: {
+
                     Spanned spanned;
                     String t = msg.obj.toString();
                     t = t.replaceAll("2/2d/Talent.png", "3/34/Talentb.png");
@@ -99,14 +104,12 @@ public class HeroActivity extends AppCompatActivity {
                     } else
 //                        spanned = Html.fromHtml(wikiContent.getParse().getText(), new NetworkImageGetter(), null);
                         spanned = Html.fromHtml(t, new NetworkImageGetter(), null);
-
                     Log.d("xxx", "handleMessage: " + spanned);
                     text.setText(spanned);
                     progressBar.setVisibility(View.GONE);
                     text.setVisibility(View.VISIBLE);
                     break;
                 }
-
             }
             return true;
         }
@@ -115,6 +118,7 @@ public class HeroActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         setContentView(R.layout.activity_hero);
         progressBar = findViewById(R.id.progressBar);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -122,68 +126,91 @@ public class HeroActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Intent intent = getIntent();
-        int id = intent.getIntExtra("id", 0);
+        id = intent.getIntExtra("id", 0);
         if (id == 0) {
             startActivity(new Intent(HeroActivity.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
             this.finish();
         }
         hero = MainActivity.heroStats.get(id);
-        SimpleDraweeView icon = findViewById(R.id.icon_card);
-        icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + id + "_icon", R.drawable.class))).build());
-        String name = intent.getStringExtra("name");
-        TextView str = findViewById(R.id.str);
-        TextView agi = findViewById(R.id.agi);
-        TextView inte = findViewById(R.id.inte);
-        str.setText(String.format("%s + %s", String.valueOf(hero.getBase_str()), hero.getStr_gain()));
-        agi.setText(String.format("%s + %s", String.valueOf(hero.getBase_agi()), hero.getAgi_gain()));
-        inte.setText(String.format("%s + %s", String.valueOf(hero.getBase_int()), hero.getInt_gain()));
-        attack = findViewById(R.id.attack);
-        cur_str = findViewById(R.id.cur_str);
-        cur_agi = findViewById(R.id.cur_agi);
-        cur_int = findViewById(R.id.cur_int);
-        health = findViewById(R.id.health);
-        health_regen = findViewById(R.id.health_regen);
-        mana = findViewById(R.id.mana);
-        mana_regen = findViewById(R.id.mana_regen);
-        armor = findViewById(R.id.armor);
-        magic_res = findViewById(R.id.magic_resist);
-        attack_rate = findViewById(R.id.attack_rate);
-        spell_amp = findViewById(R.id.spell_amp);
-        move_speed = findViewById(R.id.move_speed);
-        level=findViewById(R.id.lvl);
-        SeekBar seekBar=findViewById(R.id.seekBar1);
-        level.setText(getString(R.string.level,1));
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        ImageView head = findViewById(R.id.head);
+        head.setTransitionName("hero_" + id);
+        name = intent.getStringExtra("name");
+        head.setImageResource(Tools.getResId("hero_" + id, R.drawable.class));
+        getWindow().getEnterTransition().addListener(new Transition.TransitionListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                level.setText(getString(R.string.level,progress+1));
-                setLevel(progress+1);
+            public void onTransitionStart(Transition transition) {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onTransitionEnd(Transition transition) {
+                SimpleDraweeView icon = findViewById(R.id.icon_card);
+                icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + id + "_icon", R.drawable.class))).build());
+                TextView str = findViewById(R.id.str);
+                TextView agi = findViewById(R.id.agi);
+                TextView inte = findViewById(R.id.inte);
+                str.setText(String.format("%s + %s", String.valueOf(hero.getBase_str()), hero.getStr_gain()));
+                agi.setText(String.format("%s + %s", String.valueOf(hero.getBase_agi()), hero.getAgi_gain()));
+                inte.setText(String.format("%s + %s", String.valueOf(hero.getBase_int()), hero.getInt_gain()));
+                attack = findViewById(R.id.attack);
+                cur_str = findViewById(R.id.cur_str);
+                cur_agi = findViewById(R.id.cur_agi);
+                cur_int = findViewById(R.id.cur_int);
+                health = findViewById(R.id.health);
+                health_regen = findViewById(R.id.health_regen);
+                mana = findViewById(R.id.mana);
+                mana_regen = findViewById(R.id.mana_regen);
+                armor = findViewById(R.id.armor);
+                magic_res = findViewById(R.id.magic_resist);
+                attack_rate = findViewById(R.id.attack_rate);
+                spell_amp = findViewById(R.id.spell_amp);
+                move_speed = findViewById(R.id.move_speed);
+                level = findViewById(R.id.lvl);
+                SeekBar seekBar = findViewById(R.id.seekBar1);
+                level.setText(getString(R.string.level, 1));
+                seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        level.setText(getString(R.string.level, progress + 1));
+                        setLevel(progress + 1);
+                    }
 
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+
+                    }
+                });
+                TextView turn_rate = findViewById(R.id.turn_rate);
+                turn_rate.setText(getString(R.string.turn_rate_1f, hero.getTurn_rate()));
+                TextView attack_range = findViewById(R.id.attack_range);
+                TextView p_s = findViewById(R.id.projectile_speed);
+                attack_range.setText(getString(R.string.attack_range_1_d, hero.getAttack_range()));
+                p_s.setText(getString(R.string.projectile_speed_1_s, hero.getProjectile_speed() > 0 ? hero.getProjectile_speed() + "" : getString(R.string.instant)));
+                setLevel(1);
+                text = findViewById(R.id.hero_text);
+                progressBar.setVisibility(View.VISIBLE);
+                OKhttp.getFromService("https://dota.huijiwiki.com/wiki/" + name, handler, PARSE);
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onTransitionCancel(Transition transition) {
+            }
 
+            @Override
+            public void onTransitionPause(Transition transition) {
+            }
+
+            @Override
+            public void onTransitionResume(Transition transition) {
             }
         });
-        TextView turn_rate = findViewById(R.id.turn_rate);
-        turn_rate.setText(getString(R.string.turn_rate_1f, hero.getTurn_rate()));
-        TextView attack_range = findViewById(R.id.attack_range);
-        TextView p_s = findViewById(R.id.projectile_speed);
-        attack_range.setText(getString(R.string.attack_range_1_d,hero.getAttack_range()));
-        p_s.setText(getString(R.string.projectile_speed_1_s,hero.getProjectile_speed()>0?hero.getProjectile_speed()+"":getString(R.string.instant)));
-        setLevel(1);
+
         Objects.requireNonNull(getSupportActionBar()).setTitle(name);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        SimpleDraweeView head = findViewById(R.id.head);
-        head.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + id, R.drawable.class))).build());
-        text = findViewById(R.id.hero_text);
-        progressBar.setVisibility(View.VISIBLE);
-        OKhttp.getFromService("https://dota.huijiwiki.com/wiki/" + name, handler, PARSE);
     }
 
     public void setLevel(int level) {
@@ -200,40 +227,38 @@ public class HeroActivity extends AppCompatActivity {
         double attack_rate_amp = 1;
         double spell_amp_amp = 0.0007;
         double move_speed_amp = 0.0005;
-        Log.d("attr", "setLevel: " + str + " " + agi + " " + inte + " " + hero.getPrimary_attr());
         switch (hero.getPrimary_attr()) {
             case "str": {
-                attack.setText(getString(R.string.attack, Math.round((hero.getBase_attack_min() + Math.floor(str) + hero.getBase_attack_max() + Math.floor(str)) / 2),(int) (hero.getBase_attack_min() + Math.floor(str)), (int)(hero.getBase_attack_max() + Math.floor(str))));
+                attack.setText(getString(R.string.attack, Math.round((hero.getBase_attack_min() + Math.floor(str) + hero.getBase_attack_max() + Math.floor(str)) / 2), (int) (hero.getBase_attack_min() + Math.floor(str)), (int) (hero.getBase_attack_max() + Math.floor(str))));
                 health_gain *= 1.25;
                 hp_regen *= 1.25;
                 magic_res_gain *= 1.25;
                 break;
             }
             case "agi": {
-                attack.setText(getString(R.string.attack, Math.round((hero.getBase_attack_min() + Math.floor(agi) + hero.getBase_attack_max() + Math.floor(agi)) / 2), (int)(hero.getBase_attack_min() + Math.floor(agi)), (int)(hero.getBase_attack_max() + Math.floor(agi))));
+                attack.setText(getString(R.string.attack, Math.round((hero.getBase_attack_min() + Math.floor(agi) + hero.getBase_attack_max() + Math.floor(agi)) / 2), (int) (hero.getBase_attack_min() + Math.floor(agi)), (int) (hero.getBase_attack_max() + Math.floor(agi))));
                 armor_gain *= 1.25;
                 attack_rate_amp *= 1.25;
                 move_speed_amp *= 1.25;
                 break;
             }
             case "int": {
-                attack.setText(getString(R.string.attack, Math.round((hero.getBase_attack_min() + Math.floor(inte) + hero.getBase_attack_max() + Math.floor(inte)) / 2), (int)(hero.getBase_attack_min() + Math.floor(inte)), (int)(hero.getBase_attack_max() + Math.floor(inte))));
+                attack.setText(getString(R.string.attack, Math.round((hero.getBase_attack_min() + Math.floor(inte) + hero.getBase_attack_max() + Math.floor(inte)) / 2), (int) (hero.getBase_attack_min() + Math.floor(inte)), (int) (hero.getBase_attack_max() + Math.floor(inte))));
                 mana_gain *= 1.25;
                 m_regen *= 1.25;
                 spell_amp_amp *= 1.25;
                 break;
             }
         }
-        Log.d("attr", "setLevel: " + str + " " + agi + " " + inte);
-        cur_str.setText(getString(R.string.str,Math.round(str)));
+        cur_str.setText(getString(R.string.str, Math.round(str)));
         cur_agi.setText(getString(R.string.agi, Math.round(agi)));
         cur_int.setText(getString(R.string.inte, Math.round(inte)));
         health.setText(getString(R.string.health, (hero.getBase_health() + Math.floor(str) * health_gain)));
         health_regen.setText(getString(R.string.health_regen_2f, hero.getBase_health_regen() * ((double) 1 + hp_regen * Math.floor(str))));
-        mana.setText(getString(R.string.mana_1_d, (int)(hero.getBase_mana() + Math.floor(inte) * mana_gain)));
+        mana.setText(getString(R.string.mana_1_d, (int) (hero.getBase_mana() + Math.floor(inte) * mana_gain)));
         mana_regen.setText(getString(R.string.mana_regen_2f, hero.getBase_mana_regen() * ((double) 1 + m_regen * Math.floor(inte))));
         armor.setText(getString(R.string.armor_2f, hero.getBase_armor() + armor_gain * agi));
-        double mr = (double) 1 - (((double) 1 - (double) hero.getBase_mr() / 100) * ((double)1-magic_res_gain * str));
+        double mr = (double) 1 - (((double) 1 - (double) hero.getBase_mr() / 100) * ((double) 1 - magic_res_gain * str));
         magic_res.setText(String.format("%s%%", getString(R.string.magic_resistance_2f, mr * 100)));
         spell_amp.setText(String.format("%s%%", getString(R.string.spell_amplification_2f, inte * spell_amp_amp * 100)));
         move_speed.setText(getString(R.string.movement_speed_2f, (double) hero.getMove_speed() * ((double) 1 + agi * move_speed_amp)));

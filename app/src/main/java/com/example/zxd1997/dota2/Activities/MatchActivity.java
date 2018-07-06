@@ -44,6 +44,8 @@ public class MatchActivity extends AppCompatActivity {
     private final static int LOADED = 1;
     private final static int LOADEDALL = 6;
     private TabLayout tabLayout;
+    IntentFilter intentFilter = new IntentFilter("loaded");
+    Receiver receiver = new Receiver();
     private TabFragmentAdapter tabFragmentAdapter;
     private final List<Fragment> fragments = new ArrayList<>();
     private ProgressBar progressBar;
@@ -58,8 +60,6 @@ public class MatchActivity extends AppCompatActivity {
                     match = new Gson().fromJson(msg.obj.toString(), Match.class);
 //            Log.d("info", "handleMessage: " + match.getMatch_id() + " " + match.getRadiant_score() + " " + match.getDire_score() + " " + match.getReplay_salt());
                     fragments.add(OverviewFragment.newInstance());
-                    IntentFilter intentFilter = new IntentFilter("loaded");
-                    Receiver receiver = new Receiver();
                     LocalBroadcastManager.getInstance(Objects.requireNonNull(getApplicationContext())).registerReceiver(receiver, intentFilter);
                     if (match.getRadiant_xp_adv() == null) {
                         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_6)));
@@ -88,15 +88,16 @@ public class MatchActivity extends AppCompatActivity {
                 case LOADED: {
                     mViewPager.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
+                    LocalBroadcastManager.getInstance(Objects.requireNonNull(getApplicationContext())).unregisterReceiver(receiver);
                     break;
                 }
                 case LOADEDALL: {
                     mViewPager.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
+                    LocalBroadcastManager.getInstance(Objects.requireNonNull(getApplicationContext())).unregisterReceiver(receiver);
                     break;
                 }
             }
-
             return true;
         }
     });
@@ -187,12 +188,6 @@ public class MatchActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        ViewServer.get(this).setFocusedWindow(this);
-//    }
 
     @Override
     protected void onDestroy() {

@@ -59,7 +59,7 @@ public class MyHeroActivity extends AppCompatActivity {
                     break;
                 }
                 case TOTAL: {
-                    heroCard = (MatchesAdapter.HeroCard) recyclerView.getChildViewHolder(recyclerView.getChildAt(0));
+                    heroCard = (MatchesAdapter.HeroCard) recyclerView.getChildViewHolder(recyclerView.getLayoutManager().findViewByPosition(0));
                     JsonParser parser = new JsonParser();
                     JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
                     List<Total> totals = new ArrayList<>();

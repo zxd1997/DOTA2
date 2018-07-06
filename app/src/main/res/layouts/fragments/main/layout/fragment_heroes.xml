@@ -1,19 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?><!--<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:app="http://schemas.android.com/apk/res-auto"--><!--android:id="@+id/constraintLayout"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:gravity="center"--><!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
+
+
+<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/constraintLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-
-    <android.support.v7.widget.RecyclerView
         android:id="@+id/heroes"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_marginLeft="1dp"
         android:layout_marginRight="1dp"
-        android:nestedScrollingEnabled="false"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-</android.support.v4.widget.NestedScrollView>
+    android:focusable="false"
+    android:focusableInTouchMode="false"
+    android:nestedScrollingEnabled="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" /><!--</android.support.v4.widget.NestedScrollView>-->

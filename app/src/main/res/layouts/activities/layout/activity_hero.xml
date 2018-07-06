@@ -23,13 +23,12 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:toolbarId="@+id/toolbar">
 
-            <com.facebook.drawee.view.SimpleDraweeView
+            <ImageView
                 android:id="@+id/head"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/hero_2" />
+                android:scaleType="centerCrop" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -104,18 +103,19 @@
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:gravity="center_vertical"
-                        android:padding="4dp"
+                        android:padding="1dp"
                         android:textSize="20sp"
                         app:layout_constraintLeft_toRightOf="@id/str_icon"
                         app:layout_constraintRight_toLeftOf="@id/agi_icon"
                         app:layout_constraintTop_toTopOf="@id/str_icon"
-                        tools:text="20+1.2" />
+                        tools:text="20+1.22" />
 
                     <ImageView
                         android:id="@+id/agi_icon"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:src="@drawable/agi"
+                        android:padding="1dp"
                         app:layout_constraintLeft_toRightOf="@id/str"
                         app:layout_constraintRight_toLeftOf="@id/agi"
                         app:layout_constraintTop_toTopOf="@id/str_icon" />
@@ -125,8 +125,8 @@
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:gravity="center_vertical"
-                        android:padding="4dp"
                         android:textSize="20sp"
+                        android:padding="1dp"
                         app:layout_constraintLeft_toRightOf="@id/agi_icon"
                         app:layout_constraintRight_toLeftOf="@id/inte_icon"
                         app:layout_constraintTop_toTopOf="@id/str_icon"
@@ -146,7 +146,6 @@
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:gravity="center_vertical"
-                        android:padding="4dp"
                         android:textSize="20sp"
                         app:layout_constraintLeft_toRightOf="@id/inte_icon"
                         app:layout_constraintRight_toRightOf="parent"

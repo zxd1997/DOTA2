@@ -5,8 +5,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -48,14 +46,10 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int FIRST_BLOOD = 7;
     private final Context context;
     private final List<Match.Objective> logs;
-    private int expended = -1;
-    private final LinearLayoutManager linearLayoutManager;
 
-    public LogAdapter(Context context, List<Match.Objective> logs, RecyclerView recyclerView) {
+    public LogAdapter(Context context, List<Match.Objective> logs) {
         this.context = context;
         this.logs = logs;
-        RecyclerView recyclerView1 = recyclerView;
-        this.linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
     }
 
 
@@ -420,40 +414,41 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 }
                                 teamFight.radiant_death.setText(new SpannableStringBuilder().append(death).append(context.getString(R.string.r_d)).append(radiant_death));
                                 teamFight.dire_death.setText(new SpannableStringBuilder().append(context.getString(R.string.d_d)).append(dire_death).append(" ").append(death));
-                                final CastAdapter castAdapter = new CastAdapter(context, contents);
-                                GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 10);
-                                gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                                    @Override
-                                    public int getSpanSize(int position) {
-                                        return (castAdapter.getItemViewType(position) == -1 || castAdapter.getItemViewType(position) == 11 || castAdapter.getItemViewType(position) == 12) ? 10 : 1;
-                                    }
-                                });
-                                teamFight.map.setPoints(points);
-                                teamFight.map.invalidate();
-                                teamFight.teamfight_list.setLayoutManager(gridLayoutManager);
-                                teamFight.teamfight_list.setAdapter(castAdapter);
-                                teamFight.itemView.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        if (teamFight.map.getVisibility() == View.GONE) {
-//                                            Log.d(TAG, "onClick: GONE");
-//                                            if (expended != -1) {
-//                                                TeamFight viewHolder = (TeamFight) recyclerView.getChildViewHolder(recyclerView.getChildAt(expended));
-//                                                viewHolder.team_fight_detail.setVisibility(View.GONE);
-//                                                recyclerView.smoothScrollToPosition(position);
-//                                            }
-//                                            expended = position;
-                                            teamFight.map.setVisibility(View.VISIBLE);
-                                            teamFight.teamfight_list.setVisibility(View.VISIBLE);
-                                        } else {
-//                                            Log.d(TAG, "onClick: VISIBLE");
-                                            teamFight.map.setVisibility(View.GONE);
-                                            teamFight.teamfight_list.setVisibility(View.GONE);
-//                                            expended = -1;
-                                        }
-                                    }
-
-                                });
+                                //TODO rewrite teamfights to popup window
+//                                final CastAdapter castAdapter = new CastAdapter(context, contents);
+//                                GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 10);
+//                                gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+//                                    @Override
+//                                    public int getSpanSize(int position) {
+//                                        return (castAdapter.getItemViewType(position) == -1 || castAdapter.getItemViewType(position) == 11 || castAdapter.getItemViewType(position) == 12) ? 10 : 1;
+//                                    }
+//                                });
+//                                teamFight.map.setPoints(points);
+//                                teamFight.map.invalidate();
+//                                teamFight.teamfight_list.setLayoutManager(gridLayoutManager);
+//                                teamFight.teamfight_list.setAdapter(castAdapter);
+//                                teamFight.itemView.setOnClickListener(new View.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(View v) {
+//                                        if (teamFight.map.getVisibility() == View.GONE) {
+////                                            Log.d(TAG, "onClick: GONE");
+////                                            if (expended != -1) {
+////                                                TeamFight viewHolder = (TeamFight) recyclerView.getChildViewHolder(recyclerView.getChildAt(expended));
+////                                                viewHolder.team_fight_detail.setVisibility(View.GONE);
+////                                                recyclerView.smoothScrollToPosition(position);
+////                                            }
+////                                            expended = position;
+//                                            teamFight.map.setVisibility(View.VISIBLE);
+//                                            teamFight.teamfight_list.setVisibility(View.VISIBLE);
+//                                        } else {
+////                                            Log.d(TAG, "onClick: VISIBLE");
+//                                            teamFight.map.setVisibility(View.GONE);
+//                                            teamFight.teamfight_list.setVisibility(View.GONE);
+////                                            expended = -1;
+//                                        }
+//                                    }
+//
+//                                });
                             }
                         });
                     }
