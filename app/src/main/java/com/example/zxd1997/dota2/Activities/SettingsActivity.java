@@ -16,7 +16,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.android.debug.hv.ViewServer;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.MyApplication;
 import com.example.zxd1997.dota2.Utils.Update;
@@ -43,7 +42,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Update.setDensity(this, getApplication());
-        ViewServer.get(this).addWindow(this);
+//        ViewServer.get(this).addWindow(this);
         MyApplication.add(this);
         super.onCreate(savedInstanceState);
         getWindow().setStatusBarColor(Color.parseColor("#FFCC0000"));

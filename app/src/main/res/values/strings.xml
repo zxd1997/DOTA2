@@ -234,7 +234,7 @@
     <string name="average_kills_deaths_assists">Average Kills/Deaths/Assists</string>
     <string name="placeholder2" translatable="false">-/-\n-/-</string>
     <string name="hero_attributes">Hero Attributes</string>
-    <string name="health" translatable="false">Health:%1$d</string>
+    <string name="health" translatable="false">Health:%1$.1f</string>
     <string name="health_regen_2f">Health Regen:%.2f</string>
     <string name="mana_1_d">Mana:%1$d</string>
     <string name="mana_regen_2f">Mana Regen:%.2f</string>
@@ -250,4 +250,6 @@
     <string name="spell_amplification_2f">Spell Amplification:%.2f</string>
     <string name="movement_speed_2f">Movement Speed:%.2f</string>
     <string name="turn_rate_1f">Turn Rate:%.1f</string>
+    <string name="instant">Instant</string>
+    <string name="level">Level:%1$d</string>
 </resources>

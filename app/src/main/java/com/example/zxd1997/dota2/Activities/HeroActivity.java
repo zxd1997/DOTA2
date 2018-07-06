@@ -23,10 +23,12 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.zxd1997.dota2.Beans.Hero;
 import com.example.zxd1997.dota2.R;
+import com.example.zxd1997.dota2.Utils.MyApplication;
 import com.example.zxd1997.dota2.Utils.OKhttp;
 import com.example.zxd1997.dota2.Utils.Tools;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -57,6 +59,7 @@ public class HeroActivity extends AppCompatActivity {
     TextView attack_rate;
     TextView spell_amp;
     TextView move_speed;
+    TextView level;
     Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -79,8 +82,8 @@ public class HeroActivity extends AppCompatActivity {
 //                    Matcher m_skill = p_skill.matcher(t);
 //                    List<Spanned> skills = new ArrayList<>();
 //                    while (m_skill.find()) {
-//                        CardView cardView=new CardView(getApplicationContext());
-//                        TextView textView=new TextView(getApplicationContext());
+//                        CardView cardView=new CardView(MyApplication.getContext());
+//                        TextView textView=new TextView(MyApplication.getContext());
 //                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
 //                            textView.setText(Html.fromHtml(m_skill.group(), Html.FROM_HTML_MODE_COMPACT, new NetworkImageGetter(), null));
 ////                            skills.add(Html.fromHtml(m_skill.group(), Html.FROM_HTML_MODE_COMPACT, new NetworkImageGetter(), null));
@@ -147,12 +150,32 @@ public class HeroActivity extends AppCompatActivity {
         attack_rate = findViewById(R.id.attack_rate);
         spell_amp = findViewById(R.id.spell_amp);
         move_speed = findViewById(R.id.move_speed);
+        level=findViewById(R.id.lvl);
+        SeekBar seekBar=findViewById(R.id.seekBar1);
+        level.setText(getString(R.string.level,1));
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                level.setText(getString(R.string.level,progress+1));
+                setLevel(progress+1);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
         TextView turn_rate = findViewById(R.id.turn_rate);
-        turn_rate.setText(getApplicationContext().getString(R.string.turn_rate_1f, hero.getTurn_rate()));
+        turn_rate.setText(getString(R.string.turn_rate_1f, hero.getTurn_rate()));
         TextView attack_range = findViewById(R.id.attack_range);
         TextView p_s = findViewById(R.id.projectile_speed);
-        attack_range.setText(String.valueOf(hero.getAttack_range()));
-        p_s.setText(String.valueOf(hero.getProjectile_speed()));
+        attack_range.setText(getString(R.string.attack_range_1_d,hero.getAttack_range()));
+        p_s.setText(getString(R.string.projectile_speed_1_s,hero.getProjectile_speed()>0?hero.getProjectile_speed()+"":getString(R.string.instant)));
         setLevel(1);
         Objects.requireNonNull(getSupportActionBar()).setTitle(name);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -180,21 +203,21 @@ public class HeroActivity extends AppCompatActivity {
         Log.d("attr", "setLevel: " + str + " " + agi + " " + inte + " " + hero.getPrimary_attr());
         switch (hero.getPrimary_attr()) {
             case "str": {
-                attack.setText(getApplicationContext().getString(R.string.attack, (hero.getBase_attack_min() + Math.floor(str) + hero.getBase_attack_max() + Math.floor(str)) / 2, hero.getBase_attack_min() + Math.floor(str), hero.getBase_attack_max() + Math.floor(str)));
+                attack.setText(getString(R.string.attack, Math.round((hero.getBase_attack_min() + Math.floor(str) + hero.getBase_attack_max() + Math.floor(str)) / 2),(int) (hero.getBase_attack_min() + Math.floor(str)), (int)(hero.getBase_attack_max() + Math.floor(str))));
                 health_gain *= 1.25;
                 hp_regen *= 1.25;
                 magic_res_gain *= 1.25;
                 break;
             }
             case "agi": {
-                attack.setText(getApplicationContext().getString(R.string.attack, (hero.getBase_attack_min() + Math.floor(agi) + hero.getBase_attack_max() + Math.floor(agi)) / 2, hero.getBase_attack_min() + Math.floor(agi), hero.getBase_attack_max() + Math.floor(agi)));
+                attack.setText(getString(R.string.attack, Math.round((hero.getBase_attack_min() + Math.floor(agi) + hero.getBase_attack_max() + Math.floor(agi)) / 2), (int)(hero.getBase_attack_min() + Math.floor(agi)), (int)(hero.getBase_attack_max() + Math.floor(agi))));
                 armor_gain *= 1.25;
                 attack_rate_amp *= 1.25;
                 move_speed_amp *= 1.25;
                 break;
             }
             case "int": {
-                attack.setText(getApplicationContext().getString(R.string.attack, (hero.getBase_attack_min() + Math.floor(inte) + hero.getBase_attack_max() + Math.floor(inte)) / 2, hero.getBase_attack_min() + Math.floor(inte), hero.getBase_attack_max() + Math.floor(inte)));
+                attack.setText(getString(R.string.attack, Math.round((hero.getBase_attack_min() + Math.floor(inte) + hero.getBase_attack_max() + Math.floor(inte)) / 2), (int)(hero.getBase_attack_min() + Math.floor(inte)), (int)(hero.getBase_attack_max() + Math.floor(inte))));
                 mana_gain *= 1.25;
                 m_regen *= 1.25;
                 spell_amp_amp *= 1.25;
@@ -202,20 +225,20 @@ public class HeroActivity extends AppCompatActivity {
             }
         }
         Log.d("attr", "setLevel: " + str + " " + agi + " " + inte);
-        cur_str.setText(getApplicationContext().getString(R.string.str, Math.round(str)));
-        cur_agi.setText(getApplicationContext().getString(R.string.agi, Math.round(agi)));
-        cur_int.setText(getApplicationContext().getString(R.string.inte, Math.round(inte)));
-        health.setText(getApplicationContext().getString(R.string.health, (hero.getBase_health() + Math.floor(str) * health_gain)));
-        health_regen.setText(getApplicationContext().getString(R.string.health_regen_2f, hero.getBase_health_regen() * ((double) 1 + hp_regen * Math.floor(str))));
-        mana.setText(getApplicationContext().getString(R.string.mana_1_d, (hero.getBase_mana() + Math.floor(inte) * mana_gain)));
-        mana_regen.setText(getApplicationContext().getString(R.string.mana_regen_2f, hero.getBase_mana_regen() * ((double) 1 + m_regen * Math.floor(inte))));
-        armor.setText(getApplicationContext().getString(R.string.armor_2f, hero.getBase_armor() + armor_gain * agi));
-        double mr = ((double) 1 - ((double) 1 - (double) hero.getBase_mr() / 100) * (magic_res_gain * str));
-        magic_res.setText(String.format("%s%%", getApplicationContext().getString(R.string.magic_resistance_2f, mr * 100)));
-        spell_amp.setText(String.format("%s%%", getApplicationContext().getString(R.string.spell_amplification_2f, inte * spell_amp_amp * 100)));
-        move_speed.setText(getApplicationContext().getString(R.string.movement_speed_2f, (double) hero.getMove_speed() * ((double) 1 + agi * move_speed_amp)));
+        cur_str.setText(getString(R.string.str,Math.round(str)));
+        cur_agi.setText(getString(R.string.agi, Math.round(agi)));
+        cur_int.setText(getString(R.string.inte, Math.round(inte)));
+        health.setText(getString(R.string.health, (hero.getBase_health() + Math.floor(str) * health_gain)));
+        health_regen.setText(getString(R.string.health_regen_2f, hero.getBase_health_regen() * ((double) 1 + hp_regen * Math.floor(str))));
+        mana.setText(getString(R.string.mana_1_d, (int)(hero.getBase_mana() + Math.floor(inte) * mana_gain)));
+        mana_regen.setText(getString(R.string.mana_regen_2f, hero.getBase_mana_regen() * ((double) 1 + m_regen * Math.floor(inte))));
+        armor.setText(getString(R.string.armor_2f, hero.getBase_armor() + armor_gain * agi));
+        double mr = (double) 1 - (((double) 1 - (double) hero.getBase_mr() / 100) * ((double)1-magic_res_gain * str));
+        magic_res.setText(String.format("%s%%", getString(R.string.magic_resistance_2f, mr * 100)));
+        spell_amp.setText(String.format("%s%%", getString(R.string.spell_amplification_2f, inte * spell_amp_amp * 100)));
+        move_speed.setText(getString(R.string.movement_speed_2f, (double) hero.getMove_speed() * ((double) 1 + agi * move_speed_amp)));
         double a_r = hero.getAttack_rate() / ((double) 100 + agi * attack_rate_amp) * 100;
-        attack_rate.setText(getApplicationContext().getString(R.string.attack_rate_2f, a_r, hero.getAttack_rate()));
+        attack_rate.setText(getString(R.string.attack_rate_2f, a_r, hero.getAttack_rate()));
     }
 
     @Override

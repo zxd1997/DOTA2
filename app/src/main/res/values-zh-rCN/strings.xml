@@ -204,7 +204,7 @@
     <string name="just_now">刚刚</string>
     <string name="average_kills_deaths_assists">平均击杀/死亡/助攻</string>
     <string name="hero_attributes">英雄属性</string>
-    <string name="health">生命值：%1$d</string>
+    <string name="health">生命值：%1$.1f</string>
     <string name="health_regen_2f">生命恢复：%.2f</string>
     <string name="mana_1_d">魔法值：%1$d</string>
     <string name="mana_regen_2f">魔法恢复：%.2f</string>
@@ -220,4 +220,6 @@
     <string name="spell_amplification_2f">技能增强：%.2f</string>
     <string name="movement_speed_2f">移动速度：%.2f</string>
     <string name="turn_rate_1f">转身速率：%.1f</string>
+    <string name="instant">即时</string>
+    <string name="level">等级：%1$d</string>
 </resources>
