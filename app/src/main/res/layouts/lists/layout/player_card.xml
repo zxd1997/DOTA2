@@ -13,14 +13,10 @@
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:visibility="gone"
-        fresco:cardCornerRadius="3dp"
         fresco:layout_constraintTop_toTopOf="parent"
+        android:foreground="?selectableItemBackground"
+        android:stateListAnimator="@drawable/touch_card"
         tools:visibility="visible">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/touch_bg" />
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/header"

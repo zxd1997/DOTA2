@@ -9,13 +9,14 @@
     android:layout_marginLeft="3dp"
     android:layout_marginRight="3dp"
     android:layout_marginTop="2dp"
+    android:foreground="?selectableItemBackground"
+    android:stateListAnimator="@drawable/touch_card"
     fresco:cardCornerRadius="2dp">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/relativeLayout2"
-        android:background="@drawable/touch_bg">
+        android:id="@+id/relativeLayout2">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/hero_header"

@@ -14,6 +14,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     public static Map<String, String> ability_ids;
     public static Map<String, Ability> abilities;
     public static Map<String, Item> items;
+    public static SparseArray<Hero> heroStats = new SparseArray<>();
     private SharedPreferences sharedPreferences;
     private ProgressDialog pd;
     private final

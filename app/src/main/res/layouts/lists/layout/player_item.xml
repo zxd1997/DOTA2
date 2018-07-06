@@ -15,12 +15,13 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="62dp"
+        android:foreground="?selectableItemBackground"
+        android:stateListAnimator="@drawable/touch_card"
         fresco:cardCornerRadius="3dp">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/touch_bg">
+            android:layout_height="match_parent">
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/player_hero"

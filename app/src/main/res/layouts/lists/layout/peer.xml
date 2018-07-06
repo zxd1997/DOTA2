@@ -9,12 +9,8 @@
     android:layout_marginRight="3dp"
     android:layout_marginTop="1.5dp"
     fresco:cardCornerRadius="0dp"
-    fresco:cardElevation="1dp">
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/touch_bg" />
+    android:foreground="?selectableItemBackground"
+    android:stateListAnimator="@drawable/touch_card">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/peer_header"

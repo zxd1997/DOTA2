@@ -8,12 +8,9 @@
     android:layout_marginLeft="3dp"
     android:layout_marginRight="3dp"
     fresco:cardCornerRadius="0dp"
-    fresco:cardElevation="1dp">
+    android:foreground="?selectableItemBackground"
+    android:stateListAnimator="@drawable/touch_card">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/touch_bg" />
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/ranking_header"

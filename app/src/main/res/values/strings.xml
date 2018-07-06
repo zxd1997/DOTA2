@@ -230,7 +230,24 @@
     <string name="hour_ago"> Hours ago</string>
     <string name="minute_ago"> Minutes ago</string>
     <string name="just_now">Just Now</string>
-    <string name="title_activity_hero">HeroActivity</string>
+    <string name="title_activity_hero" translatable="false">HeroActivity</string>
     <string name="average_kills_deaths_assists">Average Kills/Deaths/Assists</string>
-    <string name="placeholder2">-/-\n-/-</string>
+    <string name="placeholder2" translatable="false">-/-\n-/-</string>
+    <string name="hero_attributes">Hero Attributes</string>
+    <string name="health" translatable="false">Health:%1$d</string>
+    <string name="health_regen_2f">Health Regen:%.2f</string>
+    <string name="mana_1_d">Mana:%1$d</string>
+    <string name="mana_regen_2f">Mana Regen:%.2f</string>
+    <string name="str">Str:%1$d</string>
+    <string name="agi">Agi:%1$d</string>
+    <string name="inte">Int:%1$d</string>
+    <string name="attack">Damage:%1$d (%2$d - %3$d)</string>
+    <string name="attack_range_1_d">Attack Range:%1$d</string>
+    <string name="projectile_speed_1_s">Projectile Speed:%1$s</string>
+    <string name="armor_2f">Armor:%.2f</string>
+    <string name="magic_resistance_2f">Magic Resistance:%.2f</string>
+    <string name="attack_rate_2f">Attack Rate:%1$.2f (%2$.2f)</string>
+    <string name="spell_amplification_2f">Spell Amplification:%.2f</string>
+    <string name="movement_speed_2f">Movement Speed:%.2f</string>
+    <string name="turn_rate_1f">Turn Rate:%.1f</string>
 </resources>

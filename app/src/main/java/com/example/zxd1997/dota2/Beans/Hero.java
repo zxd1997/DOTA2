@@ -1,5 +1,7 @@
 package com.example.zxd1997.dota2.Beans;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Hero {
     private int id;
     private String name;
@@ -22,12 +24,199 @@ public class Hero {
     private double str_gain;
     private double agi_gain;
     private double int_gain;
-    private double attack_range;
+    private int attack_range;
     private int projectile_speed;
     private double attack_rate;
     private int move_speed;
     private double turn_rate;
     private boolean cm_enabled;
+    private int pro_win;
+    private int pro_pick;
+    private int pro_ban;
+    @SerializedName("1_win")
+    private int herald_wins;
+    @SerializedName("1_pick")
+    private int herald_picks;
+    @SerializedName("2_win")
+    private int guardian_wins;
+    @SerializedName("2_pick")
+    private int guardian_picks;
+    @SerializedName("3_win")
+    private int crusader_wins;
+    @SerializedName("3_pick")
+    private int crusader_picks;
+    @SerializedName("4_win")
+    private int archon_wins;
+    @SerializedName("4_pick")
+    private int archon_picks;
+    @SerializedName("5_win")
+    private int legend_wins;
+    @SerializedName("5_pick")
+    private int legend_picks;
+    @SerializedName("6_win")
+    private int ancient_wins;
+    @SerializedName("6_pick")
+    private int ancient_picks;
+    @SerializedName("7_win")
+    private int divine_wins;
+    @SerializedName("7_pick")
+    private int divine_picks;
+    @SerializedName("8_win")
+    private int immortal_wins;
+    @SerializedName("8_pick")
+    private int immortal_picks;
+
+    public int getPro_win() {
+        return pro_win;
+    }
+
+    public void setPro_win(int pro_win) {
+        this.pro_win = pro_win;
+    }
+
+    public int getPro_pick() {
+        return pro_pick;
+    }
+
+    public void setPro_pick(int pro_pick) {
+        this.pro_pick = pro_pick;
+    }
+
+    public int getPro_ban() {
+        return pro_ban;
+    }
+
+    public void setPro_ban(int pro_ban) {
+        this.pro_ban = pro_ban;
+    }
+
+    public int getHerald_wins() {
+        return herald_wins;
+    }
+
+    public void setHerald_wins(int herald_wins) {
+        this.herald_wins = herald_wins;
+    }
+
+    public int getHerald_picks() {
+        return herald_picks;
+    }
+
+    public void setHerald_picks(int herald_picks) {
+        this.herald_picks = herald_picks;
+    }
+
+    public int getGuardian_wins() {
+        return guardian_wins;
+    }
+
+    public void setGuardian_wins(int guardian_wins) {
+        this.guardian_wins = guardian_wins;
+    }
+
+    public int getGuardian_picks() {
+        return guardian_picks;
+    }
+
+    public void setGuardian_picks(int guardian_picks) {
+        this.guardian_picks = guardian_picks;
+    }
+
+    public int getCrusader_wins() {
+        return crusader_wins;
+    }
+
+    public void setCrusader_wins(int crusader_wins) {
+        this.crusader_wins = crusader_wins;
+    }
+
+    public int getCrusader_picks() {
+        return crusader_picks;
+    }
+
+    public void setCrusader_picks(int crusader_picks) {
+        this.crusader_picks = crusader_picks;
+    }
+
+    public int getArchon_wins() {
+        return archon_wins;
+    }
+
+    public void setArchon_wins(int archon_wins) {
+        this.archon_wins = archon_wins;
+    }
+
+    public int getArchon_picks() {
+        return archon_picks;
+    }
+
+    public void setArchon_picks(int archon_picks) {
+        this.archon_picks = archon_picks;
+    }
+
+    public int getLegend_wins() {
+        return legend_wins;
+    }
+
+    public void setLegend_wins(int legend_wins) {
+        this.legend_wins = legend_wins;
+    }
+
+    public int getLegend_picks() {
+        return legend_picks;
+    }
+
+    public void setLegend_picks(int legend_picks) {
+        this.legend_picks = legend_picks;
+    }
+
+    public int getAncient_wins() {
+        return ancient_wins;
+    }
+
+    public void setAncient_wins(int ancient_wins) {
+        this.ancient_wins = ancient_wins;
+    }
+
+    public int getAncient_picks() {
+        return ancient_picks;
+    }
+
+    public void setAncient_picks(int ancient_picks) {
+        this.ancient_picks = ancient_picks;
+    }
+
+    public int getDivine_wins() {
+        return divine_wins;
+    }
+
+    public void setDivine_wins(int divine_wins) {
+        this.divine_wins = divine_wins;
+    }
+
+    public int getDivine_picks() {
+        return divine_picks;
+    }
+
+    public void setDivine_picks(int divine_picks) {
+        this.divine_picks = divine_picks;
+    }
+
+    public int getImmortal_wins() {
+        return immortal_wins;
+    }
+
+    public void setImmortal_wins(int immortal_wins) {
+        this.immortal_wins = immortal_wins;
+    }
+
+    public int getImmortal_picks() {
+        return immortal_picks;
+    }
+
+    public void setImmortal_picks(int immortal_picks) {
+        this.immortal_picks = immortal_picks;
+    }
 
     public int getId() {
         return id;
@@ -197,11 +386,11 @@ public class Hero {
         this.int_gain = int_gain;
     }
 
-    public double getAttack_range() {
+    public int getAttack_range() {
         return attack_range;
     }
 
-    public void setAttack_range(double attack_range) {
+    public void setAttack_range(int attack_range) {
         this.attack_range = attack_range;
     }
 

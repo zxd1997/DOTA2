@@ -203,4 +203,21 @@
     <string name="minute_ago">分钟前</string>
     <string name="just_now">刚刚</string>
     <string name="average_kills_deaths_assists">平均击杀/死亡/助攻</string>
+    <string name="hero_attributes">英雄属性</string>
+    <string name="health">生命值：%1$d</string>
+    <string name="health_regen_2f">生命恢复：%.2f</string>
+    <string name="mana_1_d">魔法值：%1$d</string>
+    <string name="mana_regen_2f">魔法恢复：%.2f</string>
+    <string name="str">力量：%1$d</string>
+    <string name="agi">敏捷：%1$d</string>
+    <string name="inte">智力：%1$d</string>
+    <string name="attack">攻击力：%1$d (%2$d - %3$d)</string>
+    <string name="attack_range_1_d">攻击距离：%1$d</string>
+    <string name="projectile_speed_1_s">弹道速度：%1$s</string>
+    <string name="armor_2f">护甲：%.2f</string>
+    <string name="magic_resistance_2f">魔法抗性：%.2f</string>
+    <string name="attack_rate_2f">攻击间隔：%1$.2f（%2$.2f）</string>
+    <string name="spell_amplification_2f">技能增强：%.2f</string>
+    <string name="movement_speed_2f">移动速度：%.2f</string>
+    <string name="turn_rate_1f">转身速率：%.1f</string>
 </resources>
