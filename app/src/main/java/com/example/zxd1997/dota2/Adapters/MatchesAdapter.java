@@ -1,12 +1,15 @@
 package com.example.zxd1997.dota2.Adapters;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -21,11 +24,16 @@ import android.widget.TextView;
 import com.example.zxd1997.dota2.Activities.MatchActivity;
 import com.example.zxd1997.dota2.Activities.MyHeroActivity;
 import com.example.zxd1997.dota2.Activities.PeerActivity;
+import com.example.zxd1997.dota2.Activities.PlayerActivity;
 import com.example.zxd1997.dota2.Beans.MatchHero;
+import com.example.zxd1997.dota2.Beans.MatchPlayer;
+import com.example.zxd1997.dota2.Beans.MyHero;
 import com.example.zxd1997.dota2.Beans.Peer;
 import com.example.zxd1997.dota2.Beans.PlayedHero;
 import com.example.zxd1997.dota2.Beans.Ranking;
 import com.example.zxd1997.dota2.Beans.RecentMatch;
+import com.example.zxd1997.dota2.Beans.Total;
+import com.example.zxd1997.dota2.Beans.WL;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.Tools;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -45,6 +53,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final int HEADER = 5;
     private final int PEERS = 6;
     private final int HERO_CARD = 7;
+    private final int PLAYER_CARD = 8;
 
     public boolean isHasfoot() {
         return hasfoot;
@@ -87,23 +96,78 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 return new HeaderHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.header, parent, false));
             case PEERS:
                 return new PeerHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.peer, parent, false));
-            default:
+            case HERO_CARD:
                 return new HeroCard(LayoutInflater.from(parent.getContext()).inflate(R.layout.hero_card, parent, false));
+            default:
+                return new PlayerCard(LayoutInflater.from(parent.getContext()).inflate(R.layout.player_card, parent, false));
         }
     }
 
     @SuppressLint("Recycle")
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (getItemViewType(position) == HERO_CARD) {
+        if (getItemViewType(position) == PLAYER_CARD) {
+            final MatchPlayer matchPlayer = (MatchPlayer) contents.get(position);
+            PlayerCard playerCard = (PlayerCard) holder;
+            playerCard.persona_name.setText(matchPlayer.getName());
+            playerCard.account_id.setText(context.getResources().getString(R.string.id, matchPlayer.getId()));
+            playerCard.header.setImageURI(matchPlayer.getAvatar());
+            playerCard.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, PlayerActivity.class);
+                    intent.putExtra("id", matchPlayer.getId());
+                    context.startActivity(intent);
+                }
+            });
+            playerCard.ranks.setText("");
+            int t = matchPlayer.getRank_tier();
+            int rank = matchPlayer.getRank();
+            if (rank > 0) {
+                if (rank == 1) {
+                    t = 85;
+                } else if (rank <= 10) {
+                    t = 84;
+                } else if (rank <= 100) {
+                    t = 83;
+                } else if (rank <= 1000) {
+                    t = 82;
+                } else t = 81;
+                playerCard.ranks.setText(String.valueOf(rank));
+            }
+            playerCard.tier.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("rank" + t, R.drawable.class))).build());
+            playerCard.win.setText(context.getString(R.string.win1, matchPlayer.getWin()));
+            playerCard.lose.setText(context.getString(R.string.lose1, matchPlayer.getLose()));
+            playerCard.win_rate.setText(String.format("%s%%", context.getString(R.string.rate, matchPlayer.getWinrate() * 100)));
+        } else if (getItemViewType(position) == HERO_CARD) {
             HeroCard heroCard = (HeroCard) holder;
-            TypedArray typedArray = context.getResources().obtainTypedArray(R.array.heroes);
-            heroCard.name.setText(typedArray.getText(contents.get(position).getHero_id()));
-            heroCard.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + contents.get(position).getHero_id(), R.drawable.class))).build());
+            heroCard.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + contents.get(position).getHero_id() + "_icon", R.drawable.class))).build());
+            List<Total> totals = ((MyHero) contents.get(position)).getTotal();
+            if (totals != null) {
+                DecimalFormat df = new DecimalFormat("0.0");
+                DecimalFormat df1 = new DecimalFormat("0.00");
+                heroCard.kill.setText(df.format((float) totals.get(0).getSum() / totals.get(0).getN()));
+                heroCard.death.setText(df.format((float) totals.get(1).getSum() / totals.get(1).getN()));
+                heroCard.assists.setText(df.format((float) totals.get(2).getSum() / totals.get(2).getN()));
+                heroCard.kda.setText(df1.format((float) totals.get(3).getSum() / totals.get(3).getN()));
+                heroCard.gpm.setText(df.format((float) totals.get(4).getSum() / totals.get(4).getN()));
+                heroCard.xpm.setText(df.format((float) totals.get(5).getSum() / totals.get(5).getN()));
+                heroCard.lh.setText(df.format((float) totals.get(6).getSum() / totals.get(6).getN()));
+                heroCard.dn.setText(df.format((float) totals.get(7).getSum() / totals.get(7).getN()));
+                heroCard.damage.setText(df.format((float) totals.get(11).getSum() / totals.get(11).getN()));
+                heroCard.td.setText(df.format((float) totals.get(12).getSum() / totals.get(12).getN()));
+                heroCard.hh.setText(df.format((float) totals.get(13).getSum() / totals.get(13).getN()));
+            }
+            WL wl = ((MyHero) contents.get(position)).getWl();
+            if (wl != null) {
+                DecimalFormat df2 = new DecimalFormat("0.00%");
+                heroCard.total.setText(String.valueOf(wl.getWin() + wl.getLose()));
+                heroCard.winrate.setText(df2.format(wl.getWinrate()));
+            }
         } else if (getItemViewType(position) == HEADER) {
             HeaderHolder headerHolder = (HeaderHolder) holder;
             headerHolder.text.setText(contents.get(position).getTitle());
-            headerHolder.text.setTextSize(8 * context.getResources().getDisplayMetrics().scaledDensity + 0.5f);
+            headerHolder.text.setTextSize(6 * context.getResources().getDisplayMetrics().scaledDensity + 0.5f);
         } else if (getItemViewType(position) == FOOT) {
             Footer footer = (Footer) holder;
             AnimationDrawable animationDrawable = (AnimationDrawable) footer.logo.getDrawable();
@@ -170,32 +234,25 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else if (getItemViewType(position) == HERO) {
                 final PlayedHero hero = (PlayedHero) contents.get(position);
                 final HeroHolder heroHolder = (HeroHolder) holder;
+                final float winrate = (float) hero.getWin() / hero.getGames();
+                TypedArray typedArray = context.getResources().obtainTypedArray(R.array.heroes);
+                heroHolder.hero_name.setText(typedArray.getText(hero.getHero_id()));
+//              heroHolder.hero_header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + hero.getHero_id(), R.drawable.class))).build());
+                heroHolder.hero_header.setImageResource(Tools.getResId("hero_" + hero.getHero_id(), R.drawable.class));
+                heroHolder.winrate.setText(new SpannableStringBuilder(context.getResources().getString(R.string.winrate_)).append(Tools.getS(winrate > 0 ? winrate : 0)));
+                heroHolder.matches.setText(context.getResources().getString(R.string.matches_, hero.getGames()));
+                heroHolder.last_played.setText(Tools.getBefore(hero.getLast_played()));
                 heroHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(context, MyHeroActivity.class);
                         intent.putExtra("id", hero.getHero_id());
                         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        context.startActivity(intent);
+                        ViewCompat.setTransitionName(heroHolder.hero_header, "hero_" + hero.getHero_id());
+                        context.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) context, heroHolder.hero_header, ViewCompat.getTransitionName(heroHolder.hero_header)).toBundle());
                     }
                 });
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        final float winrate = (float) hero.getWin() / hero.getGames();
-                        heroHolder.itemView.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                TypedArray typedArray = context.getResources().obtainTypedArray(R.array.heroes);
-                                heroHolder.hero_name.setText(typedArray.getText(hero.getHero_id()));
-                                heroHolder.hero_header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + hero.getHero_id(), R.drawable.class))).build());
-                                heroHolder.winrate.setText(new SpannableStringBuilder(context.getResources().getString(R.string.winrate_)).append(Tools.getS(winrate > 0 ? winrate : 0)));
-                                heroHolder.matches.setText(context.getResources().getString(R.string.matches_, hero.getGames()));
-                                heroHolder.last_played.setText(Tools.getBefore(hero.getLast_played()));
-                            }
-                        });
-                    }
-                }).start();
+
             } else if (getItemViewType(position) == RECORD) {
                 final RecordHolder viewHolder = (RecordHolder) holder;
                 final RecentMatch recentMatch = (RecentMatch) contents.get(position);
@@ -209,49 +266,37 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 });
                 final boolean win = recentMatch.getPlayer_slot() < 128 && recentMatch.isRadiant_win() || recentMatch.getPlayer_slot() > 127 && !recentMatch.isRadiant_win();
-                viewHolder.itemView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (win) {
-                            viewHolder.win_or_not.setTextColor(context.getResources().getColor(R.color.win));
-                            viewHolder.win_or_not.setText(context.getString(R.string.win));
-                        } else {
-                            viewHolder.win_or_not.setTextColor(context.getResources().getColor(R.color.lose));
-                            viewHolder.win_or_not.setText(context.getString(R.string.lose));
-                        }
-                        viewHolder.record_title.setText(recentMatch.getTitle());
-                        viewHolder.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + recentMatch.getHero_id(), R.drawable.class))).build());
-                        viewHolder.time.setText(Tools.getBefore(recentMatch.getStart_time()));
-                    }
-                });
+
+                if (win) {
+                    viewHolder.win_or_not.setTextColor(context.getResources().getColor(R.color.win));
+                    viewHolder.win_or_not.setText(context.getString(R.string.win));
+                } else {
+                    viewHolder.win_or_not.setTextColor(context.getResources().getColor(R.color.lose));
+                    viewHolder.win_or_not.setText(context.getString(R.string.lose));
+                }
+                viewHolder.record_title.setText(recentMatch.getTitle());
+                viewHolder.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + recentMatch.getHero_id(), R.drawable.class))).build());
+                viewHolder.time.setText(Tools.getBefore(recentMatch.getStart_time()));
             } else if (getItemViewType(position) == RANKING) {
                 final Ranking ranking = (Ranking) contents.get(position);
                 final RankHolder rankHolder = (RankHolder) holder;
-                new Thread(new Runnable() {
+                TypedArray typedArray = context.getResources().obtainTypedArray(R.array.heroes);
+                rankHolder.hero_name.setText(typedArray.getText(ranking.getHero_id()));
+//                rankHolder.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + ranking.getHero_id(), R.drawable.class))).build());
+                rankHolder.header.setImageResource(Tools.getResId("hero_" + ranking.getHero_id(), R.drawable.class));
+                final DecimalFormat df = new DecimalFormat("0.00");
+                rankHolder.score.setText(df.format(ranking.getScore()));
+                rankHolder.percentage.setText(Tools.getS(ranking.getPercent_rank()));
+                rankHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void run() {
-                        rankHolder.itemView.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                TypedArray typedArray = context.getResources().obtainTypedArray(R.array.heroes);
-                                rankHolder.hero_name.setText(typedArray.getText(ranking.getHero_id()));
-                                rankHolder.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + ranking.getHero_id(), R.drawable.class))).build());
-                                final DecimalFormat df = new DecimalFormat("0.00");
-                                rankHolder.score.setText(df.format(ranking.getScore()));
-                                rankHolder.percentage.setText(Tools.getS(ranking.getPercent_rank()));
-                                rankHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        Intent intent = new Intent(context, MyHeroActivity.class);
-                                        intent.putExtra("id", ranking.getHero_id());
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                                        context.startActivity(intent);
-                                    }
-                                });
-                            }
-                        });
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, MyHeroActivity.class);
+                        intent.putExtra("id", ranking.getHero_id());
+                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        ViewCompat.setTransitionName(rankHolder.header, "hero_" + ranking.getHero_id());
+                        context.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) context, rankHolder.header, ViewCompat.getTransitionName(rankHolder.header)).toBundle());
                     }
-                }).start();
+                });
             } else if (getItemViewType(position) == PEERS) {
                 final Peer peer = (Peer) contents.get(position);
                 PeerHolder peerHolder = (PeerHolder) holder;
@@ -283,7 +328,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     class RankHolder extends RecyclerView.ViewHolder {
-        SimpleDraweeView header;
+        ImageView header;
         TextView hero_name;
         TextView score;
         TextView percentage;
@@ -339,7 +384,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     class HeroHolder extends RecyclerView.ViewHolder {
-        SimpleDraweeView hero_header;
+        ImageView hero_header;
         TextView hero_name;
         TextView matches;
         TextView winrate;
@@ -364,6 +409,29 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
+    public class PlayerCard extends RecyclerView.ViewHolder {
+        public TextView persona_name;
+        public TextView account_id;
+        public TextView win;
+        public TextView lose;
+        public TextView win_rate;
+        public TextView ranks;
+        public SimpleDraweeView header;
+        public SimpleDraweeView tier;
+
+        public PlayerCard(View itemView) {
+            super(itemView);
+            header = itemView.findViewById(R.id.header);
+            persona_name = itemView.findViewById(R.id.personaname);
+            account_id = itemView.findViewById(R.id.account_id);
+            win = itemView.findViewById(R.id.win);
+            lose = itemView.findViewById(R.id.lose);
+            win_rate = itemView.findViewById(R.id.win_rate);
+            tier = itemView.findViewById(R.id.tier);
+            ranks = itemView.findViewById(R.id.rank);
+        }
+    }
+
     public class HeroCard extends RecyclerView.ViewHolder {
         public TextView winrate;
         public TextView total;
@@ -378,7 +446,6 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public TextView damage;
         public TextView td;
         public TextView hh;
-        public TextView name;
         public SimpleDraweeView header;
 
         HeroCard(View itemView) {
@@ -396,7 +463,6 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             damage = itemView.findViewById(R.id.hero_damage);
             hh = itemView.findViewById(R.id.hero_hh);
             td = itemView.findViewById(R.id.hero_td);
-            name = itemView.findViewById(R.id.hero_name_header);
             header = itemView.findViewById(R.id.hero_big_header);
         }
     }

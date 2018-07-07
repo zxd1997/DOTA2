@@ -198,34 +198,7 @@ public class DetailFragment extends Fragment {
                         for (Map.Entry<String, Integer> entry : p.getDamage_inflictor().entrySet()) {
                             if (entry.getKey().equals("null")) {
                                 casts.add(new Cast(entry.getValue(), "default_attack", ABILITY));
-                                casts.add(new Cast(0, "", ARROW));
-                                int i = 0;
-                                for (Map.Entry<String, Integer> entry1 : p.getDamage_targets().get(entry.getKey()).entrySet()) {
-                                    if (i == 8) casts.add(new Cast(0, "", ENTER));
-                                    casts.add(new Cast(entry1.getValue(), "hero_" + MainActivity.heroes.get(entry1.getKey()).getId() + "_icon", HERO1));
-                                    i++;
-                                }
-                                casts.add(new Cast(0, "", ENTER));
-                            } else {
-                                boolean f = false;
-                                for (Map.Entry<String, String> entry1 : MainActivity.ability_ids.entrySet()) {
-                                    if (entry1.getValue().equals(entry.getKey())) {
-                                        casts.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY));
-                                        casts.add(new Cast(0, "", ARROW));
-                                        int i = 0;
-                                        for (Map.Entry<String, Integer> entry2 : p.getDamage_targets().get(entry.getKey()).entrySet()) {
-                                            if (i == 8) casts.add(new Cast(0, "", ENTER));
-                                            casts.add(new Cast(entry2.getValue(), "hero_" + MainActivity.heroes.get(entry2.getKey()).getId() + "_icon", HERO1));
-                                            i++;
-                                        }
-                                        casts.add(new Cast(0, "", ENTER));
-                                        f = true;
-                                        break;
-                                    }
-                                }
-                                if (!f) {
-                                    Item item = MainActivity.items.get(entry.getKey());
-                                    casts.add(new Cast(entry.getValue(), item.getId() + "", ITEM));
+                                if (p.getDamage_targets() != null) {
                                     casts.add(new Cast(0, "", ARROW));
                                     int i = 0;
                                     for (Map.Entry<String, Integer> entry1 : p.getDamage_targets().get(entry.getKey()).entrySet()) {
@@ -234,6 +207,39 @@ public class DetailFragment extends Fragment {
                                         i++;
                                     }
                                     casts.add(new Cast(0, "", ENTER));
+                                }
+                            } else {
+                                boolean f = false;
+                                for (Map.Entry<String, String> entry1 : MainActivity.ability_ids.entrySet()) {
+                                    if (entry1.getValue().equals(entry.getKey())) {
+                                        casts.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY));
+                                        if (p.getDamage_targets() != null) {
+                                            casts.add(new Cast(0, "", ARROW));
+                                            int i = 0;
+                                            for (Map.Entry<String, Integer> entry2 : p.getDamage_targets().get(entry.getKey()).entrySet()) {
+                                                if (i == 8) casts.add(new Cast(0, "", ENTER));
+                                                casts.add(new Cast(entry2.getValue(), "hero_" + MainActivity.heroes.get(entry2.getKey()).getId() + "_icon", HERO1));
+                                                i++;
+                                            }
+                                            casts.add(new Cast(0, "", ENTER));
+                                        }
+                                        f = true;
+                                        break;
+                                    }
+                                }
+                                if (!f) {
+                                    Item item = MainActivity.items.get(entry.getKey());
+                                    casts.add(new Cast(entry.getValue(), item.getId() + "", ITEM));
+                                    if (p.getDamage_targets() != null) {
+                                        casts.add(new Cast(0, "", ARROW));
+                                        int i = 0;
+                                        for (Map.Entry<String, Integer> entry1 : p.getDamage_targets().get(entry.getKey()).entrySet()) {
+                                            if (i == 8) casts.add(new Cast(0, "", ENTER));
+                                            casts.add(new Cast(entry1.getValue(), "hero_" + MainActivity.heroes.get(entry1.getKey()).getId() + "_icon", HERO1));
+                                            i++;
+                                        }
+                                        casts.add(new Cast(0, "", ENTER));
+                                    }
                                 }
                             }
                         }

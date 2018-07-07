@@ -252,4 +252,11 @@
     <string name="turn_rate_1f">Turn Rate:%.1f</string>
     <string name="instant">Instant</string>
     <string name="level">Level:%1$d</string>
+    <string name="match_"> Match:</string>
+    <string name="winrate1_"> Winrate:</string>
+    <string name="h_p">Heroes Played</string>
+    <string name="h_r">Heroes Ranking</string>
+    <string name="hero_p">Hero Performance</string>
+    <string name="update">Update</string>
+    <string name="updating">Updating</string>
 </resources>

@@ -59,7 +59,7 @@ public class PlayerHeroFragment extends Fragment {
                 switch (msg.what) {
                     case HEROES: {
                         MatchHero m = new MatchHero();
-                        m.setTitle("Heroes Played");
+                        m.setTitle(getString(R.string.h_p));
                         m.setType(5);
                         hero_matches.add(m);
                         JsonParser parser = new JsonParser();
@@ -77,7 +77,7 @@ public class PlayerHeroFragment extends Fragment {
                     case RANKING: {
                         hero_matches.clear();
                         MatchHero m = new MatchHero();
-                        m.setTitle("Heroes Ranking");
+                        m.setTitle(getString(R.string.h_r));
                         m.setType(5);
                         hero_matches.add(m);
                         JsonParser parser = new JsonParser();
@@ -123,7 +123,7 @@ public class PlayerHeroFragment extends Fragment {
             swipeRefreshLayout = view.findViewById(R.id.swipe_player);
             final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
             recyclerView.setLayoutManager(linearLayoutManager);
-            matchesAdapter = new MatchesAdapter(getContext(), hero_matches);
+            matchesAdapter = new MatchesAdapter(getActivity(), hero_matches);
             recyclerView.setAdapter(matchesAdapter);
             OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/rankings?limit=10", handler, RANKING);
             swipeRefreshLayout.setRefreshing(true);

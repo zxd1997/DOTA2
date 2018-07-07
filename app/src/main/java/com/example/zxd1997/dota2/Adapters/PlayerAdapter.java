@@ -263,8 +263,6 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     List<Cast> buffs = new ArrayList<>();
                     for (Match.PPlayer.Buff buff : p.getPermanent_buffs()) {
                         if (buff.getPermanent_buff() < 6) {
-                            if (i == 0)
-                                buffs.add(new Cast(Color.BLACK, context.getString(R.string.buffs), HEADER));
                             buffs.add(new Cast(buff.getStack_count(), String.valueOf(typedArray.getResourceId(buff.getPermanent_buff(), 0)), BUFF));
                             i++;
                         }

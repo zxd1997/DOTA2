@@ -24,27 +24,8 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
-        <include layout="@layout/player_card" />
-
-        <TextView
-            android:id="@+id/m_p_t"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/matches_play_together"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            android:visibility="gone"
-            tools:visibility="visible" />
-
-        <include
-            layout="@layout/fragment_player_match"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-    </LinearLayout>
+    <include
+        layout="@layout/fragment_player_match"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 </android.support.design.widget.CoordinatorLayout>

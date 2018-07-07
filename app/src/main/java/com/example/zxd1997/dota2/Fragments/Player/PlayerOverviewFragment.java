@@ -94,6 +94,7 @@ public class PlayerOverviewFragment extends Fragment {
     private MatchesAdapter matchesAdapter;
     private TextView avg_kda;
     private List<MatchHero> records = new ArrayList<>();
+
     public PlayerOverviewFragment() {
 
     }
@@ -462,7 +463,6 @@ public class PlayerOverviewFragment extends Fragment {
             TextView steam_profile = view.findViewById(R.id.steam_profile);
             SimpleDraweeView tier = view.findViewById(R.id.tier);
             TextView ranks = view.findViewById(R.id.rank);
-            SimpleDraweeView stars = view.findViewById(R.id.star);
             TextView tier_name = view.findViewById(R.id.tier_name);
             win = view.findViewById(R.id.player_win);
             lose = view.findViewById(R.id.player_lose);
@@ -491,37 +491,24 @@ public class PlayerOverviewFragment extends Fragment {
             s.setSpan(new URLSpan(player.getProfileurl()), 0, player.getProfileurl().length(), SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
             steam_profile.setText(s);
             steam_profile.setMovementMethod(LinkMovementMethod.getInstance());
-            if (player.getRank_tier() != 0) {
-                int t = player.getRank_tier() / 10;
-                int star = player.getRank_tier() % 10;
-                int rank = player.getLeaderboard_rank();
-//                Log.d("rank", "handleMessage: " + rank);
-                if (rank > 0) {
-                    star = 0;
-                    t = 8;
-                    if (rank == 1) {
-                        t = 12;
-                    } else if (rank <= 10) {
-                        t = 11;
-                    } else if (rank <= 100) {
-                        t = 10;
-                    } else if (rank <= 1000) {
-                        t = 9;
-                    }
-                    ranks.setText(String.valueOf(rank));
-                }
-                if (star > 0) {
-                    TypedArray typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.stars);
-                    stars.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(typedArray.getResourceId(star - 1, 0))).build());
-                    typedArray.recycle();
-                }
-//                Log.d("rank", "handleMessage: " + t + " " + star);
-                TypedArray typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.tiers);
-                tier.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(typedArray.getResourceId(t, 0))).build());
-                typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.tier_names);
-                tier_name.setText(String.valueOf(typedArray.getString(t)));
-                typedArray.recycle();
+            int t = player.getRank_tier();
+            int rank = player.getLeaderboard_rank();
+            if (rank > 0) {
+                if (rank == 1) {
+                    t = 85;
+                } else if (rank <= 10) {
+                    t = 84;
+                } else if (rank <= 100) {
+                    t = 83;
+                } else if (rank <= 1000) {
+                    t = 82;
+                } else t = 81;
+                ranks.setText(String.valueOf(rank));
             }
+            tier.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("rank" + t, R.drawable.class))).build());
+            TypedArray typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.tier_names);
+            tier_name.setText(String.valueOf(typedArray.getString(t / 10)));
+            typedArray.recycle();
             progressBar.setVisibility(View.VISIBLE);
             OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/wl", handler, WL_FULL);
             OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/wl?limit=20", handler, WL_RECENT);

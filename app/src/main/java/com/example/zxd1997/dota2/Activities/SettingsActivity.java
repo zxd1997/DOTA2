@@ -1,7 +1,6 @@
 package com.example.zxd1997.dota2.Activities;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -51,7 +50,7 @@ public class SettingsActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        String[] data = {"Update"};
+        String[] data = {getString(R.string.update)};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(SettingsActivity.this, android.R.layout.simple_expandable_list_item_1, data);
         ListView listView = findViewById(R.id.settings);
         listView.addHeaderView(new ViewStub(this));
@@ -61,11 +60,11 @@ public class SettingsActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 1: {
-                        Toast.makeText(SettingsActivity.this, "Update", Toast.LENGTH_LONG).show();
+                        Toast.makeText(SettingsActivity.this, R.string.update, Toast.LENGTH_LONG).show();
                         Update.update_zip(handler);
                         pd = new ProgressDialog(SettingsActivity.this);
-                        pd.setTitle("Update");
-                        pd.setMessage("Updating");
+                        pd.setTitle(R.string.update);
+                        pd.setMessage(getString(R.string.updating));
                         pd.setCanceledOnTouchOutside(false);
                         pd.show();
                         break;
@@ -75,17 +74,6 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        ViewServer.get(this).setFocusedWindow(this);
-//    }
-//
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        ViewServer.get(this).removeWindow(this);
-//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -93,15 +81,8 @@ public class SettingsActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(SettingsActivity.this, SettingsActivity.class);
-            startActivity(intent);
-            return true;
-        }
         if (id == android.R.id.home) {
-            finish();
+            onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);

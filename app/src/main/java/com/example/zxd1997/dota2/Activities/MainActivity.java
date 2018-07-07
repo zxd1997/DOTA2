@@ -29,6 +29,8 @@ import com.example.zxd1997.dota2.Fragments.Main.ProFragment;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.MyApplication;
 import com.example.zxd1997.dota2.Utils.Update;
+import com.facebook.drawee.drawable.ScalingUtils;
+import com.facebook.drawee.view.DraweeTransition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
 //        ViewServer.get(this).addWindow(this);
         getWindow().setStatusBarColor(Color.parseColor("#FFCC0000"));
         getWindow().setNavigationBarColor(Color.parseColor("#FFCC0000"));
+        getWindow().setSharedElementEnterTransition(DraweeTransition.createTransitionSet(ScalingUtils.ScaleType.CENTER_CROP, ScalingUtils.ScaleType.CENTER_CROP)); // 进入
+        getWindow().setSharedElementReturnTransition(DraweeTransition.createTransitionSet(ScalingUtils.ScaleType.CENTER_CROP, ScalingUtils.ScaleType.CENTER_CROP)); // 返回
         Update.setDensity(this, getApplication());
         MyApplication.add(this);
         setContentView(R.layout.activity_main);

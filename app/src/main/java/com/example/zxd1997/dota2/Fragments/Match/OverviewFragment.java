@@ -100,174 +100,181 @@ public class OverviewFragment extends Fragment {
             final RecyclerView recyclerView1 = view.findViewById(R.id.ability_builds);
             final List<Abilities> abilities_modify = new ArrayList<>();
             final List<Abilities> abilities = new ArrayList<>();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    final int ABILITY = 1;
-                    final int NULL_ABILITY = 3;
-                    final int TALENT = 2;
-                    final int HEADER = -1;
-                    final int PLAYER = -2;
-                    final int LEVEL = -3;
-                    abilities.add(new Abilities(0, "", 0, PLAYER));
-                    for (int i = 0; i < 25; i++) {
-                        abilities.add(new Abilities(0, i + 1 + "", 0, LEVEL));
-                    }
-                    for (Match.PPlayer p : match.getPlayers()) {
-                        abilities.add(new Abilities(Tools.getResId("hero_" + p.getHero_id(), R.drawable.class), p.getName() != null ? p.getName() : p.getPersonaname() == null ? getString(R.string.anonymous) : p.getPersonaname()
-                                , Tools.getResId("slot_" + p.getPlayer_slot(), R.color.class), HEADER));
-                        List<Integer> ability_upgrades_arr = p.getAbility_upgrades_arr();
-                        if (ability_upgrades_arr.size() < 17) {
-                            for (int i = 0; i < ability_upgrades_arr.size(); i++) {
-                                int id = ability_upgrades_arr.get(i);
-                                int resid = Tools.getResId("ability_" + id, R.drawable.class);
-                                if (resid == 0) {
-                                    abilities.add(new Abilities(id, MainActivity.abilities.get(MainActivity.ability_ids.get(String.valueOf(id))).getDname(), R.drawable.talent_tree, TALENT));
-                                } else {
-                                    abilities.add(new Abilities(id, "", resid, ABILITY));
-                                }
-                            }
-                            for (int i = 0; i < 25 - ability_upgrades_arr.size(); i++) {
-                                abilities.add(new Abilities(0, "", 0, NULL_ABILITY));
-                            }
-                        } else if (ability_upgrades_arr.size() < 18) {
-                            for (int i = 0; i < ability_upgrades_arr.size() - 1; i++) {
-                                int id = ability_upgrades_arr.get(i);
-                                int resid = Tools.getResId("ability_" + id, R.drawable.class);
-                                if (resid == 0) {
-                                    abilities.add(new Abilities(id, MainActivity.abilities.get(MainActivity.ability_ids.get(String.valueOf(id))).getDname(), R.drawable.talent_tree, TALENT));
-                                } else {
-                                    abilities.add(new Abilities(id, "", resid, ABILITY));
-                                }
-                            }
-                            abilities.add(new Abilities(0, "", 0, NULL_ABILITY));
-                            int id = ability_upgrades_arr.get(ability_upgrades_arr.size() - 1);
-                            int resid = Tools.getResId("ability_" + id, R.drawable.class);
-                            if (resid == 0) {
-                                abilities.add(new Abilities(id, MainActivity.abilities.get(MainActivity.ability_ids.get(String.valueOf(id))).getDname(), R.drawable.talent_tree, TALENT));
-                            } else {
-                                abilities.add(new Abilities(id, "", resid, ABILITY));
-                            }
-                            for (int i = 0; i < 25 - 18; i++) {
-                                abilities.add(new Abilities(0, "", 0, NULL_ABILITY));
-                            }
-                        } else if (ability_upgrades_arr.size() < 19) {
-                            for (int i = 0; i < ability_upgrades_arr.size() - 2; i++) {
-                                int id = ability_upgrades_arr.get(i);
-                                int resid = Tools.getResId("ability_" + id, R.drawable.class);
-                                if (resid == 0) {
-                                    abilities.add(new Abilities(id, MainActivity.abilities.get(MainActivity.ability_ids.get(String.valueOf(id))).getDname(), R.drawable.talent_tree, TALENT));
-                                } else {
-                                    abilities.add(new Abilities(id, "", resid, ABILITY));
-                                }
-                            }
-                            abilities.add(new Abilities(0, "", 0, NULL_ABILITY));
-                            int id = ability_upgrades_arr.get(ability_upgrades_arr.size() - 2);
-                            int resid = Tools.getResId("ability_" + id, R.drawable.class);
-                            if (resid == 0) {
-                                abilities.add(new Abilities(id, MainActivity.abilities.get(MainActivity.ability_ids.get(String.valueOf(id))).getDname(), R.drawable.talent_tree, TALENT));
-                            } else {
-                                abilities.add(new Abilities(id, "", resid, ABILITY));
-                            }
-                            abilities.add(new Abilities(0, "", 0, NULL_ABILITY));
-                            id = ability_upgrades_arr.get(ability_upgrades_arr.size() - 1);
-                            resid = Tools.getResId("ability_" + id, R.drawable.class);
-                            if (resid == 0) {
-                                abilities.add(new Abilities(id, MainActivity.abilities.get(MainActivity.ability_ids.get(String.valueOf(id))).getDname(), R.drawable.talent_tree, TALENT));
-                            } else {
-                                abilities.add(new Abilities(id, "", resid, ABILITY));
-                            }
-                            for (int i = 0; i < 25 - 20; i++) {
-                                abilities.add(new Abilities(0, "", 0, NULL_ABILITY));
-                            }
-                        } else if (ability_upgrades_arr.size() == 19) {
-                            for (int i = 0; i < ability_upgrades_arr.size() - 3; i++) {
-                                int id = ability_upgrades_arr.get(i);
-                                int resid = Tools.getResId("ability_" + id, R.drawable.class);
-                                if (resid == 0) {
-                                    abilities.add(new Abilities(id, MainActivity.abilities.get(MainActivity.ability_ids.get(String.valueOf(id))).getDname(), R.drawable.talent_tree, TALENT));
-                                } else {
-                                    abilities.add(new Abilities(id, "", resid, ABILITY));
-                                }
-                            }
-                            abilities.add(new Abilities(0, "", 0, NULL_ABILITY));
-                            int id = ability_upgrades_arr.get(ability_upgrades_arr.size() - 3);
-                            int resid = Tools.getResId("ability_" + id, R.drawable.class);
-                            if (resid == 0) {
-                                abilities.add(new Abilities(id, MainActivity.abilities.get(MainActivity.ability_ids.get(String.valueOf(id))).getDname(), R.drawable.talent_tree, TALENT));
-                            } else {
-                                abilities.add(new Abilities(id, "", resid, ABILITY));
-                            }
-                            abilities.add(new Abilities(0, "", 0, NULL_ABILITY));
-                            id = ability_upgrades_arr.get(ability_upgrades_arr.size() - 2);
-                            resid = Tools.getResId("ability_" + id, R.drawable.class);
-                            if (resid == 0) {
-                                abilities.add(new Abilities(id, MainActivity.abilities.get(MainActivity.ability_ids.get(String.valueOf(id))).getDname(), R.drawable.talent_tree, TALENT));
-                            } else {
-                                abilities.add(new Abilities(id, "", resid, ABILITY));
-                            }
-                            for (int i = 0; i < 24 - 20; i++) {
-                                abilities.add(new Abilities(0, "", 0, NULL_ABILITY));
-                            }
-                            id = ability_upgrades_arr.get(ability_upgrades_arr.size() - 1);
-                            resid = Tools.getResId("ability_" + id, R.drawable.class);
-                            if (resid == 0) {
-                                abilities.add(new Abilities(id, MainActivity.abilities.get(MainActivity.ability_ids.get(String.valueOf(id))).getDname(), R.drawable.talent_tree, TALENT));
-                            } else {
-                                abilities.add(new Abilities(id, "", resid, ABILITY));
-                            }
-                        } else if (p.getAbility_upgrades_arr().size() < 25) {
-                            for (int i = 0; i < ability_upgrades_arr.size(); i++) {
-                                int id = ability_upgrades_arr.get(i);
-                                int resid = Tools.getResId("ability_" + id, R.drawable.class);
-                                if (resid == 0) {
-                                    abilities.add(new Abilities(id, MainActivity.abilities.get(MainActivity.ability_ids.get(String.valueOf(id))).getDname(), R.drawable.talent_tree, TALENT));
-                                } else {
-                                    abilities.add(new Abilities(id, "", resid, ABILITY));
-                                }
-                            }
-                            for (int i = 0; i < 25 - p.getAbility_upgrades_arr().size(); i++) {
-                                abilities.add(new Abilities(0, "", 0, NULL_ABILITY));
-                            }
-                        } else {
-                            for (int i = 0; i < ability_upgrades_arr.size(); i++) {
-                                int id = ability_upgrades_arr.get(i);
-                                int resid = Tools.getResId("ability_" + id, R.drawable.class);
-                                if (resid == 0) {
-                                    abilities.add(new Abilities(id, MainActivity.abilities.get(MainActivity.ability_ids.get(String.valueOf(id))).getDname(), R.drawable.talent_tree, TALENT));
-                                } else {
-                                    abilities.add(new Abilities(id, "", resid, ABILITY));
-                                }
-                            }
+            if (match.getPlayers().get(0).getAbility_upgrades_arr() != null) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        final int ABILITY = 1;
+                        final int NULL_ABILITY = 3;
+                        final int TALENT = 2;
+                        final int HEADER = -1;
+                        final int PLAYER = -2;
+                        final int LEVEL = -3;
+                        abilities.add(new Abilities(0, "", 0, PLAYER));
+                        for (int i = 0; i < 25; i++) {
+                            abilities.add(new Abilities(0, i + 1 + "", 0, LEVEL));
                         }
-                    }
-                    view.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 30, GridLayoutManager.VERTICAL, false);
-                            final AbilityBuildAdapter abilityBuildAdapter = new AbilityBuildAdapter(getContext(), abilities);
-                            gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                                @Override
-                                public int getSpanSize(int position) {
-                                    switch (abilityBuildAdapter.getItemViewType(position)) {
-                                        case HEADER:
-                                        case PLAYER:
-                                            return 5;
-                                        default:
-                                            return 1;
+                        for (Match.PPlayer p : match.getPlayers()) {
+                            abilities.add(new Abilities(Tools.getResId("hero_" + p.getHero_id(), R.drawable.class), p.getName() != null ? p.getName() : p.getPersonaname() == null ? getString(R.string.anonymous) : p.getPersonaname()
+                                    , Tools.getResId("slot_" + p.getPlayer_slot(), R.color.class), HEADER));
+                            List<Integer> ability_upgrades_arr = p.getAbility_upgrades_arr();
+                            if (ability_upgrades_arr.size() < 17) {
+                                for (int i = 0; i < ability_upgrades_arr.size(); i++) {
+                                    int id = ability_upgrades_arr.get(i);
+                                    int resid = Tools.getResId("ability_" + id, R.drawable.class);
+                                    if (resid == 0) {
+                                        abilities.add(new Abilities(id, MainActivity.abilities.get(MainActivity.ability_ids.get(String.valueOf(id))).getDname(), R.drawable.talent_tree, TALENT));
+                                    } else {
+                                        abilities.add(new Abilities(id, "", resid, ABILITY));
                                     }
                                 }
-                            });
-                            recyclerView1.setLayoutManager(gridLayoutManager);
-                            recyclerView1.setAdapter(abilityBuildAdapter);
-                            recyclerView1.setNestedScrollingEnabled(false);
-                            LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
-                            Intent intent = new Intent("loaded");
-                            localBroadcastManager.sendBroadcast(intent);
+                                for (int i = 0; i < 25 - ability_upgrades_arr.size(); i++) {
+                                    abilities.add(new Abilities(0, "", 0, NULL_ABILITY));
+                                }
+                            } else if (ability_upgrades_arr.size() < 18) {
+                                for (int i = 0; i < ability_upgrades_arr.size() - 1; i++) {
+                                    int id = ability_upgrades_arr.get(i);
+                                    int resid = Tools.getResId("ability_" + id, R.drawable.class);
+                                    if (resid == 0) {
+                                        abilities.add(new Abilities(id, MainActivity.abilities.get(MainActivity.ability_ids.get(String.valueOf(id))).getDname(), R.drawable.talent_tree, TALENT));
+                                    } else {
+                                        abilities.add(new Abilities(id, "", resid, ABILITY));
+                                    }
+                                }
+                                abilities.add(new Abilities(0, "", 0, NULL_ABILITY));
+                                int id = ability_upgrades_arr.get(ability_upgrades_arr.size() - 1);
+                                int resid = Tools.getResId("ability_" + id, R.drawable.class);
+                                if (resid == 0) {
+                                    abilities.add(new Abilities(id, MainActivity.abilities.get(MainActivity.ability_ids.get(String.valueOf(id))).getDname(), R.drawable.talent_tree, TALENT));
+                                } else {
+                                    abilities.add(new Abilities(id, "", resid, ABILITY));
+                                }
+                                for (int i = 0; i < 25 - 18; i++) {
+                                    abilities.add(new Abilities(0, "", 0, NULL_ABILITY));
+                                }
+                            } else if (ability_upgrades_arr.size() < 19) {
+                                for (int i = 0; i < ability_upgrades_arr.size() - 2; i++) {
+                                    int id = ability_upgrades_arr.get(i);
+                                    int resid = Tools.getResId("ability_" + id, R.drawable.class);
+                                    if (resid == 0) {
+                                        abilities.add(new Abilities(id, MainActivity.abilities.get(MainActivity.ability_ids.get(String.valueOf(id))).getDname(), R.drawable.talent_tree, TALENT));
+                                    } else {
+                                        abilities.add(new Abilities(id, "", resid, ABILITY));
+                                    }
+                                }
+                                abilities.add(new Abilities(0, "", 0, NULL_ABILITY));
+                                int id = ability_upgrades_arr.get(ability_upgrades_arr.size() - 2);
+                                int resid = Tools.getResId("ability_" + id, R.drawable.class);
+                                if (resid == 0) {
+                                    abilities.add(new Abilities(id, MainActivity.abilities.get(MainActivity.ability_ids.get(String.valueOf(id))).getDname(), R.drawable.talent_tree, TALENT));
+                                } else {
+                                    abilities.add(new Abilities(id, "", resid, ABILITY));
+                                }
+                                abilities.add(new Abilities(0, "", 0, NULL_ABILITY));
+                                id = ability_upgrades_arr.get(ability_upgrades_arr.size() - 1);
+                                resid = Tools.getResId("ability_" + id, R.drawable.class);
+                                if (resid == 0) {
+                                    abilities.add(new Abilities(id, MainActivity.abilities.get(MainActivity.ability_ids.get(String.valueOf(id))).getDname(), R.drawable.talent_tree, TALENT));
+                                } else {
+                                    abilities.add(new Abilities(id, "", resid, ABILITY));
+                                }
+                                for (int i = 0; i < 25 - 20; i++) {
+                                    abilities.add(new Abilities(0, "", 0, NULL_ABILITY));
+                                }
+                            } else if (ability_upgrades_arr.size() == 19) {
+                                for (int i = 0; i < ability_upgrades_arr.size() - 3; i++) {
+                                    int id = ability_upgrades_arr.get(i);
+                                    int resid = Tools.getResId("ability_" + id, R.drawable.class);
+                                    if (resid == 0) {
+                                        abilities.add(new Abilities(id, MainActivity.abilities.get(MainActivity.ability_ids.get(String.valueOf(id))).getDname(), R.drawable.talent_tree, TALENT));
+                                    } else {
+                                        abilities.add(new Abilities(id, "", resid, ABILITY));
+                                    }
+                                }
+                                abilities.add(new Abilities(0, "", 0, NULL_ABILITY));
+                                int id = ability_upgrades_arr.get(ability_upgrades_arr.size() - 3);
+                                int resid = Tools.getResId("ability_" + id, R.drawable.class);
+                                if (resid == 0) {
+                                    abilities.add(new Abilities(id, MainActivity.abilities.get(MainActivity.ability_ids.get(String.valueOf(id))).getDname(), R.drawable.talent_tree, TALENT));
+                                } else {
+                                    abilities.add(new Abilities(id, "", resid, ABILITY));
+                                }
+                                abilities.add(new Abilities(0, "", 0, NULL_ABILITY));
+                                id = ability_upgrades_arr.get(ability_upgrades_arr.size() - 2);
+                                resid = Tools.getResId("ability_" + id, R.drawable.class);
+                                if (resid == 0) {
+                                    abilities.add(new Abilities(id, MainActivity.abilities.get(MainActivity.ability_ids.get(String.valueOf(id))).getDname(), R.drawable.talent_tree, TALENT));
+                                } else {
+                                    abilities.add(new Abilities(id, "", resid, ABILITY));
+                                }
+                                for (int i = 0; i < 24 - 20; i++) {
+                                    abilities.add(new Abilities(0, "", 0, NULL_ABILITY));
+                                }
+                                id = ability_upgrades_arr.get(ability_upgrades_arr.size() - 1);
+                                resid = Tools.getResId("ability_" + id, R.drawable.class);
+                                if (resid == 0) {
+                                    abilities.add(new Abilities(id, MainActivity.abilities.get(MainActivity.ability_ids.get(String.valueOf(id))).getDname(), R.drawable.talent_tree, TALENT));
+                                } else {
+                                    abilities.add(new Abilities(id, "", resid, ABILITY));
+                                }
+                            } else if (p.getAbility_upgrades_arr().size() < 25) {
+                                for (int i = 0; i < ability_upgrades_arr.size(); i++) {
+                                    int id = ability_upgrades_arr.get(i);
+                                    int resid = Tools.getResId("ability_" + id, R.drawable.class);
+                                    if (resid == 0) {
+                                        abilities.add(new Abilities(id, MainActivity.abilities.get(MainActivity.ability_ids.get(String.valueOf(id))).getDname(), R.drawable.talent_tree, TALENT));
+                                    } else {
+                                        abilities.add(new Abilities(id, "", resid, ABILITY));
+                                    }
+                                }
+                                for (int i = 0; i < 25 - p.getAbility_upgrades_arr().size(); i++) {
+                                    abilities.add(new Abilities(0, "", 0, NULL_ABILITY));
+                                }
+                            } else {
+                                for (int i = 0; i < ability_upgrades_arr.size(); i++) {
+                                    int id = ability_upgrades_arr.get(i);
+                                    int resid = Tools.getResId("ability_" + id, R.drawable.class);
+                                    if (resid == 0) {
+                                        abilities.add(new Abilities(id, MainActivity.abilities.get(MainActivity.ability_ids.get(String.valueOf(id))).getDname(), R.drawable.talent_tree, TALENT));
+                                    } else {
+                                        abilities.add(new Abilities(id, "", resid, ABILITY));
+                                    }
+                                }
+                            }
                         }
-                    });
-                }
-            }).start();
+                        view.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 30, GridLayoutManager.VERTICAL, false);
+                                final AbilityBuildAdapter abilityBuildAdapter = new AbilityBuildAdapter(getContext(), abilities);
+                                gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                                    @Override
+                                    public int getSpanSize(int position) {
+                                        switch (abilityBuildAdapter.getItemViewType(position)) {
+                                            case HEADER:
+                                            case PLAYER:
+                                                return 5;
+                                            default:
+                                                return 1;
+                                        }
+                                    }
+                                });
+                                recyclerView1.setLayoutManager(gridLayoutManager);
+                                recyclerView1.setAdapter(abilityBuildAdapter);
+                                recyclerView1.setNestedScrollingEnabled(false);
+                                LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
+                                Intent intent = new Intent("loaded");
+                                localBroadcastManager.sendBroadcast(intent);
+                            }
+                        });
+                    }
+                }).start();
+            } else {
+                view.findViewById(R.id.ab).setVisibility(View.GONE);
+                LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
+                Intent intent = new Intent("loaded");
+                localBroadcastManager.sendBroadcast(intent);
+            }
         }
         return view;
     }

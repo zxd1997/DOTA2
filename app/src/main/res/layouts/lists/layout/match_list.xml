@@ -4,7 +4,7 @@
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="63dp"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="4dp"
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
@@ -19,8 +19,8 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/hero_header"
-            android:layout_width="112dp"
-            android:layout_height="63dp"
+            android:layout_width="96dp"
+            android:layout_height="54dp"
             fresco:layout_constraintStart_toStartOf="parent"
             fresco:layout_constraintTop_toTopOf="parent" />
 
@@ -28,19 +28,20 @@
             android:id="@+id/hero_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="4dp"
             android:textColor="?android:attr/textColorPrimary"
             fresco:layout_constraintLeft_toRightOf="@id/hero_header"
             fresco:layout_constraintTop_toTopOf="parent"
-            android:textSize="20sp"
+            android:textSize="17sp"
             tools:text="Phantom Assassin" />
 
         <TextView
             android:id="@+id/winornot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="4dp"
+            android:textSize="16sp"
             fresco:layout_constraintLeft_toLeftOf="@id/hero_name"
             fresco:layout_constraintBottom_toBottomOf="parent"
             tools:text="Lose" />
@@ -49,8 +50,8 @@
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textSize="13sp"
+            android:layout_marginLeft="16dp"
+            android:textSize="12sp"
             android:layout_marginBottom="2dp"
             fresco:layout_constraintBottom_toBottomOf="@id/winornot"
             fresco:layout_constraintLeft_toRightOf="@id/winornot"
@@ -60,8 +61,7 @@
             android:id="@+id/game_mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="16dp"
             fresco:layout_constraintBottom_toBottomOf="@id/hero_name"
             fresco:layout_constraintLeft_toRightOf="@id/hero_name"
             tools:text="All Pick" />
@@ -71,8 +71,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="1dp"
-            android:layout_marginLeft="10dp"
-            android:textSize="15sp"
+            android:layout_marginLeft="16dp"
+            android:textSize="14sp"
             fresco:layout_constraintBottom_toBottomOf="@id/winornot"
             fresco:layout_constraintLeft_toRightOf="@id/time"
             tools:text="Battle Cup" />
@@ -81,10 +81,10 @@
             android:id="@+id/skills"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="4dp"
             android:textColor="@color/normal"
-            android:layout_marginTop="3dp"
-            android:textSize="19sp"
+            android:textSize="16sp"
             fresco:layout_constraintRight_toRightOf="parent"
             fresco:layout_constraintTop_toTopOf="parent"
             tools:text="Very High" />
@@ -93,8 +93,9 @@
             android:id="@+id/kda"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:layout_margin="8dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginRight="8dp"
+            android:textSize="16sp"
             fresco:layout_constraintBottom_toBottomOf="parent"
             fresco:layout_constraintRight_toRightOf="parent"
             tools:text="10/0/10" />

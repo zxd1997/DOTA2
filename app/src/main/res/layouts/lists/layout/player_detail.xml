@@ -10,14 +10,14 @@
         android:background="@android:color/white"
         android:id="@+id/player_detail"
         android:visibility="gone"
-        android:layout_marginTop="61dp"
+        android:layout_marginTop="64dp"
         tools:visibility="visible">
 
         <TextView
             android:id="@+id/detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginTop="4dp"
             android:text="@string/detail"
             android:textColor="@android:color/black"
@@ -29,7 +29,8 @@
             android:id="@+id/lvl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="6dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="4dp"
             android:textSize="13sp"
             fresco:layout_constraintLeft_toLeftOf="parent"
             fresco:layout_constraintTop_toBottomOf="@id/detail"
@@ -111,10 +112,10 @@
             android:id="@+id/backpack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="4dp"
             android:text="@string/backpack"
             android:textColor="@android:color/black"
-            android:textSize="15sp"
+            android:textSize="14sp"
             fresco:layout_constraintLeft_toLeftOf="@id/backpack_0"
             fresco:layout_constraintTop_toTopOf="parent" />
 
@@ -125,6 +126,7 @@
             android:text="@string/benckmark"
             android:textColor="@android:color/black"
             android:textSize="15sp"
+            android:layout_marginTop="4dp"
             fresco:layout_constraintLeft_toLeftOf="@id/detail"
             fresco:layout_constraintTop_toBottomOf="@id/td" />
 
@@ -140,18 +142,18 @@
             android:id="@+id/tip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:lineSpacingMultiplier="0.6"
+            android:layout_marginLeft="4dp"
             android:text="@string/tip"
-            android:textSize="9sp"
+            android:textSize="10sp"
             fresco:layout_constraintLeft_toRightOf="@id/qm"
+            fresco:layout_constraintBottom_toBottomOf="@id/qm"
             fresco:layout_constraintTop_toTopOf="@id/qm" />
 
         <TextView
             android:id="@+id/gpm_ben"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="4dp"
             android:textSize="12sp"
             fresco:layout_constraintLeft_toLeftOf="@id/lvl"
             fresco:layout_constraintTop_toBottomOf="@id/tip"
@@ -161,8 +163,8 @@
             android:id="@+id/xpm_ben"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="3dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="4dp"
             android:textSize="12sp"
             fresco:layout_constraintLeft_toRightOf="@id/gpm_ben"
             fresco:layout_constraintTop_toBottomOf="@id/tip"
@@ -172,8 +174,8 @@
             android:id="@+id/kpm_ben"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="3dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="4dp"
             android:textSize="12sp"
             fresco:layout_constraintLeft_toRightOf="@id/xpm_ben"
             fresco:layout_constraintTop_toBottomOf="@id/tip"
@@ -183,7 +185,7 @@
             android:id="@+id/hdm_ben"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="4dp"
             android:textSize="12sp"
             fresco:layout_constraintLeft_toLeftOf="@id/gpm_ben"
             fresco:layout_constraintTop_toBottomOf="@id/gpm_ben"
@@ -193,19 +195,24 @@
             android:id="@+id/td_ben"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="4dp"
             android:textSize="12sp"
             fresco:layout_constraintLeft_toRightOf="@id/hdm_ben"
             fresco:layout_constraintTop_toBottomOf="@id/gpm_ben"
             tools:text="Tower Damage:100.00%" />
 
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="8dp"
+            fresco:layout_constraintBottom_toBottomOf="parent"
+            fresco:layout_constraintTop_toBottomOf="@id/hdm_ben" />
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/backpack_0"
             android:layout_width="35dp"
             android:layout_height="26dp"
-            android:layout_marginRight="2dp"
+            android:layout_marginRight="4dp"
             fresco:layout_constraintEnd_toStartOf="@+id/backpack_1"
             fresco:layout_constraintTop_toTopOf="@id/backpack_2"
             fresco:roundedCornerRadius="2dp" />
@@ -214,7 +221,7 @@
             android:id="@+id/backpack_1"
             android:layout_width="35dp"
             android:layout_height="26dp"
-            android:layout_marginRight="2dp"
+            android:layout_marginRight="4dp"
             fresco:layout_constraintEnd_toStartOf="@+id/backpack_2"
             fresco:layout_constraintTop_toTopOf="@id/backpack_2"
             fresco:roundedCornerRadius="2dp" />
@@ -225,7 +232,7 @@
             android:layout_height="26dp"
             android:layout_marginBottom="4dp"
             android:layout_marginRight="4dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="4dp"
             fresco:layout_constraintRight_toRightOf="parent"
             fresco:layout_constraintTop_toBottomOf="@id/backpack"
             fresco:roundedCornerRadius="2dp" />
@@ -235,6 +242,7 @@
             android:id="@+id/buff_rec"
             android:layout="@layout/buff_view_stub"
             fresco:layout_constraintLeft_toLeftOf="@id/backpack_0"
+            fresco:layout_constraintRight_toRightOf="@id/backpack_2"
             fresco:layout_constraintTop_toBottomOf="@id/bear"/>
 
         <ViewStub
@@ -244,7 +252,9 @@
             android:layout="@layout/bear_view_stub"
             fresco:layout_constraintLeft_toLeftOf="@id/backpack"
             fresco:layout_constraintRight_toRightOf="parent"
-            fresco:layout_constraintTop_toBottomOf="@id/backpack_0"/>
+            fresco:layout_constraintBottom_toBottomOf="parent"
+            fresco:layout_constraintTop_toBottomOf="@id/backpack_0"
+            fresco:layout_constraintVertical_bias="0" />
 
     </android.support.constraint.ConstraintLayout>
 </merge>

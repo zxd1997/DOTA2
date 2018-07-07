@@ -14,6 +14,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -58,10 +59,10 @@ public class MatchActivity extends AppCompatActivity {
             switch (msg.what) {
                 case MATCH: {
                     match = new Gson().fromJson(msg.obj.toString(), Match.class);
-//            Log.d("info", "handleMessage: " + match.getMatch_id() + " " + match.getRadiant_score() + " " + match.getDire_score() + " " + match.getReplay_salt());
+                    Log.d("info", "handleMessage: " + match.getMatch_id() + " " + match.getRadiant_score() + " " + match.getDire_score() + " " + match.getReplay_salt() + " " + match.getTeamfights());
                     fragments.add(OverviewFragment.newInstance());
                     LocalBroadcastManager.getInstance(Objects.requireNonNull(getApplicationContext())).registerReceiver(receiver, intentFilter);
-                    if (match.getRadiant_xp_adv() == null) {
+                    if (match.getRadiant_xp_adv() == null || match.getReplay_salt() == 0 || match.getTeamfights() == null || match.getChat() == null || match.getObjectives() == null) {
                         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_6)));
                         fragments.add(NoDetailFragment.newInstance());
                         tabFragmentAdapter.notifyDataSetChanged();
@@ -183,7 +184,7 @@ public class MatchActivity extends AppCompatActivity {
             return true;
         }
         if (id == android.R.id.home) {
-            finish();
+            onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);

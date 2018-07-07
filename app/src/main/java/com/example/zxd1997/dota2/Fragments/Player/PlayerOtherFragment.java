@@ -100,7 +100,7 @@ public class PlayerOtherFragment extends Fragment {
                             TypedArray typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.lobby_type_color);
                             sliceValue.setColor(typedArray.getColor(Integer.valueOf(entry.getKey()), 0));
                             typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.lobby_type);
-                            sliceValue.setLabel(typedArray.getString(Integer.valueOf(entry.getKey())) + " Match:" + wl.getGames() + " Winrate:" + Tools.getS((double) wl.getWin() / wl.getGames()));
+                            sliceValue.setLabel(typedArray.getString(Integer.valueOf(entry.getKey())) + getString(R.string.match_) + wl.getGames() + getString(R.string.winrate1_) + Tools.getS((double) wl.getWin() / wl.getGames()));
                             sliceValues.add(sliceValue);
                             typedArray.recycle();
                         }

@@ -113,7 +113,7 @@ public class PlayerActivity extends AppCompatActivity {
             return true;
         }
         if (id == android.R.id.home) {
-            finish();
+            onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);

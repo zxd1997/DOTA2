@@ -24,6 +24,7 @@ import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.MyApplication;
 import com.example.zxd1997.dota2.Utils.Tools;
+import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,7 +93,14 @@ public class PurchaseAndCastFragment extends Fragment {
             getActivity().finish();
         } else {
             recyclerView = view.findViewById(R.id.p_c);
-            recyclerView.setNestedScrollingEnabled(false);
+            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE)
+                        Fresco.getImagePipeline().resume();
+                    else Fresco.getImagePipeline().pause();
+                }
+            });
             new Thread(new Runnable() {
                 @Override
                 public void run() {

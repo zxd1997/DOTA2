@@ -21,11 +21,13 @@
                 android:focusableInTouchMode="true"
                 android:textColor="@android:color/black" />
 
-            <android.support.v7.widget.RecyclerView
+            <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:id="@+id/p_c"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
+                android:nestedScrollingEnabled="false"
                 android:descendantFocusability="blocksDescendants"
                 android:focusable="false"
                 android:background="@android:color/white"

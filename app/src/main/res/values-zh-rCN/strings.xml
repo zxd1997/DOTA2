@@ -184,7 +184,7 @@
     <string name="denies">反补</string>
     <string name="tower">建筑伤害</string>
     <string name="healing_">英雄治疗</string>
-    <string name="matches_play_together">队友比赛</string>
+    <string name="matches_play_together">一起游玩的比赛</string>
     <string name="td_">建筑伤害：</string>
     <string name="rga">天辉经济优势：</string>
     <string name="dga">夜宴经济优势：</string>
@@ -222,4 +222,11 @@
     <string name="turn_rate_1f">转身速率：%.1f</string>
     <string name="instant">即时</string>
     <string name="level">等级：%1$d</string>
+    <string name="match_">" 场数："</string>
+    <string name="winrate1_">" 胜率："</string>
+    <string name="h_p">使用过的英雄</string>
+    <string name="h_r">英雄排名</string>
+    <string name="hero_p">英雄表现</string>
+    <string name="update">更新本地数据</string>
+    <string name="updating">更新中</string>
 </resources>

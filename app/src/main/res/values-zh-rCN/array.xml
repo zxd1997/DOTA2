@@ -55,20 +55,20 @@
         <item>奥地利</item>
         <item>巴西</item>
         <item>南非</item>
-        <item>完美世界电信（上海）</item>
+        <item>完美世界电信(上海)</item>
         <item>完美世界联通</item>
         <item>智利</item>
         <item>秘鲁</item>
         <item>印度</item>
-        <item>完美世界电信（广东）</item>
-        <item>完美世界电信（浙江）</item>
+        <item>完美世界电信(广东)</item>
+        <item>完美世界电信(浙江)</item>
         <item>日本</item>
-        <item>完美世界电信（武汉）</item>
+        <item>完美世界电信(武汉)</item>
         <item>未知</item>
         <item>未知</item>
         <item>未知</item>
         <item>未知</item>
-        <item>完美世界联通（天津）</item>
+        <item>完美世界联通(天津)</item>
     </string-array>
     <string-array name="buffs">
         <item>无</item>

@@ -1,9 +1,8 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp">
+    android:layout_margin="8dp">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -13,103 +12,120 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/hero_big_header"
-            android:layout_width="176dp"
-            android:layout_height="99dp"
-            android:layout_margin="5dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/card_total"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:roundedCornerRadius="6dp" />
+            app:layout_constraintRight_toLeftOf="@id/card_total"
+            app:layout_constraintTop_toTopOf="@id/card_total" />
 
-        <TextView
-            android:id="@+id/hero_name_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:layout_marginTop="3dp"
-            android:textSize="24sp"
-            app:layout_constraintLeft_toRightOf="@id/hero_big_header"
-            app:layout_constraintTop_toTopOf="@id/hero_big_header"
-            tools:text="Phantom Assassin" />
 
         <android.support.v7.widget.CardView
             android:id="@+id/card_total"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="2dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?selectableItemBackground"
             android:padding="1dp"
-            app:layout_constraintBottom_toBottomOf="@id/hero_big_header"
+            android:stateListAnimator="@drawable/touch_card"
             app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintLeft_toRightOf="@id/hero_big_header"
-            app:layout_constraintRight_toLeftOf="@id/card_win_rate">
+            app:layout_constraintLeft_toLeftOf="@id/card_death"
+            app:layout_constraintRight_toLeftOf="@id/card_win_rate"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="22dp"
-                android:background="@color/cardview_shadow_start_color"
                 android:gravity="center"
                 android:text="@string/total"
-                android:textSize="17sp" />
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="22dp"
+                android:background="@android:color/darker_gray" />
 
             <TextView
                 android:id="@+id/hero_total"
                 android:layout_width="match_parent"
-                android:layout_height="33dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="27dp"
+                android:layout_marginTop="22dp"
                 android:gravity="center"
                 android:text="@string/placeholder1"
-                android:textSize="22sp" />
+                android:textSize="18sp" />
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:id="@+id/card_win_rate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="4dp"
+            android:layout_marginTop="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?selectableItemBackground"
             android:padding="1dp"
-            app:layout_constraintBottom_toBottomOf="@id/hero_big_header"
+            android:stateListAnimator="@drawable/touch_card"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintLeft_toRightOf="@id/card_total"
-            app:layout_constraintRight_toRightOf="parent">
+            app:layout_constraintRight_toRightOf="@id/card_assists"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="22dp"
-                android:background="@color/cardview_shadow_start_color"
                 android:gravity="center"
                 android:text="@string/winrate"
-                android:textSize="17sp" />
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="22dp"
+                android:background="@android:color/darker_gray" />
 
             <TextView
                 android:id="@+id/hero_win_rate"
                 android:layout_width="match_parent"
-                android:layout_height="33dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="27dp"
+                android:layout_marginTop="22dp"
                 android:gravity="center"
                 android:text="@string/placeholder1"
-                android:textSize="22sp" />
+                android:textSize="18sp" />
         </android.support.v7.widget.CardView>
 
         <TextView
             android:id="@+id/hero_performance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_marginTop="3dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
             android:text="@string/average_hero_performance"
-            android:textSize="19sp"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/hero_big_header" />
+            app:layout_constraintTop_toBottomOf="@id/card_total" />
 
         <android.support.v7.widget.CardView
             android:id="@+id/card_kill"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="2dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?selectableItemBackground"
             android:padding="1dp"
+            android:stateListAnimator="@drawable/touch_card"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/card_death"
@@ -118,29 +134,40 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="22dp"
-                android:background="@color/cardview_shadow_start_color"
                 android:gravity="center"
                 android:text="@string/kills_"
-                android:textSize="17sp" />
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="22dp"
+                android:background="@android:color/darker_gray" />
 
             <TextView
                 android:id="@+id/hero_kill"
                 android:layout_width="match_parent"
-                android:layout_height="33dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="27dp"
+                android:layout_marginTop="22dp"
                 android:gravity="center"
                 android:text="@string/placeholder1"
-                android:textSize="22sp" />
+                android:textSize="18sp" />
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:id="@+id/card_death"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?selectableItemBackground"
             android:padding="1dp"
+            android:stateListAnimator="@drawable/touch_card"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintLeft_toRightOf="@id/card_kill"
             app:layout_constraintRight_toLeftOf="@id/card_assists"
@@ -149,29 +176,40 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="22dp"
-                android:background="@color/cardview_shadow_start_color"
                 android:gravity="center"
                 android:text="@string/deaths"
-                android:textSize="17sp" />
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="22dp"
+                android:background="@android:color/darker_gray" />
 
             <TextView
                 android:id="@+id/hero_death"
                 android:layout_width="match_parent"
-                android:layout_height="33dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="27dp"
+                android:layout_marginTop="22dp"
                 android:gravity="center"
                 android:text="@string/placeholder1"
-                android:textSize="22sp" />
+                android:textSize="18sp" />
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:id="@+id/card_assists"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?selectableItemBackground"
             android:padding="1dp"
+            android:stateListAnimator="@drawable/touch_card"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintLeft_toRightOf="@id/card_death"
             app:layout_constraintRight_toLeftOf="@id/card_kda"
@@ -180,29 +218,40 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="22dp"
-                android:background="@color/cardview_shadow_start_color"
                 android:gravity="center"
                 android:text="@string/assists"
-                android:textSize="17sp" />
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="22dp"
+                android:background="@android:color/darker_gray" />
 
             <TextView
                 android:id="@+id/hero_assists"
                 android:layout_width="match_parent"
-                android:layout_height="33dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="27dp"
+                android:layout_marginTop="22dp"
                 android:gravity="center"
                 android:text="@string/placeholder1"
-                android:textSize="22sp" />
+                android:textSize="18sp" />
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:id="@+id/card_kda"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="4dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?selectableItemBackground"
             android:padding="1dp"
+            android:stateListAnimator="@drawable/touch_card"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintLeft_toRightOf="@id/card_assists"
             app:layout_constraintRight_toRightOf="parent"
@@ -211,29 +260,40 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="22dp"
-                android:background="@color/cardview_shadow_start_color"
                 android:gravity="center"
                 android:text="@string/kda"
-                android:textSize="17sp" />
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="22dp"
+                android:background="@android:color/darker_gray" />
 
             <TextView
                 android:id="@+id/hero_kda"
                 android:layout_width="match_parent"
-                android:layout_height="33dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="27dp"
+                android:layout_marginTop="22dp"
                 android:gravity="center"
                 android:text="@string/placeholder1"
-                android:textSize="22sp" />
+                android:textSize="18sp" />
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:id="@+id/card_gpm"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="2dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?selectableItemBackground"
             android:padding="1dp"
+            android:stateListAnimator="@drawable/touch_card"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/card_xpm"
@@ -242,62 +302,82 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="22dp"
-                android:background="@color/cardview_shadow_start_color"
                 android:gravity="center"
                 android:text="@string/gpm_"
-                android:textSize="17sp" />
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="22dp"
+                android:background="@android:color/darker_gray" />
 
             <TextView
                 android:id="@+id/hero_gpm"
                 android:layout_width="match_parent"
-                android:layout_height="33dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="27dp"
+                android:layout_marginTop="22dp"
                 android:gravity="center"
                 android:text="@string/placeholder1"
-                android:textSize="22sp" />
+                android:textSize="18sp" />
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:id="@+id/card_xpm"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?selectableItemBackground"
             android:padding="1dp"
+            android:stateListAnimator="@drawable/touch_card"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintLeft_toRightOf="@id/card_gpm"
             app:layout_constraintRight_toLeftOf="@id/card_lh"
-            app:layout_constraintTop_toBottomOf="@id/card_kill"
-
-            >
+            app:layout_constraintTop_toBottomOf="@id/card_kill">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="22dp"
-                android:background="@color/cardview_shadow_start_color"
                 android:gravity="center"
                 android:text="@string/xpm_"
-                android:textSize="17sp" />
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="22dp"
+                android:background="@android:color/darker_gray" />
 
             <TextView
                 android:id="@+id/hero_xpm"
                 android:layout_width="match_parent"
-                android:layout_height="33dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="27dp"
+                android:layout_marginTop="22dp"
                 android:gravity="center"
                 android:text="@string/placeholder1"
-                android:textSize="22sp" />
+                android:textSize="18sp" />
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:id="@+id/card_lh"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?selectableItemBackground"
             android:padding="1dp"
+            android:stateListAnimator="@drawable/touch_card"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintLeft_toRightOf="@id/card_xpm"
             app:layout_constraintRight_toLeftOf="@id/card_dn"
@@ -306,29 +386,40 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="22dp"
-                android:background="@color/cardview_shadow_start_color"
                 android:gravity="center"
                 android:text="@string/lhs"
-                android:textSize="17sp" />
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="22dp"
+                android:background="@android:color/darker_gray" />
 
             <TextView
                 android:id="@+id/hero_lh"
                 android:layout_width="match_parent"
-                android:layout_height="33dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="27dp"
+                android:layout_marginTop="22dp"
                 android:gravity="center"
                 android:text="@string/placeholder1"
-                android:textSize="22sp" />
+                android:textSize="18sp" />
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:id="@+id/card_dn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="4dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?selectableItemBackground"
             android:padding="1dp"
+            android:stateListAnimator="@drawable/touch_card"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintLeft_toRightOf="@id/card_lh"
             app:layout_constraintRight_toRightOf="parent"
@@ -337,30 +428,41 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="22dp"
-                android:background="@color/cardview_shadow_start_color"
                 android:gravity="center"
                 android:text="@string/denies"
-                android:textSize="17sp" />
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="22dp"
+                android:background="@android:color/darker_gray" />
 
             <TextView
                 android:id="@+id/hero_dn"
                 android:layout_width="match_parent"
-                android:layout_height="33dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="27dp"
+                android:layout_marginTop="22dp"
                 android:gravity="center"
                 android:text="@string/placeholder1"
-                android:textSize="22sp" />
+                android:textSize="18sp" />
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:id="@+id/card_damage"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="2dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?selectableItemBackground"
             android:padding="1dp"
+            android:stateListAnimator="@drawable/touch_card"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -370,29 +472,40 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="22dp"
-                android:background="@color/cardview_shadow_start_color"
                 android:gravity="center"
                 android:text="@string/DAMAGE1"
-                android:textSize="17sp" />
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="22dp"
+                android:background="@android:color/darker_gray" />
 
             <TextView
                 android:id="@+id/hero_damage"
                 android:layout_width="match_parent"
-                android:layout_height="33dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="27dp"
+                android:layout_marginTop="22dp"
                 android:gravity="center"
                 android:text="@string/placeholder1"
-                android:textSize="22sp" />
+                android:textSize="18sp" />
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:id="@+id/card_td"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?selectableItemBackground"
             android:padding="1dp"
+            android:stateListAnimator="@drawable/touch_card"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintLeft_toRightOf="@id/card_damage"
             app:layout_constraintRight_toLeftOf="@id/card_hh"
@@ -401,50 +514,67 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="22dp"
-                android:background="@color/cardview_shadow_start_color"
                 android:gravity="center"
                 android:text="@string/tower"
-                android:textSize="17sp" />
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="22dp"
+                android:background="@android:color/darker_gray" />
 
             <TextView
                 android:id="@+id/hero_td"
                 android:layout_width="match_parent"
-                android:layout_height="33dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="27dp"
+                android:layout_marginTop="22dp"
                 android:gravity="center"
                 android:text="@string/placeholder1"
-                android:textSize="22sp" />
+                android:textSize="18sp" />
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:id="@+id/card_hh"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="2dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?selectableItemBackground"
             android:padding="1dp"
+            android:stateListAnimator="@drawable/touch_card"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintLeft_toRightOf="@id/card_td"
-            app:layout_constraintRight_toLeftOf="@id/card_dn"
+            app:layout_constraintRight_toRightOf="@id/card_lh"
             app:layout_constraintTop_toBottomOf="@id/card_gpm">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="22dp"
-                android:background="@color/cardview_shadow_start_color"
                 android:gravity="center"
                 android:text="@string/healing_"
-                android:textSize="17sp" />
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="22dp"
+                android:background="@android:color/darker_gray" />
 
             <TextView
                 android:id="@+id/hero_hh"
                 android:layout_width="match_parent"
-                android:layout_height="33dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="27dp"
+                android:layout_marginTop="22dp"
                 android:gravity="center"
                 android:text="@string/placeholder1"
-                android:textSize="22sp" />
+                android:textSize="18sp" />
         </android.support.v7.widget.CardView>
 
     </android.support.constraint.ConstraintLayout>
