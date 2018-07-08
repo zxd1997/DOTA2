@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,7 +19,7 @@ import android.transition.Transition;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
-import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.zxd1997.dota2.Adapters.MatchesAdapter;
 import com.example.zxd1997.dota2.Beans.MatchHero;
@@ -30,6 +31,9 @@ import com.example.zxd1997.dota2.Utils.OKhttp;
 import com.example.zxd1997.dota2.Utils.Tools;
 import com.example.zxd1997.dota2.Utils.Update;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.drawable.ScalingUtils;
+import com.facebook.drawee.view.DraweeTransition;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -45,15 +49,18 @@ public class MyHeroActivity extends AppCompatActivity {
     private final int HERO_MARCHES = 32;
     private final int HERO_MARCHES_UPDATE = 33;
     private final int NUMBER = 20;
-    RecyclerView recyclerView;
-    MatchesAdapter matchesAdapter;
-    SwipeRefreshLayout swipeRefreshLayout;
-    Activity activity;
-    List<MatchHero> matches = new ArrayList<>();
-    Handler handler = new Handler(new Handler.Callback() {
+    private final List<MatchHero> matches = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private MatchesAdapter matchesAdapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private Activity activity;
+    private final Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            switch (msg.what) {
+            if (msg.obj.toString().contains("rate limit exceeded")) {
+                Toast.makeText(activity, R.string.api_rate, Toast.LENGTH_LONG).show();
+            } else
+                switch (msg.what) {
                 case WL: {
                     com.example.zxd1997.dota2.Beans.WL wl = new Gson().fromJson(msg.obj.toString(), com.example.zxd1997.dota2.Beans.WL.class);
                     wl.setWinrate();
@@ -113,12 +120,13 @@ public class MyHeroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Update.setDensity(this, getApplication());
+        getWindow().setSharedElementEnterTransition(DraweeTransition.createTransitionSet(ScalingUtils.ScaleType.CENTER_CROP, ScalingUtils.ScaleType.CENTER_CROP)); // 进入
+        getWindow().setSharedElementReturnTransition(DraweeTransition.createTransitionSet(ScalingUtils.ScaleType.CENTER_CROP, ScalingUtils.ScaleType.CENTER_CROP)); // 返回
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getWindow().setNavigationBarColor(Color.parseColor("#FFCC0000"));
         setContentView(R.layout.activity_my_hero);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         Intent intent = getIntent();
         final int hero_id = intent.getIntExtra("id", 0);
@@ -130,8 +138,9 @@ public class MyHeroActivity extends AppCompatActivity {
             TypedArray typedArray = getResources().obtainTypedArray(R.array.heroes);
             Objects.requireNonNull(getSupportActionBar()).setTitle(typedArray.getText(hero_id));
             typedArray.recycle();
-            ImageView imageView = findViewById(R.id.h_head);
-            imageView.setImageResource(Tools.getResId("hero_" + hero_id, R.drawable.class));
+            SimpleDraweeView imageView = findViewById(R.id.h_head);
+//            imageView.setImageResource(Tools.getResId("hero_" + hero_id, R.drawable.class));
+            imageView.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + hero_id, R.drawable.class))).build());
             imageView.setTransitionName("hero_" + hero_id);
             activity = this;
             getWindow().getEnterTransition().addListener(new Transition.TransitionListener() {
@@ -165,27 +174,24 @@ public class MyHeroActivity extends AppCompatActivity {
                     final String id = sharedPreferences.getString("id", "");
                     swipeRefreshLayout.setRefreshing(true);
                     recyclerView.setAdapter(matchesAdapter);
-                    swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                        @Override
-                        public void onRefresh() {
-                            matches.clear();
-                            matchesAdapter.notifyDataSetChanged();
-                            MyHero m = new MyHero();
-                            m.setHero_id(hero_id);
-                            m.setType(7);
-                            matches.add(m);
-                            MatchHero m1 = new MatchHero();
-                            m1.setHero_id(hero_id);
-                            m1.setType(5);
-                            m1.setTitle(getString(R.string.moth));
-                            matches.add(m1);
-                            matchesAdapter.setHasfoot(true);
-                            swipeRefreshLayout.setRefreshing(true);
-                            offset = 0;
-                            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id + "/wl?hero_id=" + hero_id, handler, WL);
-                            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id + "/totals?hero_id=" + hero_id, handler, TOTAL);
-                            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id + "/matches?hero_id=" + hero_id + "&offset=" + offset + "&limit=" + NUMBER, handler, HERO_MARCHES);
-                        }
+                    swipeRefreshLayout.setOnRefreshListener(() -> {
+                        matches.clear();
+                        matchesAdapter.notifyDataSetChanged();
+                        MyHero m2 = new MyHero();
+                        m2.setHero_id(hero_id);
+                        m2.setType(7);
+                        matches.add(m2);
+                        MatchHero m11 = new MatchHero();
+                        m11.setHero_id(hero_id);
+                        m11.setType(5);
+                        m11.setTitle(getString(R.string.moth));
+                        matches.add(m11);
+                        matchesAdapter.setHasfoot(true);
+                        swipeRefreshLayout.setRefreshing(true);
+                        offset = 0;
+                        OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id + "/wl?hero_id=" + hero_id, handler, WL);
+                        OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id + "/totals?hero_id=" + hero_id, handler, TOTAL);
+                        OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id + "/matches?hero_id=" + hero_id + "&offset=" + offset + "&limit=" + NUMBER, handler, HERO_MARCHES);
                     });
                     matchesAdapter.setHasfoot(false);
                     recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

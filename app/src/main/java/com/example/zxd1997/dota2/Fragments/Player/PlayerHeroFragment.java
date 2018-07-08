@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Activities.PlayerActivity;
@@ -40,22 +41,24 @@ import java.util.Objects;
  * create an instance of this fragment.
  */
 public class PlayerHeroFragment extends Fragment {
-    final int RANKING = 23;
-    final int HEROES = 22;
-    Player player;
-    RecyclerView recyclerView;
-    SwipeRefreshLayout swipeRefreshLayout;
-    MatchesAdapter matchesAdapter;
-    List<MatchHero> hero_matches = new ArrayList<>();
+    private final int RANKING = 23;
+    private final int HEROES = 22;
+    private final List<MatchHero> hero_matches = new ArrayList<>();
+    private Player player;
+    private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private MatchesAdapter matchesAdapter;
 
     public PlayerHeroFragment() {
         // Required empty public constructor
     }
 
-    Handler handler = new Handler(new Handler.Callback() {
+    private final Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            if (getContext() != null) {
+            if (msg.obj.toString().contains("rate limit exceeded")) {
+                Toast.makeText(getContext(), R.string.api_rate, Toast.LENGTH_LONG).show();
+            } else if (getContext() != null) {
                 switch (msg.what) {
                     case HEROES: {
                         MatchHero m = new MatchHero();
@@ -129,12 +132,9 @@ public class PlayerHeroFragment extends Fragment {
             swipeRefreshLayout.setRefreshing(true);
             matchesAdapter.setHasfoot(false);
             swipeRefreshLayout.setColorSchemeResources(R.color.lose);
-            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    swipeRefreshLayout.setRefreshing(true);
-                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/rankings?limit=10", handler, RANKING);
-                }
+            swipeRefreshLayout.setOnRefreshListener(() -> {
+                swipeRefreshLayout.setRefreshing(true);
+                OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/rankings?limit=10", handler, RANKING);
             });
             recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override

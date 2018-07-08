@@ -113,13 +113,10 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 viewHolder.player_hero.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId("hero_" + p.getHero_id(), R.drawable.class))).build());
                 viewHolder.player.setText(p.getName() != null ? p.getName() : p.getPersonaname() == null || p.getPersonaname().equals("") ? context.getResources().getString(R.string.anonymous) : p.getPersonaname());
                 if (p.getName() != null || p.getPersonaname() != null) {
-                    viewHolder.player.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(context, PlayerActivity.class);
-                            intent.putExtra("id", p.getAccount_id());
-                            context.startActivity(intent);
-                        }
+                    viewHolder.player.setOnClickListener(v -> {
+                        Intent intent = new Intent(context, PlayerActivity.class);
+                        intent.putExtra("id", p.getAccount_id());
+                        context.startActivity(intent);
                     });
                 }
                 SpannableStringBuilder k = new SpannableStringBuilder();
@@ -143,18 +140,15 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 t1 = new SpannableString(p.getAssists() + "");
                 t1.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.blue_light)), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 k.append(t1);
-                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (!contents.get(position).extended) {
-                            contents.get(position).extended = true;
-                            viewHolder.cardView.setVisibility(View.VISIBLE);
-                            notifyItemChanged(position, "");
-                        } else {
-                            contents.get(position).extended = false;
-                            viewHolder.cardView.setVisibility(View.GONE);
-                            notifyItemChanged(position, "");
-                        }
+                viewHolder.itemView.setOnClickListener(v -> {
+                    if (!contents.get(position).extended) {
+                        contents.get(position).extended = true;
+                        viewHolder.cardView.setVisibility(View.VISIBLE);
+                        notifyItemChanged(position, "");
+                    } else {
+                        contents.get(position).extended = false;
+                        viewHolder.cardView.setVisibility(View.GONE);
+                        notifyItemChanged(position, "");
                     }
                 });
                 int resid = Tools.getResId("slot_" + p.getPlayer_slot(), R.color.class);
@@ -256,7 +250,6 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     }
                 }
                 if (p.getPermanent_buffs() != null && p.getPermanent_buffs().size() > 0) {
-                    final int HEADER = -1;
                     final int BUFF = 8;
                     TypedArray typedArray = Objects.requireNonNull(context).getResources().obtainTypedArray(R.array.buff);
                     int i = 0;

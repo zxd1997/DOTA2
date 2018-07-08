@@ -131,73 +131,103 @@ public class DetailFragment extends Fragment {
         } else {
             d_detail = view.findViewById(R.id.ddetail);
             kill = view.findViewById(R.id.kills_recycler);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    contents.add(new Content(true, -1, R.string.kills));
-                    contents.add(new Content(true, -2, 0));
-                    contents1.add(new Content(true, -1, R.string.damage));
-                    contents1.add(new Content(true, -2, 0));
-                    List<Match.PPlayer> players = match.getPlayers();
-                    for (int i = 5; i < players.size(); i++) {
-                        Match.PPlayer p = players.get(i);
-                        int color = Objects.requireNonNull(getContext()).getResources().getColor(Tools.getResId("slot_" + p.getPlayer_slot(), R.color.class));
+            new Thread(() -> {
+                contents.add(new Content(true, -1, R.string.kills));
+                contents.add(new Content(true, -2, 0));
+                contents1.add(new Content(true, -1, R.string.damage));
+                contents1.add(new Content(true, -2, 0));
+                List<Match.PPlayer> players = match.getPlayers();
+                for (int i = 5; i < players.size(); i++) {
+                    Match.PPlayer p = players.get(i);
+                    int color = Objects.requireNonNull(getContext()).getResources().getColor(Tools.getResId("slot_" + p.getPlayer_slot(), R.color.class));
 //                        Log.d("color", "onCreateView: " + color);
-                        contents.add(new Content(true, p.getHero_id(), color));
-                        contents1.add(new Content(true, p.getHero_id(), color));
+                    contents.add(new Content(true, p.getHero_id(), color));
+                    contents1.add(new Content(true, p.getHero_id(), color));
+                }
+                for (int i = 0; i < 5; i++) {
+                    Match.PPlayer p = players.get(i);
+                    int color = Objects.requireNonNull(getContext()).getResources().getColor(Tools.getResId("slot_" + p.getPlayer_slot(), R.color.class));
+                    contents.add(new Content(true, p.getHero_id(), color));
+                    contents1.add(new Content(true, p.getHero_id(), color));
+                    Map<String, Integer> killed = p.getKilled();
+                    Map<String, Integer> killed_by = p.getKilled_by();
+                    Map<String, Integer> damage = p.getDamage();
+                    Map<String, Integer> damage_taken = p.getDamage_taken();
+                    for (int j = 5; j < players.size(); j++) {
+                        String name = null;
+                        for (Map.Entry<String, Hero> entry : MainActivity.heroes.entrySet()) {
+                            if (entry.getValue().getId() == players.get(j).getHero_id()) {
+                                name = entry.getKey();
+                            }
+                        }
+//                            Log.d("hero", "KillsAdapter: " + name);
+                        int k = killed.get(name) == null ? 0 : killed.get(name);
+                        int d = killed_by.get(name) == null ? 0 : killed_by.get(name);
+                        double dam = damage.get(name) == null ? 0 : (double) damage.get(name) / 1000;
+                        double dam_t = damage_taken.get(name) == null ? 0 : (double) damage_taken.get(name) / 1000;
+                        SpannableStringBuilder t = new SpannableStringBuilder();
+                        SpannableString kk = new SpannableString(k + "");
+                        kk.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.win)), 0, kk.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        t.append(kk);
+                        t.append("/");
+                        SpannableString dd = new SpannableString(d + "");
+                        dd.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.lose)), 0, dd.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        t.append(dd);
+                        contents.add(new Content(false, t));
+                        t = new SpannableStringBuilder();
+                        DecimalFormat df = new DecimalFormat("0.0");
+                        kk = new SpannableString(dam > 1 ? df.format(dam) + "k" : (int) (dam * 1000) + "");
+                        kk.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.win)), 0, kk.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        t.append(kk);
+                        t.append("/");
+                        dd = new SpannableString(dam_t >= 1 ? df.format(dam_t) + "k" : (int) (dam_t * 1000) + "");
+                        dd.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.lose)), 0, dd.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        t.append(dd);
+                        contents1.add(new Content(false, t));
                     }
-                    for (int i = 0; i < 5; i++) {
-                        Match.PPlayer p = players.get(i);
-                        int color = Objects.requireNonNull(getContext()).getResources().getColor(Tools.getResId("slot_" + p.getPlayer_slot(), R.color.class));
-                        contents.add(new Content(true, p.getHero_id(), color));
-                        contents1.add(new Content(true, p.getHero_id(), color));
-                        Map<String, Integer> killed = p.getKilled();
-                        Map<String, Integer> killed_by = p.getKilled_by();
-                        Map<String, Integer> damage = p.getDamage();
-                        Map<String, Integer> damage_taken = p.getDamage_taken();
-                        for (int j = 5; j < players.size(); j++) {
-                            String name = null;
-                            for (Map.Entry<String, Hero> entry : MainActivity.heroes.entrySet()) {
-                                if (entry.getValue().getId() == players.get(j).getHero_id()) {
-                                    name = entry.getKey();
+                }
+                contents.addAll(contents1);
+                for (Match.PPlayer p : match.getPlayers()) {
+                    CastHeader castHeader = new CastHeader(getContext().getResources().getColor(Tools.getResId("slot_" + p.getPlayer_slot(), R.color.class)),
+                            p.getName() != null ? p.getName() : p.getPersonaname() == null || p.getPersonaname().equals("") ? getContext().getResources().getString(R.string.anonymous) : p.getPersonaname(),
+                            PLAYER_HEADER_DAMAGE, p.getHero_id(), p.getHero_damage(), 0);
+                    casts.add(castHeader);
+                    casts.add(new Cast(getContext().getResources().getColor(R.color.win), getContext().getResources().getString(R.string.damage_dealt), HEADER));
+                    for (Map.Entry<String, Integer> entry : p.getDamage_inflictor().entrySet()) {
+                        if (entry.getKey().equals("null")) {
+                            casts.add(new Cast(entry.getValue(), "default_attack", ABILITY));
+                            if (p.getDamage_targets() != null) {
+                                casts.add(new Cast(0, "", ARROW));
+                                int i = 0;
+                                for (Map.Entry<String, Integer> entry1 : p.getDamage_targets().get(entry.getKey()).entrySet()) {
+                                    if (i == 8) casts.add(new Cast(0, "", ENTER));
+                                    casts.add(new Cast(entry1.getValue(), "hero_" + MainActivity.heroes.get(entry1.getKey()).getId() + "_icon", HERO1));
+                                    i++;
+                                }
+                                casts.add(new Cast(0, "", ENTER));
+                            }
+                        } else {
+                            boolean f = false;
+                            for (Map.Entry<String, String> entry1 : MainActivity.ability_ids.entrySet()) {
+                                if (entry1.getValue().equals(entry.getKey())) {
+                                    casts.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY));
+                                    if (p.getDamage_targets() != null) {
+                                        casts.add(new Cast(0, "", ARROW));
+                                        int i = 0;
+                                        for (Map.Entry<String, Integer> entry2 : p.getDamage_targets().get(entry.getKey()).entrySet()) {
+                                            if (i == 8) casts.add(new Cast(0, "", ENTER));
+                                            casts.add(new Cast(entry2.getValue(), "hero_" + MainActivity.heroes.get(entry2.getKey()).getId() + "_icon", HERO1));
+                                            i++;
+                                        }
+                                        casts.add(new Cast(0, "", ENTER));
+                                    }
+                                    f = true;
+                                    break;
                                 }
                             }
-//                            Log.d("hero", "KillsAdapter: " + name);
-                            int k = killed.get(name) == null ? 0 : killed.get(name);
-                            int d = killed_by.get(name) == null ? 0 : killed_by.get(name);
-                            double dam = damage.get(name) == null ? 0 : (double) damage.get(name) / 1000;
-                            double dam_t = damage_taken.get(name) == null ? 0 : (double) damage_taken.get(name) / 1000;
-                            SpannableStringBuilder t = new SpannableStringBuilder();
-                            SpannableString kk = new SpannableString(k + "");
-                            kk.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.win)), 0, kk.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            t.append(kk);
-                            t.append("/");
-                            SpannableString dd = new SpannableString(d + "");
-                            dd.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.lose)), 0, dd.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            t.append(dd);
-                            contents.add(new Content(false, t));
-                            t = new SpannableStringBuilder();
-                            DecimalFormat df = new DecimalFormat("0.0");
-                            kk = new SpannableString(dam > 1 ? df.format(dam) + "k" : (int) (dam * 1000) + "");
-                            kk.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.win)), 0, kk.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            t.append(kk);
-                            t.append("/");
-                            dd = new SpannableString(dam_t >= 1 ? df.format(dam_t) + "k" : (int) (dam_t * 1000) + "");
-                            dd.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.lose)), 0, dd.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            t.append(dd);
-                            contents1.add(new Content(false, t));
-                        }
-                    }
-                    contents.addAll(contents1);
-                    for (Match.PPlayer p : match.getPlayers()) {
-                        CastHeader castHeader = new CastHeader(getContext().getResources().getColor(Tools.getResId("slot_" + p.getPlayer_slot(), R.color.class)),
-                                p.getName() != null ? p.getName() : p.getPersonaname() == null || p.getPersonaname().equals("") ? getContext().getResources().getString(R.string.anonymous) : p.getPersonaname(),
-                                PLAYER_HEADER_DAMAGE, p.getHero_id(), p.getHero_damage(), 0);
-                        casts.add(castHeader);
-                        casts.add(new Cast(getContext().getResources().getColor(R.color.win), getContext().getResources().getString(R.string.damage_dealt), HEADER));
-                        for (Map.Entry<String, Integer> entry : p.getDamage_inflictor().entrySet()) {
-                            if (entry.getKey().equals("null")) {
-                                casts.add(new Cast(entry.getValue(), "default_attack", ABILITY));
+                            if (!f) {
+                                Item item = MainActivity.items.get(entry.getKey());
+                                casts.add(new Cast(entry.getValue(), item.getId() + "", ITEM));
                                 if (p.getDamage_targets() != null) {
                                     casts.add(new Cast(0, "", ARROW));
                                     int i = 0;
@@ -208,66 +238,33 @@ public class DetailFragment extends Fragment {
                                     }
                                     casts.add(new Cast(0, "", ENTER));
                                 }
-                            } else {
-                                boolean f = false;
-                                for (Map.Entry<String, String> entry1 : MainActivity.ability_ids.entrySet()) {
-                                    if (entry1.getValue().equals(entry.getKey())) {
-                                        casts.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY));
-                                        if (p.getDamage_targets() != null) {
-                                            casts.add(new Cast(0, "", ARROW));
-                                            int i = 0;
-                                            for (Map.Entry<String, Integer> entry2 : p.getDamage_targets().get(entry.getKey()).entrySet()) {
-                                                if (i == 8) casts.add(new Cast(0, "", ENTER));
-                                                casts.add(new Cast(entry2.getValue(), "hero_" + MainActivity.heroes.get(entry2.getKey()).getId() + "_icon", HERO1));
-                                                i++;
-                                            }
-                                            casts.add(new Cast(0, "", ENTER));
-                                        }
-                                        f = true;
-                                        break;
-                                    }
-                                }
-                                if (!f) {
-                                    Item item = MainActivity.items.get(entry.getKey());
-                                    casts.add(new Cast(entry.getValue(), item.getId() + "", ITEM));
-                                    if (p.getDamage_targets() != null) {
-                                        casts.add(new Cast(0, "", ARROW));
-                                        int i = 0;
-                                        for (Map.Entry<String, Integer> entry1 : p.getDamage_targets().get(entry.getKey()).entrySet()) {
-                                            if (i == 8) casts.add(new Cast(0, "", ENTER));
-                                            casts.add(new Cast(entry1.getValue(), "hero_" + MainActivity.heroes.get(entry1.getKey()).getId() + "_icon", HERO1));
-                                            i++;
-                                        }
-                                        casts.add(new Cast(0, "", ENTER));
-                                    }
-                                }
                             }
                         }
-                        int d_t = 0;
-                        casts.add(new Cast(getContext().getResources().getColor(R.color.lose), getContext().getResources().getString(R.string.damage_taken), HEADER));
-                        for (Map.Entry<String, Integer> entry : p.getDamage_inflictor_received().entrySet()) {
-                            d_t += entry.getValue();
-                            if (entry.getKey().equals("null")) {
-                                casts.add(new Cast(entry.getValue(), "default_attack", ABILITY));
-                            } else {
-                                boolean f = false;
-                                for (Map.Entry<String, String> entry1 : MainActivity.ability_ids.entrySet()) {
-                                    if (entry1.getValue().equals(entry.getKey())) {
-                                        casts.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY));
-                                        f = true;
-                                        break;
-                                    }
-                                }
-                                if (!f) {
-                                    Item item = MainActivity.items.get(entry.getKey());
-                                    casts.add(new Cast(entry.getValue(), item.getId() + "", ITEM));
-                                }
-                            }
-                        }
-                        castHeader.setDamage_in(d_t);
                     }
-                    handler.sendMessage(new Message());
+                    int d_t = 0;
+                    casts.add(new Cast(getContext().getResources().getColor(R.color.lose), getContext().getResources().getString(R.string.damage_taken), HEADER));
+                    for (Map.Entry<String, Integer> entry : p.getDamage_inflictor_received().entrySet()) {
+                        d_t += entry.getValue();
+                        if (entry.getKey().equals("null")) {
+                            casts.add(new Cast(entry.getValue(), "default_attack", ABILITY));
+                        } else {
+                            boolean f = false;
+                            for (Map.Entry<String, String> entry1 : MainActivity.ability_ids.entrySet()) {
+                                if (entry1.getValue().equals(entry.getKey())) {
+                                    casts.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY));
+                                    f = true;
+                                    break;
+                                }
+                            }
+                            if (!f) {
+                                Item item = MainActivity.items.get(entry.getKey());
+                                casts.add(new Cast(entry.getValue(), item.getId() + "", ITEM));
+                            }
+                        }
+                    }
+                    castHeader.setDamage_in(d_t);
                 }
+                handler.sendMessage(new Message());
             }).start();
         }
         return view;

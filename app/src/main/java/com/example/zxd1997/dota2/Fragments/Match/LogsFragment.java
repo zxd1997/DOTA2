@@ -26,7 +26,6 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -39,14 +38,13 @@ public class LogsFragment extends Fragment {
     private final List<Match.Objective> logs = new ArrayList<>();
     private final List<Match.Objective> current_logs = new ArrayList<>();
     private final static int LOAD = 0;
-    CheckBox building;
-    CheckBox rune;
-    CheckBox combats;
-    CheckBox other;
-    LogAdapter logAdapter;
+    private CheckBox building;
+    private CheckBox rune;
+    private CheckBox combats;
+    private CheckBox other;
+    private LogAdapter logAdapter;
     private View view;
-    private RecyclerView recyclerView;
-    boolean update = true;
+    private boolean update = true;
     private final Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -61,7 +59,7 @@ public class LogsFragment extends Fragment {
                     combats.setOnCheckedChangeListener(checkedListener);
                     other = view.findViewById(R.id.chk_other);
                     other.setOnCheckedChangeListener(checkedListener);
-                    recyclerView = view.findViewById(R.id.logs);
+                    RecyclerView recyclerView = view.findViewById(R.id.logs);
                     recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                         @Override
                         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -108,104 +106,96 @@ public class LogsFragment extends Fragment {
             Objects.requireNonNull(getActivity()).startActivity(intent);
             getActivity().finish();
         } else {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    for (Match.Objective chat : match.getChat()) {
-                        if (!"chatwheel".equals(chat.getType())) {
-                            if (chat.getSlot() < 10) {
-                                Match.PPlayer p = match.getPlayers().get(chat.getSlot());
-                                chat.setHero_id("hero_" + p.getHero_id());
-                                chat.setName(p.getName() != null ? p.getName() : p.getPersonaname() == null || p.getPersonaname().equals("") ? Objects.requireNonNull(getContext()).getResources().getString(R.string.anonymous) : p.getPersonaname());
-                                logs.add(chat);
-                            } else {
-                                if (chat.getSlot() == 10)
-                                    chat.setHero_id("radiant_logo");
-                                else chat.setHero_id("dire_logo");
-                                chat.setName(getString(R.string.spectator) + chat.getUnit());
-                                logs.add(chat);
-                            }
+            new Thread(() -> {
+                for (Match.Objective chat : match.getChat()) {
+                    if (!"chatwheel".equals(chat.getType())) {
+                        if (chat.getSlot() < 10) {
+                            Match.PPlayer p = match.getPlayers().get(chat.getSlot());
+                            chat.setHero_id("hero_" + p.getHero_id());
+                            chat.setName(p.getName() != null ? p.getName() : p.getPersonaname() == null || p.getPersonaname().equals("") ? Objects.requireNonNull(getContext()).getResources().getString(R.string.anonymous) : p.getPersonaname());
+                            logs.add(chat);
+                        } else {
+                            if (chat.getSlot() == 10)
+                                chat.setHero_id("radiant_logo");
+                            else chat.setHero_id("dire_logo");
+                            chat.setName(getString(R.string.spectator) + chat.getUnit());
+                            logs.add(chat);
                         }
                     }
-                    for (Match.TeamFight teamFight : match.getTeamfights()) {
-                        teamFight.setTime(teamFight.getStart());
-                        teamFight.setType("team_fight");
-                        int i = 0;
-                        for (Match.TeamFight.TeamFightPlayer p : teamFight.getPlayers()) {
-                            Match.PPlayer pPlayer = match.getPlayers().get(i);
-                            i++;
-                            p.setPlayer_slot(pPlayer.getPlayer_slot());
-                            p.setHero_id("hero_" + pPlayer.getHero_id());
-                            p.setPersonaname(pPlayer.getName() != null ? pPlayer.getName() : pPlayer.getPersonaname() == null || pPlayer.getPersonaname().equals("") ? getContext().getResources().getString(R.string.anonymous) : pPlayer.getPersonaname());
-                        }
-                        logs.add(teamFight);
+                }
+                for (Match.TeamFight teamFight : match.getTeamfights()) {
+                    teamFight.setTime(teamFight.getStart());
+                    teamFight.setType("team_fight");
+                    int i = 0;
+                    for (Match.TeamFight.TeamFightPlayer p : teamFight.getPlayers()) {
+                        Match.PPlayer pPlayer = match.getPlayers().get(i);
+                        i++;
+                        p.setPlayer_slot(pPlayer.getPlayer_slot());
+                        p.setHero_id("hero_" + pPlayer.getHero_id());
+                        p.setPersonaname(pPlayer.getName() != null ? pPlayer.getName() : pPlayer.getPersonaname() == null || pPlayer.getPersonaname().equals("") ? getContext().getResources().getString(R.string.anonymous) : pPlayer.getPersonaname());
                     }
-                    for (Match.Objective o : match.getObjectives()) {
-                        if (o.getTeam() == 2) {
+                    logs.add(teamFight);
+                }
+                for (Match.Objective o : match.getObjectives()) {
+                    if (o.getTeam() == 2) {
+                        o.setName(Objects.requireNonNull(getContext()).getString(R.string.radiant));
+                        o.setHero_id("radiant_logo");
+                        o.setPlayer_slot(5);
+                        logs.add(o);
+                        continue;
+                    } else if (o.getTeam() == 3) {
+                        o.setName(Objects.requireNonNull(getContext()).getString(R.string.dire));
+                        o.setHero_id("dire_logo");
+                        o.setPlayer_slot(6);
+                        logs.add(o);
+                        continue;
+                    }
+                    if (o.getUnit() != null) {
+                        if (o.getUnit().contains("goodguys")) {
                             o.setName(Objects.requireNonNull(getContext()).getString(R.string.radiant));
                             o.setHero_id("radiant_logo");
                             o.setPlayer_slot(5);
                             logs.add(o);
                             continue;
-                        } else if (o.getTeam() == 3) {
+                        } else if (o.getUnit().contains("badguys")) {
                             o.setName(Objects.requireNonNull(getContext()).getString(R.string.dire));
                             o.setHero_id("dire_logo");
                             o.setPlayer_slot(6);
                             logs.add(o);
                             continue;
                         }
-                        if (o.getUnit() != null) {
-                            if (o.getUnit().contains("goodguys")) {
-                                o.setName(Objects.requireNonNull(getContext()).getString(R.string.radiant));
-                                o.setHero_id("radiant_logo");
-                                o.setPlayer_slot(5);
-                                logs.add(o);
-                                continue;
-                            } else if (o.getUnit().contains("badguys")) {
-                                o.setName(Objects.requireNonNull(getContext()).getString(R.string.dire));
-                                o.setHero_id("dire_logo");
-                                o.setPlayer_slot(6);
-                                logs.add(o);
-                                continue;
-                            }
-                        }
-                        Match.PPlayer p = match.getPlayers().get(o.getSlot());
-                        o.setName(p.getName() != null ? p.getName() : p.getPersonaname() == null || p.getPersonaname().equals("") ? getContext().getResources().getString(R.string.anonymous) : p.getPersonaname());
-                        o.setHero_id("hero_" + p.getHero_id());
-                        logs.add(o);
                     }
-                    for (Match.PPlayer p : match.getPlayers()) {
-                        for (Match.Objective rune : p.getRunes_log()) {
-                            rune.setType("rune_pickup");
-                            rune.setHero_id("hero_" + p.getHero_id());
-                            rune.setName(p.getName() != null ? p.getName() : p.getPersonaname() == null || p.getPersonaname().equals("") ? getContext().getResources().getString(R.string.anonymous) : p.getPersonaname());
-                            rune.setPlayer_slot(p.getPlayer_slot());
-                            logs.add(rune);
-                        }
-                        for (Match.Objective kill : p.getKills_log()) {
-                            kill.setType("kill");
-                            kill.setName(p.getName() != null ? p.getName() : p.getPersonaname() == null || p.getPersonaname().equals("") ? getContext().getResources().getString(R.string.anonymous) : p.getPersonaname());
-                            kill.setHero_id("hero_" + p.getHero_id());
-                            kill.setPlayer_slot(p.getPlayer_slot());
-                            logs.add(kill);
-                        }
-                        for (Match.Objective buyback : p.getBuyback_log()) {
-                            buyback.setName(p.getName() != null ? p.getName() : p.getPersonaname() == null || p.getPersonaname().equals("") ? getContext().getResources().getString(R.string.anonymous) : p.getPersonaname());
-                            buyback.setHero_id("hero_" + p.getHero_id());
-                            logs.add(buyback);
-                        }
-                    }
-                    Collections.sort(logs, new Comparator<Match.Objective>() {
-                        @Override
-                        public int compare(Match.Objective o1, Match.Objective o2) {
-                            return o1.getTime() - o2.getTime();
-                        }
-                    });
-                    current_logs.addAll(logs);
-                    Message message = new Message();
-                    message.what = LOAD;
-                    handler.sendMessage(new Message());
+                    Match.PPlayer p = match.getPlayers().get(o.getSlot());
+                    o.setName(p.getName() != null ? p.getName() : p.getPersonaname() == null || p.getPersonaname().equals("") ? getContext().getResources().getString(R.string.anonymous) : p.getPersonaname());
+                    o.setHero_id("hero_" + p.getHero_id());
+                    logs.add(o);
                 }
+                for (Match.PPlayer p : match.getPlayers()) {
+                    for (Match.Objective rune : p.getRunes_log()) {
+                        rune.setType("rune_pickup");
+                        rune.setHero_id("hero_" + p.getHero_id());
+                        rune.setName(p.getName() != null ? p.getName() : p.getPersonaname() == null || p.getPersonaname().equals("") ? getContext().getResources().getString(R.string.anonymous) : p.getPersonaname());
+                        rune.setPlayer_slot(p.getPlayer_slot());
+                        logs.add(rune);
+                    }
+                    for (Match.Objective kill : p.getKills_log()) {
+                        kill.setType("kill");
+                        kill.setName(p.getName() != null ? p.getName() : p.getPersonaname() == null || p.getPersonaname().equals("") ? getContext().getResources().getString(R.string.anonymous) : p.getPersonaname());
+                        kill.setHero_id("hero_" + p.getHero_id());
+                        kill.setPlayer_slot(p.getPlayer_slot());
+                        logs.add(kill);
+                    }
+                    for (Match.Objective buyback : p.getBuyback_log()) {
+                        buyback.setName(p.getName() != null ? p.getName() : p.getPersonaname() == null || p.getPersonaname().equals("") ? getContext().getResources().getString(R.string.anonymous) : p.getPersonaname());
+                        buyback.setHero_id("hero_" + p.getHero_id());
+                        logs.add(buyback);
+                    }
+                }
+                Collections.sort(logs, (o1, o2) -> o1.getTime() - o2.getTime());
+                current_logs.addAll(logs);
+                Message message = new Message();
+                message.what = LOAD;
+                handler.sendMessage(new Message());
             }).start();
         }
         return view;
@@ -222,23 +212,21 @@ public class LogsFragment extends Fragment {
     class CheckedListener implements CheckBox.OnCheckedChangeListener {
         @Override
         public void onCheckedChanged(final CompoundButton buttonView, boolean isChecked) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    boolean f = true;
-                    while (!update) {
-                        if (getActivity() == null) {
-                            f = false;
-                            break;
-                        }
+            new Thread(() -> {
+                boolean f = true;
+                while (!update) {
+                    if (getActivity() == null) {
+                        f = false;
+                        break;
                     }
-                    if (f) {
-                        current_logs.clear();
-                        for (int i = 0; i < logs.size(); i++) {
-                            Match.Objective o = logs.get(i);
-                            final int t = i;
-                            switch (o.getType()) {
-                                case "kill": {
+                }
+                if (f) {
+                    current_logs.clear();
+                    for (int i = 0; i < logs.size(); i++) {
+                        Match.Objective o = logs.get(i);
+//                            final int t = i;
+                        switch (o.getType()) {
+                            case "kill": {
 //                                if (buttonView.getId() == R.id.chk_kill)
 //                                    view.post(new Runnable() {
 //                                        @Override
@@ -247,11 +235,11 @@ public class LogsFragment extends Fragment {
 //                                                ((LogAdapter.ViewHolder) recyclerView.getChildViewHolder(recyclerView.getChildAt(t))).setVisibility(buttonView.isChecked());
 //                                        }
 //                                    });
-                                    if (combats.isChecked())
-                                        current_logs.add(o);
-                                    break;
-                                }
-                                case "buyback_log": {
+                                if (combats.isChecked())
+                                    current_logs.add(o);
+                                break;
+                            }
+                            case "buyback_log": {
 //                                if (buttonView.getId() == R.id.chk_kill)
 //                                    view.post(new Runnable() {
 //                                        @Override
@@ -260,11 +248,11 @@ public class LogsFragment extends Fragment {
 //                                                ((LogAdapter.ViewHolderNotKill) recyclerView.getChildViewHolder(recyclerView.getChildAt(t))).setVisibility(buttonView.isChecked());
 //                                        }
 //                                    });
-                                    if (combats.isChecked())
-                                        current_logs.add(o);
-                                    break;
-                                }
-                                case "building_kill": {
+                                if (combats.isChecked())
+                                    current_logs.add(o);
+                                break;
+                            }
+                            case "building_kill": {
 //                                if (buttonView.getId() == R.id.chk_buildings)
 //                                    view.post(new Runnable() {
 //                                        @Override
@@ -273,11 +261,11 @@ public class LogsFragment extends Fragment {
 //                                                ((LogAdapter.ViewHolder) recyclerView.getChildViewHolder(recyclerView.getChildAt(t))).setVisibility(buttonView.isChecked());
 //                                        }
 //                                    });
-                                    if (building.isChecked())
-                                        current_logs.add(o);
-                                    break;
-                                }
-                                case "CHAT_MESSAGE_COURIER_LOST": {
+                                if (building.isChecked())
+                                    current_logs.add(o);
+                                break;
+                            }
+                            case "CHAT_MESSAGE_COURIER_LOST": {
 //                                if (buttonView.getId() == R.id.chk_other)
 //                                    view.post(new Runnable() {
 //                                        @Override
@@ -286,11 +274,11 @@ public class LogsFragment extends Fragment {
 //                                                ((LogAdapter.ViewHolder) recyclerView.getChildViewHolder(recyclerView.getChildAt(t))).setVisibility(buttonView.isChecked());
 //                                        }
 //                                    });
-                                    if (other.isChecked())
-                                        current_logs.add(o);
-                                    break;
-                                }
-                                case "rune_pickup": {
+                                if (other.isChecked())
+                                    current_logs.add(o);
+                                break;
+                            }
+                            case "rune_pickup": {
 //                                if (buttonView.getId() == R.id.chk_rune)
 //                                    view.post(new Runnable() {
 //                                        @Override
@@ -299,11 +287,11 @@ public class LogsFragment extends Fragment {
 //                                                ((LogAdapter.ViewHolderNotKill) recyclerView.getChildViewHolder(recyclerView.getChildAt(t))).setVisibility(buttonView.isChecked());
 //                                        }
 //                                    });
-                                    if (rune.isChecked())
-                                        current_logs.add(o);
-                                    break;
-                                }
-                                case "CHAT_MESSAGE_ROSHAN_KILL": {
+                                if (rune.isChecked())
+                                    current_logs.add(o);
+                                break;
+                            }
+                            case "CHAT_MESSAGE_ROSHAN_KILL": {
 //                                if (buttonView.getId() == R.id.chk_other)
 //                                    view.post(new Runnable() {
 //                                        @Override
@@ -312,11 +300,11 @@ public class LogsFragment extends Fragment {
 //                                                ((LogAdapter.ViewHolder) recyclerView.getChildViewHolder(recyclerView.getChildAt(t))).setVisibility(buttonView.isChecked());
 //                                        }
 //                                    });
-                                    if (other.isChecked())
-                                        current_logs.add(o);
-                                    break;
-                                }
-                                case "CHAT_MESSAGE_FIRSTBLOOD": {
+                                if (other.isChecked())
+                                    current_logs.add(o);
+                                break;
+                            }
+                            case "CHAT_MESSAGE_FIRSTBLOOD": {
 //                                if (buttonView.getId() == R.id.chk_kill)
 //                                    view.post(new Runnable() {
 //                                        @Override
@@ -325,11 +313,11 @@ public class LogsFragment extends Fragment {
 //                                                ((LogAdapter.ViewHolderNotKill) recyclerView.getChildViewHolder(recyclerView.getChildAt(t))).setVisibility(buttonView.isChecked());
 //                                        }
 //                                    });
-                                    if (combats.isChecked())
-                                        current_logs.add(o);
-                                    break;
-                                }
-                                case "CHAT_MESSAGE_AEGIS": {
+                                if (combats.isChecked())
+                                    current_logs.add(o);
+                                break;
+                            }
+                            case "CHAT_MESSAGE_AEGIS": {
 //                                if (buttonView.getId() == R.id.chk_other)
 //                                    view.post(new Runnable() {
 //                                        @Override
@@ -338,12 +326,12 @@ public class LogsFragment extends Fragment {
 //                                                ((LogAdapter.ViewHolderNotKill) recyclerView.getChildViewHolder(recyclerView.getChildAt(t))).setVisibility(buttonView.isChecked());
 //                                        }
 //                                    });
-                                    if (other.isChecked())
-                                        current_logs.add(o);
-                                    break;
-                                }
-                                case "chat": {
-                                    if (other.isChecked())
+                                if (other.isChecked())
+                                    current_logs.add(o);
+                                break;
+                            }
+                            case "chat": {
+                                if (other.isChecked())
 //                                    view.post(new Runnable() {
 //                                        @Override
 //                                        public void run() {
@@ -351,22 +339,16 @@ public class LogsFragment extends Fragment {
 //                                                ((LogAdapter.ViewHolderNotKill) recyclerView.getChildViewHolder(recyclerView.getChildAt(t))).setVisibility(buttonView.isChecked());
 //                                        }
 //                                    });
-                                        current_logs.add(o);
-                                    break;
-                                }
-                                default: {
                                     current_logs.add(o);
-                                    break;
-                                }
+                                break;
+                            }
+                            default: {
+                                current_logs.add(o);
+                                break;
                             }
                         }
-                        view.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                logAdapter.notifyDataSetChanged();
-                            }
-                        });
                     }
+                    view.post(() -> logAdapter.notifyDataSetChanged());
                 }
             }).start();
         }

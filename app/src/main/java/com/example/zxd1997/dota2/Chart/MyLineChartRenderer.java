@@ -10,7 +10,6 @@ import android.graphics.PorterDuff;
 import android.graphics.Rect;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import lecho.lib.hellocharts.model.Line;
@@ -424,12 +423,7 @@ public class MyLineChartRenderer extends AbstractChartRenderer {
         preTop = 0;
 
 //        Log.d("label", "highlightPoints: " + chart.getMaximumViewport().centerY());
-        Collections.sort(lines, new Comparator<Line>() {
-            @Override
-            public int compare(Line o1, Line o2) {
-                return (int) ((o2.getValues().get(valueIndex).getY() - o1.getValues().get(valueIndex).getY()) * 1000);
-            }
-        });
+        Collections.sort(lines, (o1, o2) -> (int) ((o2.getValues().get(valueIndex).getY() - o1.getValues().get(valueIndex).getY()) * 1000));
         for (Line line : lines) {
 //            Log.d("line", "highlightPoints: " + new String(line.getValues().get(valueIndex).getLabelAsChars()) + " " + line.getValues().get(valueIndex));
             drawPoints(canvas, line, lineIndex, MODE_HIGHLIGHT);

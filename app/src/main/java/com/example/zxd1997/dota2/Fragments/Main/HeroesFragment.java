@@ -12,6 +12,7 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Adapters.HeroesAdapter;
@@ -28,37 +29,34 @@ import java.util.Objects;
 
 public class HeroesFragment extends Fragment {
     private final int HEROSTATS = 42;
-    SparseArray<Hero> heroStats = MainActivity.heroStats;
-    RecyclerView recyclerView;
-    final SparseArray<String> heroes = new SparseArray<String>();
-    View view;
-    HeroesAdapter heroesAdapter;
-    Handler handler = new Handler(new Handler.Callback() {
+    private final SparseArray<Hero> heroStats = MainActivity.heroStats;
+    private final SparseArray<String> heroes = new SparseArray<>();
+    private RecyclerView recyclerView;
+    private View view;
+    private HeroesAdapter heroesAdapter;
+    private final Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            switch (msg.what) {
+            if (msg.obj.toString().contains("rate limit exceeded")) {
+                Toast.makeText(getContext(), R.string.api_rate, Toast.LENGTH_LONG).show();
+            } else
+                switch (msg.what) {
                 case HEROSTATS: {
                     final String json = msg.obj.toString();
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            TypedArray typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.heroes);
-                            JsonParser parser = new JsonParser();
-                            JsonArray jsonArray = parser.parse(json).getAsJsonArray();
-                            for (JsonElement e : jsonArray) {
-                                Hero hero = new Gson().fromJson(e, Hero.class);
-                                heroStats.append(hero.getId(), hero);
-                                heroes.append(hero.getId(), typedArray.getString(hero.getId()));
-                            }
-                            typedArray.recycle();
-                            view.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    heroesAdapter.notifyDataSetChanged();
-                                    recyclerView.setVisibility(View.VISIBLE);
-                                }
-                            });
+                    new Thread(() -> {
+                        TypedArray typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.heroes);
+                        JsonParser parser = new JsonParser();
+                        JsonArray jsonArray = parser.parse(json).getAsJsonArray();
+                        for (JsonElement e : jsonArray) {
+                            Hero hero = new Gson().fromJson(e, Hero.class);
+                            heroStats.append(hero.getId(), hero);
+                            heroes.append(hero.getId(), typedArray.getString(hero.getId()));
                         }
+                        typedArray.recycle();
+                        view.post(() -> {
+                            heroesAdapter.notifyDataSetChanged();
+                            recyclerView.setVisibility(View.VISIBLE);
+                        });
                     }).start();
 //                    for (int i=0;i<heroStats.size();i++){
 //                        Log.d(TAG, "handleMessage: "+heroStats.keyAt(i)+" "+heroStats.valueAt(i).getLocalized_name());

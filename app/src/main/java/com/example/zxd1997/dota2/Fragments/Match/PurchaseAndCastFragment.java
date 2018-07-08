@@ -101,36 +101,33 @@ public class PurchaseAndCastFragment extends Fragment {
                     else Fresco.getImagePipeline().pause();
                 }
             });
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    for (Match.PPlayer p : match.getPlayers()) {
-                        casts.add(new CastHeader(Objects.requireNonNull(getContext()).getResources().getColor(
-                                Tools.getResId("slot_" + p.getPlayer_slot(), R.color.class)),
-                                p.getPersonaname(), PLAYER_HEADER, p.getHero_id(), p.getTotal_gold(), p.getGold_spent()));
-                        casts.add(new Cast(getContext().getResources().getColor(R.color.win), getContext().getResources().getString(R.string.item_purchase), HEADER));
-                        for (Match.Objective purchase : p.getPurchase_log()) {
-                            if (purchase.getKey().equals("tpscroll") || purchase.getKey().equals("ward_observer") || purchase.getKey().equals("ward_sentry"))
-                                continue;
-                            Item item = MainActivity.items.get(purchase.getKey());
-                            casts.add(new Cast(purchase.getTime(), item.getId() + "", PURCHASE));
-                        }
-                        casts.add(new Cast(getContext().getResources().getColor(R.color.lose), getContext().getResources().getString(R.string.cast), HEADER));
-                        for (Map.Entry<String, Integer> entry : p.getAbility_uses().entrySet()) {
-                            for (Map.Entry<String, String> entry1 : MainActivity.ability_ids.entrySet()) {
-                                if (entry1.getValue().equals(entry.getKey())) {
-                                    casts.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY));
-                                    break;
-                                }
+            new Thread(() -> {
+                for (Match.PPlayer p : match.getPlayers()) {
+                    casts.add(new CastHeader(Objects.requireNonNull(getContext()).getResources().getColor(
+                            Tools.getResId("slot_" + p.getPlayer_slot(), R.color.class)),
+                            p.getPersonaname(), PLAYER_HEADER, p.getHero_id(), p.getTotal_gold(), p.getGold_spent()));
+                    casts.add(new Cast(getContext().getResources().getColor(R.color.win), getContext().getResources().getString(R.string.item_purchase), HEADER));
+                    for (Match.Objective purchase : p.getPurchase_log()) {
+                        if (purchase.getKey().equals("tpscroll") || purchase.getKey().equals("ward_observer") || purchase.getKey().equals("ward_sentry"))
+                            continue;
+                        Item item = MainActivity.items.get(purchase.getKey());
+                        casts.add(new Cast(purchase.getTime(), item.getId() + "", PURCHASE));
+                    }
+                    casts.add(new Cast(getContext().getResources().getColor(R.color.lose), getContext().getResources().getString(R.string.cast), HEADER));
+                    for (Map.Entry<String, Integer> entry : p.getAbility_uses().entrySet()) {
+                        for (Map.Entry<String, String> entry1 : MainActivity.ability_ids.entrySet()) {
+                            if (entry1.getValue().equals(entry.getKey())) {
+                                casts.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY));
+                                break;
                             }
                         }
-                        for (Map.Entry<String, Integer> entry : p.getItem_uses().entrySet()) {
-                            Item item = MainActivity.items.get(entry.getKey());
-                            casts.add(new Cast(entry.getValue(), item.getId() + "", ITEM));
-                        }
                     }
-                    handler.sendMessage(new Message());
+                    for (Map.Entry<String, Integer> entry : p.getItem_uses().entrySet()) {
+                        Item item = MainActivity.items.get(entry.getKey());
+                        casts.add(new Cast(entry.getValue(), item.getId() + "", ITEM));
+                    }
                 }
+                handler.sendMessage(new Message());
             }).start();
         }
         return view;

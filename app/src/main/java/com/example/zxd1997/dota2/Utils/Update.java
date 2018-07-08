@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.util.Map;
 
 public class Update {
-    private static final String TAG = "density";
 
     public static void setDensity(@NonNull Activity activity, @NonNull final Application application) {
         final DisplayMetrics displayMetrics = application.getResources().getDisplayMetrics();

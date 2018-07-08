@@ -41,6 +41,7 @@
                     fresco:placeholderImage="@drawable/logo"
                     fresco:roundedCornerRadius="5dp"
                     fresco:roundingBorderColor="@color/trans_pri_red"
+                    android:transitionName="player"
                     fresco:roundingBorderWidth="2dp" />
 
                 <TextView

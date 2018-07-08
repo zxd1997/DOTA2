@@ -45,26 +45,18 @@ import java.util.regex.Pattern;
 
 public class HeroActivity extends AppCompatActivity {
     private final int PARSE = 1;
-    ProgressBar progressBar;
-    Hero hero;
-    TextView attack;
-    TextView cur_str;
-    TextView cur_agi;
-    TextView cur_int;
-    TextView health;
-    TextView health_regen;
-    TextView mana;
-    TextView mana_regen;
-    TextView text;
-    TextView armor;
-    TextView magic_res;
-    TextView attack_rate;
-    TextView spell_amp;
-    TextView move_speed;
-    TextView level;
-    int id;
-    String name;
-    Handler handler = new Handler(new Handler.Callback() {
+    private ProgressBar progressBar;
+    private Hero hero;
+    private TextView attack;
+    private TextView cur_str;
+    private TextView cur_agi;
+    private TextView cur_int;
+    private TextView health;
+    private TextView health_regen;
+    private TextView mana;
+    private TextView mana_regen;
+    private TextView text;
+    private final Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             Log.d("waht", "handleMessage: " + msg.obj.toString());
@@ -93,6 +85,14 @@ public class HeroActivity extends AppCompatActivity {
             return true;
         }
     });
+    private TextView armor;
+    private TextView magic_res;
+    private TextView attack_rate;
+    private TextView spell_amp;
+    private TextView move_speed;
+    private TextView level;
+    private int id;
+    private String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +105,7 @@ public class HeroActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getWindow().setNavigationBarColor(Color.parseColor("#FFCC0000"));
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Intent intent = getIntent();
         id = intent.getIntExtra("id", 0);
@@ -196,7 +196,7 @@ public class HeroActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
     }
 
-    public void setLevel(int level) {
+    private void setLevel(int level) {
         Log.d("lvl", "setLevel: " + level);
         double str = (double) hero.getBase_str() + hero.getStr_gain() * (level - 1);
         double agi = (double) hero.getBase_agi() + hero.getAgi_gain() * (level - 1);

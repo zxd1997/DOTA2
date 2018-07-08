@@ -10,6 +10,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.SharedElementCallback;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.zxd1997.dota2.Adapters.TabFragmentAdapter;
 import com.example.zxd1997.dota2.Beans.Ability;
@@ -31,6 +33,7 @@ import com.example.zxd1997.dota2.Utils.MyApplication;
 import com.example.zxd1997.dota2.Utils.Update;
 import com.facebook.drawee.drawable.ScalingUtils;
 import com.facebook.drawee.view.DraweeTransition;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     public static Map<String, String> ability_ids;
     public static Map<String, Ability> abilities;
     public static Map<String, Item> items;
-    public static SparseArray<Hero> heroStats = new SparseArray<>();
+    public static final SparseArray<Hero> heroStats = new SparseArray<>();
     private SharedPreferences sharedPreferences;
     private ProgressDialog pd;
     private final
@@ -90,6 +93,22 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setNavigationBarColor(Color.parseColor("#FFCC0000"));
         getWindow().setSharedElementEnterTransition(DraweeTransition.createTransitionSet(ScalingUtils.ScaleType.CENTER_CROP, ScalingUtils.ScaleType.CENTER_CROP)); // 进入
         getWindow().setSharedElementReturnTransition(DraweeTransition.createTransitionSet(ScalingUtils.ScaleType.CENTER_CROP, ScalingUtils.ScaleType.CENTER_CROP)); // 返回
+        setExitSharedElementCallback(new SharedElementCallback() {
+            @Override
+            public void onSharedElementEnd(List<String> names,
+                                           List<View> elements,
+                                           List<View> snapshots) {
+                super.onSharedElementEnd(names, elements, snapshots);
+                for (final View view : elements) {
+                    if (view instanceof SimpleDraweeView) {
+                        view.post(() -> {
+                            view.setVisibility(View.VISIBLE);
+                            view.requestLayout();
+                        });
+                    }
+                }
+            }
+        });
         Update.setDensity(this, getApplication());
         MyApplication.add(this);
         setContentView(R.layout.activity_main);

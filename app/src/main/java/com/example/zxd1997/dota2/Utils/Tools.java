@@ -5,8 +5,7 @@ import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
-import android.view.View;
+import android.view.ViewGroup;
 
 import com.example.zxd1997.dota2.R;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -14,7 +13,6 @@ import com.facebook.drawee.controller.BaseControllerListener;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.common.ResizeOptions;
-import com.facebook.imagepipeline.image.ImageInfo;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
@@ -23,11 +21,9 @@ import java.text.DecimalFormat;
 
 public class Tools {
     public static void showImage(Uri uri, SimpleDraweeView simpleDraweeView) {
-        Log.d("syize", "showImage: " + simpleDraweeView.getMeasuredWidth() + " " + simpleDraweeView.getMeasuredHeight());
-        simpleDraweeView.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-        Log.d("syize", "showImage: " + simpleDraweeView.getMeasuredWidth() + " " + simpleDraweeView.getMeasuredHeight());
-        ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri).setResizeOptions(new ResizeOptions(simpleDraweeView.getMeasuredWidth(), simpleDraweeView.getMeasuredHeight())).build();
-        DraweeController controller = Fresco.newDraweeControllerBuilder().setImageRequest(request).setOldController(simpleDraweeView.getController()).setControllerListener(new BaseControllerListener<ImageInfo>()).build();
+        ViewGroup.LayoutParams layoutParams = simpleDraweeView.getLayoutParams();
+        ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri).setResizeOptions(new ResizeOptions(layoutParams.width, layoutParams.height)).build();
+        DraweeController controller = Fresco.newDraweeControllerBuilder().setImageRequest(request).setOldController(simpleDraweeView.getController()).setControllerListener(new BaseControllerListener<>()).build();
         simpleDraweeView.setController(controller);
     }
 

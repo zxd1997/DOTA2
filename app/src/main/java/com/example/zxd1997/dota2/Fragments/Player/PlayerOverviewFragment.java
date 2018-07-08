@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Activities.PlayerActivity;
@@ -46,7 +47,6 @@ import com.google.gson.JsonParser;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -70,9 +70,9 @@ public class PlayerOverviewFragment extends Fragment {
     private final static int WL_FINISH = 16;
     private final static int TOTAL_FINISH = 17;
     private final static int RECORD_FINISH = 18;
-    int wl_count = 0;
-    int total_count = 0;
-    int record_count = 0;
+    private final List<MatchHero> records = new ArrayList<>();
+    private int wl_count = 0;
+    private int total_count = 0;
     private final List<Total> totals_full = new ArrayList<>();
     private final List<Total> totals_recent = new ArrayList<>();
     private final DecimalFormat df = new DecimalFormat("0.00");
@@ -93,7 +93,7 @@ public class PlayerOverviewFragment extends Fragment {
     private RecyclerView recyclerView;
     private MatchesAdapter matchesAdapter;
     private TextView avg_kda;
-    private List<MatchHero> records = new ArrayList<>();
+    private int record_count = 0;
 
     public PlayerOverviewFragment() {
 
@@ -102,338 +102,374 @@ public class PlayerOverviewFragment extends Fragment {
     public static PlayerOverviewFragment newInstance() {
         return new PlayerOverviewFragment();
     }
-
     private final Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             if (getContext() != null) {
                 switch (msg.what) {
                     case WL_FULL: {
-                        wl_full = new Gson().fromJson(msg.obj.toString(), WL.class);
-                        wl_full.setWinrate();
-                        wl_count++;
-                        if (wl_count == 2) {
-                            Message message = new Message();
-                            message.what = WL_FINISH;
-                            handler.sendMessage(message);
+                        if (msg.obj.toString().contains("rate limit exceeded")) {
+                            Toast.makeText(getContext(), R.string.api_rate, Toast.LENGTH_LONG).show();
+                        } else {
+                            wl_full = new Gson().fromJson(msg.obj.toString(), WL.class);
+                            wl_full.setWinrate();
+                            wl_count++;
+                            if (wl_count == 2) {
+                                Message message = new Message();
+                                message.what = WL_FINISH;
+                                handler.sendMessage(message);
+                            }
                         }
                         break;
                     }
                     case WL_RECENT: {
-                        wl_recent = new Gson().fromJson(msg.obj.toString(), WL.class);
-                        wl_recent.setWinrate();
-                        wl_count++;
-                        if (wl_count == 2) {
-                            Message message = new Message();
-                            message.what = WL_FINISH;
-                            handler.sendMessage(message);
+                        if (msg.obj.toString().contains("rate limit exceeded")) {
+                            Toast.makeText(getContext(), R.string.api_rate, Toast.LENGTH_LONG).show();
+                        } else {
+                            wl_recent = new Gson().fromJson(msg.obj.toString(), WL.class);
+                            wl_recent.setWinrate();
+                            wl_count++;
+                            if (wl_count == 2) {
+                                Message message = new Message();
+                                message.what = WL_FINISH;
+                                handler.sendMessage(message);
+                            }
                         }
                         break;
                     }
                     case WL_FINISH: {
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                final SpannableStringBuilder t = new SpannableStringBuilder();
-                                SpannableString rec_win = new SpannableString(wl_recent.getWin() + "");
-                                SpannableString full_win = new SpannableString(wl_full.getWin() + "");
-                                rec_win.setSpan(new ForegroundColorSpan(Objects.requireNonNull(getContext()).getResources().getColor(R.color.win)), 0, rec_win.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                rec_win.setSpan(new RelativeSizeSpan(1.4f), 0, rec_win.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                full_win.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.win)), 0, full_win.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                t.append(rec_win).append("/").append(full_win);
-                                final SpannableStringBuilder t1 = new SpannableStringBuilder();
-                                SpannableString rec_lose = new SpannableString(wl_recent.getLose() + "");
-                                SpannableString full_lose = new SpannableString(wl_full.getLose() + "");
-                                rec_lose.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.lose)), 0, rec_lose.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                rec_lose.setSpan(new RelativeSizeSpan(1.4f), 0, rec_lose.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                full_lose.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.lose)), 0, full_lose.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                t1.append(rec_lose).append("/").append(full_lose);
-                                final SpannableStringBuilder t2 = new SpannableStringBuilder();
-                                SpannableString rec_win_rate = new SpannableString(df.format(wl_recent.getWinrate() * 100) + "%");
-                                SpannableString full_win_rate = new SpannableString(df.format(wl_full.getWinrate() * 100) + "%");
-                                rec_win_rate.setSpan(new RelativeSizeSpan(1.3f), 0, rec_win_rate.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                t2.append(rec_win_rate).append("/").append(full_win_rate);
-                                view.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        win.setText(t);
-                                        total.setText(String.valueOf(wl_full.getWin() + wl_full.getLose()));
-                                        lose.setText(t1);
-                                        win_rate.setText(t2);
-                                    }
-                                });
-                            }
+                        new Thread(() -> {
+                            final SpannableStringBuilder t = new SpannableStringBuilder();
+                            SpannableString rec_win = new SpannableString(wl_recent.getWin() + "");
+                            SpannableString full_win = new SpannableString(wl_full.getWin() + "");
+                            rec_win.setSpan(new ForegroundColorSpan(Objects.requireNonNull(getContext()).getResources().getColor(R.color.win)), 0, rec_win.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            rec_win.setSpan(new RelativeSizeSpan(1.4f), 0, rec_win.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            full_win.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.win)), 0, full_win.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            t.append(rec_win).append("/").append(full_win);
+                            final SpannableStringBuilder t1 = new SpannableStringBuilder();
+                            SpannableString rec_lose = new SpannableString(wl_recent.getLose() + "");
+                            SpannableString full_lose = new SpannableString(wl_full.getLose() + "");
+                            rec_lose.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.lose)), 0, rec_lose.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            rec_lose.setSpan(new RelativeSizeSpan(1.4f), 0, rec_lose.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            full_lose.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.lose)), 0, full_lose.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            t1.append(rec_lose).append("/").append(full_lose);
+                            final SpannableStringBuilder t2 = new SpannableStringBuilder();
+                            SpannableString rec_win_rate = new SpannableString(df.format(wl_recent.getWinrate() * 100) + "%");
+                            SpannableString full_win_rate = new SpannableString(df.format(wl_full.getWinrate() * 100) + "%");
+                            rec_win_rate.setSpan(new RelativeSizeSpan(1.3f), 0, rec_win_rate.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            t2.append(rec_win_rate).append("/").append(full_win_rate);
+                            view.post(() -> {
+                                win.setText(t);
+                                total.setText(String.valueOf(wl_full.getWin() + wl_full.getLose()));
+                                lose.setText(t1);
+                                win_rate.setText(t2);
+                            });
                         }).start();
                         break;
                     }
                     case TOTAL_FULL: {
-                        JsonParser parser = new JsonParser();
-                        JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
-                        for (JsonElement e : jsonArray) {
-                            Total total = new Gson().fromJson(e, Total.class);
-                            totals_full.add(total);
-                        }
-                        total_count++;
-                        if (total_count == 2) {
-                            Message message = new Message();
-                            message.what = TOTAL_FINISH;
-                            handler.sendMessage(message);
+                        if (msg.obj.toString().contains("rate limit exceeded")) {
+                            Toast.makeText(getContext(), R.string.api_rate, Toast.LENGTH_LONG).show();
+                        } else {
+                            JsonParser parser = new JsonParser();
+                            JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
+                            for (JsonElement e : jsonArray) {
+                                Total total = new Gson().fromJson(e, Total.class);
+                                totals_full.add(total);
+                            }
+                            total_count++;
+                            if (total_count == 2) {
+                                Message message = new Message();
+                                message.what = TOTAL_FINISH;
+                                handler.sendMessage(message);
+                            }
                         }
                         break;
                     }
                     case TOTAL_RECENT: {
-                        JsonParser parser = new JsonParser();
-                        JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
-                        for (JsonElement e : jsonArray) {
-                            Total total = new Gson().fromJson(e, Total.class);
-                            totals_recent.add(total);
-                        }
-                        total_count++;
-                        if (total_count == 2) {
-                            Message message = new Message();
-                            message.what = TOTAL_FINISH;
-                            handler.sendMessage(message);
+                        if (msg.obj.toString().contains("rate limit exceeded")) {
+                            Toast.makeText(getContext(), R.string.api_rate, Toast.LENGTH_LONG).show();
+                        } else {
+                            JsonParser parser = new JsonParser();
+                            JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
+                            for (JsonElement e : jsonArray) {
+                                Total total = new Gson().fromJson(e, Total.class);
+                                totals_recent.add(total);
+                            }
+                            total_count++;
+                            if (total_count == 2) {
+                                Message message = new Message();
+                                message.what = TOTAL_FINISH;
+                                handler.sendMessage(message);
+                            }
                         }
                         break;
                     }
                     case TOTAL_FINISH: {
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                final SpannableStringBuilder t = new SpannableStringBuilder();
-                                SpannableString rec_kda = new SpannableString(df.format((float) totals_recent.get(3).getSum() / totals_recent.get(3).getN()) + "");
-                                SpannableString full_kda = new SpannableString(df.format((float) totals_full.get(3).getSum() / totals_full.get(3).getN()) + "");
-                                rec_kda.setSpan(new RelativeSizeSpan(1.4f), 0, rec_kda.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                t.append(rec_kda).append("/").append(full_kda);
-                                final SpannableStringBuilder t1 = new SpannableStringBuilder();
-                                SpannableString rec_damage = new SpannableString(df.format((float) totals_recent.get(11).getSum() / totals_recent.get(11).getN() / 1000) + "k");
-                                SpannableString full_damage = new SpannableString(df.format((float) totals_full.get(11).getSum() / totals_full.get(11).getN() / 1000) + "k");
-                                rec_damage.setSpan(new RelativeSizeSpan(1.3f), 0, rec_damage.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                t1.append(rec_damage).append("/").append(full_damage);
-                                final SpannableStringBuilder t2 = new SpannableStringBuilder();
-                                SpannableString rec_gpm = new SpannableString(df1.format((float) totals_recent.get(4).getSum() / totals_recent.get(4).getN()));
-                                SpannableString full_gpm = new SpannableString(df1.format((float) totals_full.get(4).getSum() / totals_full.get(4).getN()));
-                                rec_gpm.setSpan(new RelativeSizeSpan(1.3f), 0, rec_gpm.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                t2.append(rec_gpm).append("/").append(full_gpm);
-                                final SpannableStringBuilder t3 = new SpannableStringBuilder();
-                                SpannableString rec_xpm = new SpannableString(df1.format((float) totals_recent.get(5).getSum() / totals_recent.get(5).getN()));
-                                SpannableString full_xpm = new SpannableString(df1.format((float) totals_full.get(5).getSum() / totals_full.get(5).getN()));
-                                rec_xpm.setSpan(new RelativeSizeSpan(1.3f), 0, rec_xpm.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                t3.append(rec_xpm).append("/").append(full_xpm);
-                                final SpannableStringBuilder k_rec = Tools.getavgKDA((float) totals_recent.get(0).getSum() / totals_recent.get(0).getN(), (float) totals_recent.get(1).getSum() / totals_recent.get(1).getN(), (float) totals_recent.get(2).getSum() / totals_recent.get(2).getN());
-                                final SpannableStringBuilder k_total = Tools.getavgKDA((float) totals_full.get(0).getSum() / totals_full.get(0).getN(), (float) totals_full.get(1).getSum() / totals_full.get(1).getN(), (float) totals_full.get(2).getSum() / totals_full.get(2).getN());
-                                view.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        kda.setText(t);
-                                        damage.setText(t1);
-                                        gpm.setText(t2);
-                                        xpm.setText(t3);
-                                        avg_kda.setText(new SpannableStringBuilder().append(k_rec).append("\n").append(k_total));
-                                    }
-                                });
-                            }
+                        new Thread(() -> {
+                            final SpannableStringBuilder t = new SpannableStringBuilder();
+                            SpannableString rec_kda = new SpannableString(df.format((float) totals_recent.get(3).getSum() / totals_recent.get(3).getN()) + "");
+                            SpannableString full_kda = new SpannableString(df.format((float) totals_full.get(3).getSum() / totals_full.get(3).getN()) + "");
+                            rec_kda.setSpan(new RelativeSizeSpan(1.4f), 0, rec_kda.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            t.append(rec_kda).append("/").append(full_kda);
+                            final SpannableStringBuilder t1 = new SpannableStringBuilder();
+                            SpannableString rec_damage = new SpannableString(df.format((float) totals_recent.get(11).getSum() / totals_recent.get(11).getN() / 1000) + "k");
+                            SpannableString full_damage = new SpannableString(df.format((float) totals_full.get(11).getSum() / totals_full.get(11).getN() / 1000) + "k");
+                            rec_damage.setSpan(new RelativeSizeSpan(1.3f), 0, rec_damage.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            t1.append(rec_damage).append("/").append(full_damage);
+                            final SpannableStringBuilder t2 = new SpannableStringBuilder();
+                            SpannableString rec_gpm = new SpannableString(df1.format((float) totals_recent.get(4).getSum() / totals_recent.get(4).getN()));
+                            SpannableString full_gpm = new SpannableString(df1.format((float) totals_full.get(4).getSum() / totals_full.get(4).getN()));
+                            rec_gpm.setSpan(new RelativeSizeSpan(1.3f), 0, rec_gpm.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            t2.append(rec_gpm).append("/").append(full_gpm);
+                            final SpannableStringBuilder t3 = new SpannableStringBuilder();
+                            SpannableString rec_xpm = new SpannableString(df1.format((float) totals_recent.get(5).getSum() / totals_recent.get(5).getN()));
+                            SpannableString full_xpm = new SpannableString(df1.format((float) totals_full.get(5).getSum() / totals_full.get(5).getN()));
+                            rec_xpm.setSpan(new RelativeSizeSpan(1.3f), 0, rec_xpm.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            t3.append(rec_xpm).append("/").append(full_xpm);
+                            final SpannableStringBuilder k_rec = Tools.getavgKDA((float) totals_recent.get(0).getSum() / totals_recent.get(0).getN(), (float) totals_recent.get(1).getSum() / totals_recent.get(1).getN(), (float) totals_recent.get(2).getSum() / totals_recent.get(2).getN());
+                            final SpannableStringBuilder k_total = Tools.getavgKDA((float) totals_full.get(0).getSum() / totals_full.get(0).getN(), (float) totals_full.get(1).getSum() / totals_full.get(1).getN(), (float) totals_full.get(2).getSum() / totals_full.get(2).getN());
+                            view.post(() -> {
+                                kda.setText(t);
+                                damage.setText(t1);
+                                gpm.setText(t2);
+                                xpm.setText(t3);
+                                avg_kda.setText(new SpannableStringBuilder().append(k_rec).append("\n").append(k_total));
+                            });
                         }).start();
                         break;
                     }
                     case RECORD_FINISH: {
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Collections.sort(records, new Comparator<MatchHero>() {
-                                    @Override
-                                    public int compare(MatchHero o1, MatchHero o2) {
-                                        return o1.getNo() - o2.getNo();
-                                    }
-                                });
-                                matchesAdapter = new MatchesAdapter(getContext(), records);
-                                matchesAdapter.setHasfoot(false);
-                                view.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        record.setVisibility(View.VISIBLE);
-                                        recyclerView.setAdapter(matchesAdapter);
-                                        progressBar.setVisibility(View.GONE);
-                                        recyclerView.setVisibility(View.VISIBLE);
-                                    }
-                                });
-                            }
+                        new Thread(() -> {
+                            Collections.sort(records, (o1, o2) -> o1.getNo() - o2.getNo());
+                            matchesAdapter = new MatchesAdapter(getContext(), records);
+                            matchesAdapter.setHasfoot(false);
+                            view.post(() -> {
+                                record.setVisibility(View.VISIBLE);
+                                recyclerView.setAdapter(matchesAdapter);
+                                progressBar.setVisibility(View.GONE);
+                                recyclerView.setVisibility(View.VISIBLE);
+                            });
                         }).start();
                         break;
                     }
                     case KILLS: {
-                        JsonParser parser = new JsonParser();
-                        JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
-                        RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
-                        recentMatch.setType(3);
-                        recentMatch.setTitle(getString(R.string.hightest_kills) + recentMatch.getKills());
-                        recentMatch.setNo(1);
-                        records.add(recentMatch);
-                        record_count++;
-                        if (record_count == 11) {
-                            Message message = new Message();
-                            message.what = RECORD_FINISH;
-                            handler.sendMessage(message);
+                        if (msg.obj.toString().contains("rate limit exceeded")) {
+                            Toast.makeText(getContext(), R.string.api_rate, Toast.LENGTH_LONG).show();
+                        } else {
+                            JsonParser parser = new JsonParser();
+                            JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
+                            RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
+                            recentMatch.setType(3);
+                            recentMatch.setTitle(getString(R.string.hightest_kills) + recentMatch.getKills());
+                            recentMatch.setNo(1);
+                            records.add(recentMatch);
+                            record_count++;
+                            if (record_count == 11) {
+                                Message message = new Message();
+                                message.what = RECORD_FINISH;
+                                handler.sendMessage(message);
+                            }
                         }
                         break;
                     }
                     case DEATHS: {
-                        JsonParser parser = new JsonParser();
-                        JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
-                        RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
-                        recentMatch.setType(3);
-                        recentMatch.setTitle(getString(R.string.highest_death) + recentMatch.getDeaths());
-                        recentMatch.setNo(2);
-                        records.add(recentMatch);
-                        record_count++;
-                        if (record_count == 11) {
-                            Message message = new Message();
-                            message.what = RECORD_FINISH;
-                            handler.sendMessage(message);
+                        if (msg.obj.toString().contains("rate limit exceeded")) {
+                            Toast.makeText(getContext(), R.string.api_rate, Toast.LENGTH_LONG).show();
+                        } else {
+                            JsonParser parser = new JsonParser();
+                            JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
+                            RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
+                            recentMatch.setType(3);
+                            recentMatch.setTitle(getString(R.string.highest_death) + recentMatch.getDeaths());
+                            recentMatch.setNo(2);
+                            records.add(recentMatch);
+                            record_count++;
+                            if (record_count == 11) {
+                                Message message = new Message();
+                                message.what = RECORD_FINISH;
+                                handler.sendMessage(message);
+                            }
                         }
                         break;
                     }
                     case ASSISTS: {
-                        JsonParser parser = new JsonParser();
-                        JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
-                        RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
-                        recentMatch.setType(3);
-                        recentMatch.setTitle(getString(R.string.highest_assists) + recentMatch.getAssists());
-                        recentMatch.setNo(3);
-                        records.add(recentMatch);
-                        record_count++;
-                        if (record_count == 11) {
-                            Message message = new Message();
-                            message.what = RECORD_FINISH;
-                            handler.sendMessage(message);
+                        if (msg.obj.toString().contains("rate limit exceeded")) {
+                            Toast.makeText(getContext(), R.string.api_rate, Toast.LENGTH_LONG).show();
+                        } else {
+                            JsonParser parser = new JsonParser();
+                            JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
+                            RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
+                            recentMatch.setType(3);
+                            recentMatch.setTitle(getString(R.string.highest_assists) + recentMatch.getAssists());
+                            recentMatch.setNo(3);
+                            records.add(recentMatch);
+                            record_count++;
+                            if (record_count == 11) {
+                                Message message = new Message();
+                                message.what = RECORD_FINISH;
+                                handler.sendMessage(message);
+                            }
                         }
                         break;
                     }
                     case GPM: {
-                        JsonParser parser = new JsonParser();
-                        JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
-                        RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
-                        recentMatch.setType(3);
-                        recentMatch.setTitle(getString(R.string.hightest_gpm) + recentMatch.getGold_per_min());
-                        recentMatch.setNo(4);
-                        records.add(recentMatch);
-                        record_count++;
-                        if (record_count == 11) {
-                            Message message = new Message();
-                            message.what = RECORD_FINISH;
-                            handler.sendMessage(message);
+                        if (msg.obj.toString().contains("rate limit exceeded")) {
+                            Toast.makeText(getContext(), R.string.api_rate, Toast.LENGTH_LONG).show();
+                        } else {
+                            JsonParser parser = new JsonParser();
+                            JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
+                            RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
+                            recentMatch.setType(3);
+                            recentMatch.setTitle(getString(R.string.hightest_gpm) + recentMatch.getGold_per_min());
+                            recentMatch.setNo(4);
+                            records.add(recentMatch);
+                            record_count++;
+                            if (record_count == 11) {
+                                Message message = new Message();
+                                message.what = RECORD_FINISH;
+                                handler.sendMessage(message);
+                            }
                         }
                         break;
                     }
                     case XPM: {
-                        JsonParser parser = new JsonParser();
-                        JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
-                        RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
-                        recentMatch.setType(3);
-                        recentMatch.setTitle(getString(R.string.hightest_xpm) + recentMatch.getXp_per_min());
-                        recentMatch.setNo(5);
-                        records.add(recentMatch);
-                        record_count++;
-                        if (record_count == 11) {
-                            Message message = new Message();
-                            message.what = RECORD_FINISH;
-                            handler.sendMessage(message);
+                        if (msg.obj.toString().contains("rate limit exceeded")) {
+                            Toast.makeText(getContext(), R.string.api_rate, Toast.LENGTH_LONG).show();
+                        } else {
+                            JsonParser parser = new JsonParser();
+                            JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
+                            RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
+                            recentMatch.setType(3);
+                            recentMatch.setTitle(getString(R.string.hightest_xpm) + recentMatch.getXp_per_min());
+                            recentMatch.setNo(5);
+                            records.add(recentMatch);
+                            record_count++;
+                            if (record_count == 11) {
+                                Message message = new Message();
+                                message.what = RECORD_FINISH;
+                                handler.sendMessage(message);
+                            }
                         }
                         break;
                     }
                     case LASTHIT: {
-                        JsonParser parser = new JsonParser();
-                        JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
-                        RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
-                        recentMatch.setType(3);
-                        recentMatch.setTitle(getString(R.string.highest_lh) + recentMatch.getLast_hits());
-                        recentMatch.setNo(6);
-                        records.add(recentMatch);
-                        record_count++;
-                        if (record_count == 11) {
-                            Message message = new Message();
-                            message.what = RECORD_FINISH;
-                            handler.sendMessage(message);
+                        if (msg.obj.toString().contains("rate limit exceeded")) {
+                            Toast.makeText(getContext(), R.string.api_rate, Toast.LENGTH_LONG).show();
+                        } else {
+                            JsonParser parser = new JsonParser();
+                            JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
+                            RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
+                            recentMatch.setType(3);
+                            recentMatch.setTitle(getString(R.string.highest_lh) + recentMatch.getLast_hits());
+                            recentMatch.setNo(6);
+                            records.add(recentMatch);
+                            record_count++;
+                            if (record_count == 11) {
+                                Message message = new Message();
+                                message.what = RECORD_FINISH;
+                                handler.sendMessage(message);
+                            }
                         }
                         break;
                     }
                     case DENIES: {
-                        JsonParser parser = new JsonParser();
-                        JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
-                        RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
-                        recentMatch.setType(3);
-                        recentMatch.setTitle(getString(R.string.hightest_denies) + recentMatch.getDenies());
-                        recentMatch.setNo(7);
-                        records.add(recentMatch);
-                        record_count++;
-                        if (record_count == 11) {
-                            Message message = new Message();
-                            message.what = RECORD_FINISH;
-                            handler.sendMessage(message);
+                        if (msg.obj.toString().contains("rate limit exceeded")) {
+                            Toast.makeText(getContext(), R.string.api_rate, Toast.LENGTH_LONG).show();
+                        } else {
+                            JsonParser parser = new JsonParser();
+                            JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
+                            RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
+                            recentMatch.setType(3);
+                            recentMatch.setTitle(getString(R.string.hightest_denies) + recentMatch.getDenies());
+                            recentMatch.setNo(7);
+                            records.add(recentMatch);
+                            record_count++;
+                            if (record_count == 11) {
+                                Message message = new Message();
+                                message.what = RECORD_FINISH;
+                                handler.sendMessage(message);
+                            }
                         }
                         break;
                     }
                     case DAMAGE: {
-                        JsonParser parser = new JsonParser();
-                        JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
-                        RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
-                        recentMatch.setType(3);
-                        recentMatch.setTitle(getString(R.string.hightest_damage) + recentMatch.getHero_damage());
-                        recentMatch.setNo(8);
-                        records.add(recentMatch);
-                        record_count++;
-                        if (record_count == 11) {
-                            Message message = new Message();
-                            message.what = RECORD_FINISH;
-                            handler.sendMessage(message);
+                        if (msg.obj.toString().contains("rate limit exceeded")) {
+                            Toast.makeText(getContext(), R.string.api_rate, Toast.LENGTH_LONG).show();
+                        } else {
+                            JsonParser parser = new JsonParser();
+                            JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
+                            RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
+                            recentMatch.setType(3);
+                            recentMatch.setTitle(getString(R.string.hightest_damage) + recentMatch.getHero_damage());
+                            recentMatch.setNo(8);
+                            records.add(recentMatch);
+                            record_count++;
+                            if (record_count == 11) {
+                                Message message = new Message();
+                                message.what = RECORD_FINISH;
+                                handler.sendMessage(message);
+                            }
                         }
                         break;
                     }
                     case TOWER: {
-                        JsonParser parser = new JsonParser();
-                        JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
-                        RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
-                        recentMatch.setType(3);
-                        recentMatch.setTitle(getString(R.string.hightest_td) + recentMatch.getTower_damage());
-                        recentMatch.setNo(9);
-                        records.add(recentMatch);
-                        record_count++;
-                        if (record_count == 11) {
-                            Message message = new Message();
-                            message.what = RECORD_FINISH;
-                            handler.sendMessage(message);
+                        if (msg.obj.toString().contains("rate limit exceeded")) {
+                            Toast.makeText(getContext(), R.string.api_rate, Toast.LENGTH_LONG).show();
+                        } else {
+                            JsonParser parser = new JsonParser();
+                            JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
+                            RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
+                            recentMatch.setType(3);
+                            recentMatch.setTitle(getString(R.string.hightest_td) + recentMatch.getTower_damage());
+                            recentMatch.setNo(9);
+                            records.add(recentMatch);
+                            record_count++;
+                            if (record_count == 11) {
+                                Message message = new Message();
+                                message.what = RECORD_FINISH;
+                                handler.sendMessage(message);
+                            }
                         }
                         break;
                     }
                     case HEALING: {
-                        JsonParser parser = new JsonParser();
-                        JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
-                        RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
-                        recentMatch.setType(3);
-                        recentMatch.setTitle(getString(R.string.hightest_hh) + recentMatch.getHero_healing());
-                        recentMatch.setNo(10);
-                        records.add(recentMatch);
-                        record_count++;
-                        if (record_count == 11) {
-                            Message message = new Message();
-                            message.what = RECORD_FINISH;
-                            handler.sendMessage(message);
+                        if (msg.obj.toString().contains("rate limit exceeded")) {
+                            Toast.makeText(getContext(), R.string.api_rate, Toast.LENGTH_LONG).show();
+                        } else {
+                            JsonParser parser = new JsonParser();
+                            JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
+                            RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
+                            recentMatch.setType(3);
+                            recentMatch.setTitle(getString(R.string.hightest_hh) + recentMatch.getHero_healing());
+                            recentMatch.setNo(10);
+                            records.add(recentMatch);
+                            record_count++;
+                            if (record_count == 11) {
+                                Message message = new Message();
+                                message.what = RECORD_FINISH;
+                                handler.sendMessage(message);
+                            }
                         }
                         break;
                     }
                     case DURATION: {
-                        JsonParser parser = new JsonParser();
-                        JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
-                        RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
-                        recentMatch.setType(3);
-                        recentMatch.setTitle(getString(R.string.longest_duration) + Tools.getTime(recentMatch.getDuration()));
-                        recentMatch.setNo(11);
-                        records.add(recentMatch);
-                        record_count++;
-                        if (record_count == 11) {
-                            Message message = new Message();
-                            message.what = RECORD_FINISH;
-                            handler.sendMessage(message);
+                        if (msg.obj.toString().contains("rate limit exceeded")) {
+                            Toast.makeText(getContext(), R.string.api_rate, Toast.LENGTH_LONG).show();
+                        } else {
+                            JsonParser parser = new JsonParser();
+                            JsonArray jsonArray = parser.parse(msg.obj.toString()).getAsJsonArray();
+                            RecentMatch recentMatch = new Gson().fromJson(jsonArray.get(0), RecentMatch.class);
+                            recentMatch.setType(3);
+                            recentMatch.setTitle(getString(R.string.longest_duration) + Tools.getTime(recentMatch.getDuration()));
+                            recentMatch.setNo(11);
+                            records.add(recentMatch);
+                            record_count++;
+                            if (record_count == 11) {
+                                Message message = new Message();
+                                message.what = RECORD_FINISH;
+                                handler.sendMessage(message);
+                            }
                         }
                         break;
                     }
@@ -484,7 +520,8 @@ public class PlayerOverviewFragment extends Fragment {
                     else Fresco.getImagePipeline().pause();
                 }
             });
-            player_header.setImageURI(player.getAvatarfull());
+            if (player.getAvatarfull() != null && !"".equals(player.getAvatarfull()))
+                Tools.showImage(Uri.parse(player.getAvatarfull()), player_header);
             player_name.setText(player.getName() != null ? player.getName() : player.getPersonaname() == null || player.getPersonaname().equals("") ? getString(R.string.anonymous) : player.getPersonaname());
             player_id.setText(getString(R.string.id, player.getAccount_id()));
             SpannableString s = new SpannableString(player.getProfileurl());

@@ -8,9 +8,7 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewStub;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -55,20 +53,17 @@ public class SettingsActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.settings);
         listView.addHeaderView(new ViewStub(this));
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 1: {
-                        Toast.makeText(SettingsActivity.this, R.string.update, Toast.LENGTH_LONG).show();
-                        Update.update_zip(handler);
-                        pd = new ProgressDialog(SettingsActivity.this);
-                        pd.setTitle(R.string.update);
-                        pd.setMessage(getString(R.string.updating));
-                        pd.setCanceledOnTouchOutside(false);
-                        pd.show();
-                        break;
-                    }
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            switch (position) {
+                case 1: {
+                    Toast.makeText(SettingsActivity.this, R.string.update, Toast.LENGTH_LONG).show();
+                    Update.update_zip(handler);
+                    pd = new ProgressDialog(SettingsActivity.this);
+                    pd.setTitle(R.string.update);
+                    pd.setMessage(getString(R.string.updating));
+                    pd.setCanceledOnTouchOutside(false);
+                    pd.show();
+                    break;
                 }
             }
         });

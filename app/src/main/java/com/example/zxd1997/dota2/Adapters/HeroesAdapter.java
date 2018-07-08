@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +21,8 @@ import com.example.zxd1997.dota2.Utils.Tools;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 public class HeroesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private SparseArray<String> heroes;
-    private Context context;
+    private final SparseArray<String> heroes;
+    private final Context context;
 
     public HeroesAdapter(SparseArray<String> heroes, Context context) {
         this.heroes = heroes;
@@ -40,19 +39,16 @@ public class HeroesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         final ViewHolder viewHolder = (ViewHolder) holder;
 //        viewHolder.head.setImageResource(Tools.getResId("hero_" + heroes.keyAt(position), R.drawable.class));
-        Log.d("size", "run: " + viewHolder.head.getWidth() + " " + viewHolder.head.getHeight());
-//        Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + heroes.keyAt(position), R.drawable.class))).build(),viewHolder.head);
-        viewHolder.head.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + heroes.keyAt(position), R.drawable.class))).build());
+//        ViewGroup.LayoutParams layoutParams=viewHolder.head.getLayoutParams();
+        Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + heroes.keyAt(position), R.drawable.class))).build(), viewHolder.head);
+//        viewHolder.head.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + heroes.keyAt(position), R.drawable.class))).build());
         viewHolder.name.setText(heroes.valueAt(position));
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ViewCompat.setTransitionName(viewHolder.head, "hero_" + heroes.keyAt(position));
-                Intent intent = new Intent(context, HeroActivity.class);
-                intent.putExtra("id", heroes.keyAt(position));
-                intent.putExtra("name", heroes.valueAt(position));
-                context.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) context, viewHolder.head, ViewCompat.getTransitionName(viewHolder.head)).toBundle());
-            }
+        viewHolder.itemView.setOnClickListener(v -> {
+            ViewCompat.setTransitionName(viewHolder.head, "hero_" + heroes.keyAt(position));
+            Intent intent = new Intent(context, HeroActivity.class);
+            intent.putExtra("id", heroes.keyAt(position));
+            intent.putExtra("name", heroes.valueAt(position));
+            context.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) context, viewHolder.head, ViewCompat.getTransitionName(viewHolder.head)).toBundle());
         });
     }
 
@@ -62,8 +58,8 @@ public class HeroesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        SimpleDraweeView head;
-        TextView name;
+        final SimpleDraweeView head;
+        final TextView name;
 
         ViewHolder(View itemView) {
             super(itemView);

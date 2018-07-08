@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Activities.PlayerActivity;
@@ -50,24 +51,25 @@ import lecho.lib.hellocharts.view.PieChartView;
  * create an instance of this fragment.
  */
 public class PlayerOtherFragment extends Fragment {
-    final static int PEERS = 27;
-    final static int COUNTS = 28;
-    Player player;
+    private final static int PEERS = 27;
+    private final static int COUNTS = 28;
+
     public static PlayerOtherFragment newInstance() {
         return new PlayerOtherFragment();
     }
 
-    TextView count;
-    ProgressBar progressBar;
-    RecyclerView recyclerView;
-    MatchesAdapter matchesAdapter;
-    List<MatchHero> peers = new ArrayList<>();
-    PieChartView pieChartView;
-    PieChartData pieChartData;
-    Handler handler = new Handler(new Handler.Callback() {
+    private final List<MatchHero> peers = new ArrayList<>();
+    private TextView count;
+    private ProgressBar progressBar;
+    private RecyclerView recyclerView;
+    private MatchesAdapter matchesAdapter;
+    private PieChartView pieChartView;
+    private final Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            if (getContext() != null) {
+            if (msg.obj.toString().contains("rate limit exceeded")) {
+                Toast.makeText(getContext(), R.string.api_rate, Toast.LENGTH_LONG).show();
+            } else if (getContext() != null) {
                 switch (msg.what) {
                     case PEERS: {
                         JsonParser parser = new JsonParser();
@@ -105,7 +107,7 @@ public class PlayerOtherFragment extends Fragment {
                             typedArray.recycle();
                         }
                         progressBar.setVisibility(View.GONE);
-                        pieChartData = new PieChartData(sliceValues);
+                        PieChartData pieChartData = new PieChartData(sliceValues);
                         pieChartData.setHasLabels(true);
                         pieChartView.setPieChartData(pieChartData);
                         pieChartView.setVisibility(View.VISIBLE);
@@ -117,13 +119,14 @@ public class PlayerOtherFragment extends Fragment {
             return true;
         }
     });
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_player_other, container, false);
         PlayerActivity activity = (PlayerActivity) getActivity();
-        player = Objects.requireNonNull(activity).getPlayer();
+        Player player = Objects.requireNonNull(activity).getPlayer();
         if (player == null) {
             Intent intent = new Intent(MyApplication.getContext(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -234,7 +234,7 @@
     <string name="average_kills_deaths_assists">Average Kills/Deaths/Assists</string>
     <string name="placeholder2" translatable="false">-/-\n-/-</string>
     <string name="hero_attributes">Hero Attributes</string>
-    <string name="health" translatable="false">Health:%1$.1f</string>
+    <string name="health">Health:%1$.1f</string>
     <string name="health_regen_2f">Health Regen:%.2f</string>
     <string name="mana_1_d">Mana:%1$d</string>
     <string name="mana_regen_2f">Mana Regen:%.2f</string>
@@ -259,4 +259,5 @@
     <string name="hero_p">Hero Performance</string>
     <string name="update">Update</string>
     <string name="updating">Updating</string>
+    <string name="api_rate">API Rate Limit Exceed!</string>
 </resources>

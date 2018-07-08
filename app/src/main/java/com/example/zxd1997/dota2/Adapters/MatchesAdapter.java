@@ -53,7 +53,6 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final int HEADER = 5;
     private final int PEERS = 6;
     private final int HERO_CARD = 7;
-    private final int PLAYER_CARD = 8;
 
     public boolean isHasfoot() {
         return hasfoot;
@@ -106,19 +105,19 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @SuppressLint("Recycle")
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        int PLAYER_CARD = 8;
         if (getItemViewType(position) == PLAYER_CARD) {
             final MatchPlayer matchPlayer = (MatchPlayer) contents.get(position);
             PlayerCard playerCard = (PlayerCard) holder;
             playerCard.persona_name.setText(matchPlayer.getName());
             playerCard.account_id.setText(context.getResources().getString(R.string.id, matchPlayer.getId()));
-            playerCard.header.setImageURI(matchPlayer.getAvatar());
-            playerCard.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, PlayerActivity.class);
-                    intent.putExtra("id", matchPlayer.getId());
-                    context.startActivity(intent);
-                }
+//            playerCard.header.setImageURI(matchPlayer.getAvatar());
+            if (matchPlayer.getAvatar() != null && !"".equals(matchPlayer.getAvatar()))
+                Tools.showImage(Uri.parse(matchPlayer.getAvatar()), playerCard.header);
+            playerCard.itemView.setOnClickListener(v -> {
+                Intent intent = new Intent(context, PlayerActivity.class);
+                intent.putExtra("id", matchPlayer.getId());
+                context.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) context, playerCard.header, ViewCompat.getTransitionName(playerCard.header)).toBundle());
             });
             playerCard.ranks.setText("");
             int t = matchPlayer.getRank_tier();
@@ -135,13 +134,14 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 } else t = 81;
                 playerCard.ranks.setText(String.valueOf(rank));
             }
-            playerCard.tier.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("rank" + t, R.drawable.class))).build());
+            Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("rank" + t, R.drawable.class))).build(), playerCard.tier);
             playerCard.win.setText(context.getString(R.string.win1, matchPlayer.getWin()));
             playerCard.lose.setText(context.getString(R.string.lose1, matchPlayer.getLose()));
             playerCard.win_rate.setText(String.format("%s%%", context.getString(R.string.rate, matchPlayer.getWinrate() * 100)));
         } else if (getItemViewType(position) == HERO_CARD) {
             HeroCard heroCard = (HeroCard) holder;
             heroCard.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + contents.get(position).getHero_id() + "_icon", R.drawable.class))).build());
+            
             List<Total> totals = ((MyHero) contents.get(position)).getTotal();
             if (totals != null) {
                 DecimalFormat df = new DecimalFormat("0.0");
@@ -176,60 +176,52 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (getItemViewType(position) == MATCH) {
                 final ViewHolder viewHolder = (ViewHolder) holder;
                 final RecentMatch recentMatch = (RecentMatch) contents.get(position);
-                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(context, MatchActivity.class);
-                        intent.putExtra("id", recentMatch.getMatch_id());
-                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        context.startActivity(intent);
-                    }
+                viewHolder.itemView.setOnClickListener(v -> {
+                    Intent intent = new Intent(context, MatchActivity.class);
+                    intent.putExtra("id", recentMatch.getMatch_id());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    context.startActivity(intent);
                 });
                 final SpannableStringBuilder k = new SpannableStringBuilder();
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        SpannableString t1 = new SpannableString(recentMatch.getKills() + "");
-                        t1.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.win)), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        k.append(t1).append("/");
-                        t1 = new SpannableString(recentMatch.getDeaths() + "");
-                        t1.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.lose)), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        k.append(t1).append("/");
-                        t1 = new SpannableString(recentMatch.getAssists() + "");
-                        t1.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.blue_light)), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        k.append(t1);
-                        final boolean win = recentMatch.getPlayer_slot() < 128 && recentMatch.isRadiant_win() || recentMatch.getPlayer_slot() > 127 && !recentMatch.isRadiant_win();
-                        viewHolder.itemView.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (win) {
-                                    viewHolder.win_or_not.setTextColor(context.getResources().getColor(R.color.win));
-                                    viewHolder.win_or_not.setText(context.getString(R.string.win));
-                                } else {
-                                    viewHolder.win_or_not.setTextColor(context.getResources().getColor(R.color.lose));
-                                    viewHolder.win_or_not.setText(context.getString(R.string.lose));
-                                }
-                                viewHolder.kda.setText(k);
-                                TypedArray typedArray = context.getResources().obtainTypedArray(R.array.heroes);
-                                viewHolder.hero_name.setText(typedArray.getText(recentMatch.getHero_id()));
-                                viewHolder.hero_header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + recentMatch.getHero_id(), R.drawable.class))).build());
-                                typedArray = context.getResources().obtainTypedArray(R.array.skills);
-                                viewHolder.skills.setText(typedArray.getText(recentMatch.getSkill()));
-                                typedArray = context.getResources().obtainTypedArray(R.array.lobby_type);
-                                if (recentMatch.getLobby_type() == 2 || recentMatch.getLobby_type() == 5 || recentMatch.getLobby_type() == 6 || recentMatch.getLobby_type() == 7 || recentMatch.getLobby_type() == 9)
-                                    viewHolder.lobby_type.setTextColor(context.getResources().getColor(R.color.very_high));
-                                else
-                                    viewHolder.lobby_type.setTextColor(context.getResources().getColor(R.color.normal));
-                                viewHolder.lobby_type.setText(typedArray.getText(recentMatch.getLobby_type()));
-                                typedArray = context.getResources().obtainTypedArray(R.array.skills_color);
-                                viewHolder.skills.setTextColor(context.getResources().getColor(typedArray.getResourceId(recentMatch.getSkill(), 0)));
-                                typedArray = context.getResources().obtainTypedArray(R.array.game_mode);
-                                viewHolder.game_mode.setText(typedArray.getText(recentMatch.getGame_mode()));
-                                typedArray.recycle();
-                                viewHolder.time.setText(Tools.getBefore(recentMatch.getStart_time()));
-                            }
-                        });
-                    }
+                new Thread(() -> {
+                    SpannableString t1 = new SpannableString(recentMatch.getKills() + "");
+                    t1.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.win)), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    k.append(t1).append("/");
+                    t1 = new SpannableString(recentMatch.getDeaths() + "");
+                    t1.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.lose)), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    k.append(t1).append("/");
+                    t1 = new SpannableString(recentMatch.getAssists() + "");
+                    t1.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.blue_light)), 0, t1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    k.append(t1);
+                    final boolean win = recentMatch.getPlayer_slot() < 128 && recentMatch.isRadiant_win() || recentMatch.getPlayer_slot() > 127 && !recentMatch.isRadiant_win();
+                    viewHolder.itemView.post(() -> {
+                        if (win) {
+                            viewHolder.win_or_not.setTextColor(context.getResources().getColor(R.color.win));
+                            viewHolder.win_or_not.setText(context.getString(R.string.win));
+                        } else {
+                            viewHolder.win_or_not.setTextColor(context.getResources().getColor(R.color.lose));
+                            viewHolder.win_or_not.setText(context.getString(R.string.lose));
+                        }
+                        viewHolder.kda.setText(k);
+                        TypedArray typedArray = context.getResources().obtainTypedArray(R.array.heroes);
+                        viewHolder.hero_name.setText(typedArray.getText(recentMatch.getHero_id()));
+//                        viewHolder.hero_header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + recentMatch.getHero_id(), R.drawable.class))).build());
+                        Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + recentMatch.getHero_id(), R.drawable.class))).build(), viewHolder.hero_header);
+                        typedArray = context.getResources().obtainTypedArray(R.array.skills);
+                        viewHolder.skills.setText(typedArray.getText(recentMatch.getSkill()));
+                        typedArray = context.getResources().obtainTypedArray(R.array.lobby_type);
+                        if (recentMatch.getLobby_type() == 2 || recentMatch.getLobby_type() == 5 || recentMatch.getLobby_type() == 6 || recentMatch.getLobby_type() == 7 || recentMatch.getLobby_type() == 9)
+                            viewHolder.lobby_type.setTextColor(context.getResources().getColor(R.color.very_high));
+                        else
+                            viewHolder.lobby_type.setTextColor(context.getResources().getColor(R.color.normal));
+                        viewHolder.lobby_type.setText(typedArray.getText(recentMatch.getLobby_type()));
+                        typedArray = context.getResources().obtainTypedArray(R.array.skills_color);
+                        viewHolder.skills.setTextColor(context.getResources().getColor(typedArray.getResourceId(recentMatch.getSkill(), 0)));
+                        typedArray = context.getResources().obtainTypedArray(R.array.game_mode);
+                        viewHolder.game_mode.setText(typedArray.getText(recentMatch.getGame_mode()));
+                        typedArray.recycle();
+                        viewHolder.time.setText(Tools.getBefore(recentMatch.getStart_time()));
+                    });
                 }).start();
             } else if (getItemViewType(position) == HERO) {
                 final PlayedHero hero = (PlayedHero) contents.get(position);
@@ -238,32 +230,27 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 TypedArray typedArray = context.getResources().obtainTypedArray(R.array.heroes);
                 heroHolder.hero_name.setText(typedArray.getText(hero.getHero_id()));
 //              heroHolder.hero_header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + hero.getHero_id(), R.drawable.class))).build());
-                heroHolder.hero_header.setImageResource(Tools.getResId("hero_" + hero.getHero_id(), R.drawable.class));
+//                heroHolder.hero_header.setImageResource(Tools.getResId("hero_" + hero.getHero_id(), R.drawable.class));
+                Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + hero.getHero_id(), R.drawable.class))).build(), heroHolder.hero_header);
                 heroHolder.winrate.setText(new SpannableStringBuilder(context.getResources().getString(R.string.winrate_)).append(Tools.getS(winrate > 0 ? winrate : 0)));
                 heroHolder.matches.setText(context.getResources().getString(R.string.matches_, hero.getGames()));
                 heroHolder.last_played.setText(Tools.getBefore(hero.getLast_played()));
-                heroHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(context, MyHeroActivity.class);
-                        intent.putExtra("id", hero.getHero_id());
-                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        ViewCompat.setTransitionName(heroHolder.hero_header, "hero_" + hero.getHero_id());
-                        context.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) context, heroHolder.hero_header, ViewCompat.getTransitionName(heroHolder.hero_header)).toBundle());
-                    }
+                heroHolder.itemView.setOnClickListener(v -> {
+                    Intent intent = new Intent(context, MyHeroActivity.class);
+                    intent.putExtra("id", hero.getHero_id());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    ViewCompat.setTransitionName(heroHolder.hero_header, "hero_" + hero.getHero_id());
+                    context.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) context, heroHolder.hero_header, ViewCompat.getTransitionName(heroHolder.hero_header)).toBundle());
                 });
 
             } else if (getItemViewType(position) == RECORD) {
                 final RecordHolder viewHolder = (RecordHolder) holder;
                 final RecentMatch recentMatch = (RecentMatch) contents.get(position);
-                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(context, MatchActivity.class);
-                        intent.putExtra("id", recentMatch.getMatch_id());
-                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        context.startActivity(intent);
-                    }
+                viewHolder.itemView.setOnClickListener(v -> {
+                    Intent intent = new Intent(context, MatchActivity.class);
+                    intent.putExtra("id", recentMatch.getMatch_id());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    context.startActivity(intent);
                 });
                 final boolean win = recentMatch.getPlayer_slot() < 128 && recentMatch.isRadiant_win() || recentMatch.getPlayer_slot() > 127 && !recentMatch.isRadiant_win();
 
@@ -283,19 +270,17 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 TypedArray typedArray = context.getResources().obtainTypedArray(R.array.heroes);
                 rankHolder.hero_name.setText(typedArray.getText(ranking.getHero_id()));
 //                rankHolder.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + ranking.getHero_id(), R.drawable.class))).build());
-                rankHolder.header.setImageResource(Tools.getResId("hero_" + ranking.getHero_id(), R.drawable.class));
+//                rankHolder.header.setImageResource(Tools.getResId("hero_" + ranking.getHero_id(), R.drawable.class));
+                Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + ranking.getHero_id(), R.drawable.class))).build(), rankHolder.header);
                 final DecimalFormat df = new DecimalFormat("0.00");
                 rankHolder.score.setText(df.format(ranking.getScore()));
                 rankHolder.percentage.setText(Tools.getS(ranking.getPercent_rank()));
-                rankHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(context, MyHeroActivity.class);
-                        intent.putExtra("id", ranking.getHero_id());
-                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        ViewCompat.setTransitionName(rankHolder.header, "hero_" + ranking.getHero_id());
-                        context.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) context, rankHolder.header, ViewCompat.getTransitionName(rankHolder.header)).toBundle());
-                    }
+                rankHolder.itemView.setOnClickListener(v -> {
+                    Intent intent = new Intent(context, MyHeroActivity.class);
+                    intent.putExtra("id", ranking.getHero_id());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    ViewCompat.setTransitionName(rankHolder.header, "hero_" + ranking.getHero_id());
+                    context.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation((Activity) context, rankHolder.header, ViewCompat.getTransitionName(rankHolder.header)).toBundle());
                 });
             } else if (getItemViewType(position) == PEERS) {
                 final Peer peer = (Peer) contents.get(position);
@@ -305,15 +290,12 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 peerHolder.last.setText(Tools.getBefore(peer.getLast_played()));
                 peerHolder.matches.setText(String.valueOf(peer.getWith_games()));
                 peerHolder.winrate.setText(Tools.getS((double) peer.getWith_win() / peer.getWith_games()));
-                peerHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(context, PeerActivity.class);
-                        intent.putExtra("id", peer.getAccount_id());
-                        intent.putExtra("name", peer.getPersonaname());
-                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        context.startActivity(intent);
-                    }
+                peerHolder.itemView.setOnClickListener(v -> {
+                    Intent intent = new Intent(context, PeerActivity.class);
+                    intent.putExtra("id", peer.getAccount_id());
+                    intent.putExtra("name", peer.getPersonaname());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    context.startActivity(intent);
                 });
             }
         }
@@ -328,10 +310,10 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     class RankHolder extends RecyclerView.ViewHolder {
-        ImageView header;
-        TextView hero_name;
-        TextView score;
-        TextView percentage;
+        final SimpleDraweeView header;
+        final TextView hero_name;
+        final TextView score;
+        final TextView percentage;
 
         RankHolder(View itemView) {
             super(itemView);
@@ -343,11 +325,11 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     class PeerHolder extends RecyclerView.ViewHolder {
-        SimpleDraweeView header;
-        TextView name;
-        TextView last;
-        TextView matches;
-        TextView winrate;
+        final SimpleDraweeView header;
+        final TextView name;
+        final TextView last;
+        final TextView matches;
+        final TextView winrate;
 
         PeerHolder(View itemView) {
             super(itemView);
@@ -360,10 +342,10 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     class RecordHolder extends RecyclerView.ViewHolder {
-        SimpleDraweeView header;
-        TextView record_title;
-        TextView time;
-        TextView win_or_not;
+        final SimpleDraweeView header;
+        final TextView record_title;
+        final TextView time;
+        final TextView win_or_not;
 
         RecordHolder(View itemView) {
             super(itemView);
@@ -375,7 +357,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     class Footer extends RecyclerView.ViewHolder {
-        ImageView logo;
+        final ImageView logo;
 
         Footer(View itemView) {
             super(itemView);
@@ -384,11 +366,11 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     class HeroHolder extends RecyclerView.ViewHolder {
-        ImageView hero_header;
-        TextView hero_name;
-        TextView matches;
-        TextView winrate;
-        TextView last_played;
+        final SimpleDraweeView hero_header;
+        final TextView hero_name;
+        final TextView matches;
+        final TextView winrate;
+        final TextView last_played;
 
         HeroHolder(View itemView) {
             super(itemView);
@@ -401,7 +383,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     class HeaderHolder extends RecyclerView.ViewHolder {
-        TextView text;
+        final TextView text;
 
         HeaderHolder(View itemView) {
             super(itemView);
@@ -409,17 +391,17 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    public class PlayerCard extends RecyclerView.ViewHolder {
-        public TextView persona_name;
-        public TextView account_id;
-        public TextView win;
-        public TextView lose;
-        public TextView win_rate;
-        public TextView ranks;
-        public SimpleDraweeView header;
-        public SimpleDraweeView tier;
+    class PlayerCard extends RecyclerView.ViewHolder {
+        final TextView persona_name;
+        final TextView account_id;
+        final TextView win;
+        final TextView lose;
+        final TextView win_rate;
+        final TextView ranks;
+        final SimpleDraweeView header;
+        final SimpleDraweeView tier;
 
-        public PlayerCard(View itemView) {
+        PlayerCard(View itemView) {
             super(itemView);
             header = itemView.findViewById(R.id.header);
             persona_name = itemView.findViewById(R.id.personaname);
@@ -432,21 +414,21 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    public class HeroCard extends RecyclerView.ViewHolder {
-        public TextView winrate;
-        public TextView total;
-        public TextView kill;
-        public TextView death;
-        public TextView assists;
-        public TextView kda;
-        public TextView gpm;
-        public TextView xpm;
-        public TextView lh;
-        public TextView dn;
-        public TextView damage;
-        public TextView td;
-        public TextView hh;
-        public SimpleDraweeView header;
+    class HeroCard extends RecyclerView.ViewHolder {
+        final TextView winrate;
+        final TextView total;
+        final TextView kill;
+        final TextView death;
+        final TextView assists;
+        final TextView kda;
+        final TextView gpm;
+        final TextView xpm;
+        final TextView lh;
+        final TextView dn;
+        final TextView damage;
+        final TextView td;
+        final TextView hh;
+        final SimpleDraweeView header;
 
         HeroCard(View itemView) {
             super(itemView);

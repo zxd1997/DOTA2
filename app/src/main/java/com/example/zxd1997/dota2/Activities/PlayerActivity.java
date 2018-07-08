@@ -7,13 +7,16 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.SharedElementCallback;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.zxd1997.dota2.Adapters.TabFragmentAdapter;
 import com.example.zxd1997.dota2.Beans.Player;
@@ -25,6 +28,9 @@ import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.MyApplication;
 import com.example.zxd1997.dota2.Utils.OKhttp;
 import com.example.zxd1997.dota2.Utils.Update;
+import com.facebook.drawee.drawable.ScalingUtils;
+import com.facebook.drawee.view.DraweeTransition;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -48,22 +54,27 @@ public class PlayerActivity extends AppCompatActivity {
     private final Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            player = new Gson().fromJson(msg.obj.toString(), Player.class);
-            Objects.requireNonNull(getSupportActionBar()).setTitle(MyApplication.getContext().getString(R.string.player) + "：" + (player.getName() != null ? player.getName() : player.getPersonaname()));
-            List<Fragment> fragments = new ArrayList<>();
-            TabLayout tabLayout = findViewById(R.id.player_tab);
-            fragments.add(PlayerOverviewFragment.newInstance());
-            fragments.add(PlayerMatchFragment.newInstance());
-            fragments.add(PlayerHeroFragment.newInstance());
-            fragments.add(PlayerOtherFragment.newInstance());
-            TabFragmentAdapter tabFragmentAdapter = new TabFragmentAdapter(getSupportFragmentManager(), fragments);
-            ViewPager mViewPager = findViewById(R.id.player_pager);
-            mViewPager.setAdapter(tabFragmentAdapter);
-            mViewPager.setOffscreenPageLimit(fragments.size());
-            mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-            tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
-            progressBar.setVisibility(View.GONE);
-            mViewPager.setVisibility(View.VISIBLE);
+            Log.d("msg", "handleMessage: " + msg.obj.toString());
+            if (msg.obj.toString().contains("rate limit exceeded")) {
+                Toast.makeText(PlayerActivity.this, R.string.api_rate, Toast.LENGTH_LONG).show();
+            } else {
+                player = new Gson().fromJson(msg.obj.toString(), Player.class);
+                Objects.requireNonNull(getSupportActionBar()).setTitle(MyApplication.getContext().getString(R.string.player) + "：" + (player.getName() != null ? player.getName() : player.getPersonaname()));
+                List<Fragment> fragments = new ArrayList<>();
+                TabLayout tabLayout = findViewById(R.id.player_tab);
+                fragments.add(PlayerOverviewFragment.newInstance());
+                fragments.add(PlayerMatchFragment.newInstance());
+                fragments.add(PlayerHeroFragment.newInstance());
+                fragments.add(PlayerOtherFragment.newInstance());
+                TabFragmentAdapter tabFragmentAdapter = new TabFragmentAdapter(getSupportFragmentManager(), fragments);
+                ViewPager mViewPager = findViewById(R.id.player_pager);
+                mViewPager.setAdapter(tabFragmentAdapter);
+                mViewPager.setOffscreenPageLimit(fragments.size());
+                mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+                tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+                progressBar.setVisibility(View.GONE);
+                mViewPager.setVisibility(View.VISIBLE);
+            }
             return true;
         }
     });
@@ -73,6 +84,24 @@ public class PlayerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 //        ViewServer.get(this).addWindow(this);
         Update.setDensity(this, getApplication());
+        getWindow().setSharedElementEnterTransition(DraweeTransition.createTransitionSet(ScalingUtils.ScaleType.CENTER_CROP, ScalingUtils.ScaleType.CENTER_CROP)); // 进入
+        getWindow().setSharedElementReturnTransition(DraweeTransition.createTransitionSet(ScalingUtils.ScaleType.CENTER_CROP, ScalingUtils.ScaleType.CENTER_CROP)); // 返回
+        setExitSharedElementCallback(new SharedElementCallback() {
+            @Override
+            public void onSharedElementEnd(List<String> names,
+                                           List<View> elements,
+                                           List<View> snapshots) {
+                super.onSharedElementEnd(names, elements, snapshots);
+                for (final View view : elements) {
+                    if (view instanceof SimpleDraweeView) {
+                        view.post(() -> {
+                            view.setVisibility(View.VISIBLE);
+                            view.requestLayout();
+                        });
+                    }
+                }
+            }
+        });
         setContentView(R.layout.activity_player);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

@@ -42,9 +42,6 @@ public class WardView extends View {
         super(context, attrs, defStyleAttr);
     }
 
-    public List<Wards> getWards() {
-        return wards;
-    }
 
     public void setWards(List<Wards> wards) {
         this.wards = wards;

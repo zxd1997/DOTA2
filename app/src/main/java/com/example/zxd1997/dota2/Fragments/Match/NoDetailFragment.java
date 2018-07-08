@@ -60,14 +60,11 @@ public class NoDetailFragment extends Fragment {
                 button.setVisibility(View.INVISIBLE);
                 textView.setText(R.string.event);
             }
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    OKhttp.post(getString(R.string.api) + getString(R.string.request) + id);
+            button.setOnClickListener(v -> {
+                OKhttp.post(getString(R.string.api) + getString(R.string.request) + id);
 //                    Log.d("post", "onClick: " + getString(R.string.api) + getString(R.string.request) + id);
-                    button.setVisibility(View.INVISIBLE);
-                    textView.setText(getString(R.string.parsing));
-                }
+                button.setVisibility(View.INVISIBLE);
+                textView.setText(getString(R.string.parsing));
             });
         }
         return view;

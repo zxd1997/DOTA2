@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.zxd1997.dota2.Adapters.MatchesAdapter;
 import com.example.zxd1997.dota2.Beans.MatchHero;
@@ -34,21 +35,21 @@ import java.util.List;
 import java.util.Objects;
 
 public class PeerActivity extends AppCompatActivity {
-    final int NUMBER = 20;
-    final int MATCHES = 20;
-    final int UPDATE = 21;
+    private final int NUMBER = 20;
+    private final int MATCHES = 20;
+    private final int UPDATE = 21;
     private static final int PLAYER_INFO = 1;
     private static final int WL = 2;
-    SwipeRefreshLayout swipeRefreshLayout;
-    MatchesAdapter matchesAdapter;
-    List<MatchHero> matches = new ArrayList<>();
-    int offset = 0;
-    long with_id;
-    String id;
-    Handler handler = new Handler(new Handler.Callback() {
+    private final List<MatchHero> matches = new ArrayList<>();
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private MatchesAdapter matchesAdapter;
+    private final Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            switch (msg.what) {
+            if (msg.obj.toString().contains("rate limit exceeded")) {
+                Toast.makeText(PeerActivity.this, R.string.api_rate, Toast.LENGTH_LONG).show();
+            } else
+                switch (msg.what) {
                 case PLAYER_INFO: {
                     final Player player = new Gson().fromJson(msg.obj.toString(), Player.class);
                     matchesAdapter.setHasfoot(true);
@@ -102,6 +103,9 @@ public class PeerActivity extends AppCompatActivity {
             return true;
         }
     });
+    private int offset = 0;
+    private long with_id;
+    private String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +114,7 @@ public class PeerActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(Color.parseColor("#FFCC0000"));
         getWindow().setNavigationBarColor(Color.parseColor("#FFCC0000"));
         setContentView(R.layout.activity_peer);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         Intent intent = getIntent();
@@ -140,26 +144,23 @@ public class PeerActivity extends AppCompatActivity {
         recyclerView.setAdapter(matchesAdapter);
         matchesAdapter.setHasfoot(true);
         swipeRefreshLayout.setRefreshing(true);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                matchesAdapter.setHasfoot(true);
-                swipeRefreshLayout.setRefreshing(true);
-                matches.clear();
-                matchesAdapter.notifyDataSetChanged();
-                MatchPlayer m = new MatchPlayer();
-                m.setType(8);
-                matches.add(0, m);
-                matchesAdapter.notifyItemInserted(0);
-                MatchHero recent = new MatchHero();
-                recent.setTitle(getString(R.string.matches_play_together));
-                recent.setType(5);
-                matches.add(1, recent);
-                offset = 0;
-                OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + with_id, handler, PLAYER_INFO);
-                OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + with_id + "/wl", handler, WL);
-                OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id + "/matches" + "?offset=" + offset + "&limit=" + NUMBER + "&included_account_id=" + with_id, handler, MATCHES);
-            }
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            matchesAdapter.setHasfoot(true);
+            swipeRefreshLayout.setRefreshing(true);
+            matches.clear();
+            matchesAdapter.notifyDataSetChanged();
+            MatchPlayer m1 = new MatchPlayer();
+            m1.setType(8);
+            matches.add(0, m1);
+            matchesAdapter.notifyItemInserted(0);
+            MatchHero recent1 = new MatchHero();
+            recent1.setTitle(getString(R.string.matches_play_together));
+            recent1.setType(5);
+            matches.add(1, recent1);
+            offset = 0;
+            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + with_id, handler, PLAYER_INFO);
+            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + with_id + "/wl", handler, WL);
+            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id + "/matches" + "?offset=" + offset + "&limit=" + NUMBER + "&included_account_id=" + with_id, handler, MATCHES);
         });
         OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + with_id, handler, PLAYER_INFO);
         OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + with_id + "/wl", handler, WL);

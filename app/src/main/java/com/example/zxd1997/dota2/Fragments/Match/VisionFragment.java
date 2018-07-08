@@ -28,7 +28,6 @@ import com.example.zxd1997.dota2.Views.WardView;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -73,107 +72,96 @@ public class VisionFragment extends Fragment {
         } else {
             final List<Wards> wards = new ArrayList<>();
             final List<Wards> current_wards = new ArrayList<>();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    for (Match.PPlayer p : match.getPlayers()) {
-                        for (Match.PPlayer.Ward ward : p.getObs_log()) {
-                            boolean f = false;
-                            for (Match.PPlayer.Ward ward_left : p.getObs_left_log()) {
-                                if (ward.getKey().equals(ward_left.getKey()) && ward.getEhandle() == ward_left.getEhandle()) {
-                                    wards.add(new Wards(OBSERVER, ward, ward_left, p.getPersonaname(), p.getHero_id()));
-                                    f = true;
-                                    break;
-                                }
+            new Thread(() -> {
+                for (Match.PPlayer p : match.getPlayers()) {
+                    for (Match.PPlayer.Ward ward : p.getObs_log()) {
+                        boolean f = false;
+                        for (Match.PPlayer.Ward ward_left : p.getObs_left_log()) {
+                            if (ward.getKey().equals(ward_left.getKey()) && ward.getEhandle() == ward_left.getEhandle()) {
+                                wards.add(new Wards(OBSERVER, ward, ward_left, p.getPersonaname(), p.getHero_id()));
+                                f = true;
+                                break;
                             }
-                            if (!f) {
-                                wards.add(new Wards(OBSERVER, ward, null, p.getPersonaname(), p.getHero_id()));
-                            }
+                        }
+                        if (!f) {
+                            wards.add(new Wards(OBSERVER, ward, null, p.getPersonaname(), p.getHero_id()));
                         }
                     }
-                    for (Match.PPlayer p : match.getPlayers()) {
-                        for (Match.PPlayer.Ward ward : p.getSen_log()) {
-                            boolean f = false;
-                            int SENTRY = 1;
-                            for (Match.PPlayer.Ward ward_left : p.getSen_left_log()) {
-                                if (ward.getKey().equals(ward_left.getKey()) && ward.getEhandle() == ward_left.getEhandle()) {
-                                    wards.add(new Wards(SENTRY, ward, ward_left, p.getPersonaname(), p.getHero_id()));
-                                    f = true;
-                                    break;
-                                }
+                }
+                for (Match.PPlayer p : match.getPlayers()) {
+                    for (Match.PPlayer.Ward ward : p.getSen_log()) {
+                        boolean f = false;
+                        int SENTRY = 1;
+                        for (Match.PPlayer.Ward ward_left : p.getSen_left_log()) {
+                            if (ward.getKey().equals(ward_left.getKey()) && ward.getEhandle() == ward_left.getEhandle()) {
+                                wards.add(new Wards(SENTRY, ward, ward_left, p.getPersonaname(), p.getHero_id()));
+                                f = true;
+                                break;
                             }
-                            if (!f) {
-                                wards.add(new Wards(SENTRY, ward, null, p.getPersonaname(), p.getHero_id()));
-                            }
+                        }
+                        if (!f) {
+                            wards.add(new Wards(SENTRY, ward, null, p.getPersonaname(), p.getHero_id()));
                         }
                     }
-                    Collections.sort(wards, new Comparator<Wards>() {
+                }
+                Collections.sort(wards, (o1, o2) -> o1.getWard().getTime() - o2.getWard().getTime());
+                current_wards.addAll(wards);
+                view.post(() -> {
+                    final WardsAdapter wardsAdapter = new WardsAdapter(getContext(), current_wards);
+                    SeekBar seekBar = view.findViewById(R.id.seekBar);
+                    final WardView map = view.findViewById(R.id.map);
+                    final TextView time = view.findViewById(R.id.wards_time);
+                    final RecyclerView recyclerView = view.findViewById(R.id.wards);
+                    seekBar.setMax(match.getDuration());
+                    time.setText(R.string.zero);
+                    map.setWards(current_wards);
+                    map.invalidate();
+                    seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                         @Override
-                        public int compare(Wards o1, Wards o2) {
-                            return o1.getWard().getTime() - o2.getWard().getTime();
-                        }
-                    });
-                    current_wards.addAll(wards);
-                    view.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            final WardsAdapter wardsAdapter = new WardsAdapter(getContext(), current_wards);
-                            SeekBar seekBar = view.findViewById(R.id.seekBar);
-                            final WardView map = view.findViewById(R.id.map);
-                            final TextView time = view.findViewById(R.id.wards_time);
-                            final RecyclerView recyclerView = view.findViewById(R.id.wards);
-                            seekBar.setMax(match.getDuration());
-                            time.setText(R.string.zero);
+                        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//                                    Log.d(TAG, "onProgressChanged: ");
+                            if (progress != 0) {
+                                time.setText(Tools.getTime(progress));
+                                current_wards.clear();
+                                for (Wards ward : wards) {
+                                    if (ward.getWard().getTime() <= progress) {
+                                        if (ward.getWard_left() == null) {
+                                            current_wards.add(ward);
+                                        } else if (ward.getWard_left().getTime() >= progress)
+                                            current_wards.add(ward);
+                                    }
+                                }
+                            } else {
+                                current_wards.clear();
+                                current_wards.addAll(wards);
+                                time.setText(R.string.zero);
+                            }
+                            recyclerView.smoothScrollToPosition(0);
+                            wardsAdapter.notifyDataSetChanged();
                             map.setWards(current_wards);
                             map.invalidate();
-                            seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                                @Override
-                                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                                    Log.d(TAG, "onProgressChanged: ");
-                                    if (progress != 0) {
-                                        time.setText(Tools.getTime(progress));
-                                        current_wards.clear();
-                                        for (Wards ward : wards) {
-                                            if (ward.getWard().getTime() <= progress) {
-                                                if (ward.getWard_left() == null) {
-                                                    current_wards.add(ward);
-                                                } else if (ward.getWard_left().getTime() >= progress)
-                                                    current_wards.add(ward);
-                                            }
-                                        }
-                                    } else {
-                                        current_wards.clear();
-                                        current_wards.addAll(wards);
-                                        time.setText(R.string.zero);
-                                    }
-                                    recyclerView.smoothScrollToPosition(0);
-                                    wardsAdapter.notifyDataSetChanged();
-                                    map.setWards(current_wards);
-                                    map.invalidate();
-                                }
+                        }
 
-                                @Override
-                                public void onStartTrackingTouch(SeekBar seekBar) {
+                        @Override
+                        public void onStartTrackingTouch(SeekBar seekBar) {
 
-                                }
+                        }
 
-                                @Override
-                                public void onStopTrackingTouch(SeekBar seekBar) {
-
-                                }
-                            });
-                            recyclerView.setNestedScrollingEnabled(false);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                            recyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
-                            recyclerView.setAdapter(wardsAdapter);
-                            LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
-                            Intent intent = new Intent("loaded");
-                            localBroadcastManager.sendBroadcast(intent);
-                            Log.d("send", "run: send");
+                        @Override
+                        public void onStopTrackingTouch(SeekBar seekBar) {
 
                         }
                     });
-                }
+                    recyclerView.setNestedScrollingEnabled(false);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                    recyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
+                    recyclerView.setAdapter(wardsAdapter);
+                    LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
+                    Intent intent = new Intent("loaded");
+                    localBroadcastManager.sendBroadcast(intent);
+                    Log.d("send", "run: send");
+
+                });
             }).start();
         }
         return view;

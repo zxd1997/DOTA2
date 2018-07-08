@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Activities.PlayerActivity;
@@ -39,15 +40,15 @@ import java.util.Objects;
  * create an instance of this fragment.
  */
 public class PlayerMatchFragment extends Fragment {
-    final int NUMBER = 20;
-    final int MATCHES = 20;
-    final int UPDATE = 21;
-    int offset = 0;
-    RecyclerView recyclerView;
-    Player player;
-    SwipeRefreshLayout swipeRefreshLayout;
-    MatchesAdapter matchesAdapter;
-    List<MatchHero> matches = new ArrayList<>();
+    private final int NUMBER = 20;
+    private final int MATCHES = 20;
+    private final int UPDATE = 21;
+    private final List<MatchHero> matches = new ArrayList<>();
+    private int offset = 0;
+    private RecyclerView recyclerView;
+    private Player player;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private MatchesAdapter matchesAdapter;
 
     public PlayerMatchFragment() {
         // Required empty public constructor
@@ -57,10 +58,12 @@ public class PlayerMatchFragment extends Fragment {
         return new PlayerMatchFragment();
     }
 
-    Handler handler = new Handler(new Handler.Callback() {
+    private final Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            if (getContext() != null) {
+            if (msg.obj.toString().contains("rate limit exceeded")) {
+                Toast.makeText(getContext(), R.string.api_rate, Toast.LENGTH_LONG).show();
+            } else if (getContext() != null) {
                 switch (msg.what) {
                     case MATCHES: {
                         matches.clear();
@@ -120,14 +123,11 @@ public class PlayerMatchFragment extends Fragment {
             OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?offset=" + offset + "&limit=" + (offset + NUMBER), handler, MATCHES);
             swipeRefreshLayout.setRefreshing(true);
             swipeRefreshLayout.setColorSchemeResources(R.color.lose);
-            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    matchesAdapter.setHasfoot(false);
-                    swipeRefreshLayout.setRefreshing(true);
-                    offset = 0;
-                    OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?offset=" + offset + "&limit=" + NUMBER, handler, MATCHES);
-                }
+            swipeRefreshLayout.setOnRefreshListener(() -> {
+                matchesAdapter.setHasfoot(false);
+                swipeRefreshLayout.setRefreshing(true);
+                offset = 0;
+                OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + player.getAccount_id() + "/matches" + "?offset=" + offset + "&limit=" + NUMBER, handler, MATCHES);
             });
             matchesAdapter.setHasfoot(false);
             recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

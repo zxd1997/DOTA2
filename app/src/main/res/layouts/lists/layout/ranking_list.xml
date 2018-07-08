@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:foreground="?selectableItemBackground">
 
-    <ImageView
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/ranking_header"
         android:layout_width="80dp"
         android:layout_height="45dp"

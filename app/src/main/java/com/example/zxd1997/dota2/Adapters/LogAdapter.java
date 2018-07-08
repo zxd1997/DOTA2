@@ -285,136 +285,132 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 final List<Point> points = new ArrayList<>();
                 final TeamFight teamFight = (TeamFight) holder;
                 teamFight.start_end.setText(tt);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        final int ABILITY = 0;
-                        final int ITEM = 1;
-                        final int HEADER = -1;
-                        final int HERO = 3;
-                        final int RADIANT_HEADER = 11;
-                        final int TEAMFIGHT_HEADER = 12;
-                        final Match.TeamFight teamfight = (Match.TeamFight) logs.get(position);
-                        tt.append(" - ").append(Tools.getTime(teamfight.getEnd()));
-                        float x;
-                        float y;
-                        int radiant_deaths = 0;
-                        int dire_deaths = 0;
-                        int radiant_gold_delta = 0;
-                        int dire_gold_delta = 0;
-                        int j = 0;
-                        final List<Cast> contents = new ArrayList<>();
-                        contents.add(new Cast(R.drawable.radiant_header, context.getResources().getString(R.string.radiant), RADIANT_HEADER));
-                        for (Match.TeamFight.TeamFightPlayer p : teamfight.getPlayers()) {
-                            if (j < 5) {
-                                radiant_deaths += p.getDeaths();
-                                radiant_gold_delta += p.getGold_delta();
-                            } else {
-                                dire_deaths += p.getDeaths();
-                                dire_gold_delta += p.getGold_delta();
-                            }
-                            if (p.getDeaths() > 0) {
-                                for (Map.Entry<Integer, Map<Integer, Integer>> entry : p.getDeaths_pos().entrySet()) {
-                                    x = entry.getKey();
-                                    y = 0;
-                                    for (Map.Entry<Integer, Integer> entry1 : entry.getValue().entrySet()) {
-                                        y = entry1.getKey();
-                                    }
-                                    if (j <= 4)
-                                        points.add(new Point((x * 2 - 134) / 2 * (float) 4 / 510, (y * 2 - 124) / 2 * (float) 4 / 505,
-                                                context.getResources().getColor(R.color.win)));
-                                    else
-                                        points.add(new Point((x * 2 - 134) / 2 * (float) 4 / 510, (y * 2 - 124) / 2 * (float) 4 / 505,
-                                                context.getResources().getColor(R.color.lose)));
+                new Thread(() -> {
+                    final int ABILITY = 0;
+                    final int ITEM = 1;
+                    final int HEADER = -1;
+                    final int HERO = 3;
+                    final int RADIANT_HEADER = 11;
+                    final int TEAMFIGHT_HEADER = 12;
+                    final Match.TeamFight teamfight = (Match.TeamFight) logs.get(position);
+                    tt.append(" - ").append(Tools.getTime(teamfight.getEnd()));
+                    float x;
+                    float y;
+                    int radiant_deaths = 0;
+                    int dire_deaths = 0;
+                    int radiant_gold_delta = 0;
+                    int dire_gold_delta = 0;
+                    int j = 0;
+                    final List<Cast> contents = new ArrayList<>();
+                    contents.add(new Cast(R.drawable.radiant_header, context.getResources().getString(R.string.radiant), RADIANT_HEADER));
+                    for (Match.TeamFight.TeamFightPlayer p : teamfight.getPlayers()) {
+                        if (j < 5) {
+                            radiant_deaths += p.getDeaths();
+                            radiant_gold_delta += p.getGold_delta();
+                        } else {
+                            dire_deaths += p.getDeaths();
+                            dire_gold_delta += p.getGold_delta();
+                        }
+                        if (p.getDeaths() > 0) {
+                            for (Map.Entry<Integer, Map<Integer, Integer>> entry : p.getDeaths_pos().entrySet()) {
+                                x = entry.getKey();
+                                y = 0;
+                                for (Map.Entry<Integer, Integer> entry1 : entry.getValue().entrySet()) {
+                                    y = entry1.getKey();
                                 }
+                                if (j <= 4)
+                                    points.add(new Point((x * 2 - 134) / 2 * (float) 4 / 510, (y * 2 - 124) / 2 * (float) 4 / 505,
+                                            context.getResources().getColor(R.color.win)));
+                                else
+                                    points.add(new Point((x * 2 - 134) / 2 * (float) 4 / 510, (y * 2 - 124) / 2 * (float) 4 / 505,
+                                            context.getResources().getColor(R.color.lose)));
+                            }
 
-                            }
-                            if (j == 5) {
-                                contents.add(new Cast(R.drawable.dire_header, context.getResources().getString(R.string.dire), RADIANT_HEADER));
-                            }
-                            j++;
-                            if (p.getDeaths() > 0 || p.getBuybacks() > 0 || p.getDamage() > 0 || p.getHealing() > 0) {
-                                contents.add(new TeamFightCast(0, "", TEAMFIGHT_HEADER, p));
-                                if (p.getKilled().size() > 0) {
-                                    contents.add(new Cast(context.getResources().getColor(R.color.win), context.getResources().getString(R.string.kills), HEADER));
-                                    for (Map.Entry<String, Integer> entry : p.getKilled().entrySet()) {
-                                        Hero hero = MainActivity.heroes.get(entry.getKey());
-                                        for (int k = 0; k < entry.getValue(); k++)
-                                            contents.add(new Cast(entry.getValue(), "hero_" + hero.getId() + "_icon", HERO));
-                                    }
+                        }
+                        if (j == 5) {
+                            contents.add(new Cast(R.drawable.dire_header, context.getResources().getString(R.string.dire), RADIANT_HEADER));
+                        }
+                        j++;
+                        if (p.getDeaths() > 0 || p.getBuybacks() > 0 || p.getDamage() > 0 || p.getHealing() > 0) {
+                            contents.add(new TeamFightCast(0, "", TEAMFIGHT_HEADER, p));
+                            if (p.getKilled().size() > 0) {
+                                contents.add(new Cast(context.getResources().getColor(R.color.win), context.getResources().getString(R.string.kills), HEADER));
+                                for (Map.Entry<String, Integer> entry : p.getKilled().entrySet()) {
+                                    Hero hero = MainActivity.heroes.get(entry.getKey());
+                                    for (int k = 0; k < entry.getValue(); k++)
+                                        contents.add(new Cast(entry.getValue(), "hero_" + hero.getId() + "_icon", HERO));
                                 }
-                                if (p.getAbility_uses().size() + p.getItem_uses().size() > 0) {
-                                    contents.add(new Cast(context.getResources().getColor(R.color.lose), context.getResources().getString(R.string.cast), HEADER));
-                                    for (Map.Entry<String, Integer> entry : p.getAbility_uses().entrySet()) {
-                                        for (Map.Entry<String, String> entry1 : MainActivity.ability_ids.entrySet()) {
-                                            if (entry1.getValue().equals(entry.getKey())) {
-                                                contents.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY));
-                                                break;
-                                            }
+                            }
+                            if (p.getAbility_uses().size() + p.getItem_uses().size() > 0) {
+                                contents.add(new Cast(context.getResources().getColor(R.color.lose), context.getResources().getString(R.string.cast), HEADER));
+                                for (Map.Entry<String, Integer> entry : p.getAbility_uses().entrySet()) {
+                                    for (Map.Entry<String, String> entry1 : MainActivity.ability_ids.entrySet()) {
+                                        if (entry1.getValue().equals(entry.getKey())) {
+                                            contents.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY));
+                                            break;
                                         }
                                     }
-                                    for (Map.Entry<String, Integer> entry : p.getItem_uses().entrySet()) {
-                                        Item item = MainActivity.items.get(entry.getKey());
-                                        contents.add(new Cast(entry.getValue(), item.getId() + "", ITEM));
-                                    }
+                                }
+                                for (Map.Entry<String, Integer> entry : p.getItem_uses().entrySet()) {
+                                    Item item = MainActivity.items.get(entry.getKey());
+                                    contents.add(new Cast(entry.getValue(), item.getId() + "", ITEM));
                                 }
                             }
                         }
-                        final SpannableString death = new SpannableString(" ");
-                        Drawable drawable = context.getDrawable(R.drawable.player_death);
-                        Objects.requireNonNull(drawable).setBounds(0, 0, 40, 42);
-                        death.setSpan(new ImageSpan(drawable), 0, death.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        final SpannableString gold = new SpannableString(" ");
-                        drawable = context.getDrawable(R.drawable.gold);
-                        Objects.requireNonNull(drawable).setBounds(0, 0, 50, 34);
-                        gold.setSpan(new ImageSpan(drawable), 0, gold.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        final SpannableString radiant_death = new SpannableString(radiant_deaths + "");
-                        final SpannableString dire_death = new SpannableString(dire_deaths + "");
-                        final SpannableString radiant_gold = new SpannableString(radiant_gold_delta + "");
-                        final SpannableString dire_gold = new SpannableString(dire_gold_delta + "");
-                        final SpannableString up = new SpannableString(" ");
-                        drawable = context.getDrawable(R.drawable.ic_arrow_drop_up_black_24dp);
-                        Objects.requireNonNull(drawable).setBounds(0, 0, 48, 48);
-                        up.setSpan(new ImageSpan(drawable), 0, up.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        final SpannableString down = new SpannableString(" ");
-                        drawable = context.getDrawable(R.drawable.ic_arrow_drop_down_black_24dp);
-                        Objects.requireNonNull(drawable).setBounds(0, 0, 48, 48);
-                        down.setSpan(new ImageSpan(drawable), 0, down.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        dire_death.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.lose)), 0, dire_death.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        radiant_death.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.lose)), 0, radiant_death.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        final int radiant_gold_delta_f = radiant_gold_delta;
-                        final int dire_gold_delta_f = dire_gold_delta;
-                        teamFight.itemView.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (radiant_gold_delta_f > 0) {
-                                    radiant_gold.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.win)), 0, radiant_gold.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                    teamFight.radiant_gold_delta.setText(new SpannableStringBuilder().append(up).append(radiant_gold).append(" ").append(gold));
-                                } else {
-                                    radiant_gold.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.lose)), 0, radiant_gold.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                    teamFight.radiant_gold_delta.setText(new SpannableStringBuilder().append(down).append(radiant_gold).append(" ").append(gold));
-                                }
-                                if (dire_gold_delta_f > 0) {
-                                    dire_gold.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.win)), 0, dire_gold.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                    teamFight.dire_gold_delta.setText(new SpannableStringBuilder().append(gold).append(" ").append(dire_gold).append(up));
-                                } else {
-                                    dire_gold.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.lose)), 0, dire_gold.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                    teamFight.dire_gold_delta.setText(new SpannableStringBuilder().append(gold).append(" ").append(dire_gold).append(down));
-                                }
-                                if (radiant_gold_delta_f - dire_gold_delta_f > 0) {
-                                    teamFight.teamfight_win.setText(String.format("%s %s", context.getString(R.string.radiant), context.getString(R.string.win)));
-                                    teamFight.teamfight_win.setTextColor(context.getResources().getColor(R.color.win));
-                                } else {
-                                    teamFight.teamfight_win.setText(String.format("%s %s", context.getString(R.string.dire), context.getString(R.string.win)));
-                                    teamFight.teamfight_win.setTextColor(context.getResources().getColor(R.color.lose));
-                                }
-                                if (Math.abs(Math.abs(radiant_gold_delta_f) - Math.abs(dire_gold_delta_f)) < 250) {
-                                    teamFight.teamfight_win.setText(context.getString(R.string.drew));
-                                    teamFight.teamfight_win.setTextColor(context.getResources().getColor(R.color.high));
-                                }
-                                teamFight.radiant_death.setText(new SpannableStringBuilder().append(death).append(context.getString(R.string.r_d)).append(radiant_death));
-                                teamFight.dire_death.setText(new SpannableStringBuilder().append(context.getString(R.string.d_d)).append(dire_death).append(" ").append(death));
-                                //TODO rewrite teamfights to popup window
+                    }
+                    final SpannableString death = new SpannableString(" ");
+                    Drawable drawable = context.getDrawable(R.drawable.player_death);
+                    Objects.requireNonNull(drawable).setBounds(0, 0, 40, 42);
+                    death.setSpan(new ImageSpan(drawable), 0, death.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    final SpannableString gold = new SpannableString(" ");
+                    drawable = context.getDrawable(R.drawable.gold);
+                    Objects.requireNonNull(drawable).setBounds(0, 0, 50, 34);
+                    gold.setSpan(new ImageSpan(drawable), 0, gold.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    final SpannableString radiant_death = new SpannableString(radiant_deaths + "");
+                    final SpannableString dire_death = new SpannableString(dire_deaths + "");
+                    final SpannableString radiant_gold = new SpannableString(radiant_gold_delta + "");
+                    final SpannableString dire_gold = new SpannableString(dire_gold_delta + "");
+                    final SpannableString up = new SpannableString(" ");
+                    drawable = context.getDrawable(R.drawable.ic_arrow_drop_up_black_24dp);
+                    Objects.requireNonNull(drawable).setBounds(0, 0, 48, 48);
+                    up.setSpan(new ImageSpan(drawable), 0, up.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    final SpannableString down = new SpannableString(" ");
+                    drawable = context.getDrawable(R.drawable.ic_arrow_drop_down_black_24dp);
+                    Objects.requireNonNull(drawable).setBounds(0, 0, 48, 48);
+                    down.setSpan(new ImageSpan(drawable), 0, down.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    dire_death.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.lose)), 0, dire_death.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    radiant_death.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.lose)), 0, radiant_death.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    final int radiant_gold_delta_f = radiant_gold_delta;
+                    final int dire_gold_delta_f = dire_gold_delta;
+                    teamFight.itemView.post(() -> {
+                        if (radiant_gold_delta_f > 0) {
+                            radiant_gold.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.win)), 0, radiant_gold.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            teamFight.radiant_gold_delta.setText(new SpannableStringBuilder().append(up).append(radiant_gold).append(" ").append(gold));
+                        } else {
+                            radiant_gold.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.lose)), 0, radiant_gold.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            teamFight.radiant_gold_delta.setText(new SpannableStringBuilder().append(down).append(radiant_gold).append(" ").append(gold));
+                        }
+                        if (dire_gold_delta_f > 0) {
+                            dire_gold.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.win)), 0, dire_gold.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            teamFight.dire_gold_delta.setText(new SpannableStringBuilder().append(gold).append(" ").append(dire_gold).append(up));
+                        } else {
+                            dire_gold.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.lose)), 0, dire_gold.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            teamFight.dire_gold_delta.setText(new SpannableStringBuilder().append(gold).append(" ").append(dire_gold).append(down));
+                        }
+                        if (radiant_gold_delta_f - dire_gold_delta_f > 0) {
+                            teamFight.teamfight_win.setText(String.format("%s %s", context.getString(R.string.radiant), context.getString(R.string.win)));
+                            teamFight.teamfight_win.setTextColor(context.getResources().getColor(R.color.win));
+                        } else {
+                            teamFight.teamfight_win.setText(String.format("%s %s", context.getString(R.string.dire), context.getString(R.string.win)));
+                            teamFight.teamfight_win.setTextColor(context.getResources().getColor(R.color.lose));
+                        }
+                        if (Math.abs(Math.abs(radiant_gold_delta_f) - Math.abs(dire_gold_delta_f)) < 250) {
+                            teamFight.teamfight_win.setText(context.getString(R.string.drew));
+                            teamFight.teamfight_win.setTextColor(context.getResources().getColor(R.color.high));
+                        }
+                        teamFight.radiant_death.setText(new SpannableStringBuilder().append(death).append(context.getString(R.string.r_d)).append(radiant_death));
+                        teamFight.dire_death.setText(new SpannableStringBuilder().append(context.getString(R.string.d_d)).append(dire_death).append(" ").append(death));
+                        //TODO rewrite teamfights to popup window
 //                                final CastAdapter castAdapter = new CastAdapter(context, contents);
 //                                GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 10);
 //                                gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -449,9 +445,7 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 //                                    }
 //
 //                                });
-                            }
-                        });
-                    }
+                    });
                 }).start();
             }
         }
@@ -462,7 +456,7 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return logs.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         final SimpleDraweeView killer;
         final SimpleDraweeView killed;
         final SimpleDraweeView kill_sign;
@@ -471,19 +465,19 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         final TextView log;
         final TextView time;
 
-        public void setVisibility(boolean isVisible) {
-            RecyclerView.LayoutParams param = (RecyclerView.LayoutParams) itemView.getLayoutParams();
-            if (isVisible) {
-                param.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-                param.width = LinearLayout.LayoutParams.MATCH_PARENT;
-                itemView.setVisibility(View.VISIBLE);
-            } else {
-                itemView.setVisibility(View.GONE);
-                param.height = getAdapterPosition() == getItemCount() - 1 || getAdapterPosition() == 0 ? 1 : 0;
-                param.width = 0;
-            }
-            itemView.setLayoutParams(param);
-        }
+//        public void setVisibility(boolean isVisible) {
+//            RecyclerView.LayoutParams param = (RecyclerView.LayoutParams) itemView.getLayoutParams();
+//            if (isVisible) {
+//                param.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+//                param.width = LinearLayout.LayoutParams.MATCH_PARENT;
+//                itemView.setVisibility(View.VISIBLE);
+//            } else {
+//                itemView.setVisibility(View.GONE);
+//                param.height = getAdapterPosition() == getItemCount() - 1 || getAdapterPosition() == 0 ? 1 : 0;
+//                param.width = 0;
+//            }
+//            itemView.setLayoutParams(param);
+//        }
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -533,26 +527,26 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    public class ViewHolderNotKill extends RecyclerView.ViewHolder {
+    class ViewHolderNotKill extends RecyclerView.ViewHolder {
         final SimpleDraweeView who;
         final View color;
         final TextView name;
         final TextView log;
         final TextView time;
-
-        public void setVisibility(boolean isVisible) {
-            RecyclerView.LayoutParams param = (RecyclerView.LayoutParams) itemView.getLayoutParams();
-            if (isVisible) {
-                param.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-                param.width = LinearLayout.LayoutParams.MATCH_PARENT;
-                itemView.setVisibility(View.VISIBLE);
-            } else {
-                itemView.setVisibility(View.GONE);
-                param.height = getAdapterPosition() == getItemCount() - 1 || getAdapterPosition() == 0 ? 1 : 0;
-                param.width = 0;
-            }
-            itemView.setLayoutParams(param);
-        }
+//
+//        public void setVisibility(boolean isVisible) {
+//            RecyclerView.LayoutParams param = (RecyclerView.LayoutParams) itemView.getLayoutParams();
+//            if (isVisible) {
+//                param.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+//                param.width = LinearLayout.LayoutParams.MATCH_PARENT;
+//                itemView.setVisibility(View.VISIBLE);
+//            } else {
+//                itemView.setVisibility(View.GONE);
+//                param.height = getAdapterPosition() == getItemCount() - 1 || getAdapterPosition() == 0 ? 1 : 0;
+//                param.width = 0;
+//            }
+//            itemView.setLayoutParams(param);
+//        }
 
         ViewHolderNotKill(View itemView) {
             super(itemView);

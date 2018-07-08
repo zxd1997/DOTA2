@@ -22,6 +22,7 @@
         android:layout_height="106dp"
         fresco:layout_constraintStart_toStartOf="parent"
         fresco:layout_constraintTop_toTopOf="parent"
+        android:transitionName="player"
         fresco:placeholderImage="@drawable/logo" />
 
     <TextView

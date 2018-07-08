@@ -46,7 +46,7 @@
         <activity
             android:name=".Activities.HeroActivity"
             android:label="@string/title_activity_hero"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

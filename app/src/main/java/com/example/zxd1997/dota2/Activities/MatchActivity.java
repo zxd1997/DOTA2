@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.zxd1997.dota2.Adapters.TabFragmentAdapter;
 import com.example.zxd1997.dota2.Beans.Match;
@@ -45,8 +46,8 @@ public class MatchActivity extends AppCompatActivity {
     private final static int LOADED = 1;
     private final static int LOADEDALL = 6;
     private TabLayout tabLayout;
-    IntentFilter intentFilter = new IntentFilter("loaded");
-    Receiver receiver = new Receiver();
+    private final IntentFilter intentFilter = new IntentFilter("loaded");
+    private final Receiver receiver = new Receiver();
     private TabFragmentAdapter tabFragmentAdapter;
     private final List<Fragment> fragments = new ArrayList<>();
     private ProgressBar progressBar;
@@ -56,49 +57,52 @@ public class MatchActivity extends AppCompatActivity {
     private final Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            switch (msg.what) {
-                case MATCH: {
-                    match = new Gson().fromJson(msg.obj.toString(), Match.class);
-                    Log.d("info", "handleMessage: " + match.getMatch_id() + " " + match.getRadiant_score() + " " + match.getDire_score() + " " + match.getReplay_salt() + " " + match.getTeamfights());
-                    fragments.add(OverviewFragment.newInstance());
-                    LocalBroadcastManager.getInstance(Objects.requireNonNull(getApplicationContext())).registerReceiver(receiver, intentFilter);
-                    if (match.getRadiant_xp_adv() == null || match.getReplay_salt() == 0 || match.getTeamfights() == null || match.getChat() == null || match.getObjectives() == null) {
-                        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_6)));
-                        fragments.add(NoDetailFragment.newInstance());
-                        tabFragmentAdapter.notifyDataSetChanged();
-                        mViewPager.setOffscreenPageLimit(fragments.size());
-                        tabFragmentAdapter.notifyDataSetChanged();
-                    } else {
-                        parsed = true;
-                        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-                        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_7)));
-                        fragments.add(DetailFragment.newInstance());
-                        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_8)));
-                        fragments.add(EconomyFragment.newInstance());
-                        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_9)));
-                        fragments.add(PurchaseAndCastFragment.newInstance());
-                        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_10)));
-                        fragments.add(VisionFragment.newInstance());
-                        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_11)));
-                        fragments.add(LogsFragment.newInstance());
-                        tabFragmentAdapter.notifyDataSetChanged();
-                        mViewPager.setOffscreenPageLimit(fragments.size());
+            if (msg.obj.toString().contains("rate limit exceeded")) {
+                Toast.makeText(MatchActivity.this, R.string.api_rate, Toast.LENGTH_LONG).show();
+            } else
+                switch (msg.what) {
+                    case MATCH: {
+                        match = new Gson().fromJson(msg.obj.toString(), Match.class);
+                        Log.d("info", "handleMessage: " + match.getMatch_id() + " " + match.getRadiant_score() + " " + match.getDire_score() + " " + match.getReplay_salt() + " " + match.getTeamfights());
+                        fragments.add(OverviewFragment.newInstance());
+                        LocalBroadcastManager.getInstance(Objects.requireNonNull(getApplicationContext())).registerReceiver(receiver, intentFilter);
+                        if (match.getRadiant_xp_adv() == null || match.getReplay_salt() == 0 || match.getTeamfights() == null || match.getChat() == null || match.getObjectives() == null) {
+                            tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_6)));
+                            fragments.add(NoDetailFragment.newInstance());
+                            tabFragmentAdapter.notifyDataSetChanged();
+                            mViewPager.setOffscreenPageLimit(fragments.size());
+                            tabFragmentAdapter.notifyDataSetChanged();
+                        } else {
+                            parsed = true;
+                            tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+                            tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_7)));
+                            fragments.add(DetailFragment.newInstance());
+                            tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_8)));
+                            fragments.add(EconomyFragment.newInstance());
+                            tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_9)));
+                            fragments.add(PurchaseAndCastFragment.newInstance());
+                            tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_10)));
+                            fragments.add(VisionFragment.newInstance());
+                            tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_text_11)));
+                            fragments.add(LogsFragment.newInstance());
+                            tabFragmentAdapter.notifyDataSetChanged();
+                            mViewPager.setOffscreenPageLimit(fragments.size());
+                        }
+                        break;
                     }
-                    break;
+                    case LOADED: {
+                        mViewPager.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.GONE);
+                        LocalBroadcastManager.getInstance(Objects.requireNonNull(getApplicationContext())).unregisterReceiver(receiver);
+                        break;
+                    }
+                    case LOADEDALL: {
+                        mViewPager.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.GONE);
+                        LocalBroadcastManager.getInstance(Objects.requireNonNull(getApplicationContext())).unregisterReceiver(receiver);
+                        break;
+                    }
                 }
-                case LOADED: {
-                    mViewPager.setVisibility(View.VISIBLE);
-                    progressBar.setVisibility(View.GONE);
-                    LocalBroadcastManager.getInstance(Objects.requireNonNull(getApplicationContext())).unregisterReceiver(receiver);
-                    break;
-                }
-                case LOADEDALL: {
-                    mViewPager.setVisibility(View.VISIBLE);
-                    progressBar.setVisibility(View.GONE);
-                    LocalBroadcastManager.getInstance(Objects.requireNonNull(getApplicationContext())).unregisterReceiver(receiver);
-                    break;
-                }
-            }
             return true;
         }
     });
@@ -120,6 +124,7 @@ public class MatchActivity extends AppCompatActivity {
             }
         }
     }
+
     private ViewPager mViewPager;
 
     public Match getMatch() {
