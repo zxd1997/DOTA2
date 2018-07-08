@@ -92,6 +92,7 @@ public class PlayerActivity extends AppCompatActivity {
                                            List<View> elements,
                                            List<View> snapshots) {
                 super.onSharedElementEnd(names, elements, snapshots);
+                progressBar.setVisibility(View.GONE);
                 for (final View view : elements) {
                     if (view instanceof SimpleDraweeView) {
                         view.post(() -> {

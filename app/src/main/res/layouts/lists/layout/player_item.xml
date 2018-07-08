@@ -107,6 +107,7 @@
                 android:layout_marginRight="4dp"
                 fresco:layout_constraintRight_toLeftOf="@id/item_1"
                 fresco:layout_constraintTop_toTopOf="@id/item_1"
+                fresco:actualImageScaleType="centerCrop"
                 fresco:roundedCornerRadius="2dp" />
 
             <com.facebook.drawee.view.SimpleDraweeView
@@ -117,6 +118,7 @@
                 android:layout_marginTop="4dp"
                 fresco:layout_constraintEnd_toStartOf="@+id/item_2"
                 fresco:layout_constraintTop_toTopOf="parent"
+                fresco:actualImageScaleType="centerCrop"
                 fresco:roundedCornerRadius="2dp" />
 
             <com.facebook.drawee.view.SimpleDraweeView
@@ -127,6 +129,7 @@
                 android:layout_marginTop="4dp"
                 fresco:layout_constraintEnd_toEndOf="parent"
                 fresco:layout_constraintTop_toTopOf="parent"
+                fresco:actualImageScaleType="centerCrop"
                 fresco:roundedCornerRadius="2dp" />
 
             <com.facebook.drawee.view.SimpleDraweeView
@@ -137,6 +140,7 @@
                 android:layout_marginRight="4dp"
                 fresco:layout_constraintBottom_toBottomOf="parent"
                 fresco:layout_constraintEnd_toStartOf="@+id/item_4"
+                fresco:actualImageScaleType="centerCrop"
                 fresco:roundedCornerRadius="2dp" />
 
             <com.facebook.drawee.view.SimpleDraweeView
@@ -146,6 +150,7 @@
                 android:layout_marginBottom="4dp"
                 android:layout_marginRight="4dp"
                 fresco:layout_constraintBottom_toBottomOf="parent"
+                fresco:actualImageScaleType="centerCrop"
                 fresco:layout_constraintEnd_toStartOf="@+id/item_5"
                 fresco:roundedCornerRadius="2dp" />
 
@@ -155,6 +160,7 @@
                 android:layout_height="26dp"
                 android:layout_marginBottom="4dp"
                 android:layout_marginRight="4dp"
+                fresco:actualImageScaleType="centerCrop"
                 android:layout_marginTop="4dp"
                 fresco:layout_constraintBottom_toBottomOf="parent"
                 fresco:layout_constraintEnd_toEndOf="parent"

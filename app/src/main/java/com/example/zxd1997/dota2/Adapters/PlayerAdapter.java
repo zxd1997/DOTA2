@@ -110,7 +110,8 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             case PLAYER: {
                 final Match.PPlayer p = (Match.PPlayer) contents.get(position).object;
                 final ViewHolder viewHolder = (ViewHolder) holder;
-                viewHolder.player_hero.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId("hero_" + p.getHero_id(), R.drawable.class))).build());
+//                viewHolder.player_hero.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId("hero_" + p.getHero_id(), R.drawable.class))).build());
+                Tools.showImage(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId("hero_" + p.getHero_id(), R.drawable.class))).build(), viewHolder.player_hero);
                 viewHolder.player.setText(p.getName() != null ? p.getName() : p.getPersonaname() == null || p.getPersonaname().equals("") ? context.getResources().getString(R.string.anonymous) : p.getPersonaname());
                 if (p.getName() != null || p.getPersonaname() != null) {
                     viewHolder.player.setOnClickListener(v -> {
@@ -158,12 +159,13 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 float in_battle = p.isRadiant() ? (float) (p.getKills() + p.getAssists()) / match.getRadiant_score() * 100 : (float) (p.getKills() + p.getAssists()) / match.getDire_score() * 100;
                 viewHolder.in_battle.setText(String.format("%s%%", context.getString(R.string.in_battle, in_battle)));
                 viewHolder.damage.setText(context.getString(R.string.damage_, p.getHero_damage()));
-                viewHolder.item_0.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + p.getItem_0(), R.drawable.class))).build());
-                viewHolder.item_1.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + p.getItem_1(), R.drawable.class))).build());
-                viewHolder.item_2.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + p.getItem_2(), R.drawable.class))).build());
-                viewHolder.item_3.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + p.getItem_3(), R.drawable.class))).build());
-                viewHolder.item_4.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + p.getItem_4(), R.drawable.class))).build());
-                viewHolder.item_5.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + p.getItem_5(), R.drawable.class))).build());
+//                viewHolder.item_0.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + p.getItem_0(), R.drawable.class))).build());
+                Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + p.getItem_0(), R.drawable.class))).build(), viewHolder.item_0);
+                Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + p.getItem_1(), R.drawable.class))).build(), viewHolder.item_1);
+                Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + p.getItem_2(), R.drawable.class))).build(), viewHolder.item_2);
+                Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + p.getItem_3(), R.drawable.class))).build(), viewHolder.item_3);
+                Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + p.getItem_4(), R.drawable.class))).build(), viewHolder.item_4);
+                Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + p.getItem_5(), R.drawable.class))).build(), viewHolder.item_5);
                 if (p.getLane_role() > 0) {
                     viewHolder.stuns.setText(context.getString(R.string.stuns, p.getStuns()));
                     SpannableStringBuilder t = new SpannableStringBuilder();
@@ -222,9 +224,9 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 viewHolder.hdm_ben.setText(new SpannableStringBuilder(context.getString(R.string.dpm)).append(Tools.getS(p.getBenchmarks().getHero_damage_per_min().getPct())));
                 viewHolder.kdm_ben.setText(new SpannableStringBuilder(context.getString(R.string.kpm)).append(Tools.getS(p.getBenchmarks().getKills_per_min().getPct())));
                 viewHolder.td_ben.setText(new SpannableStringBuilder(context.getString(R.string.td_)).append(Tools.getS(p.getBenchmarks().getTower_damage().getPct())));
-                viewHolder.backpack_0.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + p.getBackpack_0(), R.drawable.class))).build());
-                viewHolder.backpack_1.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + p.getBackpack_1(), R.drawable.class))).build());
-                viewHolder.backpack_2.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + p.getBackpack_2(), R.drawable.class))).build());
+                Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + p.getBackpack_0(), R.drawable.class))).build(), viewHolder.backpack_0);
+                Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + p.getBackpack_1(), R.drawable.class))).build(), viewHolder.backpack_1);
+                Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + p.getBackpack_2(), R.drawable.class))).build(), viewHolder.backpack_2);
                 if (p.getAdditional_units() != null) {
                     Match.PPlayer.Unit unit = p.getAdditional_units().get(0);
                     if (unit.getUnitname().equals("spirit_bear")) {
@@ -238,15 +240,17 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         viewHolder.bear_backpack_0 = viewHolder.itemView.findViewById(R.id.bear_backpack_0);
                         viewHolder.bear_backpack_1 = viewHolder.itemView.findViewById(R.id.bear_backpack_1);
                         viewHolder.bear_backpack_2 = viewHolder.itemView.findViewById(R.id.bear_backpack_2);
-                        viewHolder.bear_item_0.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + unit.getItem_0(), R.drawable.class))).build());
-                        viewHolder.bear_item_1.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + unit.getItem_1(), R.drawable.class))).build());
-                        viewHolder.bear_item_2.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + unit.getItem_2(), R.drawable.class))).build());
-                        viewHolder.bear_item_3.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + unit.getItem_3(), R.drawable.class))).build());
-                        viewHolder.bear_item_4.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + unit.getItem_4(), R.drawable.class))).build());
-                        viewHolder.bear_item_5.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + unit.getItem_5(), R.drawable.class))).build());
-                        viewHolder.bear_backpack_0.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + unit.getBackpack_0(), R.drawable.class))).build());
-                        viewHolder.bear_backpack_1.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + unit.getBackpack_1(), R.drawable.class))).build());
-                        viewHolder.bear_backpack_2.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + unit.getBackpack_2(), R.drawable.class))).build());
+//                        viewHolder.bear_item_0.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + unit.getItem_0(), R.drawable.class))).build());
+                        Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + unit.getItem_0(), R.drawable.class))).build(), viewHolder.bear_item_0);
+                        Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + unit.getItem_1(), R.drawable.class))).build(), viewHolder.bear_item_1);
+                        Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + unit.getItem_2(), R.drawable.class))).build(), viewHolder.bear_item_2);
+                        Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + unit.getItem_3(), R.drawable.class))).build(), viewHolder.bear_item_3);
+                        Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + unit.getItem_4(), R.drawable.class))).build(), viewHolder.bear_item_4);
+                        Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + unit.getItem_5(), R.drawable.class))).build(), viewHolder.bear_item_5);
+//                        viewHolder.bear_backpack_0.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + unit.getBackpack_0(), R.drawable.class))).build());
+                        Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + unit.getBackpack_0(), R.drawable.class))).build(), viewHolder.bear_backpack_0);
+                        Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + unit.getBackpack_1(), R.drawable.class))).build(), viewHolder.bear_backpack_1);
+                        Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + unit.getBackpack_1(), R.drawable.class))).build(), viewHolder.bear_backpack_2);
                     }
                 }
                 if (p.getPermanent_buffs() != null && p.getPermanent_buffs().size() > 0) {

@@ -140,8 +140,8 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             playerCard.win_rate.setText(String.format("%s%%", context.getString(R.string.rate, matchPlayer.getWinrate() * 100)));
         } else if (getItemViewType(position) == HERO_CARD) {
             HeroCard heroCard = (HeroCard) holder;
-            heroCard.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + contents.get(position).getHero_id() + "_icon", R.drawable.class))).build());
-            
+//            heroCard.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + contents.get(position).getHero_id() + "_icon", R.drawable.class))).build());
+            Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + contents.get(position).getHero_id() + "_icon", R.drawable.class))).build(), heroCard.header);
             List<Total> totals = ((MyHero) contents.get(position)).getTotal();
             if (totals != null) {
                 DecimalFormat df = new DecimalFormat("0.0");
@@ -167,7 +167,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         } else if (getItemViewType(position) == HEADER) {
             HeaderHolder headerHolder = (HeaderHolder) holder;
             headerHolder.text.setText(contents.get(position).getTitle());
-            headerHolder.text.setTextSize(6 * context.getResources().getDisplayMetrics().scaledDensity + 0.5f);
+            headerHolder.text.setTextSize(7 * context.getResources().getDisplayMetrics().scaledDensity + 0.5f);
         } else if (getItemViewType(position) == FOOT) {
             Footer footer = (Footer) holder;
             AnimationDrawable animationDrawable = (AnimationDrawable) footer.logo.getDrawable();
@@ -262,7 +262,8 @@ public class MatchesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     viewHolder.win_or_not.setText(context.getString(R.string.lose));
                 }
                 viewHolder.record_title.setText(recentMatch.getTitle());
-                viewHolder.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + recentMatch.getHero_id(), R.drawable.class))).build());
+//                viewHolder.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + recentMatch.getHero_id(), R.drawable.class))).build());
+                Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + recentMatch.getHero_id(), R.drawable.class))).build(), viewHolder.header);
                 viewHolder.time.setText(Tools.getBefore(recentMatch.getStart_time()));
             } else if (getItemViewType(position) == RANKING) {
                 final Ranking ranking = (Ranking) contents.get(position);

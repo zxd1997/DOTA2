@@ -260,4 +260,5 @@
     <string name="update">Update</string>
     <string name="updating">Updating</string>
     <string name="api_rate">API Rate Limit Exceed!</string>
+    <string name="time">Time:%s</string>
 </resources>

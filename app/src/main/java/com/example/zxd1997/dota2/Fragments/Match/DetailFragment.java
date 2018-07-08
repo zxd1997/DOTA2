@@ -2,6 +2,7 @@ package com.example.zxd1997.dota2.Fragments.Match;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,10 +22,8 @@ import android.view.ViewGroup;
 import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Activities.MatchActivity;
 import com.example.zxd1997.dota2.Adapters.CastAdapter;
-import com.example.zxd1997.dota2.Adapters.KillsAdapter;
 import com.example.zxd1997.dota2.Beans.Cast;
 import com.example.zxd1997.dota2.Beans.CastHeader;
-import com.example.zxd1997.dota2.Beans.Content;
 import com.example.zxd1997.dota2.Beans.Hero;
 import com.example.zxd1997.dota2.Beans.Item;
 import com.example.zxd1997.dota2.Beans.Match;
@@ -39,8 +38,8 @@ import java.util.Map;
 import java.util.Objects;
 
 public class DetailFragment extends Fragment {
-    private final List<Content> contents = new ArrayList<>();
-    private final List<Content> contents1 = new ArrayList<>();
+    private final List<Cast> cc1 = new ArrayList<>();
+    private final List<Cast> cc2 = new ArrayList<>();
     private final int ABILITY = 0;
     private final int ITEM = 1;
     private final int HEADER = -1;
@@ -49,25 +48,12 @@ public class DetailFragment extends Fragment {
     private final int ENTER = 6;
     private final int PLAYER_HEADER_DAMAGE = 10;
     private final List<Cast> casts = new ArrayList<>();
-    private RecyclerView kill;
     private RecyclerView d_detail;
     private final Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             if (getContext() != null) {
-                GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 6);
-                final KillsAdapter killsAdapter = new KillsAdapter(getContext(), contents);
-                gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                    @Override
-                    public int getSpanSize(int position) {
-                        return killsAdapter.getItemViewType(position) == 2 ? 6 : 1;
-                    }
-                });
-                kill.setLayoutManager(gridLayoutManager);
-                kill.setAdapter(killsAdapter);
-                kill.setNestedScrollingEnabled(false);
-                d_detail.setNestedScrollingEnabled(false);
-                GridLayoutManager gridLayoutManager1 = new GridLayoutManager(getContext(), 20);
+                GridLayoutManager gridLayoutManager1 = new GridLayoutManager(getContext(), 48);
                 final CastAdapter castAdapter = new CastAdapter(getContext(), casts);
                 gridLayoutManager1.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                     @Override
@@ -76,15 +62,18 @@ public class DetailFragment extends Fragment {
                             case -1:
                             case 9:
                             case 10:
-                                return 20;
+                                return 48;
                             case 4:
-                                return 1;
-                            case 5:
                                 return 3;
+                            case 5:
+                                return 9;
+                            case 13:
+                            case 14:
+                                return 8;
                             case 6:
-                                return 20;
+                                return 48;
                             default:
-                                return 2;
+                                return 6;
                         }
                     }
                 });
@@ -130,25 +119,24 @@ public class DetailFragment extends Fragment {
             getActivity().finish();
         } else {
             d_detail = view.findViewById(R.id.ddetail);
-            kill = view.findViewById(R.id.kills_recycler);
             new Thread(() -> {
-                contents.add(new Content(true, -1, R.string.kills));
-                contents.add(new Content(true, -2, 0));
-                contents1.add(new Content(true, -1, R.string.damage));
-                contents1.add(new Content(true, -2, 0));
+                cc1.add(new Cast(Color.BLACK, getString(R.string.kills), -1));
+                cc1.add(new Cast(0, "", 13));
+                cc2.add(new Cast(Color.BLACK, getString(R.string.damage), -1));
+                cc2.add(new Cast(0, "", 13));
                 List<Match.PPlayer> players = match.getPlayers();
                 for (int i = 5; i < players.size(); i++) {
                     Match.PPlayer p = players.get(i);
                     int color = Objects.requireNonNull(getContext()).getResources().getColor(Tools.getResId("slot_" + p.getPlayer_slot(), R.color.class));
 //                        Log.d("color", "onCreateView: " + color);
-                    contents.add(new Content(true, p.getHero_id(), color));
-                    contents1.add(new Content(true, p.getHero_id(), color));
+                    cc1.add(new Cast(color, p.getHero_id() + "", 13));
+                    cc2.add(new Cast(color, p.getHero_id() + "", 13));
                 }
                 for (int i = 0; i < 5; i++) {
                     Match.PPlayer p = players.get(i);
                     int color = Objects.requireNonNull(getContext()).getResources().getColor(Tools.getResId("slot_" + p.getPlayer_slot(), R.color.class));
-                    contents.add(new Content(true, p.getHero_id(), color));
-                    contents1.add(new Content(true, p.getHero_id(), color));
+                    cc1.add(new Cast(color, p.getHero_id() + "", 13));
+                    cc2.add(new Cast(color, p.getHero_id() + "", 13));
                     Map<String, Integer> killed = p.getKilled();
                     Map<String, Integer> killed_by = p.getKilled_by();
                     Map<String, Integer> damage = p.getDamage();
@@ -173,7 +161,7 @@ public class DetailFragment extends Fragment {
                         SpannableString dd = new SpannableString(d + "");
                         dd.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.lose)), 0, dd.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                         t.append(dd);
-                        contents.add(new Content(false, t));
+                        cc1.add(new Cast(0, t, 14));
                         t = new SpannableStringBuilder();
                         DecimalFormat df = new DecimalFormat("0.0");
                         kk = new SpannableString(dam > 1 ? df.format(dam) + "k" : (int) (dam * 1000) + "");
@@ -183,10 +171,12 @@ public class DetailFragment extends Fragment {
                         dd = new SpannableString(dam_t >= 1 ? df.format(dam_t) + "k" : (int) (dam_t * 1000) + "");
                         dd.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.lose)), 0, dd.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                         t.append(dd);
-                        contents1.add(new Content(false, t));
+                        cc2.add(new Cast(0, t, 14));
                     }
                 }
-                contents.addAll(contents1);
+                casts.addAll(cc1);
+                casts.addAll(cc2);
+                casts.add(new Cast(Color.BLACK, getString(R.string.damage_detail), -1));
                 for (Match.PPlayer p : match.getPlayers()) {
                     CastHeader castHeader = new CastHeader(getContext().getResources().getColor(Tools.getResId("slot_" + p.getPlayer_slot(), R.color.class)),
                             p.getName() != null ? p.getName() : p.getPersonaname() == null || p.getPersonaname().equals("") ? getContext().getResources().getString(R.string.anonymous) : p.getPersonaname(),
@@ -200,7 +190,10 @@ public class DetailFragment extends Fragment {
                                 casts.add(new Cast(0, "", ARROW));
                                 int i = 0;
                                 for (Map.Entry<String, Integer> entry1 : p.getDamage_targets().get(entry.getKey()).entrySet()) {
-                                    if (i == 8) casts.add(new Cast(0, "", ENTER));
+                                    if (i == 6) {
+                                        casts.add(new Cast(0, "", ENTER));
+                                        casts.add(new Cast(0, "", 5));
+                                    }
                                     casts.add(new Cast(entry1.getValue(), "hero_" + MainActivity.heroes.get(entry1.getKey()).getId() + "_icon", HERO1));
                                     i++;
                                 }
@@ -215,7 +208,10 @@ public class DetailFragment extends Fragment {
                                         casts.add(new Cast(0, "", ARROW));
                                         int i = 0;
                                         for (Map.Entry<String, Integer> entry2 : p.getDamage_targets().get(entry.getKey()).entrySet()) {
-                                            if (i == 8) casts.add(new Cast(0, "", ENTER));
+                                            if (i == 6) {
+                                                casts.add(new Cast(0, "", ENTER));
+                                                casts.add(new Cast(0, "", 5));
+                                            }
                                             casts.add(new Cast(entry2.getValue(), "hero_" + MainActivity.heroes.get(entry2.getKey()).getId() + "_icon", HERO1));
                                             i++;
                                         }
@@ -232,7 +228,10 @@ public class DetailFragment extends Fragment {
                                     casts.add(new Cast(0, "", ARROW));
                                     int i = 0;
                                     for (Map.Entry<String, Integer> entry1 : p.getDamage_targets().get(entry.getKey()).entrySet()) {
-                                        if (i == 8) casts.add(new Cast(0, "", ENTER));
+                                        if (i == 6) {
+                                            casts.add(new Cast(0, "", ENTER));
+                                            casts.add(new Cast(0, "", 5));
+                                        }
                                         casts.add(new Cast(entry1.getValue(), "hero_" + MainActivity.heroes.get(entry1.getKey()).getId() + "_icon", HERO1));
                                         i++;
                                     }

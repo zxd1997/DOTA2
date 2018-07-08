@@ -53,7 +53,8 @@ public class KillsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 if (contents.get(position).getHero_id() != -2) {
                     HeaderHolder headerHolder = (HeaderHolder) holder;
                     headerHolder.color.setBackgroundColor(contents.get(position).getColor());
-                    headerHolder.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + contents.get(position).getHero_id(), R.drawable.class))).build());
+//                    headerHolder.header.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + contents.get(position).getHero_id(), R.drawable.class))).build());
+                    Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + contents.get(position).getHero_id(), R.drawable.class))).build(), headerHolder.header);
                 }
                 break;
             case 2:

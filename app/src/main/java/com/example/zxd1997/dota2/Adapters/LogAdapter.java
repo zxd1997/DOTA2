@@ -123,13 +123,16 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Match.Objective kill = logs.get(position);
                 ViewHolder viewHolder = (ViewHolder) holder;
                 viewHolder.color.setBackgroundColor(context.getResources().getColor(Tools.getResId("slot_" + kill.getPlayer_slot(), R.color.class)));
-                viewHolder.killer.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId(kill.getHero_id(), R.drawable.class))).build());
+//                viewHolder.killer.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId(kill.getHero_id(), R.drawable.class))).build());
+                Tools.showImage(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId(kill.getHero_id(), R.drawable.class))).build(), viewHolder.killer);
                 if (kill.getPlayer_slot() < 100) {
-                    viewHolder.kill_sign.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.radiant_kill)).build());
+//                    viewHolder.kill_sign.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.radiant_kill)).build());
+                    Tools.showImage(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.radiant_kill)).build(), viewHolder.kill_sign);
                 } else {
-                    viewHolder.kill_sign.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.dire_kill)).build());
+                    Tools.showImage(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.dire_kill)).build(), viewHolder.kill_sign);
                 }
-                viewHolder.killed.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId("hero_" + MainActivity.heroes.get(kill.getKey()).getId(), R.drawable.class))).build());
+//                viewHolder.killed.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId("hero_" + MainActivity.heroes.get(kill.getKey()).getId(), R.drawable.class))).build());
+                Tools.showImage(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId("hero_" + MainActivity.heroes.get(kill.getKey()).getId(), R.drawable.class))).build(), viewHolder.killed);
                 viewHolder.killed.setVisibility(View.VISIBLE);
                 viewHolder.name.setText(kill.getName());
                 viewHolder.time.setText(tt);
@@ -144,12 +147,12 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 viewHolder.log.setVisibility(View.VISIBLE);
                 viewHolder.time.setText(tt);
                 viewHolder.killed.setVisibility(View.GONE);
-                viewHolder.killer.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId(o.getHero_id(), R.drawable.class))).build());
+                Tools.showImage(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId(o.getHero_id(), R.drawable.class))).build(), viewHolder.killer);
                 viewHolder.color.setBackgroundColor(context.getResources().getColor(Tools.getResId("slot_" + o.getPlayer_slot(), R.color.class)));
                 if (o.getPlayer_slot() < 100) {
-                    viewHolder.kill_sign.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.radiant_kill)).build());
+                    Tools.showImage(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.radiant_kill)).build(), viewHolder.kill_sign);
                 } else {
-                    viewHolder.kill_sign.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.dire_kill)).build());
+                    Tools.showImage(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.dire_kill)).build(), viewHolder.kill_sign);
                 }
                 viewHolder.name.setText(o.getName());
                 break;
@@ -158,7 +161,8 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Match.Objective rune = logs.get(position);
                 ViewHolderNotKill viewHolder = (ViewHolderNotKill) holder;
                 viewHolder.color.setBackgroundColor(context.getResources().getColor(Tools.getResId("slot_" + rune.getPlayer_slot(), R.color.class)));
-                viewHolder.who.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId(rune.getHero_id(), R.drawable.class))).build());
+//                viewHolder.who.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId(rune.getHero_id(), R.drawable.class))).build());
+                Tools.showImage(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId(rune.getHero_id(), R.drawable.class))).build(), viewHolder.who);
 //                Log.d(TAG, "onBindViewHolder: " + rune.getTime() + " " + rune.getType() + " " + rune.getKey());
                 viewHolder.name.setText(rune.getName());
                 SpannableStringBuilder t = new SpannableStringBuilder();
@@ -175,7 +179,7 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Match.Objective buyback = logs.get(position);
                 ViewHolderNotKill viewHolder = (ViewHolderNotKill) holder;
                 viewHolder.color.setBackgroundColor(context.getResources().getColor(Tools.getResId("slot_" + buyback.getPlayer_slot(), R.color.class)));
-                viewHolder.who.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId(buyback.getHero_id(), R.drawable.class))).build());
+                Tools.showImage(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId(buyback.getHero_id(), R.drawable.class))).build(), viewHolder.who);
                 viewHolder.name.setText(buyback.getName());
                 viewHolder.log.setText(R.string.buyback);
                 viewHolder.time.setText(tt);
@@ -185,7 +189,7 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Match.Objective fb = logs.get(position);
                 ViewHolderNotKill viewHolder = (ViewHolderNotKill) holder;
                 viewHolder.color.setBackgroundColor(context.getResources().getColor(Tools.getResId("slot_" + fb.getPlayer_slot(), R.color.class)));
-                viewHolder.who.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId(fb.getHero_id(), R.drawable.class))).build());
+                Tools.showImage(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId(fb.getHero_id(), R.drawable.class))).build(), viewHolder.who);
                 viewHolder.name.setText(fb.getName());
                 SpannableStringBuilder t = new SpannableStringBuilder();
                 SpannableString r = new SpannableString(" ");
@@ -201,7 +205,7 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Match.Objective aegis = logs.get(position);
                 ViewHolderNotKill viewHolder = (ViewHolderNotKill) holder;
                 viewHolder.color.setBackgroundColor(context.getResources().getColor(Tools.getResId("slot_" + aegis.getPlayer_slot(), R.color.class)));
-                viewHolder.who.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId(aegis.getHero_id(), R.drawable.class))).build());
+                Tools.showImage(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId(aegis.getHero_id(), R.drawable.class))).build(), viewHolder.who);
                 viewHolder.name.setText(aegis.getName());
                 SpannableStringBuilder t = new SpannableStringBuilder();
                 SpannableString r = new SpannableString(" ");
@@ -217,12 +221,13 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Match.Objective roshan = logs.get(position);
                 ViewHolder viewHolder = (ViewHolder) holder;
                 viewHolder.color.setBackgroundColor(context.getResources().getColor(Tools.getResId("slot_" + roshan.getPlayer_slot(), R.color.class)));
-                viewHolder.killer.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId(roshan.getHero_id(), R.drawable.class))).build());
+//                viewHolder.killer.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId(roshan.getHero_id(), R.drawable.class))).build());
+                Tools.showImage(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId(roshan.getHero_id(), R.drawable.class))).build(), viewHolder.killer);
                 viewHolder.name.setText(roshan.getName());
                 if (roshan.getTeam() == 2) {
-                    viewHolder.kill_sign.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.radiant_kill)).build());
+                    Tools.showImage(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.radiant_kill)).build(), viewHolder.kill_sign);
                 } else {
-                    viewHolder.kill_sign.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.dire_kill)).build());
+                    Tools.showImage(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.dire_kill)).build(), viewHolder.kill_sign);
                 }
                 SpannableStringBuilder t = new SpannableStringBuilder();
                 SpannableString r = new SpannableString(" ");
@@ -242,21 +247,23 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 SpannableStringBuilder t = new SpannableStringBuilder();
                 SpannableString r = new SpannableString(" ");
                 if (courier.getTeam() == 3) {
-                    viewHolder.killer.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.radiant_logo)).build());
+//                    viewHolder.killer.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.radiant_logo)).build());
+                    Tools.showImage(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.radiant_logo)).build(), viewHolder.killer);
                     viewHolder.color.setBackgroundColor(context.getResources().getColor(R.color.win));
                     courier.setName(context.getString(R.string.radiant));
                     courier.setHero_id("radiant_logo");
-                    viewHolder.kill_sign.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.radiant_kill)).build());
+                    Tools.showImage(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.radiant_kill)).build(), viewHolder.kill_sign);
                     Drawable drawable = context.getDrawable(R.drawable.direcourier);
                     Objects.requireNonNull(drawable).setBounds(0, 0, 45, 45);
                     r.setSpan(new ImageSpan(drawable), 0, r.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     t.append(context.getString(R.string.killed)).append(r).append(context.getString(R.string.dire_courier));
                 } else {
-                    viewHolder.killer.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.dire_logo)).build());
+//                    viewHolder.killer.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.dire_logo)).build());
+                    Tools.showImage(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.dire_logo)).build(), viewHolder.killer);
                     viewHolder.color.setBackgroundColor(context.getResources().getColor(R.color.lose));
                     courier.setName(context.getString(R.string.dire));
                     courier.setHero_id("dire_logo");
-                    viewHolder.kill_sign.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.dire_kill)).build());
+                    Tools.showImage(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(R.drawable.dire_kill)).build(), viewHolder.kill_sign);
                     Drawable drawable = context.getDrawable(R.drawable.radiantcourier);
                     Objects.requireNonNull(drawable).setBounds(0, 0, 45, 45);
                     r.setSpan(new ImageSpan(drawable), 0, r.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -275,7 +282,8 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 int resid = Tools.getResId("slot_" + chat.getPlayer_slot(), R.color.class);
                 if (resid != 0)
                     viewHolder.color.setBackgroundColor(context.getResources().getColor(resid));
-                viewHolder.who.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId(chat.getHero_id(), R.drawable.class))).build());
+//                viewHolder.who.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId(chat.getHero_id(), R.drawable.class))).build());
+                Tools.showImage(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId(chat.getHero_id(), R.drawable.class))).build(), viewHolder.who);
                 viewHolder.name.setText(chat.getName());
                 viewHolder.log.setText(String.format(":%s", chat.getKey()));
                 viewHolder.time.setText(tt);

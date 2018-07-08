@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.support.v4.app.SharedElementCallback;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.zxd1997.dota2.Adapters.MatchesAdapter;
@@ -25,6 +27,9 @@ import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.OKhttp;
 import com.example.zxd1997.dota2.Utils.Update;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.drawable.ScalingUtils;
+import com.facebook.drawee.view.DraweeTransition;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -113,6 +118,24 @@ public class PeerActivity extends AppCompatActivity {
         Update.setDensity(this, getApplication());
         getWindow().setStatusBarColor(Color.parseColor("#FFCC0000"));
         getWindow().setNavigationBarColor(Color.parseColor("#FFCC0000"));
+        getWindow().setSharedElementEnterTransition(DraweeTransition.createTransitionSet(ScalingUtils.ScaleType.CENTER_CROP, ScalingUtils.ScaleType.CENTER_CROP)); // 进入
+        getWindow().setSharedElementReturnTransition(DraweeTransition.createTransitionSet(ScalingUtils.ScaleType.CENTER_CROP, ScalingUtils.ScaleType.CENTER_CROP)); // 返回
+        setExitSharedElementCallback(new SharedElementCallback() {
+            @Override
+            public void onSharedElementEnd(List<String> names,
+                                           List<View> elements,
+                                           List<View> snapshots) {
+                super.onSharedElementEnd(names, elements, snapshots);
+                for (final View view : elements) {
+                    if (view instanceof SimpleDraweeView) {
+                        view.post(() -> {
+                            view.setVisibility(View.VISIBLE);
+                            view.requestLayout();
+                        });
+                    }
+                }
+            }
+        });
         setContentView(R.layout.activity_peer);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

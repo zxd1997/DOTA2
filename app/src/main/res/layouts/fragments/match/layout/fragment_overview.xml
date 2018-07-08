@@ -201,7 +201,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/players"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:descendantFocusability="blocksDescendants"
             android:focusable="false"
             android:focusableInTouchMode="false"

@@ -2,6 +2,7 @@ package com.example.zxd1997.dota2.Fragments.Match;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -59,11 +60,11 @@ public class PurchaseAndCastFragment extends Fragment {
         @Override
         public boolean handleMessage(Message msg) {
             final CastAdapter castAdapter = new CastAdapter(getContext(), casts);
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 10);
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 8);
             gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 @Override
                 public int getSpanSize(int position) {
-                    return (castAdapter.getItemViewType(position) == -1 || castAdapter.getItemViewType(position) == 9) ? 10 : 1;
+                    return (castAdapter.getItemViewType(position) == -1 || castAdapter.getItemViewType(position) == 9) ? 8 : 1;
                 }
             });
             recyclerView.setLayoutManager(gridLayoutManager);
@@ -102,6 +103,7 @@ public class PurchaseAndCastFragment extends Fragment {
                 }
             });
             new Thread(() -> {
+                casts.add(new Cast(Color.BLACK, Objects.requireNonNull(getContext()).getResources().getString(R.string.item_cast), HEADER));
                 for (Match.PPlayer p : match.getPlayers()) {
                     casts.add(new CastHeader(Objects.requireNonNull(getContext()).getResources().getColor(
                             Tools.getResId("slot_" + p.getPlayer_slot(), R.color.class)),

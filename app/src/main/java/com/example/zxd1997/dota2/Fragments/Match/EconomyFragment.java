@@ -2,6 +2,7 @@ package com.example.zxd1997.dota2.Fragments.Match;
 
 
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,7 +15,6 @@ import android.widget.TextView;
 
 import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Activities.MatchActivity;
-import com.example.zxd1997.dota2.Beans.Hero;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.Chart.MyColumnChartRenderer;
 import com.example.zxd1997.dota2.Chart.MyLineChartRenderer;
@@ -26,6 +26,7 @@ import com.example.zxd1997.dota2.Utils.Tools;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -133,12 +134,9 @@ public class EconomyFragment extends Fragment {
                     String h_name = "";
                     final TextView textView = view.findViewById(Tools.getResId("name" + l, R.id.class));
                     final View view1 = view.findViewById(Tools.getResId("color" + l, R.id.class));
-                    for (Map.Entry<String, Hero> entry : MainActivity.heroes.entrySet()) {
-                        if (entry.getValue().getId() == p.getHero_id()) {
-                            h_name = entry.getValue().getLocalized_name();
-                            break;
-                        }
-                    }
+                    TypedArray typedArray = getContext().getResources().obtainTypedArray(R.array.heroes);
+                    h_name = (String) typedArray.getText(p.getHero_id());
+                    typedArray.recycle();
                     List<PointValue> pointValues2 = new ArrayList<>();
                     for (int k : p.getGold_t()) {
                         pointValues2.add(new PointValue(i++, k).setLabel(h_name + ":" + k));
@@ -158,7 +156,10 @@ public class EconomyFragment extends Fragment {
                             .setHasLabelsOnlyForSelected(true)
                             .setStrokeWidth(1);
                     lines1.add(line1);
-                    axisValues.add(new AxisValue(l).setLabel(h_name.length() > 9 ? h_name.substring(0, 7) + ".." : h_name));
+                    if (getResources().getConfiguration().locale.equals(Locale.SIMPLIFIED_CHINESE))
+                        axisValues.add(new AxisValue(l).setLabel(h_name.length() > 5 ? h_name.substring(0, 4) + ".." : h_name));
+                    else
+                        axisValues.add(new AxisValue(l).setLabel(h_name.length() > 9 ? h_name.substring(0, 7) + ".." : h_name));
                     List<SubcolumnValue> sub_columnValues = new ArrayList<>();
                     sub_columnValues.add(new SubcolumnValue(p.getTotal_gold(), color).setLabel(h_name));
                     columns.add(new Column(sub_columnValues).setHasLabelsOnlyForSelected(true));

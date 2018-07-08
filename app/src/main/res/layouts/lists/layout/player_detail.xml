@@ -213,6 +213,7 @@
             android:layout_width="35dp"
             android:layout_height="26dp"
             android:layout_marginRight="4dp"
+            fresco:actualImageScaleType="centerCrop"
             fresco:layout_constraintEnd_toStartOf="@+id/backpack_1"
             fresco:layout_constraintTop_toTopOf="@id/backpack_2"
             fresco:roundedCornerRadius="2dp" />
@@ -222,6 +223,7 @@
             android:layout_width="35dp"
             android:layout_height="26dp"
             android:layout_marginRight="4dp"
+            fresco:actualImageScaleType="centerCrop"
             fresco:layout_constraintEnd_toStartOf="@+id/backpack_2"
             fresco:layout_constraintTop_toTopOf="@id/backpack_2"
             fresco:roundedCornerRadius="2dp" />
@@ -233,6 +235,7 @@
             android:layout_marginBottom="4dp"
             android:layout_marginRight="4dp"
             android:layout_marginTop="4dp"
+            fresco:actualImageScaleType="centerCrop"
             fresco:layout_constraintRight_toRightOf="parent"
             fresco:layout_constraintTop_toBottomOf="@id/backpack"
             fresco:roundedCornerRadius="2dp" />

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -113,7 +112,7 @@ public class VisionFragment extends Fragment {
                     final TextView time = view.findViewById(R.id.wards_time);
                     final RecyclerView recyclerView = view.findViewById(R.id.wards);
                     seekBar.setMax(match.getDuration());
-                    time.setText(R.string.zero);
+                    time.setText(Objects.requireNonNull(getContext()).getResources().getString(R.string.time, getContext().getResources().getString(R.string.zero)));
                     map.setWards(current_wards);
                     map.invalidate();
                     seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -121,7 +120,7 @@ public class VisionFragment extends Fragment {
                         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 //                                    Log.d(TAG, "onProgressChanged: ");
                             if (progress != 0) {
-                                time.setText(Tools.getTime(progress));
+                                time.setText(Objects.requireNonNull(getContext()).getResources().getString(R.string.time, Tools.getTime(progress)));
                                 current_wards.clear();
                                 for (Wards ward : wards) {
                                     if (ward.getWard().getTime() <= progress) {
@@ -134,7 +133,7 @@ public class VisionFragment extends Fragment {
                             } else {
                                 current_wards.clear();
                                 current_wards.addAll(wards);
-                                time.setText(R.string.zero);
+                                time.setText(Objects.requireNonNull(getContext()).getResources().getString(R.string.time, getContext().getResources().getString(R.string.zero)));
                             }
                             recyclerView.smoothScrollToPosition(0);
                             wardsAdapter.notifyDataSetChanged();
@@ -154,9 +153,8 @@ public class VisionFragment extends Fragment {
                     });
                     recyclerView.setNestedScrollingEnabled(false);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                    recyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
                     recyclerView.setAdapter(wardsAdapter);
-                    LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
+                    LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(Objects.requireNonNull(getContext()));
                     Intent intent = new Intent("loaded");
                     localBroadcastManager.sendBroadcast(intent);
                     Log.d("send", "run: send");

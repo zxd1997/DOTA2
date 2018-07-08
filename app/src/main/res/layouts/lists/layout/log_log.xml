@@ -36,28 +36,29 @@
         android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="95dp"
+        android:layout_marginLeft="100dp"
         android:ellipsize="end"
         android:singleLine="true"
         android:textColor="@android:color/black"
-        android:textSize="13sp" />
+        android:textSize="12sp" />
     <TextView
         android:id="@+id/do_what"
-        android:layout_width="181dp"
+        android:layout_width="191dp"
         android:layout_height="wrap_content"
         android:layout_gravity="right|center_vertical"
-        android:layout_marginRight="1dp"
         android:ellipsize="end"
         android:gravity="center_vertical"
-        android:lineSpacingMultiplier="0.79"
+        android:lineSpacingMultiplier="0.8"
         android:singleLine="false"
-        android:textSize="13sp"
+        android:textSize="12sp"
         tools:text="Activated Double Damage Rune" />
 
     <View
         android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="8dp"
         android:background="@android:color/darker_gray"
         android:layout_gravity="bottom" />
 </FrameLayout>

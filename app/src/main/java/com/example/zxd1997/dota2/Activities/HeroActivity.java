@@ -128,7 +128,8 @@ public class HeroActivity extends AppCompatActivity {
             @Override
             public void onTransitionEnd(Transition transition) {
                 SimpleDraweeView icon = findViewById(R.id.icon_card);
-                icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + id + "_icon", R.drawable.class))).build());
+//                icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + id + "_icon", R.drawable.class))).build());
+                Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + id + "_icon", R.drawable.class))).build(), icon);
                 TextView str = findViewById(R.id.str);
                 TextView agi = findViewById(R.id.agi);
                 TextView inte = findViewById(R.id.inte);

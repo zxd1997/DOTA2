@@ -27,6 +27,7 @@
             android:layout_marginTop="4dp"
             fresco:layout_constraintEnd_toStartOf="@+id/bear_item_1"
             fresco:layout_constraintTop_toBottomOf="@id/bear_item"
+            fresco:actualImageScaleType="centerCrop"
             fresco:roundedCornerRadius="2dp" />
 
         <com.facebook.drawee.view.SimpleDraweeView
@@ -37,6 +38,7 @@
             android:layout_marginTop="4dp"
             fresco:layout_constraintEnd_toStartOf="@+id/bear_item_2"
             fresco:layout_constraintTop_toBottomOf="@id/bear_item"
+            fresco:actualImageScaleType="centerCrop"
             fresco:roundedCornerRadius="2dp" />
 
         <com.facebook.drawee.view.SimpleDraweeView
@@ -47,6 +49,7 @@
             android:layout_marginTop="4dp"
             fresco:layout_constraintEnd_toEndOf="parent"
             fresco:layout_constraintTop_toBottomOf="@id/bear_item"
+            fresco:actualImageScaleType="centerCrop"
             fresco:roundedCornerRadius="2dp" />
 
         <com.facebook.drawee.view.SimpleDraweeView
@@ -56,6 +59,7 @@
             android:layout_marginRight="4dp"
             fresco:layout_constraintEnd_toStartOf="@+id/bear_item_4"
             fresco:layout_constraintTop_toTopOf="@id/bear_item_5"
+            fresco:actualImageScaleType="centerCrop"
             fresco:roundedCornerRadius="2dp" />
 
         <com.facebook.drawee.view.SimpleDraweeView
@@ -66,6 +70,7 @@
             android:layout_marginRight="4dp"
             fresco:layout_constraintEnd_toStartOf="@+id/bear_item_5"
             fresco:layout_constraintTop_toTopOf="@id/bear_item_5"
+            fresco:actualImageScaleType="centerCrop"
             fresco:roundedCornerRadius="2dp" />
 
         <com.facebook.drawee.view.SimpleDraweeView
@@ -77,6 +82,7 @@
             android:layout_marginTop="4dp"
             fresco:layout_constraintEnd_toEndOf="parent"
             fresco:layout_constraintTop_toBottomOf="@id/bear_item_2"
+            fresco:actualImageScaleType="centerCrop"
             fresco:roundedCornerRadius="2dp" />
 
         <TextView
@@ -87,6 +93,7 @@
             android:text="@string/bear_backpack"
             android:textColor="@android:color/black"
             android:textSize="14sp"
+            fresco:actualImageScaleType="centerCrop"
             fresco:layout_constraintLeft_toLeftOf="parent"
             fresco:layout_constraintTop_toBottomOf="@id/bear_item_5" />
 
@@ -95,6 +102,7 @@
             android:layout_width="35dp"
             android:layout_height="26dp"
             android:layout_marginRight="4dp"
+            fresco:actualImageScaleType="centerCrop"
             fresco:layout_constraintEnd_toStartOf="@+id/bear_backpack_1"
             fresco:layout_constraintTop_toTopOf="@id/bear_backpack_2"
             fresco:roundedCornerRadius="2dp" />
@@ -104,6 +112,7 @@
             android:layout_width="35dp"
             android:layout_height="26dp"
             android:layout_marginRight="4dp"
+            fresco:actualImageScaleType="centerCrop"
             fresco:layout_constraintEnd_toStartOf="@+id/bear_backpack_2"
             fresco:layout_constraintTop_toTopOf="@id/bear_backpack_2"
             fresco:roundedCornerRadius="2dp" />
@@ -111,6 +120,7 @@
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/bear_backpack_2"
             android:layout_width="35dp"
+            fresco:actualImageScaleType="centerCrop"
             android:layout_height="26dp"
             android:layout_marginBottom="4dp"
             android:layout_marginRight="4dp"

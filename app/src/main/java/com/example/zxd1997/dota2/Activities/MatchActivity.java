@@ -57,11 +57,12 @@ public class MatchActivity extends AppCompatActivity {
     private final Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            if (msg.obj.toString().contains("rate limit exceeded")) {
-                Toast.makeText(MatchActivity.this, R.string.api_rate, Toast.LENGTH_LONG).show();
-            } else
-                switch (msg.what) {
-                    case MATCH: {
+
+            switch (msg.what) {
+                case MATCH: {
+                    if (msg.obj.toString().contains("rate limit exceeded")) {
+                        Toast.makeText(MatchActivity.this, R.string.api_rate, Toast.LENGTH_LONG).show();
+                    } else {
                         match = new Gson().fromJson(msg.obj.toString(), Match.class);
                         Log.d("info", "handleMessage: " + match.getMatch_id() + " " + match.getRadiant_score() + " " + match.getDire_score() + " " + match.getReplay_salt() + " " + match.getTeamfights());
                         fragments.add(OverviewFragment.newInstance());
@@ -88,21 +89,22 @@ public class MatchActivity extends AppCompatActivity {
                             tabFragmentAdapter.notifyDataSetChanged();
                             mViewPager.setOffscreenPageLimit(fragments.size());
                         }
-                        break;
                     }
-                    case LOADED: {
-                        mViewPager.setVisibility(View.VISIBLE);
-                        progressBar.setVisibility(View.GONE);
-                        LocalBroadcastManager.getInstance(Objects.requireNonNull(getApplicationContext())).unregisterReceiver(receiver);
-                        break;
-                    }
-                    case LOADEDALL: {
-                        mViewPager.setVisibility(View.VISIBLE);
-                        progressBar.setVisibility(View.GONE);
-                        LocalBroadcastManager.getInstance(Objects.requireNonNull(getApplicationContext())).unregisterReceiver(receiver);
-                        break;
-                    }
+                    break;
                 }
+                case LOADED: {
+                    mViewPager.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
+                    LocalBroadcastManager.getInstance(Objects.requireNonNull(getApplicationContext())).unregisterReceiver(receiver);
+                    break;
+                }
+                case LOADEDALL: {
+                    mViewPager.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
+                    LocalBroadcastManager.getInstance(Objects.requireNonNull(getApplicationContext())).unregisterReceiver(receiver);
+                    break;
+                }
+            }
             return true;
         }
     });

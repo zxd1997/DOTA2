@@ -41,7 +41,10 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int ABILITY = 0;
     private final int ITEM = 1;
     private final int HERO = 3;
+    private final int SPACE = 5;
     private final int HERO1 = 7;
+    private final int KDHEADER = 13;
+    private final int KD = 14;
     private final List<Cast> contents;
     private final Context context;
 
@@ -55,25 +58,24 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
             case PLAYER_HEADER_DAMAGE:
-            case PLAYER_HEADER: {
+            case PLAYER_HEADER:
                 return new PHeaderHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.p_header, parent, false));
-            }
             case HEADER:
-            case RADIANT_HEADER: {
+            case RADIANT_HEADER:
                 return new Header(LayoutInflater.from(parent.getContext()).inflate(R.layout.header, parent, false));
-            }
-            case TEAMFIGHT_HEADER: {
+            case TEAMFIGHT_HEADER:
                 return new TeamFight(LayoutInflater.from(parent.getContext()).inflate(R.layout.team_fight_header, parent, false));
-            }
-            case ARROW: {
+            case ARROW:
                 return new Holder(LayoutInflater.from(parent.getContext()).inflate(R.layout.arrow, parent, false));
-            }
-            case ENTER: {
+            case ENTER:
+            case SPACE:
                 return new Holder(LayoutInflater.from(parent.getContext()).inflate(R.layout.space, parent, false));
-            }
-            case BUFF: {
+            case BUFF:
                 return new Buff(LayoutInflater.from(parent.getContext()).inflate(R.layout.buff, parent, false));
-            }
+            case KD:
+                return new kdHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.dk_number, parent, false));
+            case KDHEADER:
+                return new HeaderHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.dk_header, parent, false));
             default:
                 return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.d_taken_list, parent, false));
         }
@@ -87,11 +89,25 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         switch (getItemViewType(position)) {
+            case KD: {
+                kdHolder kdHolder = (CastAdapter.kdHolder) holder;
+                kdHolder.textView.setText(contents.get(position).getT());
+                break;
+            }
+            case KDHEADER: {
+                HeaderHolder headerHolder = (HeaderHolder) holder;
+                if (contents.get(position).getTime() != 0) {
+                    headerHolder.color.setBackgroundColor(contents.get(position).getTime());
+                    Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("hero_" + contents.get(position).getId(), R.drawable.class))).build(), headerHolder.header);
+                }
+                break;
+            }
             case PLAYER_HEADER_DAMAGE: {
                 PHeaderHolder castHeader = (PHeaderHolder) holder;
                 CastHeader p = (CastHeader) contents.get(position);
                 castHeader.color.setBackgroundColor(p.getTime());
-                castHeader.pheader.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId("hero_" + p.getHero_id(), R.drawable.class))).build());
+//                castHeader.pheader.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId("hero_" + p.getHero_id(), R.drawable.class))).build());
+                Tools.showImage(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId("hero_" + p.getHero_id(), R.drawable.class))).build(), castHeader.pheader);
                 castHeader.out.setText(context.getResources().getString(R.string.d_out, p.getDamage_out()));
                 castHeader.taken.setText(context.getResources().getString(R.string.d_taken, p.getDamage_in()));
                 castHeader.name.setText(p.getId());
@@ -101,7 +117,8 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 PHeaderHolder castHeader = (PHeaderHolder) holder;
                 CastHeader p = (CastHeader) contents.get(position);
                 castHeader.color.setBackgroundColor(p.getTime());
-                castHeader.pheader.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId("hero_" + p.getHero_id(), R.drawable.class))).build());
+//                castHeader.pheader.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId("hero_" + p.getHero_id(), R.drawable.class))).build());
+                Tools.showImage(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId("hero_" + p.getHero_id(), R.drawable.class))).build(), castHeader.pheader);
                 castHeader.out.setText(context.getResources().getString(R.string.total_gold, p.getDamage_out()));
                 castHeader.taken.setText(context.getResources().getString(R.string.gold_spent, p.getDamage_in()));
                 castHeader.name.setText(p.getId());
@@ -128,7 +145,8 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 viewHolder.name.setText(p.getPersonaname());
                 viewHolder.color.setBackgroundColor(context.getResources().getColor(Tools.getResId("slot_" + p.getPlayer_slot(), R.color.class)));
                 if (p.getDeaths() > 0) viewHolder.death.setVisibility(View.VISIBLE);
-                viewHolder.header.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId(p.getHero_id(), R.drawable.class))).build());
+//                viewHolder.header.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId(p.getHero_id(), R.drawable.class))).build());
+                Tools.showImage(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId(p.getHero_id(), R.drawable.class))).build(), viewHolder.header);
                 SpannableString gold = new SpannableString(" ");
                 Drawable drawable = context.getDrawable(R.drawable.gold);
                 Objects.requireNonNull(drawable).setBounds(0, 0, 50, 34);
@@ -156,10 +174,12 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
             case ARROW:
             case ENTER:
+            case SPACE:
                 break;
             case BUFF: {
                 Buff buff = (Buff) holder;
-                buff.buff.setImageURI(new Uri.Builder().scheme("res").path(contents.get(position).getId()).build());
+//                buff.buff.setImageURI(new Uri.Builder().scheme("res").path(contents.get(position).getId()).build());
+                Tools.showImage(new Uri.Builder().scheme("res").path(contents.get(position).getId()).build(), buff.buff);
                 buff.count.setText(String.valueOf(contents.get(position).getTime()));
                 break;
             }
@@ -168,22 +188,27 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Cast c = contents.get(position);
                 int PURCHASE = 2;
                 if (getItemViewType(position) == PURCHASE) {
-                    viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + c.getId(), R.drawable.class))).build());
+//                    viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + c.getId(), R.drawable.class))).build());
+                    Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + c.getId(), R.drawable.class))).build(), viewHolder.icon);
                     viewHolder.damage_taken.setText(Tools.getTime(c.getTime()));
                 } else {
                     switch (getItemViewType(position)) {
                         case ABILITY:
-                            viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("ability_" + c.getId(), R.drawable.class))).build());
+//                            viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("ability_" + c.getId(), R.drawable.class))).build());
+                            Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("ability_" + c.getId(), R.drawable.class))).build(), viewHolder.icon);
                             break;
                         case ITEM:
-                            viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + c.getId(), R.drawable.class))).build());
+//                            viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + c.getId(), R.drawable.class))).build());
+                            Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + c.getId(), R.drawable.class))).build(), viewHolder.icon);
                             break;
                         case HERO:
-                            viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId(c.getId(), R.drawable.class))).build());
+//                            viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId(c.getId(), R.drawable.class))).build());
+                            Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId(c.getId(), R.drawable.class))).build(), viewHolder.icon);
                             viewHolder.damage_taken.setVisibility(View.GONE);
                             break;
                         case HERO1:
-                            viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId(c.getId(), R.drawable.class))).build());
+//                            viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId(c.getId(), R.drawable.class))).build());
+                            Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId(c.getId(), R.drawable.class))).build(), viewHolder.icon);
                             break;
                     }
                     viewHolder.damage_taken.setText(c.getTime() / 1000 >= 1 ? String.format(context.getString(R.string.k), (float) c.getTime() / 1000) : String.valueOf(c.getTime()));
@@ -197,7 +222,6 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public int getItemCount() {
         return contents.size();
     }
-
 
 
     class PHeaderHolder extends RecyclerView.ViewHolder {
@@ -237,6 +261,7 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     class Header extends RecyclerView.ViewHolder {
         final TextView header_text;
         final FrameLayout background;
+
         Header(View itemView) {
             super(itemView);
             background = itemView.findViewById(R.id.background);
@@ -275,6 +300,26 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             xp_delta = itemView.findViewById(R.id.xp_delta);
             damage = itemView.findViewById(R.id.team_fight_damage);
             healing = itemView.findViewById(R.id.team_fight_healing);
+        }
+    }
+
+    class HeaderHolder extends RecyclerView.ViewHolder {
+        final SimpleDraweeView header;
+        final View color;
+
+        HeaderHolder(View itemView) {
+            super(itemView);
+            color = itemView.findViewById(R.id.color_kd);
+            header = itemView.findViewById(R.id.kd_header);
+        }
+    }
+
+    class kdHolder extends RecyclerView.ViewHolder {
+        final TextView textView;
+
+        kdHolder(View itemView) {
+            super(itemView);
+            textView = itemView.findViewById(R.id.kd_text);
         }
     }
 }

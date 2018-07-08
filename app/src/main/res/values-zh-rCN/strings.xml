@@ -230,4 +230,5 @@
     <string name="update">更新本地数据</string>
     <string name="updating">更新中</string>
     <string name="api_rate">超过API查询频率限制！</string>
+    <string name="time">时间：%s</string>
 </resources>

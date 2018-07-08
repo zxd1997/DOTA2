@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.zxd1997.dota2.Beans.Abilities;
 import com.example.zxd1997.dota2.R;
+import com.example.zxd1997.dota2.Utils.Tools;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -66,7 +67,8 @@ public class AbilityBuildAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             case HEADER: {
                 Abilities a = abilities.get(position);
                 HeaderHolder viewHolder = (HeaderHolder) holder;
-                viewHolder.header.setImageURI(new Uri.Builder().scheme("res").path(a.getId() + "").build());
+//                viewHolder.header.setImageURI(new Uri.Builder().scheme("res").path(a.getId() + "").build());
+                Tools.showImage(new Uri.Builder().scheme("res").path(a.getId() + "").build(), viewHolder.header);
                 viewHolder.name.setText(a.getWhat());
                 if (a.getColor() != 0)
                     viewHolder.color.setBackgroundColor(context.getResources().getColor(a.getColor()));
@@ -85,14 +87,16 @@ public class AbilityBuildAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             case ABILITY: {
                 ViewHolder viewHolder = (ViewHolder) holder;
                 viewHolder.talent.setText("");
-                viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(abilities.get(position).getColor() + "").build());
+//                viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(abilities.get(position).getColor() + "").build());
+                Tools.showImage(new Uri.Builder().scheme("res").path(abilities.get(position).getColor() + "").build(), viewHolder.icon);
                 break;
             }
             case TALENT: {
                 ViewHolder viewHolder = (ViewHolder) holder;
                 Abilities a = abilities.get(position);
                 viewHolder.talent.setText(a.getWhat());
-                viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(abilities.get(position).getColor() + "").build());
+//                viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(abilities.get(position).getColor() + "").build());
+                Tools.showImage(new Uri.Builder().scheme("res").path(abilities.get(position).getColor() + "").build(), viewHolder.icon);
                 break;
             }
         }
