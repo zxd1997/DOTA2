@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -21,6 +22,7 @@ import com.example.zxd1997.dota2.Beans.CastHeader;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.Beans.TeamFightCast;
 import com.example.zxd1997.dota2.R;
+import com.example.zxd1997.dota2.Utils.MyApplication;
 import com.example.zxd1997.dota2.Utils.Tools;
 import com.example.zxd1997.dota2.Views.MapView;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -213,7 +215,10 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             default: {
                 ViewHolder viewHolder = (ViewHolder) holder;
                 Cast c = contents.get(position);
-                viewHolder.setFirst(c.getFirst());
+//                viewHolder.setFirst(c.getFirst());
+//                GridLayoutManager.LayoutParams layoutParams= (GridLayoutManager.LayoutParams) viewHolder.itemView.getLayoutParams();
+//                if (c.getFirst()==2)
+//                layoutParams.rightMargin= (int) (MyApplication.getContext().getResources().getDisplayMetrics().density * 8);
                 int PURCHASE = 2;
                 if (getItemViewType(position) == PURCHASE) {
 //                    viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + c.getId(), R.drawable.class))).build());

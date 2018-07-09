@@ -14,7 +14,6 @@ import android.view.Window;
 import com.example.zxd1997.dota2.Adapters.CastAdapter;
 import com.example.zxd1997.dota2.Beans.Cast;
 import com.example.zxd1997.dota2.R;
-import com.example.zxd1997.dota2.Utils.GridItemDecoration;
 
 import java.util.ArrayList;
 
@@ -40,7 +39,6 @@ public class TeamFightDialogFragment extends BottomSheetDialogFragment {
         RecyclerView teamfight_list = view.findViewById(R.id.ddetail);
         teamfight_list.setTransitionName("teamfight");
         final CastAdapter castAdapter = new CastAdapter(getContext(), contents);
-        teamfight_list.addItemDecoration(new GridItemDecoration());
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 8);
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override

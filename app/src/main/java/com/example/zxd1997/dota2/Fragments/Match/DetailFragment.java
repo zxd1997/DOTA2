@@ -28,7 +28,6 @@ import com.example.zxd1997.dota2.Beans.Hero;
 import com.example.zxd1997.dota2.Beans.Item;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.R;
-import com.example.zxd1997.dota2.Utils.GridItemDecoration;
 import com.example.zxd1997.dota2.Utils.MyApplication;
 import com.example.zxd1997.dota2.Utils.Tools;
 
@@ -79,7 +78,6 @@ public class DetailFragment extends Fragment {
                     }
                 });
                 d_detail.setLayoutManager(gridLayoutManager1);
-                d_detail.addItemDecoration(new GridItemDecoration());
                 d_detail.setAdapter(castAdapter);
                 LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(Objects.requireNonNull(getContext()));
                 Intent intent = new Intent("loaded");
