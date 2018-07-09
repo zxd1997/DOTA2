@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/tf"
     android:descendantFocusability="blocksDescendants"
-    android:focusable="true"
-    android:focusableInTouchMode="false"
+    android:layout_margin="8dp"
+    android:foreground="?selectableItemBackground"
+    android:stateListAnimator="@drawable/touch_card"
     android:orientation="vertical">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="67dp"
-        android:background="@drawable/touch_bg"
-        android:focusable="true">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/imageView4"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginTop="4dp"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_margin="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/radiant_logo" />
@@ -30,8 +28,8 @@
             android:id="@+id/radiant"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_marginTop="3dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="8dp"
             android:text="@string/radiant"
             android:textColor="@color/win"
             android:textSize="16sp"
@@ -43,7 +41,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:textSize="15sp"
+            android:layout_marginTop="4dp"
+            android:textSize="14sp"
             app:layout_constraintLeft_toLeftOf="@id/radiant"
             app:layout_constraintTop_toBottomOf="@id/radiant"
             tools:text="10000" />
@@ -53,16 +52,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:textSize="15sp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="4dp"
             app:layout_constraintLeft_toLeftOf="@id/radiant"
             app:layout_constraintTop_toBottomOf="@id/radiant_gold_delta"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:text="5" />
 
         <TextView
             android:id="@+id/teamfight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="8dp"
             android:text="@string/teamfight"
             android:textColor="@android:color/black"
             android:textSize="16sp"
@@ -78,15 +80,15 @@
             android:layout_marginTop="2dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/teamfight"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="1:00:00 - 1:20:20" />
 
         <ImageView
             android:id="@+id/imageView5"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginRight="4dp"
-            android:layout_marginTop="4dp"
+            android:layout_margin="8dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/dire_logo" />
@@ -95,7 +97,8 @@
             android:id="@+id/dire_gold_delta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="2dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="4dp"
             android:gravity="center_vertical"
             android:textSize="15sp"
             app:layout_constraintRight_toLeftOf="@id/imageView5"
@@ -106,9 +109,10 @@
             android:id="@+id/dire_death"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="2dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="4dp"
             android:gravity="center_vertical"
-            android:textSize="15sp"
+            android:textSize="14sp"
             app:layout_constraintRight_toLeftOf="@id/imageView5"
             app:layout_constraintTop_toBottomOf="@id/dire_gold_delta"
             tools:text="5" />
@@ -117,8 +121,7 @@
             android:id="@+id/dire"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="2dp"
-            android:layout_marginTop="3dp"
+            android:layout_margin="8dp"
             android:text="@string/dire"
             android:textColor="@color/lose"
             android:textSize="16sp"
@@ -129,18 +132,11 @@
             android:id="@+id/teamfight_win"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
+            android:layout_marginBottom="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/start_end"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:text="Radiant Wins" />
     </android.support.constraint.ConstraintLayout>
 
-    <include layout="@layout/team_fight_detail" />
-
-    <View
-        android:id="@+id/line"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray" />
-</LinearLayout>
+</android.support.v7.widget.CardView>

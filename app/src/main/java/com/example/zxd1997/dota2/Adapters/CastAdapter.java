@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -24,6 +25,7 @@ import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.Beans.TeamFightCast;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.Tools;
+import com.example.zxd1997.dota2.Views.MapView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -45,6 +47,8 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int HERO1 = 7;
     private final int KDHEADER = 13;
     private final int KD = 14;
+    private final int MAP = 15;
+    private final int TEAMFIGHT = 16;
     private final List<Cast> contents;
     private final Context context;
 
@@ -76,6 +80,10 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 return new kdHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.dk_number, parent, false));
             case KDHEADER:
                 return new HeaderHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.dk_header, parent, false));
+            case TEAMFIGHT:
+                return new TeamFightHeader(LayoutInflater.from(parent.getContext()).inflate(R.layout.teamfight, parent, false));
+            case MAP:
+                return new Map(LayoutInflater.from(parent.getContext()).inflate(R.layout.teamfight_map, parent, false));
             default:
                 return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.d_taken_list, parent, false));
         }
@@ -89,6 +97,12 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         switch (getItemViewType(position)) {
+            case MAP: {
+                break;
+            }
+            case TEAMFIGHT: {
+                break;
+            }
             case KD: {
                 kdHolder kdHolder = (CastAdapter.kdHolder) holder;
                 kdHolder.textView.setText(contents.get(position).getT());
@@ -303,6 +317,29 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
+    class TeamFightHeader extends RecyclerView.ViewHolder {
+        final CardView tf;
+        final TextView radiant_gold_delta;
+        final TextView radiant_death;
+        final TextView start_end;
+        final TextView dire_death;
+        final TextView dire_gold_delta;
+        final View itemView;
+        final TextView teamfight_win;
+
+        TeamFightHeader(final View itemView) {
+            super(itemView);
+            tf = itemView.findViewById(R.id.tf);
+            this.itemView = itemView;
+            teamfight_win = itemView.findViewById(R.id.teamfight_win);
+            radiant_gold_delta = itemView.findViewById(R.id.radiant_gold_delta);
+            radiant_death = itemView.findViewById(R.id.radiant_death);
+            start_end = itemView.findViewById(R.id.start_end);
+            dire_death = itemView.findViewById(R.id.dire_death);
+            dire_gold_delta = itemView.findViewById(R.id.dire_gold_delta);
+        }
+    }
+
     class HeaderHolder extends RecyclerView.ViewHolder {
         final SimpleDraweeView header;
         final View color;
@@ -311,6 +348,15 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             super(itemView);
             color = itemView.findViewById(R.id.color_kd);
             header = itemView.findViewById(R.id.kd_header);
+        }
+    }
+
+    class Map extends RecyclerView.ViewHolder {
+        MapView mapView;
+
+        public Map(View itemView) {
+            super(itemView);
+            mapView = itemView.findViewById(R.id.imageView6);
         }
     }
 

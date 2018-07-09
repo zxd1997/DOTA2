@@ -58,6 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp"
                 android:layout_marginTop="16dp">
 
                 <android.support.constraint.ConstraintLayout
@@ -69,30 +70,38 @@
                         android:id="@+id/hero_card_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/hero_attributes"
-                        android:textColor="@android:color/black"
-                        android:textSize="20sp"
                         android:layout_marginLeft="8dp"
-                        app:layout_constraintBottom_toBottomOf="@id/icon_card"
+                        android:textSize="18sp"
+                        android:textColor="@android:color/black"
                         app:layout_constraintTop_toTopOf="@id/icon_card"
                         app:layout_constraintLeft_toRightOf="@id/icon_card"/>
 
                     <com.facebook.drawee.view.SimpleDraweeView
                         android:id="@+id/icon_card"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:textSize="16sp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/hero_card_name" />
 
                     <ImageView
                         android:id="@+id/str_icon"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        android:layout_marginTop="8dp"
-                        android:src="@drawable/str"
+                        android:layout_marginTop="16dp"
+                        android:src="@drawable/icon_str"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toLeftOf="@id/str"
-                        app:layout_constraintTop_toBottomOf="@id/icon_card" />
+                        app:layout_constraintTop_toBottomOf="@id/info" />
 
                     <TextView
                         android:id="@+id/str"
@@ -110,7 +119,7 @@
                         android:id="@+id/agi_icon"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        android:src="@drawable/agi"
+                        android:src="@drawable/icon_agi"
                         android:padding="1dp"
                         app:layout_constraintLeft_toRightOf="@id/str"
                         app:layout_constraintRight_toLeftOf="@id/agi"
@@ -132,7 +141,7 @@
                         android:id="@+id/inte_icon"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        android:src="@drawable/inte"
+                        android:src="@drawable/icon_int"
                         app:layout_constraintLeft_toRightOf="@id/agi"
                         app:layout_constraintRight_toLeftOf="@id/inte"
                         app:layout_constraintTop_toTopOf="@id/str_icon" />
@@ -152,9 +161,9 @@
                         android:id="@+id/cur_str"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="8dp"
                         android:gravity="center"
-                        android:textSize="20sp"
+                        android:textSize="18sp"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toLeftOf="@id/cur_agi"
                         app:layout_constraintTop_toBottomOf="@id/str_icon"
@@ -164,9 +173,9 @@
                         android:id="@+id/cur_agi"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="8dp"
                         android:gravity="center"
-                        android:textSize="20sp"
+                        android:textSize="18sp"
                         app:layout_constraintLeft_toRightOf="@id/cur_str"
                         app:layout_constraintRight_toLeftOf="@id/cur_int"
                         app:layout_constraintTop_toBottomOf="@id/str_icon"
@@ -176,9 +185,9 @@
                         android:id="@+id/cur_int"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="8dp"
                         android:gravity="center"
-                        android:textSize="20sp"
+                        android:textSize="18sp"
                         app:layout_constraintLeft_toRightOf="@id/cur_agi"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/str_icon"
@@ -205,13 +214,23 @@
                         app:layout_constraintTop_toBottomOf="@id/cur_agi"
                         android:max="24"/>
                     <TextView
-                        android:id="@+id/attack"
+                        android:id="@+id/attr"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:textSize="18sp"
+                        android:text="@string/hero_attributes"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        app:layout_constraintTop_toBottomOf="@id/seekBar1" />
+
+                    <TextView
+                        android:id="@+id/attack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textSize="16sp"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/seekBar1"
+                        app:layout_constraintTop_toBottomOf="@id/attr"
                         tools:text="攻击力" />
 
                     <TextView
@@ -331,13 +350,16 @@
                         app:layout_constraintTop_toTopOf="@id/move_speed" />
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
+
             <include layout="@layout/progressbar" />
 
             <TextView
                 android:id="@+id/hero_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/text_margin"
+                android:layout_marginBottom="@dimen/text_margin"
+                android:layout_marginLeft="@dimen/text_margin"
+                android:layout_marginRight="@dimen/text_margin"
                 android:textSize="15sp"
                 android:visibility="gone"
                 tools:visibility="visible" />

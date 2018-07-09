@@ -16,7 +16,10 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.style.ImageSpan;
 import android.transition.Transition;
 import android.util.Log;
 import android.view.Menu;
@@ -93,7 +96,7 @@ public class HeroActivity extends AppCompatActivity {
     private TextView level;
     private int id;
     private String name;
-
+    private TextView info;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,6 +136,15 @@ public class HeroActivity extends AppCompatActivity {
                 TextView str = findViewById(R.id.str);
                 TextView agi = findViewById(R.id.agi);
                 TextView inte = findViewById(R.id.inte);
+                TextView hero_attr = findViewById(R.id.hero_card_name);
+                SpannableStringBuilder attr = new SpannableStringBuilder();
+                attr.append(getString(Tools.getResId(hero.getAttack_type(), R.string.class))).append("  ");
+                Drawable drawable1 = getDrawable(Tools.getResId("icon_" + hero.getPrimary_attr(), R.drawable.class));
+                SpannableString r1 = new SpannableString(" ");
+                Objects.requireNonNull(drawable1).setBounds(0, 0, 56, 56);
+                r1.setSpan(new ImageSpan(drawable1), 0, r1.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                attr.append(r1).append(" ").append(getString(Tools.getResId(hero.getPrimary_attr() + "1", R.string.class))).append(" ").append(getString(R.string.hero));
+                hero_attr.setText(attr);
                 str.setText(String.format("%s + %s", String.valueOf(hero.getBase_str()), hero.getStr_gain()));
                 agi.setText(String.format("%s + %s", String.valueOf(hero.getBase_agi()), hero.getAgi_gain()));
                 inte.setText(String.format("%s + %s", String.valueOf(hero.getBase_int()), hero.getInt_gain()));
@@ -150,6 +162,16 @@ public class HeroActivity extends AppCompatActivity {
                 spell_amp = findViewById(R.id.spell_amp);
                 move_speed = findViewById(R.id.move_speed);
                 level = findViewById(R.id.lvl);
+                info = findViewById(R.id.info);
+                SpannableStringBuilder s = new SpannableStringBuilder();
+                for (String t : hero.getRoles()) {
+                    Drawable drawable = getDrawable(Tools.getResId("icon_" + t.toLowerCase(), R.drawable.class));
+                    SpannableString r = new SpannableString(" ");
+                    Objects.requireNonNull(drawable).setBounds(0, 0, 48, 48);
+                    r.setSpan(new ImageSpan(drawable), 0, r.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    s.append(r).append(" ").append(getString(Tools.getResId(t, R.string.class))).append("  ");
+                }
+                info.setText(s);
                 SeekBar seekBar = findViewById(R.id.seekBar1);
                 level.setText(getString(R.string.level, 1));
                 seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -174,7 +196,7 @@ public class HeroActivity extends AppCompatActivity {
                 TextView attack_range = findViewById(R.id.attack_range);
                 TextView p_s = findViewById(R.id.projectile_speed);
                 attack_range.setText(getString(R.string.attack_range_1_d, hero.getAttack_range()));
-                p_s.setText(getString(R.string.projectile_speed_1_s, hero.getProjectile_speed() > 0 ? hero.getProjectile_speed() + "" : getString(R.string.instant)));
+                p_s.setText(getString(R.string.projectile_speed_1_s, !hero.getAttack_type().equals("Melee") ? hero.getProjectile_speed() + "" : getString(R.string.instant)));
                 setLevel(1);
                 text = findViewById(R.id.hero_text);
                 progressBar.setVisibility(View.VISIBLE);

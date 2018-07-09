@@ -194,7 +194,7 @@
     <string name="t_m">时间/分钟</string>
     <string name="tg">总金钱</string>
     <string name="moth">使用此英雄的比赛</string>
-    <string name="r_d">死亡：</string>
+    <string name="r_d">" 死亡："</string>
     <string name="d_d">死亡：</string>
     <string name="year_ago">年前</string>
     <string name="month_ago">个月前</string>
@@ -231,4 +231,19 @@
     <string name="updating">更新中</string>
     <string name="api_rate">超过API查询频率限制！</string>
     <string name="time">时间：%s</string>
+    <string name="Carry">核心</string>
+    <string name="Escape">逃生</string>
+    <string name="Nuker">爆发</string>
+    <string name="Initiator">先手</string>
+    <string name="Durable">耐久</string>
+    <string name="Disabler">控制</string>
+    <string name="Jungler">打野</string>
+    <string name="Support">辅助</string>
+    <string name="Pusher">推进</string>
+    <string name="Melee">近战</string>
+    <string name="Ranged">远程</string>
+    <string name="hero">英雄</string>
+    <string name="str1">力量</string>
+    <string name="agi1">敏捷</string>
+    <string name="int1">智力</string>
 </resources>

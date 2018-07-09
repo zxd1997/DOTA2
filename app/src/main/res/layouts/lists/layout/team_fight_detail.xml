@@ -1,35 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.example.zxd1997.dota2.Views.MapView
-        android:id="@+id/imageView6"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left|center_horizontal"
-        android:layout_marginLeft="4dp"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/map"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <android.support.v7.widget.RecyclerView
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
         android:id="@+id/team_fight_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="left|center_horizontal"
-        android:descendantFocusability="blocksDescendants"
         android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:visibility="gone"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
         android:background="@android:color/white"
-        app:layout_constraintTop_toBottomOf="@id/imageView6" />
+        android:nestedScrollingEnabled="false" />
 </merge>

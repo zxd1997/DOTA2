@@ -73,7 +73,7 @@ public class LogsFragment extends Fragment {
                         }
                     });
                     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                    logAdapter = new LogAdapter(getContext(), current_logs);
+                    logAdapter = new LogAdapter(getActivity(), current_logs);
                     recyclerView.setAdapter(logAdapter);
                     LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(Objects.requireNonNull(getContext()));
                     Intent intent = new Intent("loaded");
@@ -222,123 +222,50 @@ public class LogsFragment extends Fragment {
                 }
                 if (f) {
                     current_logs.clear();
-                    for (int i = 0; i < logs.size(); i++) {
-                        Match.Objective o = logs.get(i);
-//                            final int t = i;
+                    for (Match.Objective o : logs) {
                         switch (o.getType()) {
                             case "kill": {
-//                                if (buttonView.getId() == R.id.chk_kill)
-//                                    view.post(new Runnable() {
-//                                        @Override
-//                                        public void run() {
-//                                            if (recyclerView.getChildViewHolder(recyclerView.getChildAt(t)) instanceof LogAdapter.ViewHolder)
-//                                                ((LogAdapter.ViewHolder) recyclerView.getChildViewHolder(recyclerView.getChildAt(t))).setVisibility(buttonView.isChecked());
-//                                        }
-//                                    });
                                 if (combats.isChecked())
                                     current_logs.add(o);
                                 break;
                             }
                             case "buyback_log": {
-//                                if (buttonView.getId() == R.id.chk_kill)
-//                                    view.post(new Runnable() {
-//                                        @Override
-//                                        public void run() {
-//                                            if (recyclerView.getChildViewHolder(recyclerView.getChildAt(t)) instanceof LogAdapter.ViewHolderNotKill)
-//                                                ((LogAdapter.ViewHolderNotKill) recyclerView.getChildViewHolder(recyclerView.getChildAt(t))).setVisibility(buttonView.isChecked());
-//                                        }
-//                                    });
                                 if (combats.isChecked())
                                     current_logs.add(o);
                                 break;
                             }
                             case "building_kill": {
-//                                if (buttonView.getId() == R.id.chk_buildings)
-//                                    view.post(new Runnable() {
-//                                        @Override
-//                                        public void run() {
-//                                            if (recyclerView.getChildViewHolder(recyclerView.getChildAt(t)) instanceof LogAdapter.ViewHolder)
-//                                                ((LogAdapter.ViewHolder) recyclerView.getChildViewHolder(recyclerView.getChildAt(t))).setVisibility(buttonView.isChecked());
-//                                        }
-//                                    });
                                 if (building.isChecked())
                                     current_logs.add(o);
                                 break;
                             }
                             case "CHAT_MESSAGE_COURIER_LOST": {
-//                                if (buttonView.getId() == R.id.chk_other)
-//                                    view.post(new Runnable() {
-//                                        @Override
-//                                        public void run() {
-//                                            if (recyclerView.getChildViewHolder(recyclerView.getChildAt(t)) instanceof LogAdapter.ViewHolder)
-//                                                ((LogAdapter.ViewHolder) recyclerView.getChildViewHolder(recyclerView.getChildAt(t))).setVisibility(buttonView.isChecked());
-//                                        }
-//                                    });
                                 if (other.isChecked())
                                     current_logs.add(o);
                                 break;
                             }
                             case "rune_pickup": {
-//                                if (buttonView.getId() == R.id.chk_rune)
-//                                    view.post(new Runnable() {
-//                                        @Override
-//                                        public void run() {
-//                                            if (recyclerView.getChildViewHolder(recyclerView.getChildAt(t)) instanceof LogAdapter.ViewHolderNotKill)
-//                                                ((LogAdapter.ViewHolderNotKill) recyclerView.getChildViewHolder(recyclerView.getChildAt(t))).setVisibility(buttonView.isChecked());
-//                                        }
-//                                    });
                                 if (rune.isChecked())
                                     current_logs.add(o);
                                 break;
                             }
                             case "CHAT_MESSAGE_ROSHAN_KILL": {
-//                                if (buttonView.getId() == R.id.chk_other)
-//                                    view.post(new Runnable() {
-//                                        @Override
-//                                        public void run() {
-//                                            if (recyclerView.getChildViewHolder(recyclerView.getChildAt(t)) instanceof LogAdapter.ViewHolder)
-//                                                ((LogAdapter.ViewHolder) recyclerView.getChildViewHolder(recyclerView.getChildAt(t))).setVisibility(buttonView.isChecked());
-//                                        }
-//                                    });
                                 if (other.isChecked())
                                     current_logs.add(o);
                                 break;
                             }
                             case "CHAT_MESSAGE_FIRSTBLOOD": {
-//                                if (buttonView.getId() == R.id.chk_kill)
-//                                    view.post(new Runnable() {
-//                                        @Override
-//                                        public void run() {
-//                                            if (recyclerView.getChildViewHolder(recyclerView.getChildAt(t)) instanceof LogAdapter.ViewHolderNotKill)
-//                                                ((LogAdapter.ViewHolderNotKill) recyclerView.getChildViewHolder(recyclerView.getChildAt(t))).setVisibility(buttonView.isChecked());
-//                                        }
-//                                    });
                                 if (combats.isChecked())
                                     current_logs.add(o);
                                 break;
                             }
                             case "CHAT_MESSAGE_AEGIS": {
-//                                if (buttonView.getId() == R.id.chk_other)
-//                                    view.post(new Runnable() {
-//                                        @Override
-//                                        public void run() {
-//                                            if (recyclerView.getChildViewHolder(recyclerView.getChildAt(t)) instanceof LogAdapter.ViewHolderNotKill)
-//                                                ((LogAdapter.ViewHolderNotKill) recyclerView.getChildViewHolder(recyclerView.getChildAt(t))).setVisibility(buttonView.isChecked());
-//                                        }
-//                                    });
                                 if (other.isChecked())
                                     current_logs.add(o);
                                 break;
                             }
                             case "chat": {
                                 if (other.isChecked())
-//                                    view.post(new Runnable() {
-//                                        @Override
-//                                        public void run() {
-//                                            if (recyclerView.getChildViewHolder(recyclerView.getChildAt(t)) instanceof LogAdapter.ViewHolderNotKill)
-//                                                ((LogAdapter.ViewHolderNotKill) recyclerView.getChildViewHolder(recyclerView.getChildAt(t))).setVisibility(buttonView.isChecked());
-//                                        }
-//                                    });
                                     current_logs.add(o);
                                 break;
                             }

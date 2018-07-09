@@ -2,13 +2,16 @@ package com.example.zxd1997.dota2.Beans;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Hero {
     private int id;
     private String name;
     private String localized_name;
     private String primary_attr;
     private String attack_type;
-    //    private List<String> roles = new ArrayList<>();
+    private List<String> roles = new ArrayList<>();
     private int legs;
     private int base_health;
     private double base_health_regen;
@@ -258,13 +261,13 @@ public class Hero {
         this.attack_type = attack_type;
     }
 
-//    public List<String> getRoles() {
-//        return roles;
-//    }
-//
-//    public void setRoles(List<String> roles) {
-//        this.roles = roles;
-//    }
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
 
     public int getLegs() {
         return legs;

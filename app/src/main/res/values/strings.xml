@@ -222,7 +222,7 @@
     <string name="t_m">Time/min</string>
     <string name="tg">Total Gold</string>
     <string name="moth">Matches on this Hero</string>
-    <string name="r_d">Deaths:</string>
+    <string name="r_d">" Deaths:"</string>
     <string name="d_d">Deaths:</string>
     <string name="year_ago"> Years ago</string>
     <string name="month_ago"> Months ago</string>
@@ -261,4 +261,19 @@
     <string name="updating">Updating</string>
     <string name="api_rate">API Rate Limit Exceed!</string>
     <string name="time">Time:%s</string>
+    <string name="Carry">Carry</string>
+    <string name="Escape">Escape</string>
+    <string name="Nuker">Nuker</string>
+    <string name="Initiator">Initiator</string>
+    <string name="Durable">Durable</string>
+    <string name="Disabler">Disabler</string>
+    <string name="Jungler">Jungler</string>
+    <string name="Support">Support</string>
+    <string name="Pusher">Pusher</string>
+    <string name="Melee">Melee</string>
+    <string name="Ranged">Ranged</string>
+    <string name="hero">HERO</string>
+    <string name="str1">Strength</string>
+    <string name="agi1">Agility</string>
+    <string name="int1">Intelligence</string>
 </resources>
