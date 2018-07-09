@@ -1,11 +1,9 @@
 package com.example.zxd1997.dota2.Adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -15,7 +13,6 @@ import android.text.style.ImageSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -65,8 +62,9 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case PLAYER_HEADER:
                 return new PHeaderHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.p_header, parent, false));
             case HEADER:
-            case RADIANT_HEADER:
                 return new Header(LayoutInflater.from(parent.getContext()).inflate(R.layout.header, parent, false));
+            case RADIANT_HEADER:
+                return new Header(LayoutInflater.from(parent.getContext()).inflate(R.layout.tf_header, parent, false));
             case TEAMFIGHT_HEADER:
                 return new TeamFight(LayoutInflater.from(parent.getContext()).inflate(R.layout.team_fight_header, parent, false));
             case ARROW:
@@ -98,9 +96,22 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         switch (getItemViewType(position)) {
             case MAP: {
+                TeamFightCast teamFightCast = (TeamFightCast) contents.get(position);
+                Map map = (Map) holder;
+                map.mapView.setPoints(teamFightCast.getPoints());
+                map.mapView.invalidate();
                 break;
             }
             case TEAMFIGHT: {
+                TeamFightCast teamFightCast = (TeamFightCast) contents.get(position);
+                TeamFightHeader teamFightHeader = (TeamFightHeader) holder;
+                teamFightHeader.itemView.setTransitionName(teamFightCast.getId());
+                teamFightHeader.teamfight_win.setText(teamFightCast.getWin());
+                teamFightHeader.dire_death.setText(teamFightCast.getDire_death());
+                teamFightHeader.dire_gold_delta.setText(teamFightCast.getDire_gold());
+                teamFightHeader.radiant_death.setText(teamFightCast.getRadiant_death());
+                teamFightHeader.radiant_gold_delta.setText(teamFightCast.getRadiant_gold());
+                teamFightHeader.start_end.setText(teamFightCast.getTime1());
                 break;
             }
             case KD: {
@@ -140,17 +151,19 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
             case HEADER: {
                 Header header = (Header) holder;
-                header.header_text.setTextColor(contents.get(position).getTime());
                 header.header_text.setText(contents.get(position).getId());
                 break;
             }
             case RADIANT_HEADER: {
                 Header header = (Header) holder;
-                header.header_text.setTextColor(Color.WHITE);
                 header.header_text.setText(contents.get(position).getId());
-                ViewGroup.LayoutParams layoutParams = header.itemView.getLayoutParams();
-                layoutParams.height = (int) (18 * context.getResources().getDisplayMetrics().density);
-                header.background.setBackground(context.getDrawable(contents.get(position).getTime()));
+                if (contents.get(position).getId().equals(context.getResources().getString(R.string.dire))) {
+                    header.header_text.setTextColor(context.getResources().getColor(R.color.lose));
+                    header.divier.setBackgroundColor(context.getResources().getColor(R.color.lose));
+                } else {
+                    header.header_text.setTextColor(context.getResources().getColor(R.color.win));
+                    header.divier.setBackgroundColor(context.getResources().getColor(R.color.win));
+                }
                 break;
             }
             case TEAMFIGHT_HEADER: {
@@ -200,6 +213,7 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             default: {
                 ViewHolder viewHolder = (ViewHolder) holder;
                 Cast c = contents.get(position);
+                viewHolder.setFirst(c.getFirst());
                 int PURCHASE = 2;
                 if (getItemViewType(position) == PURCHASE) {
 //                    viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + c.getId(), R.drawable.class))).build());
@@ -274,23 +288,30 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     class Header extends RecyclerView.ViewHolder {
         final TextView header_text;
-        final FrameLayout background;
-
+        final View divier;
         Header(View itemView) {
             super(itemView);
-            background = itemView.findViewById(R.id.background);
+            divier = itemView.findViewById(R.id.divider1);
             header_text = itemView.findViewById(R.id.header_text);
         }
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         final SimpleDraweeView icon;
         final TextView damage_taken;
-
+        int first;
         ViewHolder(View itemView) {
             super(itemView);
             icon = itemView.findViewById(R.id.d_skill);
             damage_taken = itemView.findViewById(R.id.d_damage_taken);
+        }
+
+        public int getFirst() {
+            return first;
+        }
+
+        public void setFirst(int first) {
+            this.first = first;
         }
     }
 
@@ -318,19 +339,15 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     class TeamFightHeader extends RecyclerView.ViewHolder {
-        final CardView tf;
         final TextView radiant_gold_delta;
         final TextView radiant_death;
         final TextView start_end;
         final TextView dire_death;
         final TextView dire_gold_delta;
-        final View itemView;
         final TextView teamfight_win;
 
         TeamFightHeader(final View itemView) {
             super(itemView);
-            tf = itemView.findViewById(R.id.tf);
-            this.itemView = itemView;
             teamfight_win = itemView.findViewById(R.id.teamfight_win);
             radiant_gold_delta = itemView.findViewById(R.id.radiant_gold_delta);
             radiant_death = itemView.findViewById(R.id.radiant_death);

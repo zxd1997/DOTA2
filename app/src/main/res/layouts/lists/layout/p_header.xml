@@ -8,8 +8,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:background="@android:color/darker_gray" />
 
         <com.facebook.drawee.view.SimpleDraweeView
@@ -17,7 +17,7 @@
             android:layout_width="80dp"
             android:layout_height="45dp"
             android:layout_marginBottom="4dp"
-            android:layout_marginLeft="4dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
             app:roundTopRight="false"
             app:roundBottomRight="false"
@@ -27,7 +27,7 @@
             android:id="@+id/color_detail"
             android:layout_width="2dp"
             android:layout_height="45dp"
-            android:layout_marginLeft="84dp"
+            android:layout_marginLeft="88dp"
             android:layout_marginTop="8dp" />
 
         <TextView
@@ -35,7 +35,7 @@
             android:layout_width="190dp"
             android:layout_gravity="center_vertical"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="96dp"
+            android:layout_marginLeft="100dp"
             android:singleLine="true"
             android:textColor="@android:color/black"
             android:textSize="16sp"
@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:layout_marginRight="4dp"
+            android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             android:textSize="14sp"
             android:textColor="@color/win"
@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right|bottom"
             android:layout_marginBottom="8dp"
-            android:layout_marginRight="4dp"
+            android:layout_marginRight="8dp"
             android:textColor="@color/lose"
             android:textSize="14sp"
             tools:text="@string/d_taken" />

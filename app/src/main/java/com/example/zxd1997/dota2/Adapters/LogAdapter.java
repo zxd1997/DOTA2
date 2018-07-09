@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -24,7 +23,7 @@ import com.example.zxd1997.dota2.Beans.Hero;
 import com.example.zxd1997.dota2.Beans.Item;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.Beans.TeamFightCast;
-import com.example.zxd1997.dota2.Fragments.Match.TeamFIghtDialogFragment;
+import com.example.zxd1997.dota2.Fragments.Match.TeamFightDialogFragment;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.Tools;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -312,8 +311,8 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     int dire_gold_delta = 0;
                     int j = 0;
                     final ArrayList<Cast> contents = new ArrayList<>();
-//                    contents.add(new Cast(0,"",16));
-//                    contents.add(new Cast(0,"",15));
+                    contents.add(new TeamFightCast(1, "11", 16));
+                    contents.add(new TeamFightCast(2, "11", 15, points));
                     contents.add(new Cast(R.drawable.radiant_header, context.getResources().getString(R.string.radiant), RADIANT_HEADER));
                     for (Match.TeamFight.TeamFightPlayer p : teamfight.getPlayers()) {
                         if (j < 5) {
@@ -347,25 +346,34 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             contents.add(new TeamFightCast(0, "", TEAMFIGHT_HEADER, p));
                             if (p.getKilled().size() > 0) {
                                 contents.add(new Cast(context.getResources().getColor(R.color.win), context.getResources().getString(R.string.kills), HEADER));
+                                int i = 0;
                                 for (Map.Entry<String, Integer> entry : p.getKilled().entrySet()) {
                                     Hero hero = MainActivity.heroes.get(entry.getKey());
-                                    for (int k = 0; k < entry.getValue(); k++)
-                                        contents.add(new Cast(entry.getValue(), "hero_" + hero.getId() + "_icon", HERO));
+                                    for (int k = 0; k < entry.getValue(); k++) {
+                                        int t = i % 8 == 0 ? 1 : i % 8 == 7 ? 2 : 0;
+                                        i++;
+                                        contents.add(new Cast(entry.getValue(), "hero_" + hero.getId() + "_icon", HERO, t));
+                                    }
                                 }
                             }
+                            int i = 0;
                             if (p.getAbility_uses().size() + p.getItem_uses().size() > 0) {
                                 contents.add(new Cast(context.getResources().getColor(R.color.lose), context.getResources().getString(R.string.cast), HEADER));
                                 for (Map.Entry<String, Integer> entry : p.getAbility_uses().entrySet()) {
                                     for (Map.Entry<String, String> entry1 : MainActivity.ability_ids.entrySet()) {
                                         if (entry1.getValue().equals(entry.getKey())) {
-                                            contents.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY));
+                                            int t = i % 8 == 0 ? 1 : i % 8 == 7 ? 2 : 0;
+                                            i++;
+                                            contents.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY, t));
                                             break;
                                         }
                                     }
                                 }
                                 for (Map.Entry<String, Integer> entry : p.getItem_uses().entrySet()) {
                                     Item item = MainActivity.items.get(entry.getKey());
-                                    contents.add(new Cast(entry.getValue(), item.getId() + "", ITEM));
+                                    int t = i % 8 == 0 ? 1 : i % 8 == 7 ? 2 : 0;
+                                    i++;
+                                    contents.add(new Cast(entry.getValue(), item.getId() + "", ITEM, t));
                                 }
                             }
                         }
@@ -422,42 +430,17 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         }
                         teamFight.radiant_death.setText(new SpannableStringBuilder().append(death).append(context.getString(R.string.r_d)).append(radiant_death));
                         teamFight.dire_death.setText(new SpannableStringBuilder().append(context.getString(R.string.d_d)).append(dire_death).append(" ").append(death));
-                        //TODO rewrite teamfights to popup window
-//                                final CastAdapter castAdapter = new CastAdapter(context, contents);
-//                                GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 10);
-//                                gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-//                                    @Override
-//                                    public int getSpanSize(int position) {
-//                                        return (castAdapter.getItemViewType(position) == -1 || castAdapter.getItemViewType(position) == 11 || castAdapter.getItemViewType(position) == 12) ? 10 : 1;
-//                                    }
-//                                });
-//                                teamFight.map.setPoints(points);
-//                                teamFight.map.invalidate();
-//                                teamFight.teamfight_list.setLayoutManager(gridLayoutManager);
-//                                teamFight.teamfight_list.setAdapter(castAdapter);
-                        teamFight.itemView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                TeamFIghtDialogFragment instance = TeamFIghtDialogFragment.newInstance(contents);
-                                instance.show(((AppCompatActivity) context).getSupportFragmentManager(), "");
-//                                        if (teamFight.map.getVisibility() == View.GONE) {
-////                                            Log.d(TAG, "onClick: GONE");
-////                                            if (expended != -1) {
-////                                                TeamFight viewHolder = (TeamFight) recyclerView.getChildViewHolder(recyclerView.getChildAt(expended));
-////                                                viewHolder.team_fight_detail.setVisibility(View.GONE);
-////                                                recyclerView.smoothScrollToPosition(position);
-////                                            }
-////                                            expended = position;
-//                                            teamFight.map.setVisibility(View.VISIBLE);
-//                                            teamFight.teamfight_list.setVisibility(View.VISIBLE);
-//                                        } else {
-////                                            Log.d(TAG, "onClick: VISIBLE");
-//                                            teamFight.map.setVisibility(View.GONE);
-//                                            teamFight.teamfight_list.setVisibility(View.GONE);
-////                                            expended = -1;
-//                                        }
-                            }
-
+                        TeamFightCast t = (TeamFightCast) contents.get(0);
+                        t.setId("teamfight_" + position);
+                        t.setWin(teamFight.teamfight_win.getText());
+                        t.setDire_death(teamFight.dire_death.getText());
+                        t.setDire_gold(teamFight.dire_gold_delta.getText());
+                        t.setRadiant_death(teamFight.radiant_death.getText());
+                        t.setRadiant_gold(teamFight.radiant_gold_delta.getText());
+                        t.setTime1(teamFight.start_end.getText());
+                        teamFight.itemView.setOnClickListener(v -> {
+                            TeamFightDialogFragment instance = TeamFightDialogFragment.newInstance(contents);
+                            instance.show(((AppCompatActivity) context).getSupportFragmentManager(), "");
                         });
                     });
                 }).start();
@@ -496,7 +479,7 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private float y;
         private int color;
 
-        private Point(float x, float y, int color) {
+        Point(float x, float y, int color) {
             this.x = x;
             this.y = y;
             this.color = color;
@@ -545,19 +528,15 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     class TeamFight extends RecyclerView.ViewHolder {
-        final CardView tf;
         final TextView radiant_gold_delta;
         final TextView radiant_death;
         final TextView start_end;
         final TextView dire_death;
         final TextView dire_gold_delta;
-        final View itemView;
         final TextView teamfight_win;
 
         TeamFight(final View itemView) {
             super(itemView);
-            tf = itemView.findViewById(R.id.tf);
-            this.itemView = itemView;
             teamfight_win = itemView.findViewById(R.id.teamfight_win);
             radiant_gold_delta = itemView.findViewById(R.id.radiant_gold_delta);
             radiant_death = itemView.findViewById(R.id.radiant_death);

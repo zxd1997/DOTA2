@@ -23,6 +23,7 @@ import com.example.zxd1997.dota2.Beans.CastHeader;
 import com.example.zxd1997.dota2.Beans.Item;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.R;
+import com.example.zxd1997.dota2.Utils.GridItemDecoration;
 import com.example.zxd1997.dota2.Utils.MyApplication;
 import com.example.zxd1997.dota2.Utils.Tools;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -68,6 +69,7 @@ public class PurchaseAndCastFragment extends Fragment {
                 }
             });
             recyclerView.setLayoutManager(gridLayoutManager);
+            recyclerView.addItemDecoration(new GridItemDecoration());
             recyclerView.setAdapter(castAdapter);
             LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(Objects.requireNonNull(getContext()));
             Intent intent = new Intent("loaded");
@@ -108,25 +110,33 @@ public class PurchaseAndCastFragment extends Fragment {
                     casts.add(new CastHeader(Objects.requireNonNull(getContext()).getResources().getColor(
                             Tools.getResId("slot_" + p.getPlayer_slot(), R.color.class)),
                             p.getPersonaname(), PLAYER_HEADER, p.getHero_id(), p.getTotal_gold(), p.getGold_spent()));
+                    int i = 0;
                     casts.add(new Cast(getContext().getResources().getColor(R.color.win), getContext().getResources().getString(R.string.item_purchase), HEADER));
                     for (Match.Objective purchase : p.getPurchase_log()) {
                         if (purchase.getKey().equals("tpscroll") || purchase.getKey().equals("ward_observer") || purchase.getKey().equals("ward_sentry"))
                             continue;
+                        int t = i % 8 == 0 ? 1 : i % 8 == 7 ? 2 : 0;
+                        i++;
                         Item item = MainActivity.items.get(purchase.getKey());
-                        casts.add(new Cast(purchase.getTime(), item.getId() + "", PURCHASE));
+                        casts.add(new Cast(purchase.getTime(), item.getId() + "", PURCHASE, t));
                     }
+                    i = 0;
                     casts.add(new Cast(getContext().getResources().getColor(R.color.lose), getContext().getResources().getString(R.string.cast), HEADER));
                     for (Map.Entry<String, Integer> entry : p.getAbility_uses().entrySet()) {
                         for (Map.Entry<String, String> entry1 : MainActivity.ability_ids.entrySet()) {
                             if (entry1.getValue().equals(entry.getKey())) {
-                                casts.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY));
+                                int t = i % 8 == 0 ? 1 : i % 8 == 7 ? 2 : 0;
+                                i++;
+                                casts.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY, t));
                                 break;
                             }
                         }
                     }
                     for (Map.Entry<String, Integer> entry : p.getItem_uses().entrySet()) {
                         Item item = MainActivity.items.get(entry.getKey());
-                        casts.add(new Cast(entry.getValue(), item.getId() + "", ITEM));
+                        int t = i % 8 == 0 ? 1 : i % 8 == 7 ? 2 : 0;
+                        i++;
+                        casts.add(new Cast(entry.getValue(), item.getId() + "", ITEM, t));
                     }
                 }
                 handler.sendMessage(new Message());

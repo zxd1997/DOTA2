@@ -28,6 +28,7 @@ import com.example.zxd1997.dota2.Beans.Hero;
 import com.example.zxd1997.dota2.Beans.Item;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.R;
+import com.example.zxd1997.dota2.Utils.GridItemDecoration;
 import com.example.zxd1997.dota2.Utils.MyApplication;
 import com.example.zxd1997.dota2.Utils.Tools;
 
@@ -78,6 +79,7 @@ public class DetailFragment extends Fragment {
                     }
                 });
                 d_detail.setLayoutManager(gridLayoutManager1);
+                d_detail.addItemDecoration(new GridItemDecoration());
                 d_detail.setAdapter(castAdapter);
                 LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(Objects.requireNonNull(getContext()));
                 Intent intent = new Intent("loaded");
@@ -185,7 +187,7 @@ public class DetailFragment extends Fragment {
                     casts.add(new Cast(getContext().getResources().getColor(R.color.win), getContext().getResources().getString(R.string.damage_dealt), HEADER));
                     for (Map.Entry<String, Integer> entry : p.getDamage_inflictor().entrySet()) {
                         if (entry.getKey().equals("null")) {
-                            casts.add(new Cast(entry.getValue(), "default_attack", ABILITY));
+                            casts.add(new Cast(entry.getValue(), "default_attack", ABILITY, 1));
                             if (p.getDamage_targets() != null) {
                                 casts.add(new Cast(0, "", ARROW));
                                 int i = 0;
@@ -193,7 +195,8 @@ public class DetailFragment extends Fragment {
                                     if (i == 6) {
                                         casts.add(new Cast(0, "", ENTER));
                                         casts.add(new Cast(0, "", 5));
-                                    }
+                                        casts.add(new Cast(entry1.getValue(), "hero_" + MainActivity.heroes.get(entry1.getKey()).getId() + "_icon", HERO1, 1));
+                                    } else
                                     casts.add(new Cast(entry1.getValue(), "hero_" + MainActivity.heroes.get(entry1.getKey()).getId() + "_icon", HERO1));
                                     i++;
                                 }
@@ -203,7 +206,7 @@ public class DetailFragment extends Fragment {
                             boolean f = false;
                             for (Map.Entry<String, String> entry1 : MainActivity.ability_ids.entrySet()) {
                                 if (entry1.getValue().equals(entry.getKey())) {
-                                    casts.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY));
+                                    casts.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY, 1));
                                     if (p.getDamage_targets() != null) {
                                         casts.add(new Cast(0, "", ARROW));
                                         int i = 0;
@@ -211,7 +214,8 @@ public class DetailFragment extends Fragment {
                                             if (i == 6) {
                                                 casts.add(new Cast(0, "", ENTER));
                                                 casts.add(new Cast(0, "", 5));
-                                            }
+                                                casts.add(new Cast(entry2.getValue(), "hero_" + MainActivity.heroes.get(entry2.getKey()).getId() + "_icon", HERO1, 1));
+                                            } else
                                             casts.add(new Cast(entry2.getValue(), "hero_" + MainActivity.heroes.get(entry2.getKey()).getId() + "_icon", HERO1));
                                             i++;
                                         }
@@ -223,7 +227,7 @@ public class DetailFragment extends Fragment {
                             }
                             if (!f) {
                                 Item item = MainActivity.items.get(entry.getKey());
-                                casts.add(new Cast(entry.getValue(), item.getId() + "", ITEM));
+                                casts.add(new Cast(entry.getValue(), item.getId() + "", ITEM, 1));
                                 if (p.getDamage_targets() != null) {
                                     casts.add(new Cast(0, "", ARROW));
                                     int i = 0;
@@ -231,7 +235,8 @@ public class DetailFragment extends Fragment {
                                         if (i == 6) {
                                             casts.add(new Cast(0, "", ENTER));
                                             casts.add(new Cast(0, "", 5));
-                                        }
+                                            casts.add(new Cast(entry1.getValue(), "hero_" + MainActivity.heroes.get(entry1.getKey()).getId() + "_icon", HERO1, 1));
+                                        } else
                                         casts.add(new Cast(entry1.getValue(), "hero_" + MainActivity.heroes.get(entry1.getKey()).getId() + "_icon", HERO1));
                                         i++;
                                     }
@@ -242,22 +247,25 @@ public class DetailFragment extends Fragment {
                     }
                     int d_t = 0;
                     casts.add(new Cast(getContext().getResources().getColor(R.color.lose), getContext().getResources().getString(R.string.damage_taken), HEADER));
+                    int i = 0;
                     for (Map.Entry<String, Integer> entry : p.getDamage_inflictor_received().entrySet()) {
                         d_t += entry.getValue();
+                        int t = i % 8 == 0 ? 1 : i % 8 == 7 ? 2 : 0;
+                        i++;
                         if (entry.getKey().equals("null")) {
-                            casts.add(new Cast(entry.getValue(), "default_attack", ABILITY));
+                            casts.add(new Cast(entry.getValue(), "default_attack", ABILITY, t));
                         } else {
                             boolean f = false;
                             for (Map.Entry<String, String> entry1 : MainActivity.ability_ids.entrySet()) {
                                 if (entry1.getValue().equals(entry.getKey())) {
-                                    casts.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY));
+                                    casts.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY, t));
                                     f = true;
                                     break;
                                 }
                             }
                             if (!f) {
                                 Item item = MainActivity.items.get(entry.getKey());
-                                casts.add(new Cast(entry.getValue(), item.getId() + "", ITEM));
+                                casts.add(new Cast(entry.getValue(), item.getId() + "", ITEM, t));
                             }
                         }
                     }
