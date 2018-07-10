@@ -5,14 +5,13 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="4dp"
-    android:layout_marginBottom="4dp"
-    android:layout_marginLeft="8dp">
+    android:layout_marginBottom="4dp">
 
     <TextView
         android:id="@+id/d_damage_taken"
-        android:layout_width="36dp"
+        android:layout_width="42.384375dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="42.384375dp"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:textColor="@android:color/black"
@@ -21,8 +20,8 @@
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/d_skill"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="42.384375dp"
+        android:layout_height="42.384375dp"
         android:layout_gravity="center_horizontal"
         app:roundedCornerRadius="2dp" />
 

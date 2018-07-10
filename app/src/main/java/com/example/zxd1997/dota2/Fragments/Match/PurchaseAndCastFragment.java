@@ -110,33 +110,25 @@ public class PurchaseAndCastFragment extends Fragment {
                     casts.add(new CastHeader(Objects.requireNonNull(getContext()).getResources().getColor(
                             Tools.getResId("slot_" + p.getPlayer_slot(), R.color.class)),
                             p.getPersonaname(), PLAYER_HEADER, p.getHero_id(), p.getTotal_gold(), p.getGold_spent()));
-                    int i = 0;
                     casts.add(new Cast(getContext().getResources().getColor(R.color.win), getContext().getResources().getString(R.string.item_purchase), HEADER));
                     for (Match.Objective purchase : p.getPurchase_log()) {
                         if (purchase.getKey().equals("tpscroll") || purchase.getKey().equals("ward_observer") || purchase.getKey().equals("ward_sentry"))
                             continue;
-                        int t = i % 8 == 0 ? 1 : i % 8 == 7 ? 2 : 0;
-                        i++;
                         Item item = MainActivity.items.get(purchase.getKey());
-                        casts.add(new Cast(purchase.getTime(), item.getId() + "", PURCHASE, t));
+                        casts.add(new Cast(purchase.getTime(), item.getId() + "", PURCHASE));
                     }
-                    i = 0;
                     casts.add(new Cast(getContext().getResources().getColor(R.color.lose), getContext().getResources().getString(R.string.cast), HEADER));
                     for (Map.Entry<String, Integer> entry : p.getAbility_uses().entrySet()) {
                         for (Map.Entry<String, String> entry1 : MainActivity.ability_ids.entrySet()) {
                             if (entry1.getValue().equals(entry.getKey())) {
-                                int t = i % 8 == 0 ? 1 : i % 8 == 7 ? 2 : 0;
-                                i++;
-                                casts.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY, t));
+                                casts.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY));
                                 break;
                             }
                         }
                     }
                     for (Map.Entry<String, Integer> entry : p.getItem_uses().entrySet()) {
                         Item item = MainActivity.items.get(entry.getKey());
-                        int t = i % 8 == 0 ? 1 : i % 8 == 7 ? 2 : 0;
-                        i++;
-                        casts.add(new Cast(entry.getValue(), item.getId() + "", ITEM, t));
+                        casts.add(new Cast(entry.getValue(), item.getId() + "", ITEM));
                     }
                 }
                 handler.sendMessage(new Message());

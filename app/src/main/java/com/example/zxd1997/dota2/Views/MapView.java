@@ -10,6 +10,9 @@ import com.example.zxd1997.dota2.Adapters.LogAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import static android.graphics.BitmapFactory.decodeResource;
 
 
 public class MapView extends View {
@@ -41,10 +44,8 @@ public class MapView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         paint.setAntiAlias(true);
-        paint.setStrokeWidth(10);
         for (LogAdapter.Point point : points) {
-            paint.setColor(point.getColor());
-            canvas.drawCircle(point.getX() * getWidth(), getHeight() - point.getY() * getHeight(), 20, paint);
+            canvas.drawBitmap(decodeResource(Objects.requireNonNull(getContext()).getResources(), point.getColor()), point.getX() * getWidth() - 32, getHeight() - point.getY() * getHeight() - 32, paint);
         }
     }
 

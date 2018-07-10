@@ -14,6 +14,7 @@ import android.view.Window;
 import com.example.zxd1997.dota2.Adapters.CastAdapter;
 import com.example.zxd1997.dota2.Beans.Cast;
 import com.example.zxd1997.dota2.R;
+import com.example.zxd1997.dota2.Utils.GridItemDecoration;
 
 import java.util.ArrayList;
 
@@ -46,6 +47,7 @@ public class TeamFightDialogFragment extends BottomSheetDialogFragment {
                 return (castAdapter.getItemViewType(position) == -1 || castAdapter.getItemViewType(position) == 11 || castAdapter.getItemViewType(position) == 12 || castAdapter.getItemViewType(position) == 15 || castAdapter.getItemViewType(position) == 16) ? 8 : 1;
             }
         });
+        teamfight_list.addItemDecoration(new GridItemDecoration());
         teamfight_list.setLayoutManager(gridLayoutManager);
         teamfight_list.setAdapter(castAdapter);
         return view;

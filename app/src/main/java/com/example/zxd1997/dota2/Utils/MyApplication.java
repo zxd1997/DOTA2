@@ -39,7 +39,9 @@ public class MyApplication extends Application {
     public void onCreate() {
         context = getApplicationContext();
         ImagePipelineConfig config = ImagePipelineConfig.newBuilder(context)
-                .setDownsampleEnabled(true).build();
+                .setDownsampleEnabled(true)
+//                .setBitmapsConfig(Bitmap.Config.ARGB_4444)
+                .build();
         Fresco.initialize(context, config);
         super.onCreate();
     }

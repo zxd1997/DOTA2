@@ -328,13 +328,9 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 y = 0;
                                 for (Map.Entry<Integer, Integer> entry1 : entry.getValue().entrySet()) {
                                     y = entry1.getKey();
+                                    points.add(new Point((x * 2 - 136) / 2 * (float) 4 / 510, (y * 2 - 120) / 2 * (float) 4 / 510,
+                                            Tools.getResId(p.getHero_id() + "_icon", R.drawable.class)));
                                 }
-                                if (j <= 4)
-                                    points.add(new Point((x * 2 - 134) / 2 * (float) 4 / 510, (y * 2 - 124) / 2 * (float) 4 / 505,
-                                            context.getResources().getColor(R.color.win)));
-                                else
-                                    points.add(new Point((x * 2 - 134) / 2 * (float) 4 / 510, (y * 2 - 124) / 2 * (float) 4 / 505,
-                                            context.getResources().getColor(R.color.lose)));
                             }
 
                         }
@@ -346,34 +342,25 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             contents.add(new TeamFightCast(0, "", TEAMFIGHT_HEADER, p));
                             if (p.getKilled().size() > 0) {
                                 contents.add(new Cast(context.getResources().getColor(R.color.win), context.getResources().getString(R.string.kills), HEADER));
-                                int i = 0;
                                 for (Map.Entry<String, Integer> entry : p.getKilled().entrySet()) {
                                     Hero hero = MainActivity.heroes.get(entry.getKey());
-                                    for (int k = 0; k < entry.getValue(); k++) {
-                                        int t = i % 8 == 0 ? 1 : i % 8 == 7 ? 2 : 0;
-                                        i++;
-                                        contents.add(new Cast(entry.getValue(), "hero_" + hero.getId() + "_icon", HERO, t));
-                                    }
+                                    for (int k = 0; k < entry.getValue(); k++)
+                                        contents.add(new Cast(entry.getValue(), "hero_" + hero.getId() + "_icon", HERO));
                                 }
                             }
-                            int i = 0;
                             if (p.getAbility_uses().size() + p.getItem_uses().size() > 0) {
                                 contents.add(new Cast(context.getResources().getColor(R.color.lose), context.getResources().getString(R.string.cast), HEADER));
                                 for (Map.Entry<String, Integer> entry : p.getAbility_uses().entrySet()) {
                                     for (Map.Entry<String, String> entry1 : MainActivity.ability_ids.entrySet()) {
                                         if (entry1.getValue().equals(entry.getKey())) {
-                                            int t = i % 8 == 0 ? 1 : i % 8 == 7 ? 2 : 0;
-                                            i++;
-                                            contents.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY, t));
+                                            contents.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY));
                                             break;
                                         }
                                     }
                                 }
                                 for (Map.Entry<String, Integer> entry : p.getItem_uses().entrySet()) {
                                     Item item = MainActivity.items.get(entry.getKey());
-                                    int t = i % 8 == 0 ? 1 : i % 8 == 7 ? 2 : 0;
-                                    i++;
-                                    contents.add(new Cast(entry.getValue(), item.getId() + "", ITEM, t));
+                                    contents.add(new Cast(entry.getValue(), item.getId() + "", ITEM));
                                 }
                             }
                         }

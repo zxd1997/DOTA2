@@ -26,19 +26,12 @@ public class Cast implements Parcelable {
     }
 
     private int type;
-    private int first;
     public Cast(int time, SpannableStringBuilder t, int type) {
         this.type = type;
         this.t = t;
         this.time = time;
     }
 
-    public Cast(int time, String id, int type, int first) {
-        this.type = type;
-        this.id = id;
-        this.time = time;
-        this.first = first;
-    }
     public Cast() {
 
     }
@@ -47,7 +40,6 @@ public class Cast implements Parcelable {
         time = in.readInt();
         id = in.readString();
         type = in.readInt();
-        first = in.readInt();
     }
 
     public void setId(String id) {
@@ -74,13 +66,6 @@ public class Cast implements Parcelable {
         return type;
     }
 
-    public int getFirst() {
-        return first;
-    }
-
-    public void setFirst(int first) {
-        this.first = first;
-    }
 
     @Override
     public int describeContents() {
@@ -92,6 +77,5 @@ public class Cast implements Parcelable {
         dest.writeInt(time);
         dest.writeString(id);
         dest.writeInt(type);
-        dest.writeInt(first);
     }
 }

@@ -213,8 +213,8 @@
             android:id="@+id/ab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginTop="4dp"
             android:text="@string/ability_build"
             android:textColor="@android:color/black"
@@ -228,14 +228,13 @@
                 android:id="@+id/ability_builds"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
                 android:descendantFocusability="blocksDescendants"
-                android:fadeScrollbars="false"
-                android:focusable="false"
+                android:layout_marginBottom="4dp"
                 android:focusableInTouchMode="false"
-                android:scrollbarSize="2dp" />
+                android:focusable="false"
+                android:nestedScrollingEnabled="false"
+                android:scrollbarSize="1dp"
+                android:scrollbarStyle="outsideOverlay" />
         </HorizontalScrollView>
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

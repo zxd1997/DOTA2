@@ -23,6 +23,7 @@ import com.example.zxd1997.dota2.Beans.Abilities;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.Tools;
+import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,12 +34,14 @@ public class OverviewFragment extends Fragment {
     private final int HEADER = -1;
     private final int PLAYER = -2;
     private final int LEVEL = -3;
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         System.gc();
         System.runFinalization();
     }
+
     public OverviewFragment() {
         // Required empty public constructor
     }
@@ -240,7 +243,15 @@ public class OverviewFragment extends Fragment {
                             }
                         }
                     }
+                    for (int j = 0; j < 26; j++) {
+                        int t = 0;
+                        for (int i = 0; i <= match.getPlayers().size(); i++) {
+                            abilities_modify.add(abilities.get(t + j));
+                            t += 26;
+                        }
+                    }
                     view.post(() -> {
+//                        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), match.getPlayers().size()+1, GridLayoutManager.HORIZONTAL, false);
                         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 30, GridLayoutManager.VERTICAL, false);
                         final AbilityBuildAdapter abilityBuildAdapter = new AbilityBuildAdapter(getContext(), abilities);
                         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -253,6 +264,14 @@ public class OverviewFragment extends Fragment {
                                     default:
                                         return 1;
                                 }
+                            }
+                        });
+                        recyclerView1.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                            @Override
+                            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                                if (newState == RecyclerView.SCROLL_STATE_IDLE)
+                                    Fresco.getImagePipeline().resume();
+                                else Fresco.getImagePipeline().pause();
                             }
                         });
                         recyclerView1.setLayoutManager(gridLayoutManager);

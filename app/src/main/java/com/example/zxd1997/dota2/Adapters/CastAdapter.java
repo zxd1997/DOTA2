@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -22,7 +21,6 @@ import com.example.zxd1997.dota2.Beans.CastHeader;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.Beans.TeamFightCast;
 import com.example.zxd1997.dota2.R;
-import com.example.zxd1997.dota2.Utils.MyApplication;
 import com.example.zxd1997.dota2.Utils.Tools;
 import com.example.zxd1997.dota2.Views.MapView;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -174,6 +172,7 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 viewHolder.name.setText(p.getPersonaname());
                 viewHolder.color.setBackgroundColor(context.getResources().getColor(Tools.getResId("slot_" + p.getPlayer_slot(), R.color.class)));
                 if (p.getDeaths() > 0) viewHolder.death.setVisibility(View.VISIBLE);
+                else viewHolder.death.setVisibility(View.GONE);
 //                viewHolder.header.setImageURI(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId(p.getHero_id(), R.drawable.class))).build());
                 Tools.showImage(new Uri.Builder().scheme(context.getString(R.string.res)).path(String.valueOf(Tools.getResId(p.getHero_id(), R.drawable.class))).build(), viewHolder.header);
                 SpannableString gold = new SpannableString(" ");
@@ -215,10 +214,6 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             default: {
                 ViewHolder viewHolder = (ViewHolder) holder;
                 Cast c = contents.get(position);
-//                viewHolder.setFirst(c.getFirst());
-//                GridLayoutManager.LayoutParams layoutParams= (GridLayoutManager.LayoutParams) viewHolder.itemView.getLayoutParams();
-//                if (c.getFirst()==2)
-//                layoutParams.rightMargin= (int) (MyApplication.getContext().getResources().getDisplayMetrics().density * 8);
                 int PURCHASE = 2;
                 if (getItemViewType(position) == PURCHASE) {
 //                    viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + c.getId(), R.drawable.class))).build());
@@ -304,20 +299,12 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
         final SimpleDraweeView icon;
         final TextView damage_taken;
-        int first;
         ViewHolder(View itemView) {
             super(itemView);
             icon = itemView.findViewById(R.id.d_skill);
             damage_taken = itemView.findViewById(R.id.d_damage_taken);
         }
 
-        public int getFirst() {
-            return first;
-        }
-
-        public void setFirst(int first) {
-            this.first = first;
-        }
     }
 
     class TeamFight extends RecyclerView.ViewHolder {
