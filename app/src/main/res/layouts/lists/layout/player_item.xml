@@ -59,7 +59,7 @@
                 android:id="@+id/kk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
+                android:textSize="13sp"
                 fresco:layout_constraintBottom_toTopOf="@id/k"
                 fresco:layout_constraintLeft_toLeftOf="@+id/player_name"
                 tools:text="K/D/A" />
