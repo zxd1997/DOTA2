@@ -27,7 +27,7 @@
 
     <TextView
         android:id="@+id/personaname"
-        android:layout_width="210dp"
+        android:layout_width="192dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="114dp"
         android:layout_marginTop="8dp"

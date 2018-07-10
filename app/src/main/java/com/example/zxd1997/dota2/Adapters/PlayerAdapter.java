@@ -173,7 +173,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         case 1: {
                             SpannableString tt = new SpannableString(" ");
                             Drawable drawable = context.getResources().getDrawable(R.drawable.lane_1);
-                            drawable.setBounds(0, 0, 28, 28);
+                            drawable.setBounds(0, 0, 26, 26);
                             tt.setSpan(new ImageSpan(drawable), 0, tt.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                             t.append(tt);
                             break;
@@ -181,7 +181,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         case 2: {
                             SpannableString tt = new SpannableString(" ");
                             Drawable drawable = context.getResources().getDrawable(R.drawable.lane_2);
-                            drawable.setBounds(0, 0, 28, 28);
+                            drawable.setBounds(0, 0, 26, 26);
                             tt.setSpan(new ImageSpan(drawable), 0, tt.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                             t.append(tt);
                             break;
@@ -189,7 +189,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         case 3: {
                             SpannableString tt = new SpannableString(" ");
                             Drawable drawable = context.getResources().getDrawable(R.drawable.lane_3);
-                            drawable.setBounds(0, 0, 28, 28);
+                            drawable.setBounds(0, 0, 26, 26);
                             tt.setSpan(new ImageSpan(drawable), 0, tt.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                             t.append(tt);
                             break;
@@ -197,7 +197,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         case 4: {
                             SpannableString tt = new SpannableString(" ");
                             Drawable drawable = context.getResources().getDrawable(R.drawable.lane_4);
-                            drawable.setBounds(0, 0, 28, 28);
+                            drawable.setBounds(0, 0, 26, 26);
                             tt.setSpan(new ImageSpan(drawable), 0, tt.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                             t.append(tt);
                             break;
@@ -206,7 +206,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     if (p.isIs_roaming()) {
                         SpannableString tt = new SpannableString(" ");
                         Drawable drawable = context.getResources().getDrawable(R.drawable.lane_roam);
-                        drawable.setBounds(0, 0, 28, 28);
+                        drawable.setBounds(0, 0, 26, 26);
                         tt.setSpan(new ImageSpan(drawable), 0, tt.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                         t.append(" ").append(tt);
                     }

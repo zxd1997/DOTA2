@@ -41,15 +41,17 @@
 
             <TextView
                 android:id="@+id/player_name"
-                android:layout_width="165dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="4dp"
-                android:textSize="16sp"
+                android:layout_marginRight="4dp"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:textColor="@android:color/black"
                 fresco:layout_constraintStart_toEndOf="@+id/player_hero"
+                android:textSize="15sp"
+                fresco:layout_constraintEnd_toStartOf="@id/item_0"
                 fresco:layout_constraintTop_toTopOf="parent"
                 tools:text="!@@@@@" />
 
@@ -95,10 +97,9 @@
                 android:id="@+id/lane"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 fresco:layout_constraintBottom_toTopOf="@id/damage"
-                fresco:layout_constraintRight_toRightOf="@id/damage"
-                tools:text="Mid lane" />
+                fresco:layout_constraintRight_toRightOf="@id/damage" />
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/item_0"
