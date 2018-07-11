@@ -9,7 +9,8 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabIndicatorColor="@color/colorPrimary">
+        app:tabIndicatorColor="@color/colorPrimary"
+        app:tabTextAppearance="@android:style/TextAppearance">
 
         <android.support.design.widget.TabItem
             android:id="@+id/tabItem"

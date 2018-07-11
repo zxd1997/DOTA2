@@ -155,9 +155,7 @@
                     android:layout_marginTop="8dp"
                     android:clickable="true"
                     android:focusable="true"
-                    android:foreground="?selectableItemBackground"
-                    android:padding="1dp"
-                    android:stateListAnimator="@drawable/touch_card"
+                    app:cardElevation="0dp"
                     app:layout_constraintLeft_toLeftOf="@id/data_tip"
                     app:layout_constraintTop_toBottomOf="@id/data_tip">
 
@@ -193,9 +191,7 @@
                     android:layout_marginTop="8dp"
                     android:clickable="true"
                     android:focusable="true"
-                    android:foreground="?selectableItemBackground"
-                    android:padding="1dp"
-                    android:stateListAnimator="@drawable/touch_card"
+                    app:cardElevation="0dp"
                     app:layout_constraintLeft_toRightOf="@id/card_win"
                     app:layout_constraintTop_toBottomOf="@id/data_tip">
 
@@ -231,9 +227,7 @@
                     android:layout_marginTop="8dp"
                     android:clickable="true"
                     android:focusable="true"
-                    android:foreground="?selectableItemBackground"
-                    android:padding="1dp"
-                    android:stateListAnimator="@drawable/touch_card"
+                    app:cardElevation="0dp"
                     app:layout_constraintLeft_toLeftOf="@id/data_tip"
                     app:layout_constraintTop_toBottomOf="@id/card_win">
 
@@ -269,9 +263,7 @@
                     android:layout_marginTop="8dp"
                     android:clickable="true"
                     android:focusable="true"
-                    android:foreground="?selectableItemBackground"
-                    android:padding="1dp"
-                    android:stateListAnimator="@drawable/touch_card"
+                    app:cardElevation="0dp"
                     app:layout_constraintLeft_toRightOf="@id/card_win"
                     app:layout_constraintTop_toBottomOf="@id/card_win">
 
@@ -308,9 +300,7 @@
                     android:layout_marginTop="8dp"
                     android:clickable="true"
                     android:focusable="true"
-                    android:foreground="?selectableItemBackground"
-                    android:padding="1dp"
-                    android:stateListAnimator="@drawable/touch_card"
+                    app:cardElevation="0dp"
                     app:layout_constraintLeft_toLeftOf="@id/data_tip"
                     app:layout_constraintTop_toBottomOf="@id/total_card">
 
@@ -347,9 +337,7 @@
                     android:layout_marginTop="8dp"
                     android:clickable="true"
                     android:focusable="true"
-                    android:foreground="?selectableItemBackground"
-                    android:padding="1dp"
-                    android:stateListAnimator="@drawable/touch_card"
+                    app:cardElevation="0dp"
                     app:layout_constraintLeft_toRightOf="@id/card_win"
                     app:layout_constraintTop_toBottomOf="@id/total_card">
 
@@ -387,9 +375,7 @@
                     android:layout_marginTop="8dp"
                     android:clickable="true"
                     android:focusable="true"
-                    android:foreground="?selectableItemBackground"
-                    android:padding="1dp"
-                    android:stateListAnimator="@drawable/touch_card"
+                    app:cardElevation="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="@id/data_tip"
                     app:layout_constraintTop_toBottomOf="@id/kda_card">
@@ -427,9 +413,7 @@
                     android:layout_marginTop="8dp"
                     android:clickable="true"
                     android:focusable="true"
-                    android:foreground="?selectableItemBackground"
-                    android:padding="1dp"
-                    android:stateListAnimator="@drawable/touch_card"
+                    app:cardElevation="0dp"
                     app:layout_constraintLeft_toRightOf="@id/card_win"
                     app:layout_constraintTop_toBottomOf="@id/kda_card">
 
@@ -465,9 +449,7 @@
                     android:layout_marginRight="16dp"
                     android:clickable="true"
                     android:focusable="true"
-                    android:foreground="?selectableItemBackground"
-                    android:padding="1dp"
-                    android:stateListAnimator="@drawable/touch_card"
+                    app:cardElevation="0dp"
                     app:layout_constraintBottom_toBottomOf="@id/gpm_card"
                     app:layout_constraintLeft_toRightOf="@id/xpm_card"
                     app:layout_constraintRight_toRightOf="parent">
