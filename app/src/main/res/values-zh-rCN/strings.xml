@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="action_settings">设置</string>
-    <string name="tab_text_1">我的</string>
+    <string name="tab_text_1">首页</string>
     <string name="tab_text_2">英雄</string>
     <string name="tab_text_3">物品</string>
     <string name="tab_text_4">职业</string>
@@ -246,4 +246,5 @@
     <string name="str1">力量</string>
     <string name="agi1">敏捷</string>
     <string name="int1">智力</string>
+    <string name="game">游戏</string>
 </resources>

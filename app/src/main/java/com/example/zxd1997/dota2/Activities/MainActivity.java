@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
-import android.support.design.widget.TabLayout;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.SharedElementCallback;
 import android.support.v4.content.LocalBroadcastManager;
@@ -24,7 +24,7 @@ import com.example.zxd1997.dota2.Adapters.TabFragmentAdapter;
 import com.example.zxd1997.dota2.Beans.Ability;
 import com.example.zxd1997.dota2.Beans.Hero;
 import com.example.zxd1997.dota2.Beans.Item;
-import com.example.zxd1997.dota2.Fragments.Main.HeroesFragment;
+import com.example.zxd1997.dota2.Fragments.Main.HeroesAndItemsFragment;
 import com.example.zxd1997.dota2.Fragments.Main.ItemsFragment;
 import com.example.zxd1997.dota2.Fragments.Main.MyFragment;
 import com.example.zxd1997.dota2.Fragments.Main.ProFragment;
@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
     public static Map<String, Item> items;
     public static final SparseArray<Hero> heroStats = new SparseArray<>();
     private SharedPreferences sharedPreferences;
+    ViewPager mViewPager;
     private ProgressDialog pd;
-    private final
     Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -59,16 +59,16 @@ public class MainActivity extends AppCompatActivity {
                     setSupportActionBar(toolbar);
                     List<Fragment> fragments = new ArrayList<>();
                     fragments.add(MyFragment.newInstance());
-                    fragments.add(HeroesFragment.newInstance());
+                    fragments.add(HeroesAndItemsFragment.newInstance());
                     fragments.add(ItemsFragment.newInstance());
                     fragments.add(ProFragment.newInstance());
                     TabFragmentAdapter tabFragmentAdapter = new TabFragmentAdapter(getSupportFragmentManager(), fragments);
                     ViewPager mViewPager = findViewById(R.id.container);
                     mViewPager.setAdapter(tabFragmentAdapter);
                     mViewPager.setOffscreenPageLimit(fragments.size());
-                    TabLayout tabLayout = findViewById(R.id.tabs);
-                    mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-                    tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+//                    TabLayout tabLayout = findViewById(R.id.tabs);
+//                    mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+//                    tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
                     pd.dismiss();
                     break;
                 }
@@ -76,6 +76,23 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     });
+    private BottomNavigationView bottomNavigationView;
+    private MenuItem menuItem;
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = item -> {
+        switch (item.getItemId()) {
+            case R.id.navigation_my:
+                mViewPager.setCurrentItem(0);
+                return true;
+            case R.id.navigation_hero:
+                mViewPager.setCurrentItem(1);
+                return true;
+            case R.id.navigation_pro:
+                mViewPager.setCurrentItem(2);
+                return true;
+        }
+        return false;
+    };
 
     @Override
     protected void onResume() {
@@ -112,6 +129,8 @@ public class MainActivity extends AppCompatActivity {
         Update.setDensity(this, getApplication());
         MyApplication.add(this);
         setContentView(R.layout.activity_main);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation1);
+        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         if (!getFileStreamPath("master.zip").exists()) {
             Update.update_zip(handler);
@@ -126,16 +145,35 @@ public class MainActivity extends AppCompatActivity {
             setSupportActionBar(toolbar);
             List<Fragment> fragments = new ArrayList<>();
             fragments.add(MyFragment.newInstance());
-            fragments.add(HeroesFragment.newInstance());
-            fragments.add(ItemsFragment.newInstance());
+            fragments.add(HeroesAndItemsFragment.newInstance());
+//            fragments.add(ItemsFragment.newInstance());
             fragments.add(ProFragment.newInstance());
             TabFragmentAdapter tabFragmentAdapter = new TabFragmentAdapter(getSupportFragmentManager(), fragments);
-            ViewPager mViewPager = findViewById(R.id.container);
+            mViewPager = findViewById(R.id.container);
             mViewPager.setAdapter(tabFragmentAdapter);
             mViewPager.setOffscreenPageLimit(fragments.size());
-            TabLayout tabLayout = findViewById(R.id.tabs);
-            mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-            tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+            mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    if (menuItem != null) {
+                        menuItem.setChecked(false);
+                    } else bottomNavigationView.getMenu().getItem(0).setChecked(false);
+                    menuItem = bottomNavigationView.getMenu().getItem(position);
+                    menuItem.setChecked(true);
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+//            TabLayout tabLayout = findViewById(R.id.tabs);
+//            mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+//            tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
         }
 
     }
@@ -169,6 +207,7 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     protected void onDestroy() {

@@ -2,7 +2,7 @@
     <string name="app_name" translatable="false">DOTA2</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_main" translatable="false">DOTA2</string>
-    <string name="tab_text_1">My</string>
+    <string name="tab_text_1">Home</string>
     <string name="tab_text_2">Heroes</string>
     <string name="tab_text_3">Items</string>
     <string name="tab_text_4">Pro</string>
@@ -276,5 +276,11 @@
     <string name="str1">Strength</string>
     <string name="agi1">Agility</string>
     <string name="int1">Intelligence</string>
-    <string name="ban_pick">Ban/Pick</string>
+    <string name="ban_pick" translatable="false">Ban/Pick</string>
+    <string name="title_activity_main2" translatable="false">Main2Activity</string>
+    <string name="title_home" translatable="false">Home</string>
+    <string name="title_dashboard" translatable="false">Dashboard</string>
+    <string name="title_notifications" translatable="false">Notifications</string>
+    <string name="bottom_navigation_behavior" translatable="false">com.example.zxd1997.dota2.Utils.BottomNavigationBehavior</string>
+    <string name="game">Game</string>
 </resources>
