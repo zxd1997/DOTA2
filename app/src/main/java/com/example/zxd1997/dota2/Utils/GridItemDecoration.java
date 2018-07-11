@@ -11,10 +11,9 @@ public class GridItemDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         RecyclerView.ViewHolder viewHolder = parent.getChildViewHolder(view);
-        if (viewHolder instanceof CastAdapter.ViewHolder) {
+        if (viewHolder instanceof CastAdapter.ViewHolder || viewHolder instanceof CastAdapter.BanPickHolder) {
             GridLayoutManager.LayoutParams lp = (GridLayoutManager.LayoutParams) view.getLayoutParams();
             int spanCount = ((GridLayoutManager) parent.getLayoutManager()).getSpanCount();
-            CastAdapter.ViewHolder viewHolder1 = (CastAdapter.ViewHolder) parent.getChildViewHolder(view);
             int dp8 = (int) (MyApplication.getContext().getResources().getDisplayMetrics().density * 8);
             outRect.set(0, 0, 0, 0);
             outRect.left = (int) (((float) (spanCount - lp.getSpanIndex())) / spanCount * dp8);

@@ -21,7 +21,6 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ImageSpan;
 import android.transition.Transition;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -62,7 +61,7 @@ public class HeroActivity extends AppCompatActivity {
     private final Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            Log.d("waht", "handleMessage: " + msg.obj.toString());
+//            Log.d("waht", "handleMessage: " + msg.obj.toString());
             switch (msg.what) {
                 case PARSE: {
                     Spanned spanned;
@@ -78,7 +77,7 @@ public class HeroActivity extends AppCompatActivity {
                         spanned = Html.fromHtml(t, Html.FROM_HTML_MODE_COMPACT, new NetworkImageGetter(), null);
                     } else
                         spanned = Html.fromHtml(t, new NetworkImageGetter(), null);
-                    Log.d("xxx", "handleMessage: " + spanned);
+//                    Log.d("xxx", "handleMessage: " + spanned);
                     text.setText(spanned);
                     progressBar.setVisibility(View.GONE);
                     text.setVisibility(View.VISIBLE);
@@ -220,7 +219,7 @@ public class HeroActivity extends AppCompatActivity {
     }
 
     private void setLevel(int level) {
-        Log.d("lvl", "setLevel: " + level);
+//        Log.d("lvl", "setLevel: " + level);
         double str = (double) hero.getBase_str() + hero.getStr_gain() * (level - 1);
         double agi = (double) hero.getBase_agi() + hero.getAgi_gain() * (level - 1);
         double inte = (double) hero.getBase_int() + hero.getInt_gain() * (level - 1);

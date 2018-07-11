@@ -17,7 +17,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,7 +99,7 @@ public class MyFragment extends Fragment {
                         break;
                     }
                     case PLAYER_INFO: {
-                        Log.d("msg", "handleMessage: " + message.obj.toString());
+//                        Log.d("msg", "handleMessage: " + message.obj.toString());
                         final Player player = new Gson().fromJson(message.obj.toString(), Player.class);
                         if (getContext() != null) {
                             progressBar.setVisibility(View.GONE);

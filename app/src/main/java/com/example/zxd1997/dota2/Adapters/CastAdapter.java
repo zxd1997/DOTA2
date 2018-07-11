@@ -46,6 +46,7 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int KD = 14;
     private final int MAP = 15;
     private final int TEAMFIGHT = 16;
+    private final int BAN_PICK = 17;
     private final List<Cast> contents;
     private final Context context;
 
@@ -82,6 +83,8 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 return new TeamFightHeader(LayoutInflater.from(parent.getContext()).inflate(R.layout.teamfight, parent, false));
             case MAP:
                 return new Map(LayoutInflater.from(parent.getContext()).inflate(R.layout.teamfight_map, parent, false));
+            case BAN_PICK:
+                return new BanPickHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.ban_pick, parent, false));
             default:
                 return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.d_taken_list, parent, false));
         }
@@ -95,6 +98,16 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         switch (getItemViewType(position)) {
+            case BAN_PICK: {
+                BanPickHolder banPickHolder = (BanPickHolder) holder;
+                Cast bp = contents.get(position);
+                if (bp.isIs_pick())
+                    Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId(bp.getId(), R.drawable.class))).build(), banPickHolder.header);
+                else
+                    Tools.showBlackImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId(bp.getId(), R.drawable.class))).build(), banPickHolder.header);
+                banPickHolder.order.setText(bp.isIs_pick() ? (bp.getTime() + 1) + "  Pick" : (bp.getTime() + 1) + "  Ban");
+                break;
+            }
             case MAP: {
                 TeamFightCast teamFightCast = (TeamFightCast) contents.get(position);
                 Map map = (Map) holder;
@@ -251,6 +264,16 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return contents.size();
     }
 
+    public class BanPickHolder extends RecyclerView.ViewHolder {
+        SimpleDraweeView header;
+        TextView order;
+
+        BanPickHolder(View itemView) {
+            super(itemView);
+            header = itemView.findViewById(R.id.bp_hero);
+            order = itemView.findViewById(R.id.bp);
+        }
+    }
 
     class PHeaderHolder extends RecyclerView.ViewHolder {
         final SimpleDraweeView pheader;

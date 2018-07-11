@@ -25,6 +25,23 @@ public class Cast implements Parcelable {
         this.time = time;
     }
 
+    private boolean is_pick;
+
+    public Cast(int time, String id, int type, boolean is_pick) {
+        this.type = type;
+        this.id = id;
+        this.time = time;
+        this.is_pick = is_pick;
+    }
+
+    public boolean isIs_pick() {
+        return is_pick;
+    }
+
+    public void setIs_pick(boolean is_pick) {
+        this.is_pick = is_pick;
+    }
+
     private int type;
     public Cast(int time, SpannableStringBuilder t, int type) {
         this.type = type;

@@ -11,7 +11,6 @@ import android.support.v4.app.SharedElementCallback;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -54,7 +53,7 @@ public class PlayerActivity extends AppCompatActivity {
     private final Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            Log.d("msg", "handleMessage: " + msg.obj.toString());
+//            Log.d("msg", "handleMessage: " + msg.obj.toString());
             if (msg.obj.toString().contains("rate limit exceeded")) {
                 Toast.makeText(PlayerActivity.this, R.string.api_rate, Toast.LENGTH_LONG).show();
             } else {

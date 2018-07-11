@@ -1,5 +1,6 @@
 package com.example.zxd1997.dota2.Utils;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -13,6 +14,7 @@ import com.facebook.drawee.controller.BaseControllerListener;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.request.BasePostprocessor;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
@@ -20,6 +22,41 @@ import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 
 public class Tools {
+
+    public static void showBlackImage(Uri uri, SimpleDraweeView simpleDraweeView) {
+        ViewGroup.LayoutParams layoutParams = simpleDraweeView.getLayoutParams();
+        ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri).setResizeOptions(new ResizeOptions(layoutParams.width, layoutParams.height)).
+                setPostprocessor(new BasePostprocessor() {
+                    @Override
+                    public String getName() {
+                        return "redMeshPostprocessor";
+                    }
+
+                    @Override
+                    public void process(Bitmap bitmap) {
+                        int width = bitmap.getWidth(); //获取位图的宽
+                        int height = bitmap.getHeight(); //获取位图的高
+                        int[] pixels = new int[width * height]; //通过位图的大小创建像素点数组
+                        bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
+                        int alpha = 0xFF << 24;
+                        for (int i = 0; i < height; i++) {
+                            for (int j = 0; j < width; j++) {
+                                int grey = pixels[width * i + j];
+                                int red = ((grey & 0x00FF0000) >> 16);
+                                int green = ((grey & 0x0000FF00) >> 8);
+                                int blue = (grey & 0x000000FF);
+                                grey = (int) ((float) red * 0.3 + (float) green * 0.59 + (float) blue * 0.11);
+                                grey = alpha | (grey << 16) | (grey << 8) | grey;
+                                pixels[width * i + j] = grey;
+                            }
+                        }
+                        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+                    }
+                }).build();
+        DraweeController controller = Fresco.newDraweeControllerBuilder().setImageRequest(request).setOldController(simpleDraweeView.getController()).setControllerListener(new BaseControllerListener<>()).build();
+        simpleDraweeView.setController(controller);
+    }
+
     public static void showImage(Uri uri, SimpleDraweeView simpleDraweeView) {
         ViewGroup.LayoutParams layoutParams = simpleDraweeView.getLayoutParams();
         ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri).setResizeOptions(new ResizeOptions(layoutParams.width, layoutParams.height)).build();

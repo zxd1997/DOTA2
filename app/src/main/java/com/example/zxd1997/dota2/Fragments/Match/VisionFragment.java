@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -157,7 +156,7 @@ public class VisionFragment extends Fragment {
                     LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(Objects.requireNonNull(getContext()));
                     Intent intent = new Intent("loaded");
                     localBroadcastManager.sendBroadcast(intent);
-                    Log.d("send", "run: send");
+//                    Log.d("send", "run: send");
 
                 });
             }).start();

@@ -276,4 +276,5 @@
     <string name="str1">Strength</string>
     <string name="agi1">Agility</string>
     <string name="int1">Intelligence</string>
+    <string name="ban_pick">Ban/Pick</string>
 </resources>

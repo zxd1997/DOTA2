@@ -18,10 +18,13 @@ import android.widget.TextView;
 import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Activities.MatchActivity;
 import com.example.zxd1997.dota2.Adapters.AbilityBuildAdapter;
+import com.example.zxd1997.dota2.Adapters.CastAdapter;
 import com.example.zxd1997.dota2.Adapters.PlayerAdapter;
 import com.example.zxd1997.dota2.Beans.Abilities;
+import com.example.zxd1997.dota2.Beans.Cast;
 import com.example.zxd1997.dota2.Beans.Match;
 import com.example.zxd1997.dota2.R;
+import com.example.zxd1997.dota2.Utils.GridItemDecoration;
 import com.example.zxd1997.dota2.Utils.Tools;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
@@ -101,10 +104,33 @@ public class OverviewFragment extends Fragment {
             recyclerView.setAdapter(playerAdapter);
             recyclerView.setNestedScrollingEnabled(false);
             final RecyclerView recyclerView1 = view.findViewById(R.id.ability_builds);
-            final List<Abilities> abilities_modify = new ArrayList<>();
+            RecyclerView bp = view.findViewById(R.id.ban_pick);
             final List<Abilities> abilities = new ArrayList<>();
             if (match.getPlayers().get(0).getAbility_upgrades_arr() != null) {
                 new Thread(() -> {
+                    List<Cast> bplist = new ArrayList<>();
+                    if (match.getPicks_bans() != null) {
+                        List<Cast> radiant_pick = new ArrayList<>();
+                        List<Cast> dire_ban = new ArrayList<>();
+                        List<Cast> dire_pick = new ArrayList<>();
+                        for (Match.BP bp1 : match.getPicks_bans()) {
+                            if (bp1.getTeam() == 0 && !bp1.isIs_pick())
+                                bplist.add(new Cast(bp1.getOrder(), "hero_" + bp1.getHero_id(), 17, bp1.isIs_pick()));
+                            else if (bp1.getTeam() == 0 && bp1.isIs_pick())
+                                radiant_pick.add(new Cast(bp1.getOrder(), "hero_" + bp1.getHero_id(), 17, bp1.isIs_pick()));
+                            else if (bp1.getTeam() == 1 && !bp1.isIs_pick())
+                                dire_ban.add(new Cast(bp1.getOrder(), "hero_" + bp1.getHero_id(), 17, bp1.isIs_pick()));
+                            else if (bp1.getTeam() == 1 && bp1.isIs_pick())
+                                dire_pick.add(new Cast(bp1.getOrder(), "hero_" + bp1.getHero_id(), 17, bp1.isIs_pick()));
+                        }
+                        bplist.addAll(radiant_pick);
+                        bplist.add(new Cast(0, "", 6));
+                        bplist.addAll(dire_ban);
+                        bplist.addAll(dire_pick);
+                        radiant_pick.clear();
+                        dire_pick.clear();
+                        dire_ban.clear();
+                    }
                     final int ABILITY = 1;
                     final int NULL_ABILITY = 3;
                     final int TALENT = 2;
@@ -243,14 +269,23 @@ public class OverviewFragment extends Fragment {
                             }
                         }
                     }
-                    for (int j = 0; j < 26; j++) {
-                        int t = 0;
-                        for (int i = 0; i <= match.getPlayers().size(); i++) {
-                            abilities_modify.add(abilities.get(t + j));
-                            t += 26;
-                        }
-                    }
+//                    for (int j = 0; j < 26; j++) {
+//                        int t = 0;
+//                        for (int i = 0; i <= match.getPlayers().size(); i++) {
+//                            abilities_modify.add(abilities.get(t + j));
+//                            t += 26;
+//                        }
+//                    }
                     view.post(() -> {
+                        if (match.getPicks_bans() != null) {
+                            bp.setVisibility(View.VISIBLE);
+                            view.findViewById(R.id.bp1).setVisibility(View.VISIBLE);
+                            GridLayoutManager bpManager = new GridLayoutManager(getContext(), 6, GridLayoutManager.VERTICAL, false);
+                            CastAdapter bpAdapter = new CastAdapter(getContext(), bplist);
+                            bp.setLayoutManager(bpManager);
+                            bp.setAdapter(bpAdapter);
+                            bp.addItemDecoration(new GridItemDecoration());
+                        }
 //                        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), match.getPlayers().size()+1, GridLayoutManager.HORIZONTAL, false);
                         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 30, GridLayoutManager.VERTICAL, false);
                         final AbilityBuildAdapter abilityBuildAdapter = new AbilityBuildAdapter(getContext(), abilities);
