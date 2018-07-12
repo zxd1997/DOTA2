@@ -68,7 +68,7 @@ public class HeroDetailFragment extends Fragment {
                     t = t.replaceAll("<div class=\"floatnone\">", "");
                     t = t.replaceAll("<div class=\"center\">", "");
                     t = t.replaceAll("</div>", "");
-                    t = t.replaceAll("[[file:|center|x22px|link=]]", "");
+                    t = t.replace("[[file:|center|x22px|link=]]", "");
                     while (t.contains("clear:both")) {
                         String tt = "<div style=\"" + t.substring(0, t.indexOf("clear:both"));
                         tt = tt.substring(0, tt.lastIndexOf("<div style="));
