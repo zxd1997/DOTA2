@@ -26,6 +26,7 @@ public class Tools {
     public static void showBlackImage(Uri uri, SimpleDraweeView simpleDraweeView) {
         ViewGroup.LayoutParams layoutParams = simpleDraweeView.getLayoutParams();
         ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri).setResizeOptions(new ResizeOptions(layoutParams.width, layoutParams.height)).
+                setProgressiveRenderingEnabled(true).
                 setPostprocessor(new BasePostprocessor() {
                     @Override
                     public String getName() {
@@ -59,7 +60,7 @@ public class Tools {
 
     public static void showImage(Uri uri, SimpleDraweeView simpleDraweeView) {
         ViewGroup.LayoutParams layoutParams = simpleDraweeView.getLayoutParams();
-        ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri).setResizeOptions(new ResizeOptions(layoutParams.width, layoutParams.height)).build();
+        ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri).setResizeOptions(new ResizeOptions(layoutParams.width, layoutParams.height)).setProgressiveRenderingEnabled(true).build();
         DraweeController controller = Fresco.newDraweeControllerBuilder().setImageRequest(request).setOldController(simpleDraweeView.getController()).setControllerListener(new BaseControllerListener<>()).build();
         simpleDraweeView.setController(controller);
     }

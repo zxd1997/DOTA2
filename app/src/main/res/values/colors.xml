@@ -31,4 +31,6 @@
     <color name="normal">#89000000</color>
     <color name="blue_light">#33b5e5</color>
     <color name="tans_black">#64000000</color>
+    <color name="lighter_gray">#64dddddd</color>
+
 </resources>

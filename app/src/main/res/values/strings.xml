@@ -283,4 +283,6 @@
     <string name="title_notifications" translatable="false">Notifications</string>
     <string name="bottom_navigation_behavior" translatable="false">com.example.zxd1997.dota2.Utils.BottomNavigationBehavior</string>
     <string name="game">Game</string>
+    <string name="hero_detail">Hero Detail</string>
+    <string name="hero_statistics">Hero Statistics</string>
 </resources>

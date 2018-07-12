@@ -5,10 +5,14 @@ import android.app.Application;
 import android.content.Context;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
+import com.facebook.imagepipeline.decoder.SimpleProgressiveJpegConfig;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import okhttp3.OkHttpClient;
 
 public class MyApplication extends Application {
     private static Context context;
@@ -38,8 +42,9 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         context = getApplicationContext();
-        ImagePipelineConfig config = ImagePipelineConfig.newBuilder(context)
+        ImagePipelineConfig config = OkHttpImagePipelineConfigFactory.newBuilder(context, new OkHttpClient.Builder().build())
                 .setDownsampleEnabled(true)
+                .setProgressiveJpegConfig(new SimpleProgressiveJpegConfig())
 //                .setBitmapsConfig(Bitmap.Config.ARGB_4444)
                 .build();
         Fresco.initialize(context, config);

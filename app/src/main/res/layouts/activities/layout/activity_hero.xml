@@ -10,17 +10,20 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_bar_height"
+        android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="210dp"
+            app:expandedTitleGravity="bottom"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:expandedTitleMarginBottom="50dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:scrimVisibleHeightTrigger="160dp"
             app:toolbarId="@+id/toolbar">
 
             <com.facebook.drawee.view.SimpleDraweeView
@@ -28,6 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
+                app:layout_collapseMode="parallax"
                 app:actualImageScaleType="centerCrop" />
 
             <android.support.v7.widget.Toolbar
@@ -35,335 +39,37 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
+                android:layout_marginBottom="40dp"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-        </android.support.design.widget.CollapsingToolbarLayout>
-    </android.support.design.widget.AppBarLayout>
-
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".Activities.HeroActivity"
-        tools:showIn="@layout/activity_hero">
-
-        <LinearLayout
-            android:id="@+id/ll"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <android.support.v7.widget.CardView
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabs_hero"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="16dp">
+                android:layout_gravity="bottom"
+                app:tabTextAppearance="@android:style/TextAppearance">
 
-                <android.support.constraint.ConstraintLayout
-                    android:layout_width="match_parent"
+                <android.support.design.widget.TabItem
+                    android:id="@+id/tabItem"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="16dp">
+                    android:text="@string/hero_detail" />
 
-                    <TextView
-                        android:id="@+id/hero_card_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:textSize="18sp"
-                        android:textColor="@android:color/black"
-                        app:layout_constraintTop_toTopOf="@id/icon_card"
-                        app:layout_constraintLeft_toRightOf="@id/icon_card"/>
+                <android.support.design.widget.TabItem
+                    android:id="@+id/tabItem1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hero_statistics" />
+            </android.support.design.widget.TabLayout>
+        </android.support.design.widget.CollapsingToolbarLayout>
 
-                    <com.facebook.drawee.view.SimpleDraweeView
-                        android:id="@+id/icon_card"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+    </android.support.design.widget.AppBarLayout>
 
-                    <TextView
-                        android:id="@+id/info"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:textSize="16sp"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/hero_card_name" />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/hero_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-                    <ImageView
-                        android:id="@+id/str_icon"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_marginTop="16dp"
-                        android:src="@drawable/icon_str"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toLeftOf="@id/str"
-                        app:layout_constraintTop_toBottomOf="@id/info" />
-
-                    <TextView
-                        android:id="@+id/str"
-                        android:layout_width="0dp"
-                        android:layout_height="36dp"
-                        android:gravity="center"
-                        android:padding="1dp"
-                        android:textSize="18sp"
-                        app:layout_constraintLeft_toRightOf="@id/str_icon"
-                        app:layout_constraintRight_toLeftOf="@id/agi_icon"
-                        app:layout_constraintTop_toTopOf="@id/str_icon"
-                        tools:text="20+1.22" />
-
-                    <ImageView
-                        android:id="@+id/agi_icon"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:src="@drawable/icon_agi"
-                        android:padding="1dp"
-                        app:layout_constraintLeft_toRightOf="@id/str"
-                        app:layout_constraintRight_toLeftOf="@id/agi"
-                        app:layout_constraintTop_toTopOf="@id/str_icon" />
-
-                    <TextView
-                        android:id="@+id/agi"
-                        android:layout_width="0dp"
-                        android:layout_height="36dp"
-                        android:gravity="center"
-                        android:textSize="18sp"
-                        android:padding="1dp"
-                        app:layout_constraintLeft_toRightOf="@id/agi_icon"
-                        app:layout_constraintRight_toLeftOf="@id/inte_icon"
-                        app:layout_constraintTop_toTopOf="@id/str_icon"
-                        tools:text="20+1.2" />
-
-                    <ImageView
-                        android:id="@+id/inte_icon"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:src="@drawable/icon_int"
-                        app:layout_constraintLeft_toRightOf="@id/agi"
-                        app:layout_constraintRight_toLeftOf="@id/inte"
-                        app:layout_constraintTop_toTopOf="@id/str_icon" />
-
-                    <TextView
-                        android:id="@+id/inte"
-                        android:layout_width="0dp"
-                        android:layout_height="36dp"
-                        android:gravity="center"
-                        android:textSize="18sp"
-                        app:layout_constraintLeft_toRightOf="@id/inte_icon"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/str_icon"
-                        tools:text="20+1.2" />
-
-                    <TextView
-                        android:id="@+id/cur_str"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:gravity="center"
-                        android:textSize="18sp"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toLeftOf="@id/cur_agi"
-                        app:layout_constraintTop_toBottomOf="@id/str_icon"
-                        tools:text="20" />
-
-                    <TextView
-                        android:id="@+id/cur_agi"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:gravity="center"
-                        android:textSize="18sp"
-                        app:layout_constraintLeft_toRightOf="@id/cur_str"
-                        app:layout_constraintRight_toLeftOf="@id/cur_int"
-                        app:layout_constraintTop_toBottomOf="@id/str_icon"
-                        tools:text="20" />
-
-                    <TextView
-                        android:id="@+id/cur_int"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:gravity="center"
-                        android:textSize="18sp"
-                        app:layout_constraintLeft_toRightOf="@id/cur_agi"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/str_icon"
-                        tools:text="20" />
-
-                    <TextView
-                        android:layout_width="65dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/lvl"
-                        android:layout_marginLeft="8dp"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/cur_agi"
-                        android:layout_marginTop="16dp"
-                        android:textSize="16sp"
-                        android:text="@string/level"
-                        app:layout_constraintLeft_toRightOf="@id/seekBar1" />
-                    <SeekBar
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/seekBar1"
-                        android:layout_marginTop="16dp"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toLeftOf="@id/lvl"
-                        app:layout_constraintTop_toBottomOf="@id/cur_agi"
-                        android:max="24"/>
-                    <TextView
-                        android:id="@+id/attr"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="@string/hero_attributes"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"
-                        app:layout_constraintTop_toBottomOf="@id/seekBar1" />
-
-                    <TextView
-                        android:id="@+id/attack"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:textSize="16sp"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/attr"
-                        tools:text="攻击力" />
-
-                    <TextView
-                        android:id="@+id/attack_range"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/attack_range_1_d"
-                        android:textSize="16sp"
-                        app:layout_constraintTop_toBottomOf="@id/attack" />
-
-                    <TextView
-                        android:id="@+id/projectile_speed"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="32dp"
-                        android:text="@string/projectile_speed_1_s"
-                        android:textSize="16sp"
-                        app:layout_constraintLeft_toRightOf="@id/attack_range"
-                        app:layout_constraintTop_toTopOf="@id/attack_range" />
-
-                    <TextView
-                        android:id="@+id/attack_rate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/attack_rate_2f"
-                        android:textSize="16sp"
-                        app:layout_constraintTop_toBottomOf="@id/attack_range" />
-
-                    <TextView
-                        android:id="@+id/spell_amp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="32dp"
-                        android:text="@string/spell_amplification_2f"
-                        android:textSize="16sp"
-                        app:layout_constraintLeft_toRightOf="@id/attack_rate"
-                        app:layout_constraintTop_toTopOf="@id/attack_rate" />
-
-                    <TextView
-                        android:id="@+id/health"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/health"
-                        android:textSize="16sp"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/attack_rate" />
-
-                    <TextView
-                        android:id="@+id/health_regen"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="32dp"
-                        android:text="@string/health_regen_2f"
-                        android:textSize="16sp"
-                        app:layout_constraintLeft_toRightOf="@id/health"
-                        app:layout_constraintTop_toTopOf="@id/health" />
-
-                    <TextView
-                        android:id="@+id/mana"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/mana_1_d"
-                        android:textSize="16sp"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/health" />
-
-                    <TextView
-                        android:id="@+id/mana_regen"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="32dp"
-                        android:text="@string/mana_regen_2f"
-                        android:textSize="16sp"
-                        app:layout_constraintLeft_toRightOf="@id/health"
-                        app:layout_constraintTop_toTopOf="@id/mana" />
-
-                    <TextView
-                        android:id="@+id/armor"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/armor_2f"
-                        android:textSize="16sp"
-                        app:layout_constraintTop_toBottomOf="@id/mana" />
-
-                    <TextView
-                        android:id="@+id/magic_resist"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="32dp"
-                        android:text="@string/magic_resistance_2f"
-                        android:textSize="16sp"
-                        app:layout_constraintLeft_toRightOf="@id/armor"
-                        app:layout_constraintTop_toTopOf="@id/armor" />
-
-                    <TextView
-                        android:id="@+id/move_speed"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/movement_speed_2f"
-                        android:textSize="16sp"
-                        app:layout_constraintTop_toBottomOf="@id/armor" />
-
-                    <TextView
-                        android:id="@+id/turn_rate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="32dp"
-                        android:text="@string/turn_rate_1f"
-                        android:textSize="16sp"
-                        app:layout_constraintLeft_toRightOf="@id/move_speed"
-                        app:layout_constraintTop_toTopOf="@id/move_speed" />
-                </android.support.constraint.ConstraintLayout>
-            </android.support.v7.widget.CardView>
-
-            <include layout="@layout/progressbar" />
-
-            <TextView
-                android:id="@+id/hero_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/text_margin"
-                android:layout_marginLeft="@dimen/text_margin"
-                android:layout_marginRight="@dimen/text_margin"
-                android:textSize="15sp"
-                android:visibility="gone"
-                tools:visibility="visible" />
-        </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

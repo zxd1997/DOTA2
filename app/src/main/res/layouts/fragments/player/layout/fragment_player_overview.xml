@@ -39,10 +39,8 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     fresco:placeholderImage="@drawable/logo"
-                    fresco:roundedCornerRadius="5dp"
-                    fresco:roundingBorderColor="@color/trans_pri_red"
                     android:transitionName="player"
-                    fresco:roundingBorderWidth="2dp" />
+                    fresco:roundedCornerRadius="4dp" />
 
                 <TextView
                     android:id="@+id/player_nickname"
@@ -155,6 +153,7 @@
                     android:layout_marginTop="8dp"
                     android:clickable="true"
                     android:focusable="true"
+                    app:cardBackgroundColor="@color/lighter_gray"
                     app:cardElevation="0dp"
                     app:layout_constraintLeft_toLeftOf="@id/data_tip"
                     app:layout_constraintTop_toBottomOf="@id/data_tip">
@@ -192,6 +191,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     app:cardElevation="0dp"
+                    app:cardBackgroundColor="@color/lighter_gray"
                     app:layout_constraintLeft_toRightOf="@id/card_win"
                     app:layout_constraintTop_toBottomOf="@id/data_tip">
 
@@ -228,6 +228,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     app:cardElevation="0dp"
+                    app:cardBackgroundColor="@color/lighter_gray"
                     app:layout_constraintLeft_toLeftOf="@id/data_tip"
                     app:layout_constraintTop_toBottomOf="@id/card_win">
 
@@ -264,6 +265,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     app:cardElevation="0dp"
+                    app:cardBackgroundColor="@color/lighter_gray"
                     app:layout_constraintLeft_toRightOf="@id/card_win"
                     app:layout_constraintTop_toBottomOf="@id/card_win">
 
@@ -301,6 +303,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     app:cardElevation="0dp"
+                    app:cardBackgroundColor="@color/lighter_gray"
                     app:layout_constraintLeft_toLeftOf="@id/data_tip"
                     app:layout_constraintTop_toBottomOf="@id/total_card">
 
@@ -338,6 +341,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     app:cardElevation="0dp"
+                    app:cardBackgroundColor="@color/lighter_gray"
                     app:layout_constraintLeft_toRightOf="@id/card_win"
                     app:layout_constraintTop_toBottomOf="@id/total_card">
 
@@ -376,6 +380,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     app:cardElevation="0dp"
+                    app:cardBackgroundColor="@color/lighter_gray"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="@id/data_tip"
                     app:layout_constraintTop_toBottomOf="@id/kda_card">
@@ -414,6 +419,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     app:cardElevation="0dp"
+                    app:cardBackgroundColor="@color/lighter_gray"
                     app:layout_constraintLeft_toRightOf="@id/card_win"
                     app:layout_constraintTop_toBottomOf="@id/kda_card">
 
@@ -450,6 +456,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     app:cardElevation="0dp"
+                    app:cardBackgroundColor="@color/lighter_gray"
                     app:layout_constraintBottom_toBottomOf="@id/gpm_card"
                     app:layout_constraintLeft_toRightOf="@id/xpm_card"
                     app:layout_constraintRight_toRightOf="parent">

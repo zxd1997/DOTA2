@@ -63,9 +63,28 @@ public class MainActivity extends AppCompatActivity {
                     fragments.add(ItemsFragment.newInstance());
                     fragments.add(ProFragment.newInstance());
                     TabFragmentAdapter tabFragmentAdapter = new TabFragmentAdapter(getSupportFragmentManager(), fragments);
-                    ViewPager mViewPager = findViewById(R.id.container);
+
                     mViewPager.setAdapter(tabFragmentAdapter);
                     mViewPager.setOffscreenPageLimit(fragments.size());
+                    mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                        @Override
+                        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                        }
+
+                        @Override
+                        public void onPageSelected(int position) {
+                            if (menuItem != null) {
+                                menuItem.setChecked(false);
+                            } else bottomNavigationView.getMenu().getItem(0).setChecked(false);
+                            menuItem = bottomNavigationView.getMenu().getItem(position);
+                            menuItem.setChecked(true);
+                        }
+
+                        @Override
+                        public void onPageScrollStateChanged(int state) {
+
+                        }
+                    });
 //                    TabLayout tabLayout = findViewById(R.id.tabs);
 //                    mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 //                    tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
@@ -129,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
         Update.setDensity(this, getApplication());
         MyApplication.add(this);
         setContentView(R.layout.activity_main);
+        mViewPager = findViewById(R.id.container);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation1);
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -149,7 +169,6 @@ public class MainActivity extends AppCompatActivity {
 //            fragments.add(ItemsFragment.newInstance());
             fragments.add(ProFragment.newInstance());
             TabFragmentAdapter tabFragmentAdapter = new TabFragmentAdapter(getSupportFragmentManager(), fragments);
-            mViewPager = findViewById(R.id.container);
             mViewPager.setAdapter(tabFragmentAdapter);
             mViewPager.setOffscreenPageLimit(fragments.size());
             mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
