@@ -61,6 +61,8 @@ public class MyFragment extends Fragment {
     private MatchesAdapter matchesAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private TextInputLayout textInputLayout;
+    Receiver receiver = new Receiver();
+
     private final List<MatchHero> recentMatches = new ArrayList<>();
     private final Handler handler = new Handler(new Handler.Callback() {
         @Override
@@ -157,6 +159,7 @@ public class MyFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        LocalBroadcastManager.getInstance(Objects.requireNonNull(getContext())).unregisterReceiver(receiver);
         System.gc();
         System.runFinalization();
     }
@@ -256,7 +259,6 @@ public class MyFragment extends Fragment {
         }
         String DISCONNECT = "disconnect from id";
         IntentFilter intentFilter = new IntentFilter(DISCONNECT);
-        Receiver receiver = new Receiver();
         LocalBroadcastManager.getInstance(Objects.requireNonNull(getContext())).registerReceiver(receiver, intentFilter);
         return view;
     }

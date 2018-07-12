@@ -2,8 +2,10 @@ package com.example.zxd1997.dota2.Utils;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.DisplayMetrics;
 
 import com.example.zxd1997.dota2.Activities.MainActivity;
@@ -49,6 +51,9 @@ public class Update {
             }
             fileInputStream.close();
         } catch (IOException e) {
+            LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(MyApplication.getContext());
+            Intent intent = new Intent("ZIP_BROKEN");
+            localBroadcastManager.sendBroadcast(intent);
             e.printStackTrace();
         }
         return s;

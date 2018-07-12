@@ -11,6 +11,7 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.zxd1997.dota2.Activities.MainActivity;
@@ -33,6 +34,7 @@ public class HeroesAndItemsFragment extends Fragment {
     private RecyclerView recyclerView;
     private View view;
 
+    ProgressBar progressBar;
     private final Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -61,6 +63,7 @@ public class HeroesAndItemsFragment extends Fragment {
                                 viewPager.setAdapter(tabFragmentAdapter);
                                 viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
                                 tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
+                                progressBar.setVisibility(View.GONE);
                                 viewPager.setVisibility(View.VISIBLE);
                             });
                         }).start();
@@ -93,7 +96,9 @@ public class HeroesAndItemsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_hero_and_items, container, false);
+        progressBar = view.findViewById(R.id.progressBar);
         if (heroStats.size() == 0) {
+            progressBar.setVisibility(View.VISIBLE);
             OKhttp.getFromService("https://api.opendota.com/api/heroStats", handler, HEROSTATS);
         } else {
             List<Fragment> fragments = new ArrayList<>();
@@ -107,6 +112,7 @@ public class HeroesAndItemsFragment extends Fragment {
             viewPager.setAdapter(tabFragmentAdapter);
             viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
             tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
+            progressBar.setVisibility(View.GONE);
             viewPager.setVisibility(View.VISIBLE);
         }
         return view;

@@ -1,7 +1,10 @@
 package com.example.zxd1997.dota2.Activities;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -49,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     ViewPager mViewPager;
     private ProgressDialog pd;
-    Handler handler = new Handler(new Handler.Callback() {
+    public Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             switch (msg.what) {
@@ -95,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     });
+    Receiver receiver = new Receiver();
     private BottomNavigationView bottomNavigationView;
     private MenuItem menuItem;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -152,6 +156,8 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation1);
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        IntentFilter intentFilter = new IntentFilter("ZIP_BROKEN");
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, intentFilter);
         if (!getFileStreamPath("master.zip").exists()) {
             Update.update_zip(handler);
             pd = new ProgressDialog(MainActivity.this);
@@ -227,11 +233,24 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
 //        ViewServer.get(this).removeWindow(this);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
         MyApplication.exit();
+    }
+
+    class Receiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Update.update_zip(handler);
+            pd = new ProgressDialog(MainActivity.this);
+            pd.setTitle("Update");
+            pd.setMessage("Updating");
+            pd.setCanceledOnTouchOutside(false);
+            pd.show();
+        }
     }
 }

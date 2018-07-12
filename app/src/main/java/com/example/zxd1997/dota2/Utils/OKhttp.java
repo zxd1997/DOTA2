@@ -74,52 +74,58 @@ public class OKhttp {
             }
 
             @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                FileOutputStream out = MyApplication.getContext().openFileOutput("master.zip", Context.MODE_PRIVATE);
-                out.write(Objects.requireNonNull(response.body()).bytes());
-                out.close();
-                ZipFile zip = new ZipFile(MyApplication.getContext().getFileStreamPath("master.zip"));
-                Enumeration list = zip.entries();
-                while (list.hasMoreElements()) {
-                    ZipEntry entry = (ZipEntry) list.nextElement();
+            public void onResponse(@NonNull Call call, @NonNull Response response) {
+                FileOutputStream out;
+                try {
+                    out = MyApplication.getContext().openFileOutput("master.zip", Context.MODE_PRIVATE);
+                    out.write(Objects.requireNonNull(response.body()).bytes());
+                    out.close();
+                    ZipFile zip = new ZipFile(MyApplication.getContext().getFileStreamPath("master.zip"));
+                    Enumeration list = zip.entries();
+                    while (list.hasMoreElements()) {
+                        ZipEntry entry = (ZipEntry) list.nextElement();
 //                    Log.d("name", "onResponse: " + entry.getName());
-                    boolean f = false;
-                    String name = entry.getName();
-                    String filename = "";
-                    if (name.contains("ability_ids.json")) {
-                        f = true;
-                        filename = "ability_ids.json";
-                    } else if (name.contains("hero_abilities.json")) {
-                        f = true;
-                        filename = "hero_abilities.json";
-                    } else if (name.contains("abilities.json")) {
-                        if (!name.contains("neutral_abilities")) {
+                        boolean f = false;
+                        String name = entry.getName();
+                        String filename = "";
+                        if (name.contains("ability_ids.json")) {
                             f = true;
-                            filename = "abilities.json";
+                            filename = "ability_ids.json";
+                        } else if (name.contains("hero_abilities.json")) {
+                            f = true;
+                            filename = "hero_abilities.json";
+                        } else if (name.contains("abilities.json")) {
+                            if (!name.contains("neutral_abilities")) {
+                                f = true;
+                                filename = "abilities.json";
+                            }
+                        } else if (name.contains("hero_names.json")) {
+                            f = true;
+                            filename = "hero_names.json";
+                        } else if (name.contains("items.json")) {
+                            f = true;
+                            filename = "items.json";
                         }
-                    } else if (name.contains("hero_names.json")) {
-                        f = true;
-                        filename = "hero_names.json";
-                    } else if (name.contains("items.json")) {
-                        f = true;
-                        filename = "items.json";
-                    }
-                    if (f) {
-                        FileOutputStream fileOutputStream = MyApplication.getContext().openFileOutput(filename, Context.MODE_PRIVATE);
-                        InputStream inputStream = zip.getInputStream(entry);
-                        byte[] buf = new byte[16384];
-                        int len;
-                        while ((len = inputStream.read(buf)) != -1) {
-                            fileOutputStream.write(buf, 0, len);
+                        if (f) {
+                            FileOutputStream fileOutputStream = MyApplication.getContext().openFileOutput(filename, Context.MODE_PRIVATE);
+                            InputStream inputStream = zip.getInputStream(entry);
+                            byte[] buf = new byte[16384];
+                            int len;
+                            while ((len = inputStream.read(buf)) != -1) {
+                                fileOutputStream.write(buf, 0, len);
+                            }
+                            inputStream.close();
+                            fileOutputStream.close();
                         }
-                        inputStream.close();
-                        fileOutputStream.close();
                     }
+                    zip.close();
+                    Message message = new Message();
+                    message.what = 8;
+                    handler.sendMessage(message);
+                } catch (IOException e) {
+                    getZip(url, handler);
+                    e.printStackTrace();
                 }
-                zip.close();
-                Message message = new Message();
-                message.what = 8;
-                handler.sendMessage(message);
             }
         });
     }

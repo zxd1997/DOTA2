@@ -54,9 +54,34 @@ public class HeroDetailFragment extends Fragment {
 //            Log.d("waht", "handleMessage: " + msg.obj.toString());
             switch (msg.what) {
                 case PARSE: {
-                    List<String> part = new ArrayList<>();
+                    List<Object> part = new ArrayList<>();
 //                    Spanned spanned;
                     String t = msg.obj.toString();
+                    String talent = t.substring(t.indexOf("<tr style=\"color:#000\">"), t.indexOf("<td class=\"tablelabel\">物品栏1</td>") - 5);
+                    List<String> talents = new ArrayList<>();
+                    String level_regEx = "(<div style=\"width:40px;display:table-cell;[^>]*?>[\\s\\S]*?<[\\s]*?/[\\s]*?div>)";
+//                    <div style="width:40px;display:table-cell;text-align: center;padding: 4px;margin:0px 4px;background:#000;color: #fff;vertical-align:middle;">20</div>
+                    Pattern p_level = Pattern.compile(level_regEx, Pattern.CASE_INSENSITIVE);
+                    Matcher m_level = p_level.matcher(talent);
+                    talent = m_level.replaceAll("");
+                    talent = talent.replaceAll("<div class=\"floatnone\">", "");
+                    talent = talent.replaceAll("<div class=\"center\">", "");
+                    talent = talent.replaceAll("</div>", "");
+                    while (talent.contains("<div class=\"quiet\"")) {
+                        if (talent.indexOf("<div class=\"quiet\"", 2) == -1) break;
+                        String s = talent.substring(talent.indexOf("<div class=\"quiet\""), talent.indexOf("<div class=\"quiet\"", 2));
+                        talents.add(s);
+                        Log.d("talent", "handleMessage: " + s);
+                        talent = talent.substring(talent.indexOf("<div class=\"quiet\"", 2));
+                    }
+                    Log.d("talent", "handleMessage: " + talent);
+                    talents.add(talent);
+                    for (String s : talents) {
+                        Log.d(s, "handleMessage: " + s);
+                    }
+                    part.add(talents);
+//                        <div class="quiet" id="talent_20_2" style="padding: 6px; width: 180px; text-align: left; font-size: 12px; vertical-align: middle; display: table-cell; background-color: rgb(136, 136, 136);" onclick="talent(3,2)"><span class="ability_icon"><div class="center"><div class="floatnone"><img width="22" height="22" alt="Spellicons antimage blink.png" src="https://huiji-thumb.huijistatic.com/dota/uploads/thumb/8/8a/Spellicons_antimage_blink.png/22px-Spellicons_antimage_blink.png" srcset="https://huiji-thumb.huijistatic.com/dota/uploads/thumb/8/8a/Spellicons_antimage_blink.png/33px-Spellicons_antimage_blink.png 1.5x, https://huiji-thumb.huijistatic.com/dota/uploads/thumb/8/8a/Spellicons_antimage_blink.png/44px-Spellicons_antimage_blink.png 2x" data-file-height="128" data-file-width="128"></div></div></span><a title="闪烁（敌法师）" class="mw-redirect" href="/wiki/%E9%97%AA%E7%83%81%EF%BC%88%E6%95%8C%E6%B3%95%E5%B8%88%EF%BC%89">闪烁（敌法师）</a>后在原地留下一个不可控制的幻象</div>
+//                    part.add(ttt);
 //                    String  t1=t.substring(t.indexOf("花絮</span>") + 15, t.lastIndexOf("<table class=\"navbox\" style=\"width:auto;border-spacing:0\">") - 1).replaceAll("\\r\\n", "");
                     t = t.replaceAll("2/2d/Talent.png", "3/34/Talentb.png");
                     t = t.replaceAll("Talent.png", "Talentb.png");
@@ -73,7 +98,7 @@ public class HeroDetailFragment extends Fragment {
                         String tt = "<div style=\"" + t.substring(0, t.indexOf("clear:both"));
                         tt = tt.substring(0, tt.lastIndexOf("<div style="));
                         t = t.substring(t.indexOf("clear:both") + 10);
-                        Log.d("html", "handleMessage: " + tt);
+//                        Log.d("html", "handleMessage: " + tt);
                         part.add(tt);
                     }
 //                    t1=t1.replaceAll("</div>","");
