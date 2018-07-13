@@ -29,6 +29,7 @@ import com.example.zxd1997.dota2.Beans.Cast;
 import com.example.zxd1997.dota2.Beans.Hero;
 import com.example.zxd1997.dota2.Beans.HeroAbility;
 import com.example.zxd1997.dota2.R;
+import com.example.zxd1997.dota2.Utils.GridItemDecoration;
 import com.example.zxd1997.dota2.Utils.OKhttp;
 import com.example.zxd1997.dota2.Utils.Tools;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -262,6 +263,7 @@ public class HeroDetailFragment extends Fragment {
                 }
             }
         }
+        skills.addItemDecoration(new GridItemDecoration());
         skills.setAdapter(new CastAdapter(getContext(), abilities));
 //        text = view.findViewById(R.id.hero_text);
         progressBar.setVisibility(View.VISIBLE);

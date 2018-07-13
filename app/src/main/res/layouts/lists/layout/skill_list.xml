@@ -9,10 +9,10 @@
 
     <TextView
         android:id="@+id/d_damage_taken"
-        android:layout_width="56dp"
+        android:layout_width="53.83333dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="53.83333dp"
         android:gravity="center"
         android:textColor="@android:color/black"
         android:textSize="12sp"
@@ -20,8 +20,8 @@
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/d_skill"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="53.83333dp"
+        android:layout_height="53.83333dp"
         android:layout_gravity="center_horizontal"
         app:roundedCornerRadius="2dp" />
 
