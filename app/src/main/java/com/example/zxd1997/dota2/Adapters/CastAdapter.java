@@ -47,6 +47,7 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int MAP = 15;
     private final int TEAMFIGHT = 16;
     private final int BAN_PICK = 17;
+    private final int SKILL = 20;
     private final List<Cast> contents;
     private final Context context;
 
@@ -85,6 +86,8 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 return new Map(LayoutInflater.from(parent.getContext()).inflate(R.layout.teamfight_map, parent, false));
             case BAN_PICK:
                 return new BanPickHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.ban_pick, parent, false));
+            case SKILL:
+                return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.skill_list, parent, false));
             default:
                 return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.d_taken_list, parent, false));
         }
@@ -234,6 +237,10 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     viewHolder.damage_taken.setText(Tools.getTime(c.getTime()));
                 } else {
                     switch (getItemViewType(position)) {
+                        case SKILL:
+                            Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("ability_" + c.getId(), R.drawable.class))).build(), viewHolder.icon);
+                            viewHolder.damage_taken.setVisibility(View.GONE);
+                            break;
                         case ABILITY:
 //                            viewHolder.icon.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("ability_" + c.getId(), R.drawable.class))).build());
                             Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("ability_" + c.getId(), R.drawable.class))).build(), viewHolder.icon);

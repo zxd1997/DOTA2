@@ -249,4 +249,7 @@
     <string name="game">游戏</string>
     <string name="hero_detail">英雄详情</string>
     <string name="hero_statistics">统计数据</string>
+    <string name="pick">使用</string>
+    <string name="hero_stats">近30天内英雄使用数据</string>
+    <string name="ban">禁用</string>
 </resources>

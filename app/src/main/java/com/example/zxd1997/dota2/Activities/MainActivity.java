@@ -26,6 +26,7 @@ import android.view.View;
 import com.example.zxd1997.dota2.Adapters.TabFragmentAdapter;
 import com.example.zxd1997.dota2.Beans.Ability;
 import com.example.zxd1997.dota2.Beans.Hero;
+import com.example.zxd1997.dota2.Beans.HeroAbility;
 import com.example.zxd1997.dota2.Beans.Item;
 import com.example.zxd1997.dota2.Fragments.Main.HeroesAndItemsFragment;
 import com.example.zxd1997.dota2.Fragments.Main.ItemsFragment;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     public static Map<String, String> ability_ids;
     public static Map<String, Ability> abilities;
     public static Map<String, Item> items;
+    public static Map<String, HeroAbility> heroAbilities;
     public static final SparseArray<Hero> heroStats = new SparseArray<>();
     private SharedPreferences sharedPreferences;
     ViewPager mViewPager;

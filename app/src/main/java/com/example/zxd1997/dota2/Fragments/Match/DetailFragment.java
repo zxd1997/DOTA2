@@ -54,27 +54,26 @@ public class DetailFragment extends Fragment {
         @Override
         public boolean handleMessage(Message msg) {
             if (getContext() != null) {
-                GridLayoutManager gridLayoutManager1 = new GridLayoutManager(getContext(), 48);
+                GridLayoutManager gridLayoutManager1 = new GridLayoutManager(getContext(), 36);
                 final CastAdapter castAdapter = new CastAdapter(getContext(), casts);
                 gridLayoutManager1.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                     @Override
                     public int getSpanSize(int position) {
                         switch (castAdapter.getItemViewType(position)) {
                             case -1:
+                            case 6:
                             case 9:
                             case 10:
-                                return 48;
+                                return 36;
                             case 4:
-                                return 3;
+                                return 2;
                             case 5:
-                                return 9;
+                                return 12;
                             case 13:
                             case 14:
-                                return 8;
-                            case 6:
-                                return 48;
-                            default:
                                 return 6;
+                            default:
+                                return 4;
                         }
                     }
                 });

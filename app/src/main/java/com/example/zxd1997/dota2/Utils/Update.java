@@ -11,6 +11,7 @@ import android.util.DisplayMetrics;
 import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Beans.Ability;
 import com.example.zxd1997.dota2.Beans.Hero;
+import com.example.zxd1997.dota2.Beans.HeroAbility;
 import com.example.zxd1997.dota2.Beans.Item;
 import com.example.zxd1997.dota2.R;
 import com.google.gson.Gson;
@@ -71,6 +72,9 @@ public class Update {
         }.getType());
         StringBuilder ability_json = read_file("abilities.json");
         MainActivity.abilities = new Gson().fromJson(ability_json.toString(), new TypeToken<Map<String, Ability>>() {
+        }.getType());
+        StringBuilder hero_ability_json = read_file("hero_abilities.json");
+        MainActivity.heroAbilities = new Gson().fromJson(hero_ability_json.toString(), new TypeToken<Map<String, HeroAbility>>() {
         }.getType());
     }
 }

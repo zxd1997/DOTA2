@@ -40,11 +40,11 @@ public class TeamFightDialogFragment extends BottomSheetDialogFragment {
         RecyclerView teamfight_list = view.findViewById(R.id.ddetail);
         teamfight_list.setTransitionName("teamfight");
         final CastAdapter castAdapter = new CastAdapter(getContext(), contents);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 8);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 9);
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                return (castAdapter.getItemViewType(position) == -1 || castAdapter.getItemViewType(position) == 11 || castAdapter.getItemViewType(position) == 12 || castAdapter.getItemViewType(position) == 15 || castAdapter.getItemViewType(position) == 16) ? 8 : 1;
+                return (castAdapter.getItemViewType(position) == -1 || castAdapter.getItemViewType(position) == 11 || castAdapter.getItemViewType(position) == 12 || castAdapter.getItemViewType(position) == 15 || castAdapter.getItemViewType(position) == 16) ? 9 : 1;
             }
         });
         teamfight_list.addItemDecoration(new GridItemDecoration());

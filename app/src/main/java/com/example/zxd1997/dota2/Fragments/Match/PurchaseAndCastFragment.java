@@ -61,11 +61,11 @@ public class PurchaseAndCastFragment extends Fragment {
         @Override
         public boolean handleMessage(Message msg) {
             final CastAdapter castAdapter = new CastAdapter(getContext(), casts);
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 8);
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 9);
             gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 @Override
                 public int getSpanSize(int position) {
-                    return (castAdapter.getItemViewType(position) == -1 || castAdapter.getItemViewType(position) == 9) ? 8 : 1;
+                    return (castAdapter.getItemViewType(position) == -1 || castAdapter.getItemViewType(position) == 9) ? 9 : 1;
                 }
             });
             recyclerView.setLayoutManager(gridLayoutManager);

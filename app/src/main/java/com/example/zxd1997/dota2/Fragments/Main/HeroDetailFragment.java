@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
@@ -22,8 +23,11 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.zxd1997.dota2.Activities.MainActivity;
+import com.example.zxd1997.dota2.Adapters.CastAdapter;
 import com.example.zxd1997.dota2.Adapters.HeroInfoAdapter;
+import com.example.zxd1997.dota2.Beans.Cast;
 import com.example.zxd1997.dota2.Beans.Hero;
+import com.example.zxd1997.dota2.Beans.HeroAbility;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.OKhttp;
 import com.example.zxd1997.dota2.Utils.Tools;
@@ -31,6 +35,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -57,28 +62,30 @@ public class HeroDetailFragment extends Fragment {
                     List<Object> part = new ArrayList<>();
 //                    Spanned spanned;
                     String t = msg.obj.toString();
-                    String talent = t.substring(t.indexOf("<tr style=\"color:#000\">"), t.indexOf("<td class=\"tablelabel\">物品栏1</td>") - 5);
+                    String talent = t.substring(t.indexOf("<tr style=\"color:#000\">"), t.lastIndexOf("<tr style=\"color:#000\">"));
                     List<String> talents = new ArrayList<>();
                     String level_regEx = "(<div style=\"width:40px;display:table-cell;[^>]*?>[\\s\\S]*?<[\\s]*?/[\\s]*?div>)";
 //                    <div style="width:40px;display:table-cell;text-align: center;padding: 4px;margin:0px 4px;background:#000;color: #fff;vertical-align:middle;">20</div>
                     Pattern p_level = Pattern.compile(level_regEx, Pattern.CASE_INSENSITIVE);
                     Matcher m_level = p_level.matcher(talent);
                     talent = m_level.replaceAll("");
-                    talent = talent.replaceAll("<div class=\"floatnone\">", "");
-                    talent = talent.replaceAll("<div class=\"center\">", "");
-                    talent = talent.replaceAll("</div>", "");
+                    talent = talent.replace("<div class=\"floatnone\">", "");
+                    talent = talent.replace("<div class=\"center\">", "");
+                    talent = talent.replace("</div>", "");
+                    String reg = "(<div class=\"quiet\"[\\s\\S]*?>)|(（[\\s\\S]*?）)";
+                    Pattern p = Pattern.compile(reg, Pattern.CASE_INSENSITIVE);
                     while (talent.contains("<div class=\"quiet\"")) {
                         if (talent.indexOf("<div class=\"quiet\"", 2) == -1) break;
                         String s = talent.substring(talent.indexOf("<div class=\"quiet\""), talent.indexOf("<div class=\"quiet\"", 2));
+                        Matcher m = p.matcher(s);
+                        s = m.replaceAll("");
                         talents.add(s);
-                        Log.d("talent", "handleMessage: " + s);
                         talent = talent.substring(talent.indexOf("<div class=\"quiet\"", 2));
                     }
-                    Log.d("talent", "handleMessage: " + talent);
+                    Matcher m = p.matcher(talent);
+                    talent = m.replaceAll("");
                     talents.add(talent);
-                    for (String s : talents) {
-                        Log.d(s, "handleMessage: " + s);
-                    }
+//                    Log.d("talent", "handleMessage: " + talent);
                     part.add(talents);
 //                        <div class="quiet" id="talent_20_2" style="padding: 6px; width: 180px; text-align: left; font-size: 12px; vertical-align: middle; display: table-cell; background-color: rgb(136, 136, 136);" onclick="talent(3,2)"><span class="ability_icon"><div class="center"><div class="floatnone"><img width="22" height="22" alt="Spellicons antimage blink.png" src="https://huiji-thumb.huijistatic.com/dota/uploads/thumb/8/8a/Spellicons_antimage_blink.png/22px-Spellicons_antimage_blink.png" srcset="https://huiji-thumb.huijistatic.com/dota/uploads/thumb/8/8a/Spellicons_antimage_blink.png/33px-Spellicons_antimage_blink.png 1.5x, https://huiji-thumb.huijistatic.com/dota/uploads/thumb/8/8a/Spellicons_antimage_blink.png/44px-Spellicons_antimage_blink.png 2x" data-file-height="128" data-file-width="128"></div></div></span><a title="闪烁（敌法师）" class="mw-redirect" href="/wiki/%E9%97%AA%E7%83%81%EF%BC%88%E6%95%8C%E6%B3%95%E5%B8%88%EF%BC%89">闪烁（敌法师）</a>后在原地留下一个不可控制的幻象</div>
 //                    part.add(ttt);
@@ -229,6 +236,33 @@ public class HeroDetailFragment extends Fragment {
         attack_range.setText(getString(R.string.attack_range_1_d, hero.getAttack_range()));
         p_s.setText(getString(R.string.projectile_speed_1_s, !hero.getAttack_type().equals("Melee") ? hero.getProjectile_speed() + "" : getString(R.string.instant)));
         setLevel(1);
+        RecyclerView skills = view.findViewById(R.id.skills);
+        skills.setLayoutManager(new GridLayoutManager(getContext(), 6));
+        HeroAbility heroAbility = MainActivity.heroAbilities.get(hero.getName());
+        List<Cast> abilities = new ArrayList<>();
+        for (String t : heroAbility.getAbilities()) {
+            Log.d("ability", "onCreateView: " + t);
+//            if (!t.equals("generic_hidden"))
+            for (Map.Entry<String, String> entry : MainActivity.ability_ids.entrySet()) {
+                if (entry.getValue().equals(t)) {
+//                    Log.d("ability", "onCreateView: "+Integer.valueOf(entry.getKey()));
+                    abilities.add(new Cast(0, entry.getKey(), 20));
+                    break;
+                }
+            }
+        }
+        if (hero.getId() == 74) {
+            for (int i = 0; i < 7; i++) {
+                for (Map.Entry<String, String> entry : MainActivity.ability_ids.entrySet()) {
+                    if (entry.getValue().equals(heroAbility.getTalents().get(i).getName())) {
+//                        Log.d("ability", "onCreateView: "+Integer.valueOf(entry.getKey()));
+                        abilities.add(new Cast(0, entry.getKey(), 20));
+                        break;
+                    }
+                }
+            }
+        }
+        skills.setAdapter(new CastAdapter(getContext(), abilities));
 //        text = view.findViewById(R.id.hero_text);
         progressBar.setVisibility(View.VISIBLE);
         OKhttp.getFromService("https://dota.huijiwiki.com/wiki/" + name, handler, PARSE);

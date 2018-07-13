@@ -10,10 +10,7 @@
         <item>Ancient</item>
         <item>Divine</item>
         <item>Immortal</item>
-        <item>Immortal</item>
-        <item>Immortal</item>
-        <item>Immortal</item>
-        <item>Immortal</item>
+        <item>Pro</item>
     </string-array>
     <string-array name="skills">
         <item>Unknown</item>

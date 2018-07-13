@@ -66,6 +66,7 @@ public class HeroInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 talentHolder.talent_25_2.setText((Html.fromHtml(talent.get(8), new ImageGetter(talentHolder.talent_25_2), null)));
             }
         }
+
     }
 
     @Override

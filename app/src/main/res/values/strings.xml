@@ -285,4 +285,7 @@
     <string name="game">Game</string>
     <string name="hero_detail">Hero Detail</string>
     <string name="hero_statistics">Hero Statistics</string>
+    <string name="pick">Pick</string>
+    <string name="hero_stats">Hero Statistics in Recent 30 Days</string>
+    <string name="ban">Ban</string>
 </resources>
