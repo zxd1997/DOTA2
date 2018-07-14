@@ -1,10 +1,14 @@
 package com.example.zxd1997.dota2.Activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.SharedElementCallback;
@@ -40,11 +44,13 @@ public class PlayerActivity extends AppCompatActivity {
     private Player player;
     private static final int PLAYER_INFO = 1;
     private ProgressBar progressBar;
+    CoordinatorLayout view;
 
     public Player getPlayer() {
         return player;
     }
 
+    private boolean create = true;
     //    @Override
 //    protected void onResume() {
 //        super.onResume();
@@ -73,6 +79,12 @@ public class PlayerActivity extends AppCompatActivity {
                 tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
                 progressBar.setVisibility(View.GONE);
                 mViewPager.setVisibility(View.VISIBLE);
+                create = false;
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(PlayerActivity.this);
+                if (sharedPreferences.getString("id", "").equals("")) {
+                    Snackbar.make(view, R.string.bind_or_not, Snackbar.LENGTH_LONG).setAction("Bind", v -> { //点击右侧的按钮之后的操作
+                    }).show();
+                }
             }
             return true;
         }
@@ -103,6 +115,7 @@ public class PlayerActivity extends AppCompatActivity {
             }
         });
         setContentView(R.layout.activity_player);
+        view = findViewById(R.id.coordinator);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -118,11 +131,12 @@ public class PlayerActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
         OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id, handler, PLAYER_INFO);
+
     }
 
     @Override
     protected void onResume() {
-        progressBar.setVisibility(View.GONE);
+        if (!create) progressBar.setVisibility(View.GONE);
         super.onResume();
     }
 

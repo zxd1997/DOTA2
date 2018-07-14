@@ -17,6 +17,9 @@
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize">
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".Activities.SearchActivity" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -47,6 +50,22 @@
             android:name=".Activities.HeroActivity"
             android:label="@string/title_activity_hero"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.SearchActivity"
+            android:label="@string/title_activity_search"
+            android:parentActivityName=".Activities.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".Activities.SearchActivity" />
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

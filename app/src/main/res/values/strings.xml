@@ -32,7 +32,7 @@
     <string name="expired">Replay Expired, Cannot Parse</string>
     <string name="action_Disconnect">Disconnect</string>
     <string name="recent_matches">Recent Matches</string>
-    <string name="title_activity_match" translatable="false">MatchActivity</string>
+    <string name="title_activity_match">MatchActivity</string>
     <string name="no_salt">Replay Not salted, Please request salt replay</string>
     <string name="parsing">Parsing Replay, Please wait</string>
     <string name="dire_victory">Dire Victory</string>
@@ -164,7 +164,7 @@
     <string name="d_taken">Damage Taken:%1$d</string>
     <string name="total_gold">Total Gold:%1$d</string>
     <string name="gold_spent">Gold Spent:%1$d</string>
-    <string name="title_activity_player" translatable="false">PlayerActivity</string>
+    <string name="title_activity_player">Player</string>
     <string name="id" translatable="false">id:%1$d</string>
     <string name="match">Match</string>
     <string name="data">Data</string>
@@ -198,11 +198,11 @@
     <string name="matches1">Matches</string>
     <string name="event">Event Can\'t be Parsed</string>
     <string name="spectator">Spectator:</string>
-    <string name="title_activity_peer" translatable="false">PeerActivity</string>
+    <string name="title_activity_peer">Peer</string>
     <string name="matches_with">Matches With </string>
     <string name="player_p_w">Player Played With</string>
     <string name="counts">Counts</string>
-    <string name="title_activity_my_hero" translatable="false">MyHeroActivity</string>
+    <string name="title_activity_my_hero">MyHero</string>
     <string name="average_hero_performance">Average Hero Performance</string>
     <string name="deaths">DEATHS</string>
     <string name="assists">ASSISTS</string>
@@ -230,7 +230,7 @@
     <string name="hour_ago"> Hours ago</string>
     <string name="minute_ago"> Minutes ago</string>
     <string name="just_now">Just Now</string>
-    <string name="title_activity_hero" translatable="false">HeroActivity</string>
+    <string name="title_activity_hero">Hero</string>
     <string name="average_kills_deaths_assists">Average Kills/Deaths/Assists</string>
     <string name="placeholder2" translatable="false">-/-\n-/-</string>
     <string name="hero_attributes">Hero Attributes</string>
@@ -277,10 +277,6 @@
     <string name="agi1">Agility</string>
     <string name="int1">Intelligence</string>
     <string name="ban_pick" translatable="false">Ban/Pick</string>
-    <string name="title_activity_main2" translatable="false">Main2Activity</string>
-    <string name="title_home" translatable="false">Home</string>
-    <string name="title_dashboard" translatable="false">Dashboard</string>
-    <string name="title_notifications" translatable="false">Notifications</string>
     <string name="bottom_navigation_behavior" translatable="false">com.example.zxd1997.dota2.Utils.BottomNavigationBehavior</string>
     <string name="game">Game</string>
     <string name="hero_detail">Hero Detail</string>
@@ -288,4 +284,9 @@
     <string name="pick">Pick</string>
     <string name="hero_stats">Hero Statistics in Recent 30 Days</string>
     <string name="ban">Ban</string>
+    <string name="search">Search</string>
+    <string name="title_activity_search">Search</string>
+    <string name="search_hint">Search ID,Player name or more</string>
+    <string name="no_result">No Search Result</string>
+    <string name="bind_or_not">No Binding Player, Bind this Player?</string>
 </resources>

@@ -252,4 +252,13 @@
     <string name="pick">使用</string>
     <string name="hero_stats">近30天内英雄使用数据</string>
     <string name="ban">禁用</string>
+    <string name="search">搜索</string>
+    <string name="search_hint">搜索玩家国服ID，玩家名称等</string>
+    <string name="no_result">无搜索结果</string>
+    <string name="title_activity_my_hero">我的英雄</string>
+    <string name="title_activity_search">搜索</string>
+    <string name="title_activity_hero">英雄</string>
+    <string name="title_activity_peer">共同游玩</string>
+    <string name="title_activity_player">玩家</string>
+    <string name="title_activity_match">比赛</string>
 </resources>

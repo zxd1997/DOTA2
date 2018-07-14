@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     app:statusBarBackground="@android:color/holo_red_dark"
+    android:id="@+id/coordinator"
     tools:context=".Activities.PlayerActivity">
 
     <android.support.design.widget.AppBarLayout

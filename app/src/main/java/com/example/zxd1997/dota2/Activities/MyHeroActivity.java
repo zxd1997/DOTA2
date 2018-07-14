@@ -58,7 +58,7 @@ public class MyHeroActivity extends AppCompatActivity {
         @Override
         public boolean handleMessage(Message msg) {
             if (msg.obj.toString().contains("rate limit exceeded")) {
-                Toast.makeText(activity, R.string.api_rate, Toast.LENGTH_LONG).show();
+                Toast.makeText(MyHeroActivity.this, R.string.api_rate, Toast.LENGTH_LONG).show();
             } else
                 switch (msg.what) {
                 case WL: {
