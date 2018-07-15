@@ -62,7 +62,8 @@ public class MyFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private TextInputLayout textInputLayout;
     Receiver receiver = new Receiver();
-
+    BindReceiver receiver1 = new BindReceiver();
+    boolean bind = false;
     private final List<MatchHero> recentMatches = new ArrayList<>();
     private final Handler handler = new Handler(new Handler.Callback() {
         @Override
@@ -75,7 +76,7 @@ public class MyFragment extends Fragment {
                         if (getContext() != null) {
                             Player t = new Gson().fromJson(message.obj.toString(), Player.class);
                             if (t == null || t.getProfile() == null) {
-                                Toast.makeText(getContext(), "No Such Player", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getContext(), R.string.no_such_player, Toast.LENGTH_LONG).show();
                                 progressBar.setVisibility(View.GONE);
                                 button1.setVisibility(View.VISIBLE);
                             } else {
@@ -101,6 +102,7 @@ public class MyFragment extends Fragment {
                         break;
                     }
                     case PLAYER_INFO: {
+                        bind = false;
 //                        Log.d("msg", "handleMessage: " + message.obj.toString());
                         final Player player = new Gson().fromJson(message.obj.toString(), Player.class);
                         if (getContext() != null) {
@@ -160,6 +162,7 @@ public class MyFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(Objects.requireNonNull(getContext())).unregisterReceiver(receiver);
+        LocalBroadcastManager.getInstance(Objects.requireNonNull(getContext())).unregisterReceiver(receiver1);
         System.gc();
         System.runFinalization();
     }
@@ -260,9 +263,41 @@ public class MyFragment extends Fragment {
         String DISCONNECT = "disconnect from id";
         IntentFilter intentFilter = new IntentFilter(DISCONNECT);
         LocalBroadcastManager.getInstance(Objects.requireNonNull(getContext())).registerReceiver(receiver, intentFilter);
+        IntentFilter intentFilter1 = new IntentFilter("new bind");
+        LocalBroadcastManager.getInstance(Objects.requireNonNull(getContext())).registerReceiver(receiver1, intentFilter1);
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (bind) {
+            linearLayout.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+            id = sharedPreferences.getString("id", "");
+            recentMatches.clear();
+            matchesAdapter.notifyDataSetChanged();
+            MatchPlayer m = new MatchPlayer();
+            m.setType(8);
+            recentMatches.add(0, m);
+            MatchHero recent = new MatchHero();
+            recent.setType(5);
+            recent.setTitle(getString(R.string.recent_matches));
+            recentMatches.add(1, recent);
+            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id, handler, PLAYER_INFO);
+            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id + "/wl", handler, WL);
+            OKhttp.getFromService(getString(R.string.api) + getString(R.string.players) + id + "/recentMatches", handler, RECENT_MATCHES);
+            bind = false;
+        }
+    }
+
+    public class BindReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            bind = true;
+        }
+    }
     public class Receiver extends BroadcastReceiver {
 
         @Override

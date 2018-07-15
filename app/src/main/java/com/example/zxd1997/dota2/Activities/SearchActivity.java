@@ -125,6 +125,7 @@ public class SearchActivity extends AppCompatActivity {
                 recyclerView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
                 OKhttp.getFromService("https://api.opendota.com/api/search?q=" + query, handler, SEARCH);
+                searchView.clearFocus();
                 return true;
             }
 

@@ -289,4 +289,6 @@
     <string name="search_hint">Search ID,Player name or more</string>
     <string name="no_result">No Search Result</string>
     <string name="bind_or_not">No Binding Player, Bind this Player?</string>
+    <string name="bind">Bind</string>
+    <string name="no_such_player">No Such Player</string>
 </resources>

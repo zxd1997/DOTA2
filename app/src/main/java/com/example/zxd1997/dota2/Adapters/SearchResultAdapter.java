@@ -48,6 +48,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             viewHolder.name.setVisibility(View.VISIBLE);
             viewHolder.header.setVisibility(View.VISIBLE);
             viewHolder.id.setVisibility(View.VISIBLE);
+            viewHolder.no.setVisibility(View.GONE);
             Search search = searches.get(position);
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

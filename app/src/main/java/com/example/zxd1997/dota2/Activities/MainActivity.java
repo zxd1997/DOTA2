@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     public static Map<String, Item> items;
     public static Map<String, HeroAbility> heroAbilities;
     public static final SparseArray<Hero> heroStats = new SparseArray<>();
+    SearchView searchView;
     private SharedPreferences sharedPreferences;
     ViewPager mViewPager;
     private ProgressDialog pd;
@@ -125,6 +126,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 //        ViewServer.get(this).setFocusedWindow(this);
+        if (searchView != null)
+            searchView.clearFocus();
         System.gc();
         System.runFinalization();
     }
@@ -212,21 +215,24 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setMaxWidth(1080);
         searchView.setQueryHint(getString(R.string.search_hint));
         searchView.onActionViewExpanded();
         searchView.setIconifiedByDefault(false);
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         assert searchManager != null;
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
-//        searchView.setOnSearchClickListener(new View.OnClickListener() {
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 //            @Override
-//            public void onClick(View v) {
+//            public boolean onQueryTextSubmit(String query) {
+//                searchView.clearFocus();
+//                return true;
+//            }
 //
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                return false;
 //            }
 //        });
         return true;

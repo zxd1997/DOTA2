@@ -261,4 +261,7 @@
     <string name="title_activity_peer">共同游玩</string>
     <string name="title_activity_player">玩家</string>
     <string name="title_activity_match">比赛</string>
+    <string name="bind_or_not">没有绑定账号，是否绑定当前玩家？</string>
+    <string name="bind">绑定</string>
+    <string name="no_such_player">没有找到此玩家</string>
 </resources>

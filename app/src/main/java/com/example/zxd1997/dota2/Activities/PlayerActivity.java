@@ -12,6 +12,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.SharedElementCallback;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -82,7 +83,13 @@ public class PlayerActivity extends AppCompatActivity {
                 create = false;
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(PlayerActivity.this);
                 if (sharedPreferences.getString("id", "").equals("")) {
-                    Snackbar.make(view, R.string.bind_or_not, Snackbar.LENGTH_LONG).setAction("Bind", v -> { //点击右侧的按钮之后的操作
+                    Snackbar.make(view, R.string.bind_or_not, Snackbar.LENGTH_LONG).setAction(getString(R.string.bind), v -> {
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("id", String.valueOf(player.getAccount_id()));
+                        editor.apply();
+                        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(PlayerActivity.this);
+                        Intent intent = new Intent("new bind");
+                        localBroadcastManager.sendBroadcast(intent);
                     }).show();
                 }
             }
