@@ -291,4 +291,8 @@
     <string name="bind_or_not">No Binding Player, Bind this Player?</string>
     <string name="bind">Bind</string>
     <string name="no_such_player">No Such Player</string>
+    <string name="view_rank">View Rank:</string>
+    <string name="order_by">Order By:</string>
+    <string name="winrate2">Winrate</string>
+    <string name="recent_30_days">Recent 30 Days</string>
 </resources>

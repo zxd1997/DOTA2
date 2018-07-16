@@ -264,4 +264,8 @@
     <string name="bind_or_not">没有绑定账号，是否绑定当前玩家？</string>
     <string name="bind">绑定</string>
     <string name="no_such_player">没有找到此玩家</string>
+    <string name="view_rank">查看段位：</string>
+    <string name="order_by">顺序：</string>
+    <string name="winrate2">胜率</string>
+    <string name="recent_30_days">近30天比赛</string>
 </resources>

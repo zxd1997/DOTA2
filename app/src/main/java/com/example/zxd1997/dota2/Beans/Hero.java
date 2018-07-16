@@ -69,6 +69,34 @@ public class Hero {
     @SerializedName("8_pick")
     private int immortal_picks;
 
+    private int total_picks;
+    private int total_wins;
+
+    public int getTotal_picks() {
+        return total_picks;
+    }
+
+    public void setTotal_picks(int total_picks) {
+        this.total_picks = total_picks;
+    }
+
+
+    public void setTotal_picks() {
+        this.total_picks = herald_picks + guardian_picks + crusader_picks + archon_picks + legend_picks + divine_picks + ancient_picks + immortal_picks;
+    }
+
+    public int getTotal_wins() {
+        return total_wins;
+    }
+
+    public void setTotal_wins(int total_wins) {
+        this.total_wins = total_wins;
+    }
+
+    public void setTotal_wins() {
+        this.total_wins = herald_wins + guardian_wins + crusader_wins + ancient_wins + legend_wins + divine_wins + archon_wins + immortal_wins;
+    }
+
     public int getPro_win() {
         return pro_win;
     }

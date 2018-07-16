@@ -49,6 +49,8 @@ public class HeroesAndItemsFragment extends Fragment {
                             JsonArray jsonArray = parser.parse(json).getAsJsonArray();
                             for (JsonElement e : jsonArray) {
                                 Hero hero = new Gson().fromJson(e, Hero.class);
+                                hero.setTotal_picks();
+                                hero.setTotal_wins();
                                 heroStats.append(hero.getId(), hero);
                             }
                             view.post(() -> {

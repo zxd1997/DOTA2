@@ -64,15 +64,16 @@ public class HeroStatFragment extends Fragment {
         List<HeroStat> heroStats = new ArrayList<>();
         Hero hero = MainActivity.heroStats.get(id);
         heroStats.add(new HeroStat(0, getString(R.string.hero_stats)));
-        heroStats.add(new HeroStat(hero.getId(), hero.getHerald_picks(), (double) hero.getHerald_wins() / hero.getHerald_picks() * 100, 1));
-        heroStats.add(new HeroStat(hero.getId(), hero.getGuardian_picks(), (double) hero.getGuardian_wins() / hero.getGuardian_picks() * 100, 2));
-        heroStats.add(new HeroStat(hero.getId(), hero.getCrusader_picks(), (double) hero.getCrusader_wins() / hero.getCrusader_picks() * 100, 3));
-        heroStats.add(new HeroStat(hero.getId(), hero.getArchon_picks(), (double) hero.getArchon_wins() / hero.getArchon_picks() * 100, 4));
-        heroStats.add(new HeroStat(hero.getId(), hero.getLegend_picks(), (double) hero.getLegend_wins() / hero.getLegend_picks() * 100, 5));
-        heroStats.add(new HeroStat(hero.getId(), hero.getAncient_picks(), (double) hero.getAncient_wins() / hero.getAncient_picks() * 100, 6));
-        heroStats.add(new HeroStat(hero.getId(), hero.getDivine_picks(), (double) hero.getDivine_wins() / hero.getDivine_picks() * 100, 7));
-        heroStats.add(new HeroStat(hero.getId(), hero.getImmortal_picks(), (double) hero.getImmortal_wins() / hero.getImmortal_picks() * 100, 8));
+        heroStats.add(new HeroStat(hero.getId(), hero.getTotal_picks(), (double) hero.getTotal_wins() / hero.getTotal_picks() * 100, 10));
         heroStats.add(new HeroStat(hero.getId(), hero.getPro_pick(), hero.getPro_ban(), (double) hero.getPro_win() / hero.getPro_pick() * 100, 9));
+        heroStats.add(new HeroStat(hero.getId(), hero.getImmortal_picks(), (double) hero.getImmortal_wins() / hero.getImmortal_picks() * 100, 8));
+        heroStats.add(new HeroStat(hero.getId(), hero.getDivine_picks(), (double) hero.getDivine_wins() / hero.getDivine_picks() * 100, 7));
+        heroStats.add(new HeroStat(hero.getId(), hero.getAncient_picks(), (double) hero.getAncient_wins() / hero.getAncient_picks() * 100, 6));
+        heroStats.add(new HeroStat(hero.getId(), hero.getLegend_picks(), (double) hero.getLegend_wins() / hero.getLegend_picks() * 100, 5));
+        heroStats.add(new HeroStat(hero.getId(), hero.getArchon_picks(), (double) hero.getArchon_wins() / hero.getArchon_picks() * 100, 4));
+        heroStats.add(new HeroStat(hero.getId(), hero.getCrusader_picks(), (double) hero.getCrusader_wins() / hero.getCrusader_picks() * 100, 3));
+        heroStats.add(new HeroStat(hero.getId(), hero.getGuardian_picks(), (double) hero.getGuardian_wins() / hero.getGuardian_picks() * 100, 2));
+        heroStats.add(new HeroStat(hero.getId(), hero.getHerald_picks(), (double) hero.getHerald_wins() / hero.getHerald_picks() * 100, 1));
         recyclerView.setAdapter(new HeroStatAdapter(getContext(), heroStats));
         return view;
     }
