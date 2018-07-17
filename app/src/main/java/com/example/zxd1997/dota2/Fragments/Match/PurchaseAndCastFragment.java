@@ -47,12 +47,14 @@ public class PurchaseAndCastFragment extends Fragment {
     private final List<Cast> casts = new ArrayList<>();
     private Match match;
     private RecyclerView recyclerView;
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         System.gc();
         System.runFinalization();
     }
+
     public PurchaseAndCastFragment() {
         // Required empty public constructor
     }
@@ -61,11 +63,26 @@ public class PurchaseAndCastFragment extends Fragment {
         @Override
         public boolean handleMessage(Message msg) {
             final CastAdapter castAdapter = new CastAdapter(getContext(), casts);
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 9);
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 36);
             gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 @Override
                 public int getSpanSize(int position) {
-                    return (castAdapter.getItemViewType(position) == -1 || castAdapter.getItemViewType(position) == 9) ? 9 : 1;
+                    switch (castAdapter.getItemViewType(position)) {
+                        case -1:
+                        case 6:
+                        case 9:
+                        case 10:
+                            return 36;
+                        case 4:
+                            return 2;
+                        case 5:
+                            return 12;
+                        case 13:
+                        case 14:
+                            return 6;
+                        default:
+                            return 4;
+                    }
                 }
             });
             recyclerView.setLayoutManager(gridLayoutManager);
@@ -77,6 +94,7 @@ public class PurchaseAndCastFragment extends Fragment {
             return true;
         }
     });
+
     public static PurchaseAndCastFragment newInstance() {
         return new PurchaseAndCastFragment();
     }
@@ -118,17 +136,50 @@ public class PurchaseAndCastFragment extends Fragment {
                         casts.add(new Cast(purchase.getTime(), item.getId() + "", PURCHASE));
                     }
                     casts.add(new Cast(getContext().getResources().getColor(R.color.lose), getContext().getResources().getString(R.string.cast), HEADER));
+                    List<Cast> tmp = new ArrayList<>();
                     for (Map.Entry<String, Integer> entry : p.getAbility_uses().entrySet()) {
                         for (Map.Entry<String, String> entry1 : MainActivity.ability_ids.entrySet()) {
                             if (entry1.getValue().equals(entry.getKey())) {
-                                casts.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY));
+                                if (p.getAbility_targets().get(entry.getKey()) != null) {
+                                    casts.add(new Cast(0, "", 6));
+                                    casts.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY));
+                                    casts.add(new Cast(0, "", 4));
+                                    for (Map.Entry<String, Integer> entry2 : p.getAbility_targets().get(entry.getKey()).entrySet()) {
+                                        casts.add(new Cast(entry2.getValue(), "hero_" + MainActivity.heroes.get(entry2.getKey()).getId() + "_icon", 7));
+                                    }
+                                    casts.add(new Cast(0, "", 6));
+                                } else
+                                    tmp.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY));
                                 break;
                             }
                         }
                     }
+                    casts.addAll(tmp);
+                    tmp.clear();
+                    casts.add(new Cast(0, "", 6));
+                    casts.add(new Cast(getContext().getResources().getColor(R.color.lose), getContext().getResources().getString(R.string.item), HEADER));
                     for (Map.Entry<String, Integer> entry : p.getItem_uses().entrySet()) {
                         Item item = MainActivity.items.get(entry.getKey());
                         casts.add(new Cast(entry.getValue(), item.getId() + "", ITEM));
+                    }
+                    casts.add(new Cast(getContext().getResources().getColor(R.color.lose), getContext().getResources().getString(R.string.hero_hits), HEADER));
+                    for (Map.Entry<String, Integer> entry : p.getHero_hits().entrySet()) {
+                        if (entry.getKey().equals("null")) {
+                            casts.add(new Cast(entry.getValue(), "default_attack", ABILITY));
+                        } else {
+                            boolean f = false;
+                            for (Map.Entry<String, String> entry1 : MainActivity.ability_ids.entrySet()) {
+                                if (entry1.getValue().equals(entry.getKey())) {
+                                    casts.add(new Cast(entry.getValue(), entry1.getKey(), ABILITY));
+                                    f = true;
+                                    break;
+                                }
+                            }
+                            if (!f) {
+                                Item item = MainActivity.items.get(entry.getKey());
+                                casts.add(new Cast(entry.getValue(), item.getId() + "", ITEM));
+                            }
+                        }
                     }
                 }
                 handler.sendMessage(new Message());

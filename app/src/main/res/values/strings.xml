@@ -72,7 +72,7 @@
     <string name="dpm">Damage/Min:</string>
     <string name="kpm">Kills/Min:</string>
     <string name="item_purchase">Item Purchase</string>
-    <string name="cast"><![CDATA[Ability&Item Casts]]></string>
+    <string name="cast">Ability Casts</string>
     <string name="damage">Damage</string>
     <string name="damage_detail">Damage Detail</string>
     <string name="connect">Connect</string>
@@ -295,4 +295,6 @@
     <string name="order_by">Order By:</string>
     <string name="winrate2">Winrate</string>
     <string name="recent_30_days">Recent 30 Days</string>
+    <string name="item">Item Uses</string>
+    <string name="hero_hits">Damage Hits</string>
 </resources>

@@ -58,7 +58,7 @@
     <string name="dpm">伤害/分钟</string>
     <string name="kpm">击杀/分钟</string>
     <string name="item_purchase">物品购买</string>
-    <string name="cast"><![CDATA[技能&物品使用]]></string>
+    <string name="cast">技能释放</string>
     <string name="damage">伤害</string>
     <string name="damage_detail">伤害详情</string>
     <string name="connect">连接</string>
@@ -268,4 +268,6 @@
     <string name="order_by">顺序：</string>
     <string name="winrate2">胜率</string>
     <string name="recent_30_days">近30天比赛</string>
+    <string name="item">物品使用</string>
+    <string name="hero_hits">伤害命中</string>
 </resources>

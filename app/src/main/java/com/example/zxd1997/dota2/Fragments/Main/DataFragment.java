@@ -174,7 +174,7 @@ public class DataFragment extends Fragment {
                 if (order == 1)
                     Collections.sort(heroes, (o1, o2) -> o2.getPro_pick() - o1.getPro_pick());
                 else
-                    Collections.sort(heroes, (o1, o2) -> (int) ((float) o2.getPro_win() / o2.getPro_pick() * 100000 - (float) o1.getPro_win() / o1.getPro_pick() * 100000));
+                    Collections.sort(heroes, (o1, o2) -> (int) ((float) o2.getPro_win() / o2.getPro_pick() * 100000) - (int) ((float) o1.getPro_win() / o1.getPro_pick() * 100000));
                 break;
             }
         }

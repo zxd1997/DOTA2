@@ -16,7 +16,7 @@
         tools:text="1:00:00" />
 
     <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/log_picker"
+        android:id="@+id/log_killer"
         android:layout_width="48dp"
         android:layout_height="27dp"
         android:layout_gravity="left"
@@ -43,18 +43,36 @@
         android:textColor="@android:color/black"
         android:textSize="12sp" />
 
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/kill"
+        android:layout_width="24dp"
+        android:layout_height="17dp"
+        android:layout_gravity="right|center_vertical"
+        android:layout_marginRight="170dp" />
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/log_killed"
+        android:layout_width="48dp"
+        android:layout_height="27dp"
+        android:layout_gravity="right"
+        android:layout_marginRight="120dp"
+        android:visibility="gone"
+        fresco:roundedCornerRadius="1dp"
+        tools:visibility="visible" />
+
     <TextView
-        android:id="@+id/do_what"
-        android:layout_width="191dp"
+        android:id="@+id/what"
+        android:layout_width="172dp"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:layout_marginTop="3dp"
-        android:ellipsize="end"
+        android:layout_marginTop="2dp"
         android:gravity="center_vertical"
         android:lineSpacingMultiplier="0.8"
-        android:singleLine="false"
+        android:singleLine="true"
         android:textSize="12sp"
-        tools:text="Activated Double Damage Rune" />
+        android:visibility="gone"
+        tools:text="Radiant Middle Tower Tier 4"
+        tools:visibility="visible" />
 
     <View
         android:id="@+id/line"

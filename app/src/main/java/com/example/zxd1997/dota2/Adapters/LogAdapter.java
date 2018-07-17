@@ -96,17 +96,19 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 //        Log.d("type", "onCreateViewHolder: " + viewType);
         switch (viewType) {
             case KILL:
-            case TOWER:
-            case COURIER:
-            case ROSHAN: {
+            case TOWER: {
                 return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.log_kill, parent, false));
             }
+            case COURIER:
+            case ROSHAN: {
+                return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.log_roshan, parent, false));
+            }
+            case FIRST_BLOOD:
             case RUNE:
+            case AEGIS:
                 return new ViewHolderNotKill(LayoutInflater.from(parent.getContext()).inflate(R.layout.log_rune, parent, false));
             case BUYBACK:
-            case FIRST_BLOOD:
-            case CHAT:
-            case AEGIS: {
+            case CHAT: {
                 return new ViewHolderNotKill(LayoutInflater.from(parent.getContext()).inflate(R.layout.log_log, parent, false));
             }
             default:
@@ -211,7 +213,7 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 SpannableStringBuilder t = new SpannableStringBuilder();
                 SpannableString r = new SpannableString(" ");
                 Drawable drawable = context.getDrawable(R.drawable.aegis_icon);
-                Objects.requireNonNull(drawable).setBounds(0, 0, 45, 45);
+                Objects.requireNonNull(drawable).setBounds(0, 0, 40, 40);
                 r.setSpan(new ImageSpan(drawable), 0, r.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 t.append(r).append(context.getString(R.string.aegis));
                 viewHolder.log.setText(t);
@@ -233,7 +235,7 @@ public class LogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 SpannableStringBuilder t = new SpannableStringBuilder();
                 SpannableString r = new SpannableString(" ");
                 Drawable drawable = context.getDrawable(R.drawable.roshan);
-                Objects.requireNonNull(drawable).setBounds(0, 0, 45, 45);
+                Objects.requireNonNull(drawable).setBounds(0, 0, 48, 45);
                 r.setSpan(new ImageSpan(drawable), 0, r.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 t.append(context.getString(R.string.killed)).append(r).append(context.getString(R.string.roshan));
                 viewHolder.log.setText(t);

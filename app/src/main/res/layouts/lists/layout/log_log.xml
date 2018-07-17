@@ -33,7 +33,7 @@
         android:layout_marginLeft="91dp" />
     <TextView
         android:id="@+id/log_name"
-        android:layout_width="125dp"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="100dp"
