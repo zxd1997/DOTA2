@@ -252,4 +252,170 @@
         <item>Dark Willow</item>
         <item>Pangolier</item>
     </string-array>
+    <string-array name="items">
+        <item>Unknown</item>
+        <item>Blink Dagger</item>
+        <item>Blades of Attack</item>
+        <item>Broadsword</item>
+        <item>Chainmail</item>
+        <item>Claymore</item>
+        <item>Helm of Iron Will</item>
+        <item>Javelin</item>
+        <item>Mithril Hammer</item>
+        <item>Platemail</item>
+        <item>Quarterstaff</item>
+        <item>Quelling Blade</item>
+        <item>Faerie Fire</item>
+        <item>Infused Raindrops</item>
+        <item>Wind Lace</item>
+        <item>Ring of Protection</item>
+        <item>Stout Shield</item>
+        <item>Moon Shard</item>
+        <item>Gauntlets of Strength</item>
+        <item>Slippers of Agility</item>
+        <item>Mantle of Intelligence</item>
+        <item>Iron Branch</item>
+        <item>Belt of Strength</item>
+        <item>Band of Elvenskin</item>
+        <item>Robe of the Magi</item>
+        <item>Circlet</item>
+        <item>Ogre Axe</item>
+        <item>Blade of Alacrity</item>
+        <item>Staff of Wizardry</item>
+        <item>Ultimate Orb</item>
+        <item>Gloves of Haste</item>
+        <item>Morbid Mask</item>
+        <item>Ring of Regen</item>
+        <item>Sage's Mask</item>
+        <item>Boots of Speed</item>
+        <item>Gem of True Sight</item>
+        <item>Cloak</item>
+        <item>Talisman of Evasion</item>
+        <item>Cheese</item>
+        <item>Magic Stick</item>
+        <item>Magic Wand Recipe</item>
+        <item>Magic Wand</item>
+        <item>Ghost Scepter</item>
+        <item>Clarity</item>
+        <item>Enchanted Mango</item>
+        <item>Healing Salve</item>
+        <item>Dust of Appearance</item>
+        <item>Bottle</item>
+        <item>Observer Ward</item>
+        <item>Sentry Ward</item>
+        <item>Observer and Sentry Wards</item>
+        <item>Tango</item>
+        <item>Tango (Shared)</item>
+        <item>Animal Courier</item>
+        <item>Town Portal Scroll</item>
+        <item>Boots of Travel Recipe</item>
+        <item>Boots of Travel</item>
+        <item>Boots of Travel II</item>
+        <item>Phase Boots</item>
+        <item>Demon Edge</item>
+        <item>Eaglesong</item>
+        <item>Reaver</item>
+        <item>Sacred Relic</item>
+        <item>Hyperstone</item>
+        <item>Ring of Health</item>
+        <item>Void Stone</item>
+        <item>Mystic Staff</item>
+        <item>Energy Booster</item>
+        <item>Point Booster</item>
+        <item>Vitality Booster</item>
+        <item>Power Treads</item>
+        <item>Hand of Midas Recipe</item>
+        <item>Hand of Midas</item>
+        <item>Oblivion Staff</item>
+        <item>Perseverance</item>
+        <item>Poor Man's Shield</item>
+        <item>Bracer Recipe</item>
+        <item>Bracer</item>
+        <item>Wraith Band Recipe</item>
+        <item>Wraith Band</item>
+        <item>Null Talisman Recipe</item>
+        <item>Null Talisman</item>
+        <item>Mekansm Recipe</item>
+        <item>Mekansm</item>
+        <item>Vladmir's Offering</item>
+        <item>Buckler Recipe</item>
+        <item>Buckler</item>
+        <item>Ring of Basilius</item>
+        <item>Pipe of Insight Recipe</item>
+        <item>Pipe of Insight</item>
+        <item>Urn of Shadows Recipe</item>
+        <item>Urn of Shadows</item>
+        <item>Headdress Recipe</item>
+        <item>Headdress</item>
+        <item>Scythe of Vyse</item>
+        <item>Orchid Malevolence Recipe</item>
+        <item>Orchid Malevolence</item>
+        <item>Bloodthorn Recipe</item>
+        <item>Bloodthorn</item>
+        <item>Echo Sabre</item>
+        <item>Eul's Scepter Recipe</item>
+        <item>Eul's Scepter of Divinity</item>
+        <item>Aether Lens Recipe</item>
+        <item>Aether Lens</item>
+        <item>Force Staff Recipe</item>
+        <item>Force Staff</item>
+        <item>Hurricane Pike</item>
+        <item>Dagon Recipe</item>
+        <item>Dagon</item>
+        <item>Dagon II</item>
+        <item>Dagon III</item>
+        <item>Dagon IV</item>
+        <item>Dagon V</item>
+        <item>Necronomicon Recipe</item>
+        <item>Necronomicon</item>
+        <item>Necronomicon II</item>
+        <item>Necronomicon II</item>
+        <item>Aghanim's Scepter</item>
+        <item>Refresher Orb Recipe</item>
+        <item>Refresher Orb</item>
+        <item>Assault Cuirass Recipe</item>
+        <item>Assault Cuirass</item>
+        <item>Heart of Tarrasque</item>
+        <item>Black King Bar Recipe</item>
+        <item>Black King Bar</item>
+        <item>Aegis of the Immortal</item>
+        <item>Shiva's Guard Recipe</item>
+        <item>Shiva's Guard</item>
+        <item>Bloodstone</item>
+        <item>Linken's Sphere Recipe</item>
+        <item>Linken's Sphere</item>
+        <item>Lotus Orb</item>
+        <item>Meteor Hammer</item>
+        <item>Nullifier</item>
+        <item>Aeon Disk Recipe</item>
+        <item>Aeon Disk</item>
+        <item>Kaya Recipe</item>
+        <item>Kaya</item>
+        <item>Trident</item>
+        <item>Combo Breaker</item>
+        <item>Refresher Shard</item>
+        <item>Spirit Vessel Recipe</item>
+        <item>Spirit Vessel</item>
+        <item>Vanguard</item>
+        <item>Crimson Guard Recipe</item>
+        <item>Crimson Guard</item>
+        <item>Blade Mail</item>
+        <item>Soul Booster</item>
+        <item>Hood of Defiance</item>
+        <item>Divine Rapier</item>
+        <item>Monkey King Bar</item>
+        <item>Radiance Recipe</item>
+        <item>Radiance</item>
+        <item>Butterfly</item>
+        <item>Daedalus Recipe</item>
+        <item>Daedalus</item>
+        <item>Skull Basher Recipe</item>
+        <item>Skull Basher</item>
+        <item>Battle Fury Recipe</item>
+        <item>Battle Fury</item>
+        <item>Manta Style Recipe</item>
+        <item>Manta Style</item>
+        <item>Crystalys Recipe</item>
+        <item>Crystalys</item>
+    </string-array>
 </resources>
