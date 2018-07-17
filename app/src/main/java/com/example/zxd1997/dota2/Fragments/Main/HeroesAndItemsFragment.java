@@ -60,6 +60,7 @@ public class HeroesAndItemsFragment extends Fragment {
                                 fragments.add(ItemsFragment.newInstance());
                                 fragments.add(GameOthersFragment.newInstance());
                                 MyViewPager viewPager = view.findViewById(R.id.hero_item_pager);
+                                viewPager.setOffscreenPageLimit(fragments.size());
                                 TabFragmentAdapter tabFragmentAdapter = new TabFragmentAdapter(getChildFragmentManager(), fragments);
                                 TabLayout tabLayout = view.findViewById(R.id.tabs);
                                 viewPager.setAdapter(tabFragmentAdapter);

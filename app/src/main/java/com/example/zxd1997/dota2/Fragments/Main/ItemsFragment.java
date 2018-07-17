@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +28,7 @@ public class ItemsFragment extends Fragment {
         System.gc();
         System.runFinalization();
     }
+
     public ItemsFragment() {
     }
 
@@ -42,23 +42,6 @@ public class ItemsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_items, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.items);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 5));
-        SparseArray<String> items = new SparseArray<>();
-        TypedArray typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.items);
-        int i = 0;
-        for (Map.Entry<String, Item> entry : MainActivity.items.entrySet()) {
-            i++;
-            if (entry.getValue().getId() < 1000 && entry.getValue().getId() != 71 && entry.getValue().getId() != 238 && entry.getValue().getId() != 239 && entry.getValue().getId() != 35) {
-
-                try {
-                    items.append(entry.getValue().getId(), typedArray.getString(i) != null ? typedArray.getString(i) : "");
-                } catch (Exception e) {
-
-                }
-                Log.d("item", "onCreateView: " + entry.getValue().getId() + " " + entry.getValue().getDname());
-            }
-        }
-        typedArray.recycle();
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -67,9 +50,27 @@ public class ItemsFragment extends Fragment {
                 else Fresco.getImagePipeline().pause();
             }
         });
-        recyclerView.setAdapter(new ItemAdapter(getContext(), items));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 5));
+        new Thread(() -> {
+            SparseArray<String> items = new SparseArray<>();
+            TypedArray typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.items);
+            int i = 0;
+            for (Map.Entry<String, Item> entry : MainActivity.items.entrySet()) {
+                i++;
+                Item item = entry.getValue();
+                if (item.getId() < 1000 && item.getId() != 71 && item.getId() != 238 && item.getId() != 239 && item.getId() != 35 && item.getId() != 275 && item.getId() != 276) {
+                    try {
+                        if (!item.getDname().contains("Recipe"))
+                            items.append(entry.getValue().getId(), typedArray.getString(i) != null ? typedArray.getString(i) : "");
+                    } catch (Exception ignored) {
+                    }
+//                Log.d("item", "onCreateView: " + entry.getValue().getId() + " " + entry.getValue().getDname());
+                }
+            }
+            typedArray.recycle();
+            view.post(() -> recyclerView.setAdapter(new ItemAdapter(getContext(), items)));
+        }).start();
         return view;
     }
-
 
 }
