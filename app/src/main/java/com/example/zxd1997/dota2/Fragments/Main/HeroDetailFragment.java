@@ -1,6 +1,8 @@
 package com.example.zxd1997.dota2.Fragments.Main;
 
 
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -36,6 +38,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -267,7 +270,13 @@ public class HeroDetailFragment extends Fragment {
         skills.setAdapter(new CastAdapter(getContext(), abilities));
 //        text = view.findViewById(R.id.hero_text);
         progressBar.setVisibility(View.VISIBLE);
-        OKhttp.getFromService("https://dota.huijiwiki.com/wiki/" + name, handler, PARSE);
+        Resources resources = Objects.requireNonNull(getContext()).getResources();
+        Configuration conf = new Configuration(resources.getConfiguration());
+        Locale tmp = conf.locale;
+        conf.locale = Locale.SIMPLIFIED_CHINESE;
+        OKhttp.getFromService("https://dota.huijiwiki.com/wiki/" + new Resources(resources.getAssets(), resources.getDisplayMetrics(), conf).obtainTypedArray(R.array.heroes).getString(id), handler, PARSE);
+        conf.locale = tmp;
+        new Resources(resources.getAssets(), resources.getDisplayMetrics(), conf);
         return view;
     }
 

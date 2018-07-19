@@ -1,6 +1,9 @@
 package com.example.zxd1997.dota2.Activities;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,6 +25,7 @@ import com.facebook.drawee.drawable.ScalingUtils;
 import com.facebook.drawee.view.DraweeTransition;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.util.Locale;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -71,7 +75,10 @@ public class ItemActivity extends AppCompatActivity {
         }
         SimpleDraweeView head = findViewById(R.id.item_header);
         head.setTransitionName("item_" + id);
-        name = intent.getStringExtra("name");
+        TypedArray typedArray = getResources().obtainTypedArray(R.array.items);
+        int order = intent.getIntExtra("name", 0);
+        name = typedArray.getString(order);
+        typedArray.recycle();
         head.setImageURI(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + id, R.drawable.class))).build());
         getWindow().getEnterTransition().addListener(new Transition.TransitionListener() {
             @Override
@@ -90,7 +97,13 @@ public class ItemActivity extends AppCompatActivity {
 //                viewPager.setAdapter(tabFragmentAdapter);
 //                viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 //                tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
-                OKhttp.getFromService("https://dota.huijiwiki.com/wiki/" + name, handler, PARSE);
+                Resources resources = getResources();
+                Configuration conf = new Configuration(resources.getConfiguration());
+                Locale tmp = conf.locale;
+                conf.locale = Locale.SIMPLIFIED_CHINESE;
+                OKhttp.getFromService("https://dota.huijiwiki.com/wiki/" + new Resources(resources.getAssets(), resources.getDisplayMetrics(), conf).obtainTypedArray(R.array.items).getString(order), handler, PARSE);
+                conf.locale = tmp;
+                new Resources(resources.getAssets(), resources.getDisplayMetrics(), conf);
             }
 
             @Override

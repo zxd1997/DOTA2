@@ -4,11 +4,12 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.SparseArray;
+import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +22,9 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 public class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
-    SparseArray<String> items;
+    private SparseIntArray items;
 
-    public ItemAdapter(Context context, SparseArray<String> items) {
+    public ItemAdapter(Context context, SparseIntArray items) {
         this.context = context;
         this.items = items;
     }
@@ -37,8 +38,10 @@ public class ItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ItemHolder itemHolder = (ItemHolder) holder;
+        TypedArray typedArray = context.getResources().obtainTypedArray(R.array.items);
         Tools.showImage(new Uri.Builder().scheme("res").path(String.valueOf(Tools.getResId("item_" + items.keyAt(position), R.drawable.class))).build(), itemHolder.header);
-        itemHolder.name.setText(items.valueAt(position));
+        itemHolder.name.setText(typedArray.getString(items.valueAt(position)));
+        typedArray.recycle();
         itemHolder.itemView.setOnClickListener(v -> {
             ViewCompat.setTransitionName(itemHolder.header, "item_" + items.keyAt(position));
             Intent intent = new Intent(context, ItemActivity.class);
