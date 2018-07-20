@@ -68,7 +68,7 @@ public class DetailFragment extends Fragment {
                             case 4:
                                 return 2;
                             case 5:
-                                return 12;
+                                return 6;
                             case 13:
                             case 14:
                                 return 6;
@@ -191,8 +191,8 @@ public class DetailFragment extends Fragment {
                                 casts.add(new Cast(0, "", ARROW));
                                 int i = 0;
                                 for (Map.Entry<String, Integer> entry1 : p.getDamage_targets().get(entry.getKey()).entrySet()) {
-                                    if (i == 6) {
-                                        casts.add(new Cast(0, "", ENTER));
+                                    if (i == 7) {
+//                                        casts.add(new Cast(0, "", ENTER));
                                         casts.add(new Cast(0, "", 5));
                                     }
                                     casts.add(new Cast(entry1.getValue(), "hero_" + MainActivity.heroes.get(entry1.getKey()).getId() + "_icon", HERO1));
@@ -209,8 +209,8 @@ public class DetailFragment extends Fragment {
                                         casts.add(new Cast(0, "", ARROW));
                                         int i = 0;
                                         for (Map.Entry<String, Integer> entry2 : p.getDamage_targets().get(entry.getKey()).entrySet()) {
-                                            if (i == 6) {
-                                                casts.add(new Cast(0, "", ENTER));
+                                            if (i == 7) {
+//                                                casts.add(new Cast(0, "", ENTER));
                                                 casts.add(new Cast(0, "", 5));
                                             }
                                             casts.add(new Cast(entry2.getValue(), "hero_" + MainActivity.heroes.get(entry2.getKey()).getId() + "_icon", HERO1));
@@ -229,8 +229,8 @@ public class DetailFragment extends Fragment {
                                     casts.add(new Cast(0, "", ARROW));
                                     int i = 0;
                                     for (Map.Entry<String, Integer> entry1 : p.getDamage_targets().get(entry.getKey()).entrySet()) {
-                                        if (i == 6) {
-                                            casts.add(new Cast(0, "", ENTER));
+                                        if (i == 7) {
+//                                            casts.add(new Cast(0, "", ENTER));
                                             casts.add(new Cast(0, "", 5));
                                         }
                                         casts.add(new Cast(entry1.getValue(), "hero_" + MainActivity.heroes.get(entry1.getKey()).getId() + "_icon", HERO1));

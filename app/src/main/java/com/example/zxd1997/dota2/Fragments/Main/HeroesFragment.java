@@ -3,6 +3,7 @@ package com.example.zxd1997.dota2.Fragments.Main;
 
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,7 @@ import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Adapters.HeroesAdapter;
 import com.example.zxd1997.dota2.Beans.Hero;
 import com.example.zxd1997.dota2.R;
+import com.example.zxd1997.dota2.Utils.GridItemDecoration;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.util.Objects;
@@ -40,7 +42,7 @@ public class HeroesFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_heroes, container, false);
         recyclerView = view.findViewById(R.id.heroes);
@@ -53,6 +55,7 @@ public class HeroesFragment extends Fragment {
                 else Fresco.getImagePipeline().pause();
             }
         });
+        recyclerView.addItemDecoration(new GridItemDecoration());
         TypedArray typedArray = Objects.requireNonNull(getContext()).getResources().obtainTypedArray(R.array.heroes);
         for (int i = 0; i < heroStats.size(); i++) {
             Hero hero = heroStats.valueAt(i);

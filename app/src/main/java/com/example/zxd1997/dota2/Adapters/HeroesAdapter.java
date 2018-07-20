@@ -57,7 +57,7 @@ public class HeroesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return heroes.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         final SimpleDraweeView head;
         final TextView name;
 

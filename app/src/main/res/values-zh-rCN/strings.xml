@@ -270,4 +270,8 @@
     <string name="recent_30_days">近30天比赛</string>
     <string name="item">物品使用</string>
     <string name="hero_hits">伤害命中</string>
+    <string name="title_activity_item">装备</string>
+    <string name="item_attribute">装备属性</string>
+    <string name="components">合成部件</string>
+    <string name="price">价格</string>
 </resources>

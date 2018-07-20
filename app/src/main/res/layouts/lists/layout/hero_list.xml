@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="96dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
     android:foreground="?selectableItemBackground"
     android:stateListAnimator="@drawable/touch_card">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/hero"
-        android:layout_width="96dp"
-        android:layout_height="54dp" />
+        android:layout_width="92.75dp"
+        android:layout_height="52.171875dp" />
 
     <TextView
         android:id="@+id/hero_n"
-        android:layout_width="96dp"
+        android:layout_width="92.75dp"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@color/tans_black"
