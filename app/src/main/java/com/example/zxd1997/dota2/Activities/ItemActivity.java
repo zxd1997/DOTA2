@@ -25,6 +25,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.example.zxd1997.dota2.Adapters.ItemAdapter;
+import com.example.zxd1997.dota2.Beans.Attribute;
 import com.example.zxd1997.dota2.Beans.Item;
 import com.example.zxd1997.dota2.R;
 import com.example.zxd1997.dota2.Utils.GridItemDecoration;
@@ -159,8 +160,8 @@ public class ItemActivity extends AppCompatActivity {
                 if (item.getAttrib() != null) {
                     TextView area = findViewById(R.id.attr_area);
                     area.setVisibility(View.VISIBLE);
-                    for (Item.Attribute attribute : item.getAttrib()) {
-                        s1.append(attribute.getHeader()).append(" ").append(attribute.getFooter() == null ? "" : attribute.getFooter()).append("\n");
+                    for (Attribute attribute : item.getAttrib()) {
+                        s1.append(attribute.getHeader()).append(" ").append(attribute.getValue() == null ? "" : attribute.getValue()).append(" ").append(attribute.getFooter() == null ? "" : attribute.getFooter()).append("\n");
                     }
                     area.setText(s1);
                 }

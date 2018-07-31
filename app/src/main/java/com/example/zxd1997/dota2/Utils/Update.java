@@ -10,11 +10,13 @@ import android.util.DisplayMetrics;
 
 import com.example.zxd1997.dota2.Activities.MainActivity;
 import com.example.zxd1997.dota2.Beans.Ability;
+import com.example.zxd1997.dota2.Beans.Attribute;
 import com.example.zxd1997.dota2.Beans.Hero;
 import com.example.zxd1997.dota2.Beans.HeroAbility;
 import com.example.zxd1997.dota2.Beans.Item;
 import com.example.zxd1997.dota2.R;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.FileInputStream;
@@ -68,8 +70,16 @@ public class Update {
         MainActivity.ability_ids = new Gson().fromJson(ability_id_json.toString(), new TypeToken<Map<String, String>>() {
         }.getType());
         StringBuilder items_json = read_file("items.json");
-        MainActivity.items = new Gson().fromJson(items_json.toString(), new TypeToken<Map<String, Item>>() {
+//        MainActivity.items = new Gson().fromJson(items_json.toString(), new TypeToken<Map<String, Item>>() {
+//        }.getType());
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Item.class, new ItemDeserializer());
+        gsonBuilder.registerTypeAdapter(Attribute.class, new AttributeDeserializer());
+        MainActivity.items = gsonBuilder.create().fromJson(items_json.toString(), new TypeToken<Map<String, Item>>() {
         }.getType());
+//        for (Map.Entry<String,Item> entry:MainActivity.items.entrySet()){
+//            Log.d("item", "readFromJson: "+entry.getKey()+" "+entry.getValue().getDname()+" "+entry.getValue().getComponents()+" "+entry.getValue().getAttrib());
+//        }
         StringBuilder ability_json = read_file("abilities.json");
         MainActivity.abilities = new Gson().fromJson(ability_json.toString(), new TypeToken<Map<String, Ability>>() {
         }.getType());
