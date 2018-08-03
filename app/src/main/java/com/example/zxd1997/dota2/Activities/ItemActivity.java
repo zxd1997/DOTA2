@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.SharedElementCallback;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -49,25 +48,22 @@ public class ItemActivity extends AppCompatActivity {
     int id;
     String name;
     TextView textView;
-    Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            String t = msg.obj.toString();
-            t = t.substring(t.indexOf("<span class=\"mw-headline\" id=") + 59, t.indexOf("<div style=\"clear:both\"></div>") + 30);
-            String regEx_script = "(<[\\s]*?table[^>]*?>[\\s\\S]*?<[\\s]*?/[\\s]*?table[\\s]*?>)|(<[\\s]*?script[^>]*?>[\\s\\S]*?<[\\s]*?/[\\s]*?script[\\s]*?>)|(<[\\s]*?style[^>]*?>[\\s\\S]*?<[\\s]*?/[\\s]*?style[\\s]*?>)|(<p>当前[^>]*?>[\\s\\S]*?<[\\s]*?/[\\s]*?p>)|(<div style=\"background:#111;color:#fff;[^>]*?>[\\s\\S]*?<[\\s]*?/[\\s]*?div>&#160;)|(<div class=\"plainlinks hlist tnavbar mini[^>]*?>[\\s\\S]*?<[\\s]*?/[\\s]*?div>)";
-            Pattern p_script = Pattern.compile(regEx_script, Pattern.CASE_INSENSITIVE);
-            Matcher m_script = p_script.matcher(t);
-            t = m_script.replaceAll("");
-            t = t.replaceAll("<div style=\"display-block;clear:both;overflow: hidden;margin-bottom:1em; background-color: #d1d1d1;\">", "&nbsp;");
-            t = t.replaceAll("<div class=\"floatnone\">", "");
-            t = t.replaceAll("<div class=\"center\">", "");
-            t = t.replaceAll("</div>", "");
-            t = t.replace("[[file:|center|x22px|link=]]", "");
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N)
-                textView.setText(Html.fromHtml(t, Html.FROM_HTML_MODE_COMPACT, new ImageGetter(textView), null));
-            else textView.setText(Html.fromHtml(t, new ImageGetter(textView), null));
-            return true;
-        }
+    Handler handler = new Handler(msg -> {
+        String t = msg.obj.toString();
+        t = t.substring(t.indexOf("<span class=\"mw-headline\" id=") + 59, t.indexOf("<div style=\"clear:both\"></div>") + 30);
+        String regEx_script = "(<[\\s]*?table[^>]*?>[\\s\\S]*?<[\\s]*?/[\\s]*?table[\\s]*?>)|(<[\\s]*?script[^>]*?>[\\s\\S]*?<[\\s]*?/[\\s]*?script[\\s]*?>)|(<[\\s]*?style[^>]*?>[\\s\\S]*?<[\\s]*?/[\\s]*?style[\\s]*?>)|(<p>当前[^>]*?>[\\s\\S]*?<[\\s]*?/[\\s]*?p>)|(<div style=\"background:#111;color:#fff;[^>]*?>[\\s\\S]*?<[\\s]*?/[\\s]*?div>&#160;)|(<div class=\"plainlinks hlist tnavbar mini[^>]*?>[\\s\\S]*?<[\\s]*?/[\\s]*?div>)";
+        Pattern p_script = Pattern.compile(regEx_script, Pattern.CASE_INSENSITIVE);
+        Matcher m_script = p_script.matcher(t);
+        t = m_script.replaceAll("");
+        t = t.replaceAll("<div style=\"display-block;clear:both;overflow: hidden;margin-bottom:1em; background-color: #d1d1d1;\">", "&nbsp;");
+        t = t.replaceAll("<div class=\"floatnone\">", "");
+        t = t.replaceAll("<div class=\"center\">", "");
+        t = t.replaceAll("</div>", "");
+        t = t.replace("[[file:|center|x22px|link=]]", "");
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N)
+            textView.setText(Html.fromHtml(t, Html.FROM_HTML_MODE_COMPACT, new ImageGetter(textView), null));
+        else textView.setText(Html.fromHtml(t, new ImageGetter(textView), null));
+        return true;
     });
 
     @Override

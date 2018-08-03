@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 import android.text.Html;
 import android.widget.TextView;
 
-import com.facebook.common.executors.UiThreadImmediateExecutorService;
+import com.facebook.common.executors.CallerThreadExecutor;
 import com.facebook.common.references.CloseableReference;
 import com.facebook.datasource.DataSource;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -40,7 +40,9 @@ public final class ImageGetter implements Html.ImageGetter {
         //DataSource获取ImagePipeline中的Bitmap
         DataSource<CloseableReference<CloseableImage>> dataSource = imagePipeline.fetchDecodedImage(imageRequest, MyApplication.getContext());
         //添加DataSource订阅者，并且再UI线程中执行回调 UiThreadImmediateExecutorService
-        dataSource.subscribe(mDataSubscriber, UiThreadImmediateExecutorService.getInstance());
+//        dataSource.subscribe(mDataSubscriber, UiThreadImmediateExecutorService.getInstance());
+        dataSource.subscribe(mDataSubscriber, CallerThreadExecutor.getInstance());
+
     }
 
     @Override

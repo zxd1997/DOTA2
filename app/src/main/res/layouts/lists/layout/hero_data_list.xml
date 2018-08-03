@@ -6,7 +6,9 @@
     android:layout_marginBottom="4dp"
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
-    android:layout_marginTop="4dp">
+    android:layout_marginTop="4dp"
+    android:foreground="?selectableItemBackground"
+    android:stateListAnimator="@drawable/touch_card">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/hero_data_header"

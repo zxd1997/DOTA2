@@ -71,6 +71,15 @@
             android:name=".Activities.ItemActivity"
             android:label="@string/title_activity_item"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.GameInfoActivity"
+            android:label="@string/title_activity_game_info"
+            android:parentActivityName=".Activities.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.zxd1997.dota2.Activities.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

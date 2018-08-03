@@ -301,4 +301,5 @@
     <string name="item_attribute">Item Attribute</string>
     <string name="components">Components</string>
     <string name="price">Price</string>
+    <string name="title_activity_game_info">GameInfoActivity</string>
 </resources>

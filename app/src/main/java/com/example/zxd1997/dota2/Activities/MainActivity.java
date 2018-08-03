@@ -10,7 +10,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -57,9 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     ViewPager mViewPager;
     private ProgressDialog pd;
-    public Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
+    public Handler handler = new Handler(msg -> {
             switch (msg.what) {
                 case FINISHED: {
                     Update.readFromJson();
@@ -101,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             return true;
-        }
     });
     Receiver receiver = new Receiver();
     private BottomNavigationView bottomNavigationView;
